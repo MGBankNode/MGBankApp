@@ -1,15 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:gravity="center">
+    android:background="#FFF"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#4dd2ff"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/previous_month"
+            android:onClick="onClick"
+            android:src="@mipmap/ic_previous"
+            android:background="@drawable/tab_btn"/>
+        <TextView
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:id="@+id/yy_mm"
+            android:text="20xx년 xx월"
+            android:textSize="25dp"
+            android:textColor="#fff"
+            android:textAlignment="center"/>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/next_month"
+            android:onClick="onClick"
+            android:src="@mipmap/ic_next"
+            android:background="@drawable/tab_btn"
+            />
+    </LinearLayout>
+    <android.support.v4.view.ViewPager
+        android:layout_weight="15"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/ll">
+    </android.support.v4.view.ViewPager>
+    <LinearLayout
+        android:layout_weight="1"
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#4dd2ff"
+        android:orientation="horizontal">
+        <ImageButton
+            android:padding="8dp"
+            android:id="@+id/btn_first"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/calendar"
+            android:scaleType="fitCenter"
+            android:background="@drawable/tab_btn" />
+        <ImageButton
+            android:padding="8dp"
+            android:id="@+id/btn_second"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Second Tab"
+            android:src="@drawable/analytics"
+            android:scaleType="fitCenter"
+            android:background="@drawable/tab_btn"/>
+        <ImageButton
+            android:padding="8dp"
+            android:id="@+id/btn_third"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Third Tab"
+            android:src="@drawable/support"
+            android:scaleType="fitCenter"
+            android:background="@drawable/tab_btn"/>
 
-    <TextView
-        android:text="content1"
-        android:textSize="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+    </LinearLayout>
 </LinearLayout>
+
+
