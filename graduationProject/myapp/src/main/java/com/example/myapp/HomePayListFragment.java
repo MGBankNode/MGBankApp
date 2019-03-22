@@ -100,7 +100,7 @@ public class HomePayListFragment extends Fragment {
                 itemLayout.setLayoutParams(layoutParams);*/
 
                 viewHolder = new ViewHolder();
-                viewHolder.labelBtn = (Button) itemLayout.findViewById(R.id.percent_button);
+                viewHolder.labelTv = (TextView) itemLayout.findViewById(R.id.list_number);
                 viewHolder.nameTv = (TextView)itemLayout.findViewById(R.id.stat_textView);
                 viewHolder.percentBtn = (Button)itemLayout.findViewById(R.id.percent_button);
                 viewHolder.percentReverseTv = (TextView)itemLayout.findViewById(R.id.percent_reverse);
@@ -110,12 +110,12 @@ public class HomePayListFragment extends Fragment {
             {
                 viewHolder = (ViewHolder)itemLayout.getTag();
             }
-            viewHolder.labelBtn.setText(Integer.toString(++labelCount));
+            viewHolder.labelTv.setText(Integer.toString(position + 1));
             //임시로 퍼센트를 지정
             return itemLayout;
         }
         public class ViewHolder{
-            Button labelBtn;
+            TextView labelTv;
             TextView nameTv;
             Button percentBtn;
             TextView percentReverseTv;

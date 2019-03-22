@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.menu2) {
 
-            fr = new fragment_menu2();
+            fr = new consumptionEvaluation_viewPager();
 
 
         } else if (id == R.id.menu3) {

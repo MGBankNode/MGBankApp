@@ -7,10 +7,10 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu1"
-            android:title="menu1" />
+            android:title="가계부" />
         <item
             android:id="@+id/menu2"
-            android:title="menu2" />
+            android:title="소비평가" />
         <item
             android:id="@+id/menu3"
             android:title="menu3" />
