@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listViewItem"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#FFF">
+    <TextView android:id="@+id/list_number"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:text="1"
+        android:textColor="#FFF"
+        android:textSize="15dp"
+        android:background="@drawable/listview_label"
+        android:layout_width="25dp"
+        android:layout_height="25dp"/>
+    <TextView
+        android:id="@+id/stat_textView"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="2"
+        android:fontFamily="@font/bmdohyeon"
+        android:gravity="center"
+        android:text="통계"
+        android:textColor="#000"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="5"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/percent_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:layout_marginVertical="27dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/percent_bar_style" />
+        <TextView
+            android:gravity="center_vertical"
+            android:text="100%"
+            android:fontFamily="@font/bmdohyeon"
+            android:layout_width="40dp"
+            android:layout_height="60dp" />
+        <TextView
+            android:id="@+id/percent_reverse"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="3"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/money_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/bmdohyeon"
+            android:gravity="center_vertical"
+            android:text="999999원"
+            android:textColor="#000"
+            android:textSize="17dp" />
+    </LinearLayout>
+</LinearLayout>
