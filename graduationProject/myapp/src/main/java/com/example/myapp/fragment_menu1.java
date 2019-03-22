@@ -10,13 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 /////////////////Tab 화면 구현 및 Parent fragment
 public class fragment_menu1 extends Fragment {
     public fragment_menu1() {    }
-
-    ImageButton btn_previous;
-    ImageButton btn_next;
 
     ViewPager pager;
     ImageButton btn_first;
@@ -25,13 +23,12 @@ public class fragment_menu1 extends Fragment {
 
     @Override //nested fragment 구현 ---> 현재 parent fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_menu1, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu1, container, false);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
-        btn_next=(ImageButton)getView().findViewById(R.id.next_month);
 
         pager = (ViewPager)getView().findViewById(R.id.pager);
         btn_first = (ImageButton) getView().findViewById(R.id.btn_first);
@@ -84,6 +81,7 @@ public class fragment_menu1 extends Fragment {
                         btn_second.setBackgroundResource(R.drawable.tab_btn);
                         btn_third.setBackgroundResource(R.drawable.tabbed_btn);
                         break;
+
                     default:
                         break;
                 }
@@ -97,6 +95,8 @@ public class fragment_menu1 extends Fragment {
         btn_first.setBackgroundResource(R.drawable.tabbed_btn);
         btn_second.setBackgroundResource(R.drawable.tab_btn);
         btn_third.setBackgroundResource(R.drawable.tab_btn);
+
+
         super.onActivityCreated(savedInstanceState);
     }
     private class pagerAdapter extends FragmentStatePagerAdapter
@@ -127,6 +127,7 @@ public class fragment_menu1 extends Fragment {
             return 3;
         }
     }
+
 
     @Override
     public void onDestroy() {
