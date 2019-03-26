@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#F7F7F7">
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <fragment
+            android:id="@+id/fragment_evaluation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:name="com.example.myapp.consumptionEvaluationFragment"
+            tools:layout="@layout/fragment_consumption_evaluation">
+
+        </fragment>
+
+    </FrameLayout>
+</LinearLayout>

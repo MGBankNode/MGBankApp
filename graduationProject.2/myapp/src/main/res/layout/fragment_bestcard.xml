@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <!--fragment_recommendcard.xml 에서 해당 프레그 먼트가
+    넘어가는 프레그먼트의 크기를 300dp로 설정해 놓았음-->
+
+
+    <TextView
+        android:id="@+id/recommendtv"
+        android:text="당신을 위한 맞춤 카드"
+        android:textSize="23dp"
+        android:textColor="#E62E9BC0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/bmdohyeon"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+       >
+
+        <TextView
+            android:id="@+id/bestCardName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:fontFamily="@font/malgun"
+            android:text="피치 체크카드"
+            android:textSize="19dp"
+            android:textStyle="bold"
+
+            />
+
+        <ImageView
+            android:id="@+id/bestCardImage"
+            android:layout_width="match_parent"
+            android:layout_height="115dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/card_peach" />
+
+        <TextView
+            android:id="@+id/bestCardMerit"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/consola"
+            android:lineSpacingExtra="5dp"
+            android:text="혜택!!!!"
+            android:textSize="15dp" />
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:background="#E62E9BC0"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--tools:ignore="Suspicious0dp" />-->
+
+    </LinearLayout>
+
+
+</LinearLayout>

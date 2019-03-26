@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HomePayListFragment">
+    <TextView android:text=" 지출"
+        android:fontFamily="@font/bmdohyeon"
+        android:textColor="#FFF"
+        android:textSize="25dp"
+        android:gravity="center_vertical"
+        android:background="#FF471A"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dip" />
+    <ListView android:id="@+id/mainFragment_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </ListView>
+</LinearLayout>

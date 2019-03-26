@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFF">
+
+    <!--<TextView-->
+        <!--android:text="소비평가~~~~~~~~~"-->
+        <!--android:textSize="20dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:padding="8dp"-->
+
+        <!--/>-->
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/fragmentContainer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="280dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:gravity="center">-->
+
+        <!--<fragment-->
+            <!--android:id="@+id/bestCardFragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:name="com.example.myapp.bestCard_fragment"-->
+            <!--tools:layout="@layout/fragment_bestcard">-->
+
+        <!--</fragment>-->
+
+    <!--</FrameLayout>-->
+    <ListView
+        android:id="@+id/reportList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp">
+
+    </ListView>
+</LinearLayout>
