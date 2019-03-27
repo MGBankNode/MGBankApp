@@ -4,12 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#FFF">
 
-    <TextView
-        android:text="content4"
-        android:textSize="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+    <!--<TextView-->
+        <!--android:text="소비평가~~~~~~~~~"-->
+        <!--android:textSize="20dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:padding="8dp"-->
+
+        <!--/>-->
+
+    <ListView
+        android:id="@+id/reportList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </ListView>
 </LinearLayout>

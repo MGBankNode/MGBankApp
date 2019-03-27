@@ -17,8 +17,8 @@ public class ContentsPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                fragment_home fragment_menu4 = new fragment_home();
-                return fragment_menu4;
+                viewpagerMenu1Fragment viewpagerMenu1Fragment = new viewpagerMenu1Fragment();
+                return viewpagerMenu1Fragment;
 
             case 1:
                 recommendCard_fragment recommendCard_fragment = new recommendCard_fragment();

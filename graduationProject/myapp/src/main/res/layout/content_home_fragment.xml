@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nestedScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_weight="2"
+                android:fontFamily="@font/bmdohyeon"
+                android:gravity="center"
+                android:text="예산을 설정해주세요"
+                android:textColor="#000"
+                android:textSize="14dp" />
+            <View android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="55dp"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_weight="2"
+                android:fontFamily="@font/bmdohyeon"
+                android:gravity="center"
+                android:text="남은 예산은 0원 입니다."
+                android:textColor="#000"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <include layout="@layout/separator"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+            <RelativeLayout android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/notice"
+                    android:layout_centerInParent="true"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
+            </RelativeLayout>
+            <TextView
+                android:fontFamily="@font/bmdohyeon"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:text="금융비서의 알림이 없습니다."
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <include layout="@layout/separator"/>
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+        <include layout="@layout/separator"/>
+        <TextView
+            android:layout_marginVertical="4dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="분석"
+            android:fontFamily="@font/yungodic310"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+        <include layout="@layout/separator"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView01"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

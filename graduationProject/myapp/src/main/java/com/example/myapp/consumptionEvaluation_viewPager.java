@@ -33,8 +33,8 @@ public class consumptionEvaluation_viewPager extends Fragment {
 
         // tab part
         tabLayout = view.findViewById(R.id.layout_tab);
-        tabLayout.addTab(tabLayout.newTab().setText("카드추천"));
         tabLayout.addTab(tabLayout.newTab().setText("소비평가"));
+        tabLayout.addTab(tabLayout.newTab().setText("카드추천"));
 
 
         fragmanager = myContext.getSupportFragmentManager();

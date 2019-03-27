@@ -253,7 +253,7 @@ public class menu1_fragment_tab1 extends Fragment {
         builder.show();
     }
 
-    // 그리드 어댑터
+    ////////////////// 그리드뷰 어댑터
     public class GridAdapter extends BaseAdapter {
         private final List<String> list;
         private final LayoutInflater inflater;
