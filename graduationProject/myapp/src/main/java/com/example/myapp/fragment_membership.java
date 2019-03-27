@@ -38,7 +38,8 @@ public class fragment_membership extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    ArrayList<fragment_membership.DataModel> data;
+
+    ArrayList<DataModel> data;
 
     Fragment fragment;
 
@@ -82,9 +83,10 @@ public class fragment_membership extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        data = new ArrayList<fragment_membership.DataModel>();
+
+        data = new ArrayList<DataModel>();
         for (int i = 0; i < membership_Data.nameArray.length; i++) {
-            data.add(new fragment_membership.DataModel(
+            data.add(new DataModel(
                     membership_Data.nameArray[i],
                     membership_Data.scoreArray[i],
                     membership_Data.id_[i],
@@ -93,7 +95,8 @@ public class fragment_membership extends Fragment {
             ));
         }
 
-        adapter = new fragment_membership.CustomAdapter(data);
+
+        adapter = new CustomAdapter(data);
         recyclerView.setAdapter(adapter);
 
 
@@ -150,9 +153,9 @@ public class fragment_membership extends Fragment {
 
     ///////////////////////////리사이클러뷰 어댑터///////////////////////////////////
 
-    public class CustomAdapter extends RecyclerView.Adapter<fragment_membership.CustomAdapter.MyViewHolder> {
+    public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
-        private ArrayList<fragment_membership.DataModel> dataSet;
+        private ArrayList<DataModel> dataSet;
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -170,13 +173,13 @@ public class fragment_membership extends Fragment {
             }
         }
 
-        public CustomAdapter(ArrayList<fragment_membership.DataModel> data) {
+        public CustomAdapter(ArrayList<DataModel> data) {
             this.dataSet = data;
         }
 
         @Override
-        public fragment_membership.CustomAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                            int viewType) {
+
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.menu3_list_item, parent, false);
 
@@ -207,12 +210,14 @@ public class fragment_membership extends Fragment {
                 }
             });
 
-            fragment_membership.CustomAdapter.MyViewHolder myViewHolder = new fragment_membership.CustomAdapter.MyViewHolder(view);
+
+            MyViewHolder myViewHolder = new MyViewHolder(view);
             return myViewHolder;
         }
 
         @Override
-        public void onBindViewHolder(final fragment_membership.CustomAdapter.MyViewHolder holder, final int listPosition) {
+
+        public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
 
             TextView textViewName = holder.textViewName;
             TextView textViewScore = holder.textViewScore;

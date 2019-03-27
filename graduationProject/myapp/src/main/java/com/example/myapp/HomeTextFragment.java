@@ -33,7 +33,7 @@ public class HomeTextFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         //텍스트 셋팅
-        setMainTextView();
+        //setMainTextView();
 
         super.onActivityCreated(savedInstanceState);
     }
