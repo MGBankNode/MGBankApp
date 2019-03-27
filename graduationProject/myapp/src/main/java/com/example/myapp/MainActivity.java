@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setElevation(0);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -78,19 +77,14 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Intent intent = null;
 
         if (id == R.id.menu1) {
 
             fr = new fragment_menu1();
-            //intent = new Intent(this,TabActivity.class);
-            //startActivity(intent);
-            //overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.fade_in);
 
         } else if (id == R.id.menu2) {
 
             fr = new consumptionEvaluation_viewPager();
-
 
         } else if (id == R.id.menu3) {
 

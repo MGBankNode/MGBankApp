@@ -13,10 +13,10 @@
             android:title="소비평가" />
         <item
             android:id="@+id/menu3"
-            android:title="menu3" />
+            android:title="멤버십" />
         <item
             android:id="@+id/menu4"
-            android:title="menu4" />
+            android:title="홈" />
     </group>
 
     <!--<item android:title="Communicate">-->
