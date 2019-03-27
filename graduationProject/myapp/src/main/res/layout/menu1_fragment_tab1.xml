@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingBottom="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:layout_marginTop="10dp">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/previous_month"
+            android:onClick="onClick"
+            android:src="@drawable/ic_previous"
+            android:background="#fff"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/present_month"
+                android:text="3월"
+                android:textSize="22dp"
+                android:textColor="#000"
+                android:textAlignment="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2019년"
+                android:textSize="12dp"
+                android:id="@+id/present_year"/>
+        </LinearLayout>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/next_month"
+            android:onClick="onClick"
+            android:src="@drawable/ic_next"
+            android:background="#fff"/>
+    </LinearLayout>
+    <LinearLayout android:layout_marginBottom="5dp"
+        android:id="@+id/dw"
+        android:layout_below="@id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="#fff">
+        <TextView android:textColor="#F55"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="일"/>
+        <TextView android:textColor="#000"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="월"/>
+        <TextView android:textColor="#000"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="화"/>
+        <TextView android:textColor="#000"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="수"/>
+        <TextView android:textColor="#000"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="목"/>
+        <TextView android:textColor="#000"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="금"/>
+        <TextView android:textColor="#55F"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="토"/>
+    </LinearLayout>
+    <TextView
+        android:layout_below="@+id/dw"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#e8e8e8"/>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dw"
+        android:layout_marginTop="5dp"
+        android:listSelector="@drawable/gridview_selector"
+        android:numColumns="7"
+        android:stretchMode="columnWidth"></GridView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingRight="10dp">
+
+        <Button
+            android:id="@+id/result_benefit_btn"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:layout_margin="3dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/benefit_label"
+            android:gravity="center"
+            android:text="Benefit"
+            android:textColor="#3cc1ee"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/result_loss_btn"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:layout_margin="3dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/loss_label"
+            android:gravity="center"
+            android:text="Loss"
+            android:textColor="#F22"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+</RelativeLayout>
