@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,11 +21,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     Fragment fr ;
+    EditText idEditText;
 
     private backPressCloseHandler backPressCloseHandler;
 
@@ -214,6 +225,47 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
         fragmentTransaction.commit();
+
+    }
+
+    public void onCheckBtnClicked(View v){
+        String myIP = "10.20.12.63";
+        String myPort = "3000";
+        String url = "http://" + myIP + ":" + myPort + "/process/idcheck";
+
+        idEditText = findViewById(R.id.etID);
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            Log.d("onResponse 호출", response);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap<>();
+
+                JoinInfo postInfo = new JoinInfo(idEditText.getText().toString(), null, null);
+                params.put("id", postInfo.getJoinID());
+
+                return params;
+            }
+        };
+        request.setShouldCache(false);
+        Volley.newRequestQueue(this).add(request);
+        Log.d("중복 체크 요청: ", url);
 
     }
 
