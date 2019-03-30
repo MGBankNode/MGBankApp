@@ -67,10 +67,10 @@
             android:padding="8dp"
             android:background="#2BB0DD"
             android:fontFamily="@font/consola"
-            android:onClick="onConfirmBtnClicked"
             android:text="로그인"
             android:textColor="#FFF"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:onClick="onLoginBtnClicked"/>
 
 
         <Button
@@ -82,7 +82,6 @@
             android:padding="8dp"
             android:background="#2BB0DD"
             android:fontFamily="@font/consola"
-            android:onClick="onConfirmBtnClicked"
             android:text="취소"
             android:textColor="#FFF"
             android:textSize="18dp" />
