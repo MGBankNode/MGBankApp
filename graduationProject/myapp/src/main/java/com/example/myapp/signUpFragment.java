@@ -26,7 +26,6 @@ import java.util.Map;
 public class signUpFragment extends Fragment {
 
     View view;
-    EditText idEditText;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_signup, container, false);
@@ -54,8 +53,6 @@ public class signUpFragment extends Fragment {
 
             }
         });
-
-        idEditText = view.findViewById(R.id.etID);
 
         return view;
     }
