@@ -29,11 +29,14 @@ public class consumptionReportFragment extends Fragment {
 
 
     private LineChart lineChart;
+
     private TextView cstv;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
+
 
 
         lineChart = (LineChart)view.findViewById(R.id.chart);
@@ -50,6 +53,9 @@ public class consumptionReportFragment extends Fragment {
         lineDataSet.setLineWidth(2);
         lineDataSet.setCircleRadius(6);
         lineDataSet.setValueTextSize(12);
+
+
+
         lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC")); // LineChart에서 Line Circle Color 설정
         //lineDataSet.setCircleColorHole(Color.BLUE); // LineChart에서 Line Hole Circle Color 설정
         lineDataSet.setColor(Color.parseColor("#FFA1B4DC")); // LineChart에서 Line Color 설정
@@ -65,6 +71,7 @@ public class consumptionReportFragment extends Fragment {
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // x축 표시에 대한 위치 설정으로 아래쪽에 위치시킨다.
         xAxis.setTextColor(Color.BLACK); // x축 텍스트 컬러 설정
+
         xAxis.setTextSize(11);
 
         xAxis.setLabelCount(3, true);
@@ -84,6 +91,7 @@ public class consumptionReportFragment extends Fragment {
         yRAxis.setDrawGridLines(false);
         yRAxis.setLabelCount(3);
 
+
         Description description = new Description();
         description.setText("");
 
@@ -93,6 +101,7 @@ public class consumptionReportFragment extends Fragment {
         lineChart.animateY(2000, Easing.EaseInCubic);
         lineChart.setData(lineData);
         lineChart.invalidate();
+
 
         int temp = 0;
 
@@ -107,3 +116,4 @@ public class consumptionReportFragment extends Fragment {
         return view;
     }
 }
+
