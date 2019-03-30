@@ -7,29 +7,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu1"
-            android:title="menu1" />
+            android:title="홈페이지"
+            android:icon="@drawable/ic_home_black_24dp"
+            />
+
         <item
             android:id="@+id/menu2"
-            android:title="menu2" />
+            android:title="뱅크샐러드에 사용된 기술"
+            android:icon="@drawable/ic_error_outline_black_24dp" />
+
         <item
             android:id="@+id/menu3"
-            android:title="menu3" />
-        <item
-            android:id="@+id/menu4"
-            android:title="menu4" />
-    </group>
+            android:title="고객센터"
+            android:icon="@drawable/ic_call_black_24dp"/>
 
-    <!--<item android:title="Communicate">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_share"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:title="Share" />-->
-            <!--<item-->
-                <!--android:id="@+id/nav_send"-->
-                <!--android:icon="@drawable/ic_menu_send"-->
-                <!--android:title="Send" />-->
-        <!--</menu>-->
-    <!--</item>-->
+    </group>
 
 </menu>
