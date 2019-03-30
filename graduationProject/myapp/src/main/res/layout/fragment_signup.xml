@@ -59,6 +59,7 @@
                 android:textColor="#FFF"
                 android:fontFamily="@font/consola"
                 android:background="#2BB0DD"
+
                 android:onClick="onCheckBtnClicked"
                 />
 

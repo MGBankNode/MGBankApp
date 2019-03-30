@@ -53,3 +53,19 @@ dependencies {
 dependencies {
     implementation 'com.android.support:support-v4:28.+'
 }
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.google.zxing:core:3.3.2'
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:28.+'
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:28.+'
+}

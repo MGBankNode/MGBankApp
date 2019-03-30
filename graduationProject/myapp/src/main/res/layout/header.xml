@@ -24,35 +24,77 @@
         android:fontFamily="@font/bmdohyeon"/>
 
 <LinearLayout
-    android:id="@+id/signup"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingTop="7dp"
-    android:paddingBottom="7dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
     android:layout_marginTop="30dp"
-    android:background="@drawable/loginbtn"
+    android:orientation="horizontal"
     android:gravity="center"
-    android:onClick="onMenuBtnClicked">
+    >
 
-    <!-- width : height = 5 : 4-->
-   <ImageView
-       android:layout_width="37.5dp"
-       android:layout_height="30dp"
-       android:src="@drawable/character1"/>
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/logIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:textColor="#FFF"
-        android:textSize="13dp"
-        android:paddingLeft="4dp"
-        android:fontFamily="@font/consola"
-        />
+        android:orientation="horizontal"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="@drawable/loginbtn"
+        android:gravity="center"
+        android:onClick="onMenuBtnClicked"
+        >
 
+        <!-- width : height = 5 : 4-->
+        <ImageView
+            android:layout_width="37.5dp"
+            android:layout_height="30dp"
+            android:src="@drawable/logincharacter"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그인"
+            android:textColor="#FFF"
+            android:textSize="13dp"
+            android:paddingLeft="4dp"
+            android:fontFamily="@font/consola"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/loginbtn"
+        android:gravity="center"
+        android:onClick="onMenuBtnClicked">
+
+        <!-- width : height = 5 : 4-->
+        <ImageView
+            android:layout_width="37.5dp"
+            android:layout_height="30dp"
+            android:src="@drawable/signupcharacter"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textColor="#FFF"
+            android:textSize="13dp"
+            android:paddingLeft="4dp"
+            android:fontFamily="@font/consola"
+            />
+
+
+    </LinearLayout>
 
 </LinearLayout>
 
