@@ -30,31 +30,32 @@ public class consumptionReportFragment extends Fragment {
 
     private LineChart lineChart;
 
+    private TextView cstv;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
 
-//        String id = getArguments().getString("userId");
-//        Log.d("test Bundle", id);
-        final ArrayList<String> xLabel = new ArrayList<>();
-        xLabel.add("9");
-        xLabel.add("15");
-        xLabel.add("21");
-        xLabel.add("27");
-        xLabel.add("33");
+
 
         lineChart = (LineChart)view.findViewById(R.id.chart);
+        cstv = view.findViewById(R.id.consumptionSumTv);
 
-        List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 2));
-        entries.add(new Entry(3, 0));
-        entries.add(new Entry(4, 4));
-        entries.add(new Entry(5, 3));
+        final List<Entry> entries = new ArrayList<>();
+        entries.add(new Entry(1, 109230));
+        entries.add(new Entry(2, 115889));
+        entries.add(new Entry(3, 123456));
+//        entries.add(new Entry(4, 4));
+//        entries.add(new Entry(5, 3));
 
-        LineDataSet lineDataSet = new LineDataSet(entries, "속성명1");
+        LineDataSet lineDataSet = new LineDataSet(entries, "주별 지출");
         lineDataSet.setLineWidth(2);
         lineDataSet.setCircleRadius(6);
+        lineDataSet.setValueTextSize(12);
+
+
+
         lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC")); // LineChart에서 Line Circle Color 설정
         //lineDataSet.setCircleColorHole(Color.BLUE); // LineChart에서 Line Hole Circle Color 설정
         lineDataSet.setColor(Color.parseColor("#FFA1B4DC")); // LineChart에서 Line Color 설정
@@ -62,7 +63,7 @@ public class consumptionReportFragment extends Fragment {
         lineDataSet.setDrawCircles(true);
         lineDataSet.setDrawHorizontalHighlightIndicator(false);
         lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setDrawValues(false);
+        lineDataSet.setDrawValues(true);
 
         LineData lineData = new LineData(lineDataSet);
 
@@ -70,23 +71,26 @@ public class consumptionReportFragment extends Fragment {
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // x축 표시에 대한 위치 설정으로 아래쪽에 위치시킨다.
         xAxis.setTextColor(Color.BLACK); // x축 텍스트 컬러 설정
-        xAxis.enableGridDashedLine(8, 24, 0);
-//        xAxis.setValueFormatter(new IAxisValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                final String s = xLabel.get((int) value);
-//                return s;
-//            }
-//        });
+
+        xAxis.setTextSize(11);
+
+        xAxis.setLabelCount(3, true);
+//        xAxis.setAxisMinimum(1);
 
         YAxis yLAxis = lineChart.getAxisLeft();
         yLAxis.setTextColor(Color.BLACK);
+        yLAxis.setDrawLabels(true);
+        yLAxis.setDrawAxisLine(false);
+        yLAxis.setDrawGridLines(false);
+        yLAxis.setLabelCount(3);
 
         // y축 오른쪽 비활성화
         YAxis yRAxis = lineChart.getAxisRight();
-        yRAxis.setDrawLabels(false);
+        yRAxis.setDrawLabels(true);
         yRAxis.setDrawAxisLine(false);
         yRAxis.setDrawGridLines(false);
+        yRAxis.setLabelCount(3);
+
 
         Description description = new Description();
         description.setText("");
@@ -97,6 +101,19 @@ public class consumptionReportFragment extends Fragment {
         lineChart.animateY(2000, Easing.EaseInCubic);
         lineChart.setData(lineData);
         lineChart.invalidate();
+
+
+        int temp = 0;
+
+        for (int i=0; i<entries.size(); i++) {
+            temp += entries.get(i).getY();
+        }
+
+        temp /= 3;
+
+        cstv.setText("이번 주 평균 지출은 : " + Integer.toString(temp) + "원 입니다");
+
         return view;
     }
 }
+

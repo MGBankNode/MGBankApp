@@ -11,6 +11,7 @@
     android:orientation="vertical"
     android:background="#FFF">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="5dp"
@@ -19,7 +20,7 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:background="#2BB0DD"
         android:orientation="vertical"
         android:gravity="center"
@@ -50,7 +51,18 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp">
+        android:layout_height="400dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="500dp"
+            android:fontFamily="@font/malgun"
+            android:textSize="18dp"
+            android:text="이번 주 지출 내역"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
@@ -61,10 +73,16 @@
     </LinearLayout>
 
     <TextView
+
+        android:id="@+id/consumptionSumTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="통계통계"
-        android:textSize="12dp"/>
+        android:textSize="15dp"
+        android:textColor="#000"
+        android:fontFamily="@font/malgun"
+        android:layout_marginTop="10dp"
+        android:padding="24dp"/>
 
 
 </LinearLayout>

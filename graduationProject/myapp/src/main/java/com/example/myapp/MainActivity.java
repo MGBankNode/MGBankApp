@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     Fragment fr ;
+
     EditText idEditText;
     EditText pwEditText;
     EditText phoneEditText;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     String myIP = "10.20.12.63";
     String myPort = "3000";
+
 
     private backPressCloseHandler backPressCloseHandler;
 
@@ -167,6 +170,11 @@ public class MainActivity extends AppCompatActivity
 
             case (R.id.signup) :
                 fr = new signUpFragment();
+
+                break;
+
+            case (R.id.logIn) :
+                fr = new loginFragment();
                 break;
 
             default:

@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,11 +28,13 @@ import java.util.Map;
 public class signUpFragment extends Fragment {
 
     View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_signup, container, false);
 
 //        final TextView spinnertv = view.findViewById(R.id.spinnerTv);
+
         Spinner spinner = view.findViewById(R.id.spinner);
         String[] str = getResources().getStringArray(R.array.bankarray);
 
@@ -45,7 +49,6 @@ public class signUpFragment extends Fragment {
                 if (position > 0) {
                     Toast.makeText(getActivity(), (String)parent.getItemAtPosition(position) + "을 선택", Toast.LENGTH_SHORT ).show();
                 }
-
             }
 
             @Override
