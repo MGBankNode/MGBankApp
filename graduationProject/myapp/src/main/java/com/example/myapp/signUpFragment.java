@@ -28,7 +28,6 @@ import java.util.Map;
 public class signUpFragment extends Fragment {
 
     View view;
-    EditText idEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

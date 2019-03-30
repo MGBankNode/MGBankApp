@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,8 +29,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+
 
 
 public class MainActivity extends AppCompatActivity
@@ -38,6 +42,13 @@ public class MainActivity extends AppCompatActivity
     Fragment fr ;
 
     EditText idEditText;
+    EditText pwEditText;
+    EditText phoneEditText;
+    EditText nameEditText;
+    private AlertDialog dialog;
+
+    String myIP = "10.20.12.63";
+    String myPort = "3000";
 
 
     private backPressCloseHandler backPressCloseHandler;
@@ -179,46 +190,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    public void onConfirmBtnClicked(View view) {
-
-        EditText etID;
-        EditText etPassword;
-        EditText etName;
-        EditText etPhoneNum;
-
-
-        // 아이디 비밀번호 이름 전화번호
-        etID = findViewById(R.id.etID);
-        etPassword = findViewById(R.id.etPassword);
-        etName = findViewById(R.id.etName);
-        etPhoneNum = findViewById(R.id.etPhoneNum);
-
-
-        if(etID.getText().toString().length() == 0) {
-            Toast.makeText(getApplication(), "아이디를 입력하지 않았습니다", Toast.LENGTH_SHORT).show();
-            etID.requestFocus();
-        }
-
-        else if(etPassword.getText().toString().length() == 0) {
-            Toast.makeText(getApplication(), "비밀번호를 입력하지 않았습니다", Toast.LENGTH_SHORT).show();
-            etPassword.requestFocus();
-        }
-
-        else if(etName.getText().toString().length() == 0) {
-            Toast.makeText(getApplication(), "이름을 입력하지 않았습니다", Toast.LENGTH_SHORT).show();
-            etName.requestFocus();
-        }
-
-        else if(etPhoneNum.getText().toString().length() == 0) {
-            Toast.makeText(getApplication(), "전화번호 입력하지 않았습니다", Toast.LENGTH_SHORT).show();
-            etPhoneNum.requestFocus();
-        }
-
-        else {
-            Toast.makeText(getApplication(), "다음화면으로 넘어갑니다", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public void onDetailBtnClicked(View view) {
         Fragment detailFragment = new consumptionReportFragment();
 //        Bundle bundle = new Bundle(1);
@@ -236,21 +207,46 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void onCheckBtnClicked(View v){
-        String myIP = "10.20.12.63";
-        String myPort = "3000";
-        String url = "http://" + myIP + ":" + myPort + "/process/idcheck";
+    /*
+        요청 타입 정의
+    */
 
-        idEditText = findViewById(R.id.etID);
+    public enum RequestType{
+        IDCHECK, JOINUSER
+    }
+
+    /*
+        ShowAlertMyDialog(String): void
+        = 다이얼로그 생성 + show
+     */
+
+    public void ShowAlertMyDialog(String s){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        dialog = builder.setMessage(s)
+                .setPositiveButton("OK", null)
+                .create();
+        dialog.show();
+    }
+
+    /*
+    MyStringPostRequest(String, final RequestType): void
+    = Post 방식으로 RequestType 에 따라 StringRequest 요청
+    */
+    public void MyStringPostRequest(String processURL, final RequestType checkNum){
+
+        String url = "http://" + myIP + ":" + myPort + processURL;
 
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
-                        try{
-                            Log.d("onResponse 호출", response);
-                        } catch (Exception e){
-                            e.printStackTrace();
+                        switch(checkNum){
+                            case IDCHECK:
+                                IDCheckResponse(response);
+                                break;
+                            case JOINUSER:
+                                JoinResponse(response);
+                                break;
                         }
                     }
                 },
@@ -265,16 +261,196 @@ public class MainActivity extends AppCompatActivity
             protected Map<String, String> getParams(){
                 Map<String, String> params = new HashMap<>();
 
-                JoinInfo postInfo = new JoinInfo(idEditText.getText().toString(), null, null);
-                params.put("id", postInfo.getJoinID());
-
+                switch(checkNum){
+                    case IDCHECK:
+                        params = IDCheckRequest(params);
+                        break;
+                    case JOINUSER:
+                        params = JoinRequest(params);
+                }
                 return params;
             }
         };
         request.setShouldCache(false);
         Volley.newRequestQueue(this).add(request);
-        Log.d("중복 체크 요청: ", url);
+        Log.d("요청 url: ", url);
 
     }
 
+    /*
+        onCheckBtnClicked(View): void
+        = 아이디 중복체크 이벤트 핸들러
+        (Button : certificationIdBtn)
+    */
+    public void onCheckBtnClicked(View v){
+
+        String processURL = "/process/idcheck";
+
+        idEditText = findViewById(R.id.etID);
+
+        String joinID = idEditText.getText().toString();
+        if(joinID.equals("")){
+            ShowAlertMyDialog("ID is empty");
+            return;
+        }
+
+        MyStringPostRequest(processURL, RequestType.IDCHECK);
+    }
+
+    /*
+        IDCheckRequest(Map<String, String>): Map<String, String>
+        = 아이디 중복체크 요청 전달 파라미터 설정 함수
+    */
+
+    public Map<String, String> IDCheckRequest(Map<String, String> params){
+
+        JoinInfo postInfo = new JoinInfo(idEditText.getText().toString(), null, null, null);
+        params.put("id", postInfo.getJoinID());
+
+        return params;
+    }
+
+    /*
+        IDCheckResponse(String): void
+        = 아이디 중복체크 요청 응답 처리 함수
+    */
+
+    public void IDCheckResponse(String response){
+        try{
+            Log.d("onResponse 호출 ", response);
+
+            JSONObject json = new JSONObject(response);
+            String resultString = (String) json.get("message");
+
+            if(resultString.equals("success")){
+
+                ShowAlertMyDialog("사용 가능한 아이디");
+
+                /*
+                    확인 완료 후 textBox  비활성
+                 */
+
+            }else if(resultString.equals("fail")){
+
+                ShowAlertMyDialog("사용 중인 아이디입니다.");
+
+            }else if(resultString.equals("error")){
+
+                ShowAlertMyDialog("ID 확인 중 오류 발생");
+
+            }else if(resultString.equals("db_fail")){
+
+                ShowAlertMyDialog("연결 오류");
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /*
+        onJoinBtnClicked(View): void
+        = 회원가입 이벤트 핸들러
+        (Button : signupConfirmBtn)
+    */
+
+    public void onJoinBtnClicked(View v){
+
+        String processURL = "/process/joinuser";
+
+        idEditText = findViewById(R.id.etID);
+        pwEditText = findViewById(R.id.etPassword);
+        phoneEditText = findViewById(R.id.etPhoneNum);
+        nameEditText = findViewById(R.id.etName);
+
+        String joinID = idEditText.getText().toString();
+        String joinPW = pwEditText.getText().toString();
+        String joinPhone = phoneEditText.getText().toString();
+        String joinName = nameEditText.getText().toString();
+
+        if(joinID.equals("")){
+            ShowAlertMyDialog("ID is empty");
+            return;
+        }
+
+        if(joinPW.equals("")){
+            ShowAlertMyDialog("PW is empty");
+            return;
+        }
+
+        if(joinPhone.equals("")){
+            ShowAlertMyDialog("Phone is empty");
+            return;
+        }
+
+        if(joinName.equals("")){
+            ShowAlertMyDialog("Name is empty");
+            return;
+        }
+
+        MyStringPostRequest(processURL, RequestType.JOINUSER);
+    }
+
+    /*
+        JoinRequest(Map<String, String>): Map<String, String>
+        = 회원가입 요청 전달 파라미터 설정 함수
+    */
+
+    public Map<String, String> JoinRequest(Map<String, String> params){
+
+        JoinInfo postInfo = new JoinInfo(
+                idEditText.getText().toString(),
+                nameEditText.getText().toString(),
+                pwEditText.getText().toString(),
+                phoneEditText.getText().toString());
+
+        params.put("id", postInfo.getJoinID());
+        params.put("password", postInfo.getJoinPW());
+        params.put("name", postInfo.getJoinName());
+        params.put("phone", postInfo.getJoinPhone());
+
+        return params;
+    }
+
+    /*
+        JoinResponse(String): void
+        = 아이디 중복체크 요청 응답 처리 함수
+    */
+
+    public void JoinResponse(String response){
+        try{
+            Log.d("onResponse 호출 ", response);
+
+            JSONObject json = new JSONObject(response);
+            String resultString = (String) json.get("message");
+
+            if(resultString.equals("success")){
+
+                ShowAlertMyDialog("회원가입 성공");
+
+                /*
+                    회원가입 성공 이후 처리
+                 */
+
+            }else if(resultString.equals("fail")){
+
+                ShowAlertMyDialog("회원가입 실패");
+
+                /*
+                    회원가입 실패 이후 처리
+                 */
+
+            }else if(resultString.equals("error")){
+
+                ShowAlertMyDialog("ID 확인 중 오류 발생");
+
+            }else if(resultString.equals("db_fail")){
+
+                ShowAlertMyDialog("연결 오류");
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

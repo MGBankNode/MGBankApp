@@ -195,7 +195,7 @@
             android:padding="8dp"
             android:background="#2BB0DD"
             android:fontFamily="@font/consola"
-            android:onClick="onConfirmBtnClicked"
+            android:onClick="onJoinBtnClicked"
             android:text="완료"
             android:textColor="#FFF"
             android:textSize="20dp" />
