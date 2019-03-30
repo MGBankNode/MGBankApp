@@ -41,10 +41,14 @@ public class MainActivity extends AppCompatActivity
 
     Fragment fr ;
 
-    EditText idEditText;
-    EditText pwEditText;
-    EditText phoneEditText;
-    EditText nameEditText;
+    EditText joinIDEditText;
+    EditText joinPWEditText;
+    EditText joinPhoneEditText;
+    EditText joinNameEditText;
+
+    EditText loginIDEditText;
+    EditText loginPWEditText;
+
     private AlertDialog dialog;
 
     String myIP = "10.20.12.63";
@@ -212,7 +216,7 @@ public class MainActivity extends AppCompatActivity
     */
 
     public enum RequestType{
-        IDCHECK, JOINUSER
+        IDCHECK, JOINUSER, LOGINUSER
     }
 
     /*
@@ -247,6 +251,9 @@ public class MainActivity extends AppCompatActivity
                             case JOINUSER:
                                 JoinResponse(response);
                                 break;
+                            case LOGINUSER:
+                                LoginResponse(response);
+                                break;
                         }
                     }
                 },
@@ -267,6 +274,9 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case JOINUSER:
                         params = JoinRequest(params);
+                        break;
+                    case LOGINUSER:
+                        params = LoginRequest(params);
                 }
                 return params;
             }
@@ -286,9 +296,9 @@ public class MainActivity extends AppCompatActivity
 
         String processURL = "/process/idcheck";
 
-        idEditText = findViewById(R.id.etID);
+        joinIDEditText = findViewById(R.id.etID);
 
-        String joinID = idEditText.getText().toString();
+        String joinID = joinIDEditText.getText().toString();
         if(joinID.equals("")){
             ShowAlertMyDialog("ID is empty");
             return;
@@ -304,8 +314,8 @@ public class MainActivity extends AppCompatActivity
 
     public Map<String, String> IDCheckRequest(Map<String, String> params){
 
-        JoinInfo postInfo = new JoinInfo(idEditText.getText().toString(), null, null, null);
-        params.put("id", postInfo.getJoinID());
+        UserInfo postInfo = new UserInfo(joinIDEditText.getText().toString());
+        params.put("id", postInfo.getUserID());
 
         return params;
     }
@@ -358,15 +368,15 @@ public class MainActivity extends AppCompatActivity
 
         String processURL = "/process/joinuser";
 
-        idEditText = findViewById(R.id.etID);
-        pwEditText = findViewById(R.id.etPassword);
-        phoneEditText = findViewById(R.id.etPhoneNum);
-        nameEditText = findViewById(R.id.etName);
+        joinIDEditText = findViewById(R.id.etID);
+        joinPWEditText = findViewById(R.id.etPassword);
+        joinPhoneEditText = findViewById(R.id.etPhoneNum);
+        joinNameEditText = findViewById(R.id.etName);
 
-        String joinID = idEditText.getText().toString();
-        String joinPW = pwEditText.getText().toString();
-        String joinPhone = phoneEditText.getText().toString();
-        String joinName = nameEditText.getText().toString();
+        String joinID = joinIDEditText.getText().toString();
+        String joinPW = joinPWEditText.getText().toString();
+        String joinPhone = joinPhoneEditText.getText().toString();
+        String joinName = joinNameEditText.getText().toString();
 
         if(joinID.equals("")){
             ShowAlertMyDialog("ID is empty");
@@ -398,16 +408,16 @@ public class MainActivity extends AppCompatActivity
 
     public Map<String, String> JoinRequest(Map<String, String> params){
 
-        JoinInfo postInfo = new JoinInfo(
-                idEditText.getText().toString(),
-                nameEditText.getText().toString(),
-                pwEditText.getText().toString(),
-                phoneEditText.getText().toString());
+        UserInfo postInfo = new UserInfo(
+                joinIDEditText.getText().toString(),
+                joinNameEditText.getText().toString(),
+                joinPWEditText.getText().toString(),
+                joinPhoneEditText.getText().toString());
 
-        params.put("id", postInfo.getJoinID());
-        params.put("password", postInfo.getJoinPW());
-        params.put("name", postInfo.getJoinName());
-        params.put("phone", postInfo.getJoinPhone());
+        params.put("id", postInfo.getUserID());
+        params.put("password", postInfo.getUserPW());
+        params.put("name", postInfo.getUserName());
+        params.put("phone", postInfo.getUserPhone());
 
         return params;
     }
@@ -442,7 +452,95 @@ public class MainActivity extends AppCompatActivity
 
             }else if(resultString.equals("error")){
 
-                ShowAlertMyDialog("ID 확인 중 오류 발생");
+                ShowAlertMyDialog("회원가입 중 오류 발생");
+
+            }else if(resultString.equals("db_fail")){
+
+                ShowAlertMyDialog("연결 오류");
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+      /*
+        onLoginBtnClicked(View): void
+        = 로그인 이벤트 핸들러
+        (Button : logInConfirmBtn)
+    */
+
+    public void onLoginBtnClicked(View v){
+
+        String processURL = "/process/logincheck";
+
+        loginIDEditText = findViewById(R.id.etLogin);
+        loginPWEditText = findViewById(R.id.etLoginPassword);
+
+        String loginID = loginIDEditText.getText().toString();
+        String loginPW = loginPWEditText.getText().toString();
+
+        if(loginID.equals("")){
+            ShowAlertMyDialog("ID is empty");
+            return;
+        }
+
+        if(loginPW.equals("")){
+            ShowAlertMyDialog("PW is empty");
+            return;
+        }
+
+        MyStringPostRequest(processURL, RequestType.LOGINUSER);
+    }
+
+    /*
+        LoginRequest(Map<String, String>): Map<String, String>
+        = 로그인 요청 전달 파라미터 설정 함수
+    */
+
+    public Map<String, String> LoginRequest(Map<String, String> params){
+
+        UserInfo postInfo = new UserInfo(
+                loginIDEditText.getText().toString(),
+                loginPWEditText.getText().toString());
+
+        params.put("id", postInfo.getUserID());
+        params.put("password", postInfo.getUserPW());
+        return params;
+    }
+
+    /*
+        JoinResponse(String): void
+        = 아이디 중복체크 요청 응답 처리 함수
+    */
+
+    public void LoginResponse(String response){
+        try{
+            Log.d("onResponse 호출 ", response);
+
+            JSONObject json = new JSONObject(response);
+            String resultString = (String) json.get("message");
+
+            if(resultString.equals("success")){
+
+                ShowAlertMyDialog("로그인 성공");
+
+                /*
+                    로그인 성공 이후 처리
+                 */
+
+            }else if(resultString.equals("fail")){
+
+                ShowAlertMyDialog("로그인 실패");
+
+                /*
+                    로그인 실패 이후 처리
+                 */
+
+            }else if(resultString.equals("error")){
+
+                ShowAlertMyDialog("로그인 중 오류 발생");
 
             }else if(resultString.equals("db_fail")){
 
