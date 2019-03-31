@@ -1,7 +1,9 @@
 package com.example.myapp;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,20 +28,30 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-public class signUpFragment extends Fragment {
+public class signUpFragment extends AppCompatActivity {
 
-    View view;
+
+    Button cancleBtn;
+
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_signup, container, false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_signup);
 
-//        final TextView spinnertv = view.findViewById(R.id.spinnerTv);
-
-        Spinner spinner = view.findViewById(R.id.spinner);
+        Spinner spinner = findViewById(R.id.spinner);
         String[] str = getResources().getStringArray(R.array.bankarray);
 
-        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(getContext(), R.array.bankarray, R.layout.spinneritem);
+        cancleBtn = findViewById(R.id.signupCancleBtn);
+        cancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this, R.array.bankarray, R.layout.spinneritem);
 //        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
@@ -47,7 +60,7 @@ public class signUpFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    Toast.makeText(getActivity(), (String)parent.getItemAtPosition(position) + "을 선택", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(getApplicationContext(), (String)parent.getItemAtPosition(position) + "을 선택", Toast.LENGTH_SHORT ).show();
                 }
             }
 
@@ -56,9 +69,5 @@ public class signUpFragment extends Fragment {
 
             }
         });
-
-        return view;
     }
-
-
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView
+    android:id="@+id/signupContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android" >
@@ -185,20 +186,39 @@
 
         </LinearLayout>
 
-
-        <Button
-            android:id="@+id/signupConfirmBtn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
             android:layout_marginTop="80dp"
-            android:padding="8dp"
-            android:background="#2BB0DD"
-            android:fontFamily="@font/consola"
-            android:onClick="onJoinBtnClicked"
-            android:text="완료"
-            android:textColor="#FFF"
-            android:textSize="20dp" />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/signupConfirmBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:padding="8dp"
+                android:background="#2BB0DD"
+                android:fontFamily="@font/consola"
+                android:onClick="onJoinBtnClicked"
+                android:text="완료"
+                android:textColor="#FFF"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/signupCancleBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="#2BB0DD"
+                android:fontFamily="@font/consola"
+                android:text="취소"
+                android:textColor="#FFF"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
 
 
     </LinearLayout>

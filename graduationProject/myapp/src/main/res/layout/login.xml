@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF">
+    android:background="#2BBDFF">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +15,6 @@
         android:orientation="vertical"
         android:layout_gravity="center"
         android:padding="10dp">
-
 
         <TextView
             android:layout_width="match_parent"
@@ -67,7 +66,6 @@
             android:padding="8dp"
             android:background="#2BB0DD"
             android:fontFamily="@font/consola"
-            android:onClick="onConfirmBtnClicked"
             android:text="로그인"
             android:textColor="#FFF"
             android:textSize="18dp" />
@@ -82,7 +80,6 @@
             android:padding="8dp"
             android:background="#2BB0DD"
             android:fontFamily="@font/consola"
-            android:onClick="onConfirmBtnClicked"
             android:text="취소"
             android:textColor="#FFF"
             android:textSize="18dp" />
