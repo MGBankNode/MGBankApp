@@ -68,7 +68,8 @@
             android:fontFamily="@font/consola"
             android:text="로그인"
             android:textColor="#FFF"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:onClick="onLoginBtnClicked"/>
 
 
         <Button
