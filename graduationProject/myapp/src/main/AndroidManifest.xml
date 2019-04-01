@@ -28,6 +28,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainScreen"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".loginActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plane"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".signupActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plane"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

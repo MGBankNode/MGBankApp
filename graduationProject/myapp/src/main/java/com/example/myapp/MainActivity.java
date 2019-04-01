@@ -1,7 +1,6 @@
 package com.example.myapp;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,9 +18,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -30,17 +29,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     Fragment fr ;
-
+    TextView welcomeTextView;
     EditText joinIDEditText;
     EditText joinPWEditText;
     EditText joinPhoneEditText;
@@ -48,20 +47,35 @@ public class MainActivity extends AppCompatActivity
 
     EditText loginIDEditText;
     EditText loginPWEditText;
+    Toolbar toolbar;
 
     private AlertDialog dialog;
 
     String myIP = "10.20.12.63";
     String myPort = "3000";
 
-
+    final FragmentManager fm = getSupportFragmentManager();
     private backPressCloseHandler backPressCloseHandler;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        // login start
+        Intent gIntent = getIntent();
+        String strLoginFlag = gIntent.getStringExtra("loginflag");
+        if(strLoginFlag == null ) {
+            intent = new Intent(MainActivity.this, loginActivity.class);
+            startActivity(intent);
+        }
+        else {
+            intent = new Intent(MainActivity.this, MainScreen.class);
+            startActivity(intent);
+        }
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setElevation(0);
         setSupportActionBar(toolbar);
 
@@ -75,6 +89,29 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         backPressCloseHandler = new backPressCloseHandler(this);
+
+
+//        toolbar.setVisibility(View.GONE);
+//        fr = new MainScreen();
+//
+//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+//        fragmentTransaction.commit();
+//
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                fr = new loginActivity();
+//
+//                FragmentTransaction fragmentTransaction2 = fm.beginTransaction();
+//                fragmentTransaction2.replace(R.id.dynamic_mainFragment, fr);
+//                fragmentTransaction2.commit();
+//            }
+//        }, 5000);
+
+//        toolbar.setVisibility(View.VISIBLE);
+
 
 
 
@@ -94,6 +131,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        welcomeTextView = findViewById(R.id.welcomeTv);
+        Intent intent = getIntent();
+        String tempLoginUser = intent.getStringExtra("loginUser");
+        if(tempLoginUser != null) {
+            welcomeTextView.setText(tempLoginUser + "님 환영합니다");
+        }
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -172,14 +215,14 @@ public class MainActivity extends AppCompatActivity
                 break;
 
 
-            case (R.id.signup) :
-                fr = new signUpFragment();
-
-                break;
-
-            case (R.id.logIn) :
-                fr = new loginFragment();
-                break;
+//            case (R.id.signup) :
+//                fr = new signupActivity();
+//
+//                break;
+//
+//            case (R.id.logIn) :
+//                fr = new loginActivity();
+//                break;
 
             default:
                 break;
@@ -204,7 +247,6 @@ public class MainActivity extends AppCompatActivity
 
        // Toast.makeText(getApplication(), "버튼 선택됨", Toast.LENGTH_SHORT).show();
 
-        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
         fragmentTransaction.commit();
@@ -551,4 +593,14 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+    public void onLoginCancleBtnClicked(View view) {
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//
+//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//        fragmentTransaction.replace(R.id.dynamic_mainFragment, new fragment_home());
+//        fragmentTransaction.commit();
+//
+//        toolbar.setVisibility(View.VISIBLE);
+    }
+
 }

@@ -1,4 +1,0 @@
-#Sun Jan 20 17:34:38 KST 2019
-base.0=C\:\\AndroidStudioProjects\\GraduationProject_UI\\app\\build\\intermediates\\transforms\\dex\\release\\0
-path.0=classes.dex
-renamed.0=classes.dex
