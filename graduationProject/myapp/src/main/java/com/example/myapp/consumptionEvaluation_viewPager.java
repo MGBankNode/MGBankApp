@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ public class consumptionEvaluation_viewPager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.viewpager_consumption_analysis, container, false) ;
 
+        int pageNum = getArguments().getInt("cpage");
+
         // tab part
         tabLayout = view.findViewById(R.id.layout_tab);
         tabLayout.addTab(tabLayout.newTab().setText("소비평가"));
@@ -44,6 +47,7 @@ public class consumptionEvaluation_viewPager extends Fragment {
         contentsPagerAdapter = new ContentsPagerAdapter(fragmanager, tabLayout.getTabCount());
 
         viewPager.setAdapter(contentsPagerAdapter);
+        viewPager.setCurrentItem(pageNum);
 
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
