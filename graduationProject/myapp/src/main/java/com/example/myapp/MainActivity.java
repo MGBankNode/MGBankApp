@@ -15,14 +15,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import android.app.AlertDialog;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity
@@ -32,11 +41,15 @@ public class MainActivity extends AppCompatActivity
     TextView welcomeTextView;
     ImageView closeMenu;
 
+    private ListView menu1list;
+    private ListView menu2list;
+    private ListView menu3list;
+
     Toolbar toolbar;
 
     final FragmentManager fm = getSupportFragmentManager();
     private backPressCloseHandler backPressCloseHandler;
-    private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +71,83 @@ public class MainActivity extends AppCompatActivity
 
         backPressCloseHandler = new backPressCloseHandler(this);
 
+        menu1list = findViewById(R.id.menu1_list);
+        menu2list = findViewById(R.id.menu2_list);
+        menu3list = findViewById(R.id.menu3_list);
 
+        ArrayList<String> menu1items = new ArrayList<>();
+        ArrayList<String> menu2items = new ArrayList<>();
+        ArrayList<String> menu3items = new ArrayList<>();
+
+        menu1items.add("달력");
+        menu1items.add("내역");
+        menu2items.add("소비평가");
+        menu2items.add("카드추천");
+        menu3items.add("통합맴버쉽");
+
+        MainMenuListviewAdapter menu1ListviewAdapter = new MainMenuListviewAdapter(this, menu1items ,R.layout.mainmenuitem);
+        MainMenuListviewAdapter menu2ListviewAdapter = new MainMenuListviewAdapter(this, menu2items ,R.layout.mainmenuitem);
+        MainMenuListviewAdapter menu3ListviewAdapter = new MainMenuListviewAdapter(this, menu3items ,R.layout.mainmenuitem);
+        menu1list.setAdapter(menu1ListviewAdapter);
+        menu2list.setAdapter(menu2ListviewAdapter);
+        menu3list.setAdapter(menu3ListviewAdapter);
+
+        menu1list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+
+                    case 0:
+                        fr = new fragment_menu1();
+                        fr.setArguments(makeBundle("apage", 0));
+                        break;
+
+                    case 1:
+                        fr = new fragment_menu1();
+                        fr.setArguments(makeBundle("apage", 1));
+                        break;
+
+                }
+                   changeFragment(fr);
+            }
+        });
+        menu2list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        fr = new consumptionEvaluation_viewPager();
+                        fr.setArguments(makeBundle("cpage", 0));
+                        break;
+
+                    case 1:
+                        fr = new consumptionEvaluation_viewPager();
+                        fr.setArguments(makeBundle("cpage", 1));
+                        break;
+                }
+                changeFragment(fr);
+            }
+        });
+
+        menu3list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        fr = new fragment_menu3();
+                        break;
+                }
+                changeFragment(fr);
+            }
+        });
+    }
+
+
+
+    public Bundle makeBundle(String str, int num) {
+        Bundle bundle = new Bundle(1);
+        bundle.putInt(str, num);
+        return bundle;
     }
 
     @Override
@@ -142,13 +231,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
-        fragmentTransaction.commit();
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        changeFragment(fr);
 
         if(!url.equals("")) {
             Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -158,25 +241,16 @@ public class MainActivity extends AppCompatActivity
 
         return true;
     }
-    public void onMenuBtnClicked(View view) {
 
-//        switch (view.getId()) {
-//            case (R.id.menuBtn1) :
-//                fr = new fragment_menu1();
-//                break;
-//
-//            case (R.id.menuBtn2) :
-//                fr = new consumptionEvaluation_viewPager();
-//                break;
-//
-//            case (R.id.menuBtn3) :
-//                fr = new fragment_menu3();
-//                break;
-//
-//            default:
-//                break;
-//        }
 
+    public void onDetailBtnClicked(View view) {
+        Fragment detailFragment = new consumptionReportFragment();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
+        fragmentTransaction.commit();
+    }
+
+    public void changeFragment(Fragment fr) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
@@ -184,13 +258,6 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-    }
-
-    public void onDetailBtnClicked(View view) {
-        Fragment detailFragment = new consumptionReportFragment();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
-        fragmentTransaction.commit();
     }
 
 }

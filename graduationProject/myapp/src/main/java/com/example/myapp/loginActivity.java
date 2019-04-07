@@ -70,7 +70,6 @@ public class loginActivity extends AppCompatActivity {
                 startActivity(intentSignup);
             }
         });
-
     }
 
     public void showToast() {
