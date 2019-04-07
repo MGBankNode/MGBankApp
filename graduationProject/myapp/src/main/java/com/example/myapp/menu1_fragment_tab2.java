@@ -68,6 +68,7 @@ public class menu1_fragment_tab2 extends Fragment {
         final SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
         year =Integer.parseInt(curYearFormat.format(date));
         month = Integer.parseInt(curMonthFormat.format(date));
+        txt_present.setText(month + "월");
 
         // 인덱스 데이터를 추가
         list = new ArrayList<BindData>();
@@ -281,6 +282,10 @@ public class menu1_fragment_tab2 extends Fragment {
     //디비에서 월별로 따로 불러와야 할듯 ----> 월 변경시 dividerheight에 의해 공백 생김
     //각 날마다 그 날의 수입과 지출 합계를 보여줄수 있는 테이블 필요 -> 리스트뷰에서 연산하려니 너무 복잡하게 꼬임
     private BindData[] INDEX_DATA = new BindData[] {
+            new BindData(2019,4,8,"13","56","Node","새마을 금고 이체",-5000),
+            new BindData(2019,4,8,"10","00","이자","새마을금고 급여통장",160),
+            new BindData(2019,4,7,"09","21","남광우 계좌이체","새마을금고 급여통장",50000),
+            new BindData(2019,4,1,"13","56","이삭토스트","kb카드",-26000),
             new BindData(2019,3,12,"13","56","Node","새마을 금고 이체",-5000),
             new BindData(2019,3,12,"10","00","이자","새마을금고 급여통장",160),
             new BindData(2019,3,11,"09","21","광운대 장학금","새마을금고 급여통장",1500000),

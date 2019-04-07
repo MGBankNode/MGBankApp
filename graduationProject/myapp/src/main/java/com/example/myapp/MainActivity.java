@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.text.Html;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     Fragment fr ;
+    TextView homeTextView;
     TextView welcomeTextView;
     ImageView closeMenu;
 
@@ -138,6 +140,16 @@ public class MainActivity extends AppCompatActivity
                         fr = new fragment_menu3();
                         break;
                 }
+                changeFragment(fr);
+            }
+        });
+
+        homeTextView=findViewById(R.id.homeTv);
+        homeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("NKW","homeTextview click");
+                fr= new fragment_home();
                 changeFragment(fr);
             }
         });
