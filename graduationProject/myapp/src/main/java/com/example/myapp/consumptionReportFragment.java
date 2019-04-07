@@ -10,17 +10,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class consumptionReportFragment extends Fragment {
@@ -28,75 +35,125 @@ public class consumptionReportFragment extends Fragment {
     }
 
 
-    private LineChart lineChart;
+    protected BarChart chart;
+
+    private TextView cstv;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
 
-//        String id = getArguments().getString("userId");
-//        Log.d("test Bundle", id);
-        final ArrayList<String> xLabel = new ArrayList<>();
-        xLabel.add("9");
-        xLabel.add("15");
-        xLabel.add("21");
-        xLabel.add("27");
-        xLabel.add("33");
+        chart = (BarChart) view.findViewById(R.id.chart);
 
-        lineChart = (LineChart)view.findViewById(R.id.chart);
+        String[] labels = new String[] {"", "1주차", "2주차", "3주차", "4주차"};
 
-        List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 2));
-        entries.add(new Entry(3, 0));
-        entries.add(new Entry(4, 4));
-        entries.add(new Entry(5, 3));
+        int tempmonth = 3;
+        int tempdate = 9;
 
-        LineDataSet lineDataSet = new LineDataSet(entries, "속성명1");
-        lineDataSet.setLineWidth(2);
-        lineDataSet.setCircleRadius(6);
-        lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC")); // LineChart에서 Line Circle Color 설정
-        //lineDataSet.setCircleColorHole(Color.BLUE); // LineChart에서 Line Hole Circle Color 설정
-        lineDataSet.setColor(Color.parseColor("#FFA1B4DC")); // LineChart에서 Line Color 설정
-        lineDataSet.setDrawCircleHole(true);
-        lineDataSet.setDrawCircles(true);
-        lineDataSet.setDrawHorizontalHighlightIndicator(false);
-        lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setDrawValues(false);
+        for(int i=1; i< labels.length; i++) {
+            String tempstr = "~" + String.valueOf(tempmonth) + "." + String.valueOf(tempdate);
+            labels[i] = tempstr;
+            tempdate += 7;
+        }
 
-        LineData lineData = new LineData(lineDataSet);
+        Description desc ;
+        Legend L;
+
+        L = chart.getLegend();
+        desc = chart.getDescription();
+        desc.setText(""); // this is the weirdest way to clear something!!
+        L.setEnabled(false);
 
 
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // x축 표시에 대한 위치 설정으로 아래쪽에 위치시킨다.
-        xAxis.setTextColor(Color.BLACK); // x축 텍스트 컬러 설정
-        xAxis.enableGridDashedLine(8, 24, 0);
-//        xAxis.setValueFormatter(new IAxisValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                final String s = xLabel.get((int) value);
-//                return s;
-//            }
-//        });
+        YAxis leftAxis = chart.getAxisLeft();
+        YAxis rightAxis = chart.getAxisRight();
+        XAxis xAxis = chart.getXAxis();
 
-        YAxis yLAxis = lineChart.getAxisLeft();
-        yLAxis.setTextColor(Color.BLACK);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(11f);
+        xAxis.setTextColor(Color.rgb(155,155,155));
 
-        // y축 오른쪽 비활성화
-        YAxis yRAxis = lineChart.getAxisRight();
-        yRAxis.setDrawLabels(false);
-        yRAxis.setDrawAxisLine(false);
-        yRAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setLabelCount(4);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(false);
 
-        Description description = new Description();
-        description.setText("");
 
-        lineChart.setDoubleTapToZoomEnabled(false);
-        lineChart.setDrawGridBackground(false);
-        lineChart.setDescription(description);
-        lineChart.animateY(2000, Easing.EaseInCubic);
-        lineChart.setData(lineData);
-        lineChart.invalidate();
+//        leftAxis.setAxisMinimum(90000);
+//        leftAxis.setYOffset(30000);
+        leftAxis.setDrawLabels(true);
+        leftAxis.setAxisMinimum(90000);
+        leftAxis.setGranularity(30000);
+        leftAxis.setYOffset(-30f);
+        leftAxis.setTextColor(Color.rgb(155,155,155));
+        leftAxis.setDrawAxisLine(true);
+        leftAxis.setDrawGridLines(false);
+
+        rightAxis.setDrawAxisLine(false);
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setDrawLabels(false);
+
+        BarData data = new BarData(setData());
+
+
+        data.setBarWidth(0.6f); // set custom bar width
+
+        chart.setData(data);
+        chart.setFitBars(true); // make the x-axis fit exactly all bars
+        chart.invalidate(); // refresh
+        chart.setScaleEnabled(false);
+        chart.setDoubleTapToZoomEnabled(false);
+        chart.setBackgroundColor(Color.rgb(255, 255, 255));
+        chart.animateXY(2000, 2000);
+        chart.setDrawBorders(false);
+        chart.setDescription(desc);
+        chart.setDrawValueAboveBar(true);
+
+
         return view;
     }
+
+    private BarDataSet setData() {
+        final int minColor = Color.rgb(43, 176, 221);
+        final int normColor = Color.GRAY;
+        final int maxColor = Color.RED;
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        int[] colors = new int[]{Color.RED, Color.BLACK, Color.BLUE, Color.YELLOW};
+        entries.add(new BarEntry(1f, 109230));
+        entries.add(new BarEntry(2f, 125889));
+        entries.add(new BarEntry(3f, 119403));
+        entries.add(new BarEntry(4f, 143291));
+
+        ArrayList<Integer> entryValues = new ArrayList<>();
+
+        for (int i=0; i < entries.size(); i++) {
+            entryValues.add((int) entries.get(i).getY());
+        }
+
+        Collections.sort(entryValues);
+
+        for(int i=0 ; i< entryValues.size(); i++) {
+
+            if(entries.get(i).getY() == entryValues.get(0)) { // set min value color
+                colors[i] = minColor;
+            }
+            else if (entries.get(i).getY() == entryValues.get(entryValues.size()-1)) { // set max value color
+                colors[i] = maxColor;
+            }
+            else {
+                colors[i] = normColor;
+            }
+
+        }
+
+        BarDataSet set = new BarDataSet(entries, "");
+        set.setColors(colors);
+        set.setValueTextColor(Color.rgb(90,90,90));
+        set.setValueTextSize(9);
+
+        return set;
+    }
 }
+
