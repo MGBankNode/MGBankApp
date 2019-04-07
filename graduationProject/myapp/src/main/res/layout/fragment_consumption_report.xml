@@ -11,13 +11,13 @@
     android:orientation="vertical"
     android:background="#FFF">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#C4BFBF"
         >
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -47,8 +47,8 @@
             android:text="3월 3주차"
             android:textColor="#FFF"
             android:textSize="14dp"/>
-
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="370dp"
@@ -70,10 +70,10 @@
             android:layout_height="match_parent">
 
         </com.github.mikephil.charting.charts.BarChart>
+
     </LinearLayout>
 
     <TextView
-
         android:id="@+id/consumptionSumTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,8 +82,7 @@
         android:textColor="#000"
         android:fontFamily="@font/malgun"
         android:layout_marginTop="10dp"
-        android:padding="24dp"/>
-
+        android:padding="18dp"/>
 
 </LinearLayout>
 

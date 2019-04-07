@@ -18,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainScreen"
             android:screenOrientation="portrait">
@@ -28,10 +29,7 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.SEND"/>
-                <action android:name="android.intent.action.SEND_MULTIPLE"/>
                 <category android:name="android.intent.category.LAUNCHER" />
-                <data android:mimeType="text/plane"/>
             </intent-filter>
         </activity>
 
@@ -40,7 +38,6 @@
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
 
         <activity android:name=".SignUpActivity"
             android:screenOrientation="portrait">
