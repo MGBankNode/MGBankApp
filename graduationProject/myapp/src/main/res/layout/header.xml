@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="280dp"
+    android:layout_height="250dp"
     android:background="#2BB0DD"
     android:orientation="vertical"
     android:paddingLeft="10dp"
@@ -12,10 +12,18 @@
     android:gravity="center"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <ImageView
+        android:id="@+id/closeMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="8dp"
+        android:src="@drawable/ic_power_settings_new_black_24dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="20dp"
         android:text="Node Bank"
         android:textSize="30dp"
         android:textColor="#FFF"
@@ -23,167 +31,137 @@
         android:textFontWeight="400"
         android:fontFamily="@font/bmdohyeon"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:padding="12dp"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/welcomeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="test"
+            android:textColor="#FFF"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/malgun"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:text="님 환영합니다"
+            android:textColor="#FFF"
+            android:textSize="13dp"
+            android:fontFamily="@font/malgun"
+            />
+
+
+    </LinearLayout>
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="35dp"
     android:orientation="horizontal"
     android:gravity="center"
     >
 
-    <LinearLayout
-        android:id="@+id/logIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:background="@drawable/loginbtn"
-        android:gravity="center"
-        android:onClick="onMenuBtnClicked"
-        >
 
-        <!-- width : height = 5 : 4-->
-        <ImageView
-            android:layout_width="37.5dp"
-            android:layout_height="30dp"
-            android:src="@drawable/logincharacter"/>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로그인"
-            android:textColor="#FFF"
-            android:textSize="13dp"
-            android:paddingLeft="4dp"
-            android:fontFamily="@font/consola"
-            />
-    </LinearLayout>
+        <!--android:paddingTop="16dp"-->
+        <!--android:paddingBottom="8dp"-->
+        <!--android:background="@drawable/menuimage"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="vertical"-->
+        <!--&gt;-->
 
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
 
-    <LinearLayout
-        android:id="@+id/signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/loginbtn"
-        android:gravity="center"
-        android:onClick="onMenuBtnClicked">
+            <!--<ImageView-->
+                <!--android:id="@+id/menuBtn1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="22dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:src="@drawable/notebook"-->
+                <!--android:onClick="onMenuBtnClicked"-->
+                <!--/>-->
 
-        <!-- width : height = 5 : 4-->
-        <ImageView
-            android:layout_width="37.5dp"
-            android:layout_height="30dp"
-            android:src="@drawable/signupcharacter"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/menuBtn2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="22dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:src="@drawable/analysis"-->
+                <!--android:onClick="onMenuBtnClicked"-->
+                <!--/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="회원가입"
-            android:textColor="#FFF"
-            android:textSize="13dp"
-            android:paddingLeft="4dp"
-            android:fontFamily="@font/consola"
-            />
+            <!--<ImageView-->
+                <!--android:id="@+id/menuBtn3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="22dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:src="@drawable/barcode"-->
+                <!--android:onClick="onMenuBtnClicked"-->
+                <!--/>-->
 
 
-    </LinearLayout>
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:paddingTop="6dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--&gt;-->
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="가계부"-->
+                <!--android:textColor="#E6000000"-->
+                <!--android:textSize="12dp"-->
+                <!--android:fontFamily="@font/malgun"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="소비평가"-->
+                <!--android:textColor="#E6000000"-->
+                <!--android:textSize="12dp"-->
+                <!--android:fontFamily="@font/malgun"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="맴버십"-->
+                <!--android:textColor="#E6000000"-->
+                <!--android:textSize="12dp"-->
+                <!--android:fontFamily="@font/malgun"/>-->
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
 
 </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="28dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
-        android:background="@drawable/menuimage"
-        android:gravity="center"
-        android:orientation="vertical"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/menuBtn1"
-                android:layout_width="match_parent"
-                android:layout_height="22dp"
-                android:layout_weight="1"
-                android:src="@drawable/notebook"
-                android:onClick="onMenuBtnClicked"
-                />
-
-            <ImageView
-                android:id="@+id/menuBtn2"
-                android:layout_width="match_parent"
-                android:layout_height="22dp"
-                android:layout_weight="1"
-                android:src="@drawable/analysis"
-                android:onClick="onMenuBtnClicked"
-                />
-
-            <ImageView
-                android:id="@+id/menuBtn3"
-                android:layout_width="match_parent"
-                android:layout_height="22dp"
-                android:layout_weight="1"
-                android:src="@drawable/barcode"
-                android:onClick="onMenuBtnClicked"
-                />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="6dp"
-            android:layout_marginTop="10dp"
-            >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="가계부"
-                android:textColor="#E6000000"
-                android:textSize="12dp"
-                android:fontFamily="@font/malgun"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="소비평가"
-                android:textColor="#E6000000"
-                android:textSize="12dp"
-                android:fontFamily="@font/malgun"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="맴버십"
-                android:textColor="#E6000000"
-                android:textSize="12dp"
-                android:fontFamily="@font/malgun"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-
 </LinearLayout>

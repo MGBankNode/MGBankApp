@@ -1,7 +1,0 @@
-#Internal package file, do not edit.
-#Fri Jan 11 03:04:48 KST 2019
-0.baseType=DIRECTORY
-0.base=C\:\\AndroidStudioProjects\\GraduationProject_UI\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
-0.path=classes.dex
-0.set=DEX
-count=1
