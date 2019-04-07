@@ -3,7 +3,8 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFF">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -59,8 +60,6 @@
                 android:textColor="#FFF"
                 android:fontFamily="@font/consola"
                 android:background="#2BB0DD"
-
-                android:onClick="onCheckBtnClicked"
                 />
 
 
@@ -196,7 +195,8 @@
             android:fontFamily="@font/consola"
             android:text="완료"
             android:textColor="#FFF"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:onClick="onJoinBtnClicked"/>
 
 
     </LinearLayout>
