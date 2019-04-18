@@ -30,15 +30,15 @@ public class RequestInfo {
         switch (myRequestType){
 
             case ID_CHECK:
-                processURL = "/process/idcheck";
+                processURL = "/nodeapi/join/idcheck";
                 break;
 
             case JOIN_USER:
-                processURL = "/process/joinuser";
+                processURL = "/nodeapi/join/joinuser";
                 break;
 
             case LOGIN_USER:
-                processURL = "/process/logincheck";
+                processURL = "/nodeapi/login/logincheck";
                 break;
 
         }
