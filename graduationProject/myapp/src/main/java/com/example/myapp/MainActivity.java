@@ -1,23 +1,35 @@
 package com.example.myapp;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.telephony.TelephonyManager;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
@@ -45,11 +57,19 @@ public class MainActivity extends AppCompatActivity
     final FragmentManager fm = getSupportFragmentManager();
     private backPressCloseHandler backPressCloseHandler;
 
+    private static int MY_PERMISSIONS_REQUEST_READ_SMS = 1;
+    private static int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 2;
 
+    public DeviceInfo myDeviceInfo;
+    public String deviceCheckResult = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // Device 정보 불러오기 + 권할 설정
+        myDeviceInfo = getDeviceInfo();
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setElevation(0);
@@ -135,6 +155,7 @@ public class MainActivity extends AppCompatActivity
                 changeFragment(fr);
             }
         });
+
     }
 
 
@@ -199,15 +220,35 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            /*
-                정보 저장 상태 불러오기
-             */
-            startActivity(new Intent(this, SettingDialogActivity.class));
+
+            Intent intent = new Intent(this, SettingDialogActivity.class);
+            intent.putExtra("DeviceInfoObject", myDeviceInfo);
+            if(deviceCheckResult.equals("")){
+
+                /*
+                    정보가 없는 경우 요청 처리 기능
+                 */
+                deviceCheckResult = "NO";
+                deviceCheckResult = "YES";
+            }
+            intent.putExtra("DeviceCheckResult", deviceCheckResult);
+            startActivityForResult(intent, 1);
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                deviceCheckResult = data.getStringExtra("DeviceCheckResult");
+            }
+        }
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -259,4 +300,117 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
     }
 
+    /*
+        getDeviceInfo : DeviceInfo
+        = 디바이스 정보 얻는 함수
+     */
+
+    public DeviceInfo getDeviceInfo(){
+        DeviceInfo myDevice;
+
+        String mobile;
+        if((mobile = getPhoneNumber(this)) == null){
+            return null;
+        }
+        String osVersion = Build.VERSION.RELEASE;
+        String model = Build.MODEL;
+        String display = getDisplay(this);
+        String manufacturer = Build.MANUFACTURER;
+        String macAddress = getMacAddress(this);
+
+        myDevice = new DeviceInfo(mobile, osVersion, model, display, manufacturer, macAddress);
+
+        return myDevice;
+    }
+
+    /*
+        getPhoneNumber : String
+        = 디바이스 전화번호 정보 얻는 함수
+     */
+
+    public String getPhoneNumber(Activity activity) {
+        int permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_SMS);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    activity,
+                    new String[]{Manifest.permission.READ_SMS},
+                    MY_PERMISSIONS_REQUEST_READ_SMS);
+        } else {
+            permissionCheck = ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE);
+            if(permissionCheck != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(
+                        activity,
+                        new String[]{Manifest.permission.READ_PHONE_STATE},
+                        MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+                TelephonyManager phoneMgr = (TelephonyManager) activity.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+                if(phoneMgr.getLine1Number() != null){
+                    return phoneMgr.getLine1Number();
+                }
+            }
+        }
+        return null;
+    }
+
+    /*
+        onRequestPermissionsResult : void
+        = 권한 요청 결과 처리
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+                    if(permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(
+                                this,
+                                new String[]{Manifest.permission.READ_PHONE_STATE},
+                                MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+                    }
+
+                } else {
+                    finish();
+                }
+                return;
+            }
+
+            case 2: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    finish();
+                }
+            }
+            break;
+        }
+    }
+
+    /*
+        getDisplay : String
+        = 디바이스 화면 정보 얻는 함수
+    */
+
+    private static String getDisplay(Context context){
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+
+        int deviceWidth = displayMetrics.widthPixels;
+        int deviceHeight = displayMetrics.heightPixels;
+
+        return deviceWidth + "x" + deviceHeight;
+    }
+
+    /*
+        getMacAddress : String
+        = 디바이스 MacAddress 정보 얻는 함수
+    */
+
+    private static String getMacAddress(Context context){
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = wifiManager.getConnectionInfo();
+        return info.getMacAddress();
+    }
 }

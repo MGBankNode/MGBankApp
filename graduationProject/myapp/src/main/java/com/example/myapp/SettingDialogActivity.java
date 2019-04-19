@@ -1,49 +1,203 @@
 package com.example.myapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 /*
     SettingDialogActivity
+    = 설정 모달 창 엑티비티
  */
 
 public class SettingDialogActivity extends Activity {
 
     Button switchFinishBtn;
     Switch pushSwitch;
+    DeviceInfo myDeviceInfo;
+    int originValue = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_dialog);
 
         switchFinishBtn = findViewById(R.id.switchFinishBtn);
+        pushSwitch = findViewById(R.id.pushSwitch);
+
+        Intent intent = getIntent();
+        myDeviceInfo = (DeviceInfo) intent.getSerializableExtra("DeviceInfoObject");
+        String deviceCheckResult = intent.getStringExtra("DeviceCheckResult");
+
+        if (deviceCheckResult.equals("YES")) {
+
+            pushSwitch.setChecked(true);
+            originValue = 1;
+
+        } else if (deviceCheckResult.equals("NO")) {
+
+            pushSwitch.setChecked(false);
+            originValue = 0;
+
+        }
+
         switchFinishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-            }
-        });
+                if (pushSwitch.isChecked() == true) {
 
-        pushSwitch = findViewById(R.id.pushSwitch);
-        pushSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    if (originValue == 1) {
 
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked == true){
-                    Toast.makeText(getApplicationContext(), "스위치-ON", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.putExtra("DeviceCheckResult", "YES");
+                        setResult(RESULT_OK, intent);
+                        finish();
+
+                    } else {
+
+                        AddDeviceHandler();
+
+                    }
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "스위치-OFF", Toast.LENGTH_SHORT).show();
+
+                    if (originValue == 1) {
+
+                        /*
+                            추가되어있을 경우 단말 제거 기능 요청
+                         */
+                        Toast.makeText(getApplicationContext(), "스위치-OFF", Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        Intent intent = new Intent();
+                        intent.putExtra("DeviceCheckResult", "NO");
+                        setResult(RESULT_OK, intent);
+                        finish();
+
+                    }
+
                 }
             }
-
         });
+    }
+
+    /*
+        AddDeviceHandler: void
+        = 단말 추가 요청 처리 핸들러
+    */
+
+    public void AddDeviceHandler(){
+        RequestInfo requestInfo = new RequestInfo(RequestInfo.RequestType.ADD_DEVICE);
+
+        String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        AddDeviceResponse(response);
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams(){
+                return AddDeviceRequest();
+            }
+        };
+        request.setShouldCache(false);
+        Volley.newRequestQueue(getApplicationContext()).add(request);
+        Log.d("요청 url: ", url);
+    }
+
+    /*
+        AddDeviceRequest(): Map<String, String>
+        = 단말 추가 요청 전달 파라미터 설정 함수
+    */
+
+    private Map<String, String> AddDeviceRequest(){
+        Map<String, String> params = new HashMap<>();
+
+        params.put("mobile", myDeviceInfo.getMobile());
+        params.put("osVersion", myDeviceInfo.getOsVersion());
+        params.put("model", myDeviceInfo.getModel());
+        params.put("display", myDeviceInfo.getDisplay());
+        params.put("manufacturer", myDeviceInfo.getManufacturer());
+        params.put("macAddress", myDeviceInfo.getMacAddress());
+
+        return params;
+    }
+
+    /*
+        AddDeviceResponse(String): void
+        = 단말 추가 요청 응답 처리 함수
+    */
+
+    private void AddDeviceResponse(String response){
+        try{
+            Log.d("onResponse 호출 ", response);
+
+            JSONObject json = new JSONObject(response);
+            String resultString = (String) json.get("message");
+
+            switch (resultString) {
+                case "success":
+                    ShowToast("단말 추가  성공");
+                    Toast.makeText(getApplicationContext(), "스위치-ON", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent();
+                    intent.putExtra("DeviceCheckResult", "YES");
+                    setResult(RESULT_OK, intent);
+
+                    finish();
+                    break;
+
+                case "fail":
+                    ShowToast("단말 추가  실패");
+                    pushSwitch.setChecked(false);
+                    break;
+
+                case "error":
+                    ShowToast("단말 추가  중 오류 발생");
+                    break;
+
+                case "db_fail":
+                    ShowToast("연결 오류");
+                    break;
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void ShowToast(String s){
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -55,4 +209,6 @@ public class SettingDialogActivity extends Activity {
 
         return true;
     }
+
+
 }
