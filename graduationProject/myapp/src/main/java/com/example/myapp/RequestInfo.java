@@ -5,7 +5,10 @@ public class RequestInfo {
     public enum RequestType{
         ID_CHECK,
         JOIN_USER,
-        LOGIN_USER
+        LOGIN_USER,
+        ADD_DEVICE,
+        DEVICE_CHECK,
+        DELETE_DEVICE
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -41,6 +44,17 @@ public class RequestInfo {
                 processURL = "/nodeapi/login/logincheck";
                 break;
 
+            case ADD_DEVICE:
+                processURL = "/nodeapi/device/adddevice";
+                break;
+
+            case DEVICE_CHECK:
+                processURL = "/nodeapi/device/devicecheck";
+                break;
+
+            case DELETE_DEVICE:
+                processURL = "/nodeapi/device/deletedevice";
+                break;
         }
         return processURL;
     }
