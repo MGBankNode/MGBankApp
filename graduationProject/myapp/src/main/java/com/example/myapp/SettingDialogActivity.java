@@ -84,7 +84,7 @@ public class SettingDialogActivity extends Activity {
                         /*
                             추가되어있을 경우 단말 제거 기능 요청
                          */
-                        Toast.makeText(getApplicationContext(), "스위치-OFF", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Push 알림 OFF", Toast.LENGTH_SHORT).show();
 
                     } else {
 
@@ -166,8 +166,7 @@ public class SettingDialogActivity extends Activity {
 
             switch (resultString) {
                 case "success":
-                    ShowToast("단말 추가  성공");
-                    Toast.makeText(getApplicationContext(), "스위치-ON", Toast.LENGTH_SHORT).show();
+                    ShowToast("Push 알림 ON");
 
                     Intent intent = new Intent();
                     intent.putExtra("DeviceCheckResult", "YES");
@@ -177,7 +176,7 @@ public class SettingDialogActivity extends Activity {
                     break;
 
                 case "fail":
-                    ShowToast("단말 추가  실패");
+                    ShowToast("Push 알림 ON 실패");
                     pushSwitch.setChecked(false);
                     break;
 
