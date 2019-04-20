@@ -44,7 +44,42 @@ public class consumptionReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
 
-        chart = (BarChart) view.findViewById(R.id.chart);
+        chart = (BarChart) view.findViewById(R.id.chartWeek);
+
+
+        final int minColor = Color.rgb(43, 176, 221);
+        final int normColor = Color.GRAY;
+        final int maxColor = Color.RED;
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        int[] colors = new int[]{Color.RED, Color.BLACK, Color.BLUE, Color.YELLOW};
+        entries.add(new BarEntry(1f, 109230));
+        entries.add(new BarEntry(2f, 125889));
+        entries.add(new BarEntry(3f, 119403));
+        entries.add(new BarEntry(4f, 143291));
+
+        ArrayList<Integer> entryValues = new ArrayList<>();
+
+        for (int i=0; i < entries.size(); i++) {
+            entryValues.add((int) entries.get(i).getY());
+        }
+
+        Collections.sort(entryValues);
+
+        for(int i=0 ; i< entryValues.size(); i++) {
+
+            if(entries.get(i).getY() == entryValues.get(0)) { // set min value color
+                colors[i] = minColor;
+            }
+            else if (entries.get(i).getY() == entryValues.get(entryValues.size()-1)) { // set max value color
+                colors[i] = maxColor;
+            }
+            else {
+                colors[i] = normColor;
+            }
+
+        }
+
 
         String[] labels = new String[] {"", "1주차", "2주차", "3주차", "4주차"};
 
@@ -79,9 +114,6 @@ public class consumptionReportFragment extends Fragment {
         xAxis.setDrawAxisLine(true);
         xAxis.setDrawGridLines(false);
 
-
-//        leftAxis.setAxisMinimum(90000);
-//        leftAxis.setYOffset(30000);
         leftAxis.setDrawLabels(true);
         leftAxis.setAxisMinimum(90000);
         leftAxis.setGranularity(30000);
@@ -94,7 +126,12 @@ public class consumptionReportFragment extends Fragment {
         rightAxis.setDrawGridLines(false);
         rightAxis.setDrawLabels(false);
 
-        BarData data = new BarData(setData());
+        BarDataSet set = new BarDataSet(entries, "");
+        set.setColors(colors);
+        set.setValueTextColor(Color.rgb(90,90,90));
+        set.setValueTextSize(9);
+
+        BarData data = new BarData(set);
 
 
         data.setBarWidth(0.6f); // set custom bar width
@@ -112,48 +149,6 @@ public class consumptionReportFragment extends Fragment {
 
 
         return view;
-    }
-
-    private BarDataSet setData() {
-        final int minColor = Color.rgb(43, 176, 221);
-        final int normColor = Color.GRAY;
-        final int maxColor = Color.RED;
-
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        int[] colors = new int[]{Color.RED, Color.BLACK, Color.BLUE, Color.YELLOW};
-        entries.add(new BarEntry(1f, 109230));
-        entries.add(new BarEntry(2f, 125889));
-        entries.add(new BarEntry(3f, 119403));
-        entries.add(new BarEntry(4f, 143291));
-
-        ArrayList<Integer> entryValues = new ArrayList<>();
-
-        for (int i=0; i < entries.size(); i++) {
-            entryValues.add((int) entries.get(i).getY());
-        }
-
-        Collections.sort(entryValues);
-
-        for(int i=0 ; i< entryValues.size(); i++) {
-
-            if(entries.get(i).getY() == entryValues.get(0)) { // set min value color
-                colors[i] = minColor;
-            }
-            else if (entries.get(i).getY() == entryValues.get(entryValues.size()-1)) { // set max value color
-                colors[i] = maxColor;
-            }
-            else {
-                colors[i] = normColor;
-            }
-
-        }
-
-        BarDataSet set = new BarDataSet(entries, "");
-        set.setColors(colors);
-        set.setValueTextColor(Color.rgb(90,90,90));
-        set.setValueTextSize(9);
-
-        return set;
     }
 }
 
