@@ -182,11 +182,18 @@ public class loginActivity extends AppCompatActivity {
             switch (resultString) {
                 case "success":
                     ShowToast("로그인 성공");
+
+                    String userID = (String) json.get("id");
                     String userName = (String) json.get("name");
+                    int userAccountCheck = (int) json.get("accountCheck");
+                    String userUpdateAt = (String) json.get("update_at");
+
+                    UserInfo userInfo = new UserInfo(userID, userName, userAccountCheck, userUpdateAt);
+
                     //Go to MainActivity
                     finish();
                     Intent mIntent = new Intent(loginActivity.this, MainActivity.class);
-                    mIntent.putExtra("loginUser", userName);
+                    mIntent.putExtra("UserInfoObject", userInfo);
                     startActivity(mIntent);
                     break;
 

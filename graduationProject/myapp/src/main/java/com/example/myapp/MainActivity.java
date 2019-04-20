@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
 
     Fragment fr ;
     TextView welcomeTextView;
+    TextView userLastAtTxt;
     ImageView closeMenu;
 
     private ListView menu1list;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity
 
     public String mobile = "";
 
+    public UserInfo myUserInfo;
     public DeviceInfo myDeviceInfo;
     public String deviceCheckResult = "";
     
@@ -195,12 +197,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         welcomeTextView = findViewById(R.id.welcomeTv);
+        userLastAtTxt = findViewById(R.id.userLastAtTxt);
+
+        //로그인 액티비티에서, User 정보 전달 받기
         Intent intent = getIntent();
-        String tempLoginUser = intent.getStringExtra("loginUser");
+        myUserInfo = (UserInfo) intent.getSerializableExtra("UserInfoObject");
+
+        //사용자 이름 변경
+        String tempLoginUser = myUserInfo.getUserName();
         if(tempLoginUser != null) {
             welcomeTextView.setText(Html.fromHtml("<u>" + tempLoginUser + "</u>")); // 밑줄 긋기
         }
         getMenuInflater().inflate(R.menu.main, menu);
+
+        //사용자 마지막 접속시간 변경
+        String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
+        userLastAtTxt.setText(changeText);
 
         closeMenu = findViewById(R.id.closeMenu);
         closeMenu.setOnClickListener(new View.OnClickListener() {
