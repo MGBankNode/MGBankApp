@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     Fragment fr ;
     TextView welcomeTextView;
     ImageView closeMenu;
+    ImageView homeMenu;
 
     private ListView menu1list;
     private ListView menu2list;
@@ -101,6 +102,11 @@ public class MainActivity extends AppCompatActivity
 
         backPressCloseHandler = new backPressCloseHandler(this);
 
+        makeMenuList();
+    }
+
+    public void makeMenuList() {
+
         menu1list = findViewById(R.id.menu1_list);
         menu2list = findViewById(R.id.menu2_list);
         menu3list = findViewById(R.id.menu3_list);
@@ -138,7 +144,7 @@ public class MainActivity extends AppCompatActivity
                         break;
 
                 }
-                   changeFragment(fr);
+                changeFragment(fr);
             }
         });
         menu2list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,9 +176,7 @@ public class MainActivity extends AppCompatActivity
                 changeFragment(fr);
             }
         });
-
     }
-
 
 
     public Bundle makeBundle(String str, int num) {
@@ -224,6 +228,15 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
                 builder.show();
+            }
+        });
+
+        homeMenu = findViewById(R.id.homeMenu);
+        homeMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fr = new fragment_home();
+                changeFragment(fr);
             }
         });
 
