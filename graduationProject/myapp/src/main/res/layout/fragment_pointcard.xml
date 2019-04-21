@@ -112,7 +112,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1,000원 이상(실 결제기준) 구매시 제휴 브랜드 기준에 상황에 따라 1~5% 적립"/>
+                android:text="hyetack1"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1,000원 이상 적립 시 사용가능 (사용시 해피포인트 앱을 가입하셔야 합니다)"/>
+                android:text="hyetack2"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,7 +146,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="포인트 적립일로부터 36개월이며, 유효기간 내에 사용하지 않은 경우 해당 소멸일자 영업 종료시간에 자동 소멸됨"/>
+                android:text="hyetack3"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -163,7 +163,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="제휴카드와 동시에 사용하실 수 없습니다"/>
+                android:text="hyetack4"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="080.320.1234\nhttp://www.happypointcard.com"/>
+                android:text="hyetack5"/>
         </LinearLayout>
 
         <TextView

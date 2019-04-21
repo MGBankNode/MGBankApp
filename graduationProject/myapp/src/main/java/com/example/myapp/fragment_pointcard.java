@@ -22,6 +22,8 @@ public class fragment_pointcard extends Fragment {
     TextView point_score;
     CardView point_card;
 
+    TextView hyetack1,hyetack2,hyetack3,hyetack4,hyetack5;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pointcard, container, false);
@@ -48,6 +50,18 @@ public class fragment_pointcard extends Fragment {
         point_name.setText(membership_Data.nameArray[point_id]);
         point_score.setText(membership_Data.scoreArray[point_id]);
         point_card.setCardBackgroundColor(membership_Data.backgroundArray[point_id]);
+
+        hyetack1 = getActivity().findViewById(R.id.hyetack1);
+        hyetack2 = getActivity().findViewById(R.id.hyetack2);
+        hyetack3 = getActivity().findViewById(R.id.hyetack3);
+        hyetack4 = getActivity().findViewById(R.id.hyetack4);
+        hyetack5 = getActivity().findViewById(R.id.hyetack5);
+
+        hyetack1.setText(membership_Data.h1_Array[point_id]);
+        hyetack2.setText(membership_Data.h2_Array[point_id]);
+        hyetack3.setText(membership_Data.h3_Array[point_id]);
+        hyetack4.setText(membership_Data.h4_Array[point_id]);
+        hyetack5.setText(membership_Data.h5_Array[point_id]);
 
         //뒤로가기 버튼 누르면 프래그먼트 안보이게 하기
         imgbutton.setOnClickListener(new View.OnClickListener() {
