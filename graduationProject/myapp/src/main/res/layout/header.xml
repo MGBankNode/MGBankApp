@@ -12,13 +12,31 @@
     android:gravity="center"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/closeMenu"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:padding="8dp"
-        android:src="@drawable/ic_power_settings_new_black_24dp"/>
+        android:gravity="right"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/homeMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_home_black_24dp"/>
+
+        <ImageView
+            android:id="@+id/closeMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_power_settings_new_black_24dp"/>
+
+
+
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/homeTv"
@@ -68,6 +86,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/userLastAtTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

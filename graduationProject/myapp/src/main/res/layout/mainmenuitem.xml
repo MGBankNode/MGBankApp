@@ -13,7 +13,6 @@
         android:text="test"
         android:textSize="14dp"
         android:textColor="#000"
-        android:fontFamily="@font/menufont"
         />
 
 </LinearLayout>

@@ -1,10 +1,14 @@
 package com.example.myapp;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable {
     String userID;
     String userName;
     String userPW;
     String userPhone;
+    int userAccountCheck;
+    String userUpateAt;
 
     public UserInfo(String userID){
         this.userID = userID;
@@ -22,6 +26,13 @@ public class UserInfo {
         this.userPhone = userPhone;
     }
 
+    public UserInfo(String userID, String userName, int userAccountCheck, String userUpateAt){
+        this.userID = userID;
+        this.userName = userName;
+        this.userAccountCheck = userAccountCheck;
+        this.userUpateAt = userUpateAt;
+    }
+
     public String getUserID(){
         return this.userID;
     }
@@ -37,5 +48,9 @@ public class UserInfo {
     public String getUserPhone() {
         return this.userPhone;
     }
+
+    public int getUserAccountCheck() { return this.userAccountCheck; }
+
+    public String getUserUpateAt() { return this.userUpateAt; }
 
 }
