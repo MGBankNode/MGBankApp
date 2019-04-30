@@ -34,8 +34,11 @@ public class AccountHistoryRequest {
         this.context = context;
     }
 
+    public interface VolleyCallback{
+        void onSuccess(AccountHistoryInfo[] accountHistoryInfo);
+    }
 
-    public AccountHistoryInfo[] Request(){
+    public void Request(final VolleyCallback callback){
         RequestInfo requestInfo = new RequestInfo(rType);
 
         String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
@@ -44,7 +47,7 @@ public class AccountHistoryRequest {
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
-                        HistoryResponse(response);
+                        HistoryResponse(response, callback);
                     }
                 },
                 new Response.ErrorListener(){
@@ -63,7 +66,6 @@ public class AccountHistoryRequest {
         Volley.newRequestQueue(context).add(request);
         Log.d("요청 url: ", url);
 
-        return accountHistoryInfo;
     }
 
       /*
@@ -87,7 +89,7 @@ public class AccountHistoryRequest {
         = 내역 조회 요청 응답 처리 함수
     */
 
-    private void HistoryResponse(String response){
+    private void HistoryResponse(String response, final  VolleyCallback callback){
         try{
             Log.d("onResponse 호출 ", response);
 
@@ -128,6 +130,7 @@ public class AccountHistoryRequest {
                         accountHistoryInfo[i] = new AccountHistoryInfo(hDate, hTypeName, hValue, hName, aBalance, cName);
 
                     }
+                    callback.onSuccess(accountHistoryInfo);
                     break;
 
                 case "error":
