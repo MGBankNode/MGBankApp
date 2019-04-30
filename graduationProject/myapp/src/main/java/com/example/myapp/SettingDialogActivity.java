@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONObject;
 
@@ -145,6 +146,9 @@ public class SettingDialogActivity extends Activity {
         params.put("display", myDeviceInfo.getDisplay());
         params.put("manufacturer", myDeviceInfo.getManufacturer());
         params.put("macAddress", myDeviceInfo.getMacAddress());
+
+        String regId = FirebaseInstanceId.getInstance().getToken();
+        params.put("registrationId", regId);
 
         return params;
     }
