@@ -56,11 +56,13 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    Fragment fr ;
-    TextView welcomeTextView;
-    TextView userLastAtTxt;
-    ImageView closeMenu;
-    ImageView homeMenu;
+    protected Fragment fr ;
+    protected TextView welcomeTextView;
+    protected TextView userLastAtTxt;
+    protected ImageView closeMenu;
+    protected ImageView homeMenu;
+    protected ImageView userMenu;
+    protected ImageView noticeMenu;
 
     private ListView menu1list;
     private ListView menu2list;
@@ -214,6 +216,13 @@ public class MainActivity extends AppCompatActivity
         }
         getMenuInflater().inflate(R.menu.main, menu);
 
+        welcomeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startmypage();
+            }
+        });
+
         //사용자 마지막 접속시간 변경
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
         userLastAtTxt.setText(changeText);
@@ -252,7 +261,19 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        userMenu = findViewById(R.id.userMenu);
+        userMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startmypage();
+            }
+        });
+
         return true;
+    }
+
+    protected void startmypage() {
+        startActivity(new Intent(this, MypageActivity.class));
     }
 
     @Override
