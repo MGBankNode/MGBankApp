@@ -8,7 +8,8 @@ public class RequestInfo {
         LOGIN_USER,
         ADD_DEVICE,
         DEVICE_CHECK,
-        DELETE_DEVICE
+        DELETE_DEVICE,
+        ACCOUNT_HISTORY
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -54,6 +55,10 @@ public class RequestInfo {
 
             case DELETE_DEVICE:
                 processURL = "/nodeapi/device/deletedevice";
+                break;
+
+            case ACCOUNT_HISTORY:
+                processURL = "/nodeapi/history/accounthistory";
                 break;
         }
         return processURL;

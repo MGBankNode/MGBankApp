@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "65146738296",
+    "firebase_url": "https://mgnodebankapp.firebaseio.com",
+    "project_id": "mgnodebankapp",
+    "storage_bucket": "mgnodebankapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65146738296:android:df22ebedafef81e5",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65146738296-rtmc869rvomkbvnktvce0rpc28sli391.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIeHfOaKAZ6KnggstpKR86AuskRhQzAcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65146738296-rtmc869rvomkbvnktvce0rpc28sli391.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65146738296:android:e5638728ceef3893",
+        "android_client_info": {
+          "package_name": "org.androidtown.push"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65146738296-rtmc869rvomkbvnktvce0rpc28sli391.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIeHfOaKAZ6KnggstpKR86AuskRhQzAcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65146738296-rtmc869rvomkbvnktvce0rpc28sli391.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
