@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내정보"
+        android:textSize="22dp"
+        android:textColor="#000"
+        android:layout_marginTop="40dp"
+        />
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:padding="8dp"
+            >
+
+            <ImageView
+                android:id="@+id/mypgae_userimage"
+                android:layout_width="30dp"
+                android:layout_height="32dp"
+                android:src="@drawable/profile"
+                />
+            <TextView
+                android:id="@+id/mypgae_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/mypgae_userimage"
+                android:layout_centerVertical="true"
+                android:textColor="#000"
+                android:text="username"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#C6C6C6"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:padding="8dp"
+            >
+
+            <ImageView
+                android:id="@+id/mypgae_phoneImage"
+                android:layout_width="30dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_call_black_24dp"
+                />
+            <TextView
+                android:id="@+id/mypgae_phoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/mypgae_phoneImage"
+                android:layout_centerVertical="true"
+                android:textColor="#000"
+                android:text="phonenumber"
+                />
+
+        </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C6C6C6"
+        />
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:padding="8dp"
+            >
+
+            <ImageView
+                android:id="@+id/mypgae_accountimage"
+                android:layout_width="30dp"
+                android:layout_height="32dp"
+                android:src="@drawable/credit"
+                />
+            <TextView
+                android:id="@+id/mypgae_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/mypgae_accountimage"
+                android:layout_centerVertical="true"
+                android:textColor="#000"
+                android:text="계좌 등록/추가"
+                />
+
+        </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C6C6C6"
+        />
+
+
+
+
+</LinearLayout>
