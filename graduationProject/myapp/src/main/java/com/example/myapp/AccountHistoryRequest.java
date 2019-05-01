@@ -109,25 +109,15 @@ public class AccountHistoryRequest {
                         JSONObject record = dataArray.getJSONObject(i);
 
                         String hDate = record.getString("hDate");
-                        int hType = record.getInt("hType");
+                        String hType = record.getString("hType");
                         String hValue = record.getString("hValue");
                         String hName = record.getString("hName");
                         String aBalance = record.getString("aBalance");
+                        String cType = record.getString("cType");
                         String cName = record.getString("cName");
 
-                        String hTypeName;
 
-                        if(hType == 0){
-
-                            hTypeName = "입금";
-
-                        }else{
-
-                            hTypeName = "출금";
-
-                        }
-
-                        accountHistoryInfo[i] = new AccountHistoryInfo(hDate, hTypeName, hValue, hName, aBalance, cName);
+                        accountHistoryInfo[i] = new AccountHistoryInfo(hDate, hType, hValue, hName, aBalance, cType, cName);
 
                     }
                     callback.onSuccess(accountHistoryInfo);
