@@ -55,7 +55,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:id="@+id/list_layout2">
+        android:id="@+id/list_layout2"
+        android:descendantFocusability="blocksDescendants">
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -70,15 +73,26 @@ public class menu1_fragment_tab2 extends Fragment {
         month = Integer.parseInt(curMonthFormat.format(date));
         txt_present.setText(month + "월");
 
-        // 인덱스 데이터를 추가
-        list = new ArrayList<BindData>();
-        for (int i = 0; i < INDEX_DATA.length; i++) {
-            list.add(INDEX_DATA[i]);
-        }
+        // 소비내역 리스트 데이터를 추가
+        // menu1_consumption_data 샘플 데이터---- 디비연동해서 계좌 내역 받아오기
+        //디비에서 월별로 따로 불러와야 할듯 ----> 월 변경시 dividerheight에 의해 공백 생김
+        //각 날마다 그 날의 수입과 지출 합계를 보여줄수 있는 테이블 필요 -> 리스트뷰에서 연산하려니 너무 복잡하게 꼬임
 
-        // 인덱스 표시 어댑터 설정
+        list = new ArrayList<BindData>();
+        for (int i = 0; i < menu1_consumption_Data.id_.length; i++) {
+            list.add(new BindData(
+                    menu1_consumption_Data.yearArray[i],
+                    menu1_consumption_Data.monthArray[i],
+                    menu1_consumption_Data.dayArray[i],
+                    menu1_consumption_Data.hourArray[i],
+                    menu1_consumption_Data.minuteArray[i],
+                    menu1_consumption_Data.nameArray[i],
+                    menu1_consumption_Data.detailArray[i],
+                    menu1_consumption_Data.priceArray_[i]
+            ));
+        }
+        // 어댑터를 등록 및 설정
         DataAdapter adapter = new DataAdapter(getActivity(), list);
-        // 어댑터를 설정
         listView.setAdapter(adapter);
 
         //월 이동 버튼 누를 때
@@ -117,6 +131,19 @@ public class menu1_fragment_tab2 extends Fragment {
             }
         });
 
+
+        ///리스트뷰 아이템 버튼 클릭시
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("NKW","list_id : "+id+" list_position : "+position);
+                Toast.makeText(getActivity(),"position="+position,Toast.LENGTH_LONG).show();
+
+                //커스텀 다이얼로그 생성
+                menu1_CustomDialog customDialog = new menu1_CustomDialog(getActivity());
+                customDialog.callFunction(position);
+            }
+        });
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -139,7 +166,7 @@ public class menu1_fragment_tab2 extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             //금액 천단위 콤마 표시 선언
             DecimalFormat myFormatter = new DecimalFormat("###,###");
-            ViewHolder viewHolder;
+            final ViewHolder viewHolder;
 
             // 리스트 아이템 표시용 레이아웃을 읽기 생성
             if (convertView == null) {
@@ -209,7 +236,7 @@ public class menu1_fragment_tab2 extends Fragment {
 
                     viewHolder.price.setVisibility(View.VISIBLE);
                     viewHolder.price.setText(myFormatter.format(data.price) + "원");
-                } else {
+                } else { //동일 날짜인경우
                     // 인덱스용의 데이터에 없는 경우는 텍스트만 표시
                     viewHolder.day_price.setVisibility(View.GONE);
                     viewHolder.list_Layout1.setVisibility(View.VISIBLE);
@@ -250,6 +277,7 @@ public class menu1_fragment_tab2 extends Fragment {
                 viewHolder.list_Layout3.setVisibility(View.GONE);
                 viewHolder.ingredient.setVisibility(View.GONE);
             }
+
             return convertView;
         }
     }
@@ -277,37 +305,4 @@ public class menu1_fragment_tab2 extends Fragment {
             this.price = price;
         }
     }
-
-    // 인덱스를 표시하기 위한 샘플 데이터---- 디비연동해서 계좌 내역 받아오기
-    //디비에서 월별로 따로 불러와야 할듯 ----> 월 변경시 dividerheight에 의해 공백 생김
-    //각 날마다 그 날의 수입과 지출 합계를 보여줄수 있는 테이블 필요 -> 리스트뷰에서 연산하려니 너무 복잡하게 꼬임
-    private BindData[] INDEX_DATA = new BindData[] {
-            new BindData(2019,4,8,"13","56","Node","새마을 금고 이체",-5000),
-            new BindData(2019,4,8,"10","00","이자","새마을금고 급여통장",160),
-            new BindData(2019,4,7,"09","21","남광우 계좌이체","새마을금고 급여통장",50000),
-            new BindData(2019,4,1,"13","56","이삭토스트","kb카드",-26000),
-            new BindData(2019,3,12,"13","56","Node","새마을 금고 이체",-5000),
-            new BindData(2019,3,12,"10","00","이자","새마을금고 급여통장",160),
-            new BindData(2019,3,11,"09","21","광운대 장학금","새마을금고 급여통장",1500000),
-            new BindData(2019,3,10,"13","56","이삭토스트","kb카드",-26000),
-            new BindData(2019,3,10,"10","50","CU 광운대점","하나카드",-6520),
-            new BindData(2019,3,10,"02","10","미니스톱 광운대점","신한카드",-4500),
-            new BindData(2019,2,12,"10","00","이자","새마을금고 급여통장",160),
-            new BindData(2019,2,11,"09","21","광운대 장학금","새마을금고 급여통장",1500000),
-            new BindData(2019,2,10,"13","56","이삭토스트","kb카드",-26000),
-            new BindData(2019,2,9,"13","56","이삭토스트","kb카드",-26000),
-            new BindData(2019,2,8,"10","50","CU 광운대점","하나카드",-6520),
-            new BindData(2019,2,8,"13","56","이삭토스트","kb카드",-26000),
-            new BindData(2019,2,1,"10","50","CU 광운대점","하나카드",-6520),
-            new BindData(2019,1,11,"09","21","광운대 장학금","새마을금고 급여통장",1500000),
-            new BindData(2018,12,30,"10","50","CU 광운대점","하나카드",-6520),
-            new BindData(2018,12,12,"10","00","이자","새마을금고 급여통장",160),
-            new BindData(2018,12,11,"09","21","광운대 장학금","새마을금고 급여통장",1500000),
-            new BindData(2018,12,10,"13","56","이삭토스트","kb카드",-26000),
-            new BindData(2018,12,9,"13","56","이삭토스트","kb카드",-26000),
-            new BindData(2018,12,8,"10","50","CU 광운대점","하나카드",-6520),
-            new BindData(2018,12,8,"13","56","이삭토스트","kb카드",-26000),
-            new BindData(2018,12,1,"10","50","CU 광운대점","하나카드",-6520)
-    };
-
 }
