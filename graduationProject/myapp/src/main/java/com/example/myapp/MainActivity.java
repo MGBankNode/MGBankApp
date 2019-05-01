@@ -218,6 +218,17 @@ public class MainActivity extends AppCompatActivity
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
         userLastAtTxt.setText(changeText);
 
+        //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
+        if(myUserInfo.getUserAccountCheck() == 1){
+
+            TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
+
+            String userABalance = myUserInfo.getUserABalance() + "원";
+            userABalanceTxtView.setText(userABalance);
+
+        }
+
+
         closeMenu = findViewById(R.id.closeMenu);
         closeMenu.setOnClickListener(new View.OnClickListener() {
             @Override

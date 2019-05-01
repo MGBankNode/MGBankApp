@@ -183,12 +183,25 @@ public class loginActivity extends AppCompatActivity {
                 case "success":
                     ShowToast("로그인 성공");
 
-                    String userID = (String) json.get("id");
-                    String userName = (String) json.get("name");
-                    int userAccountCheck = (int) json.get("accountCheck");
-                    String userUpdateAt = (String) json.get("update_at");
+                    JSONObject data = json.getJSONObject("data");
 
-                    UserInfo userInfo = new UserInfo(userID, userName, userAccountCheck, userUpdateAt);
+                    String userID = (String) data.get("id");
+                    String userName = (String) data.get("name");
+                    String userPhone = (String) data.get("phone");
+                    int userAccountCheck = (int) data.get("accountCheck");
+                    String userUpdateAt = (String) data.get("update_at");
+
+                    UserInfo userInfo = null;
+
+                    if(userAccountCheck == 1){
+                        String userABalance = (String) data.get("aBalance").toString();
+                        userInfo = new UserInfo(userID, userName, userPhone, userAccountCheck, userUpdateAt, userABalance);
+
+                    }else if(userAccountCheck == 0){
+
+                        userInfo = new UserInfo(userID, userName, userPhone, userAccountCheck, userUpdateAt);
+
+                    }
 
                     //Go to MainActivity
                     finish();
