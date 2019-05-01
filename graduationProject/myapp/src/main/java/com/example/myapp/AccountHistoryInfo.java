@@ -3,19 +3,21 @@ package com.example.myapp;
 public class AccountHistoryInfo {
 
     String hDate;       //내역 사용 날짜
-    String hType;       //내역 사용 타입 => 입금/충금
+    String hType;       //내역 사용 타입 => 입금/충금/카드
     String hValue;      //내역 사용 금액
     String hName;       //내역 사용처 이름
     String aBalance;    //내역 사용 후 잔액
-    String cName;       //내역 사용한 카드 종류 이름
+    String cType;       //카드 이름
+    String cName;       //카테고리 분류
 
 
-    AccountHistoryInfo(String hDate, String hType, String hValue, String hName, String aBalance, String cName){
+    AccountHistoryInfo(String hDate, String hType, String hValue, String hName, String aBalance, String cType,String cName){
         this.hDate = hDate;
         this.hType = hType;
         this.hValue = hValue;
         this.hName = hName;
         this.aBalance = aBalance;
+        this.cType = cType;
         this.cName = cName;
     }
 
@@ -57,6 +59,14 @@ public class AccountHistoryInfo {
 
     public void setaBalance(String aBalance) {
         this.aBalance = aBalance;
+    }
+
+    public String getcType() {
+        return cType;
+    }
+
+    public void setcType(String cType) {
+        this.cType = cType;
     }
 
     public String getcName() {
