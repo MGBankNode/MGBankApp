@@ -35,11 +35,12 @@ public class fragment_menu1 extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        int pageNum = getArguments().getInt("apage");
 
-        pager = (ViewPager)getView().findViewById(R.id.pager);
+        pager = getView().findViewById(R.id.pager);
 
         pager.setAdapter(new pagerAdapter(getFragmentManager()));
-        pager.setCurrentItem(0);
+        pager.setCurrentItem(pageNum);
 
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

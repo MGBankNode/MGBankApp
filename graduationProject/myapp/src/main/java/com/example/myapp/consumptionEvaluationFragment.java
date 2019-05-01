@@ -40,7 +40,6 @@ public class consumptionEvaluationFragment extends Fragment {
         reportListviewAdapter reportListviewAdapter = new reportListviewAdapter(getContext(), R.layout.report_list_item, reportElements);
         reportListView.setAdapter(reportListviewAdapter);
 
-
         return view;
     }
 

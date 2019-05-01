@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
 import android.util.Log;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +65,51 @@ public class menu1_fragment_tab1 extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        /////////////////////////////////
+        //요청 정보 입력!!!!!!!test
+        HistoryRequest test = new HistoryRequest(
+                "1",                                //현재 로그인 아이디
+                "2019-04-01",                       //요청할 해당 달의 시작 날짜
+                "2019-04-30",                       //요청할 해당 달의 마지막 날짜
+                RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
+                getContext());                             //이것두 고정이요
+
+
+        //Request 함수 호출해서 정보 accountHistoryInfo 객체에서 받아와서 사용
+        test.Request(new HistoryRequest.VolleyCallback() {
+            @Override
+            public void onSuccess(HistoryInfo[] historyInfo) {
+                int arrLength = historyInfo.length;
+
+                String[] hDate = new String[arrLength];
+                String[] hType = new String[arrLength];
+                String[] hValue = new String[arrLength];
+                String[] hName = new String[arrLength];
+                String[] aBalance = new String[arrLength];
+                String[] cType = new String[arrLength];
+                String[] cName = new String[arrLength];
+
+                for(int i = 0; i < arrLength; i++){
+
+                    hDate[i] = historyInfo[i].gethDate();        //내역 사용 날짜
+                    hType[i] = historyInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
+                    hValue[i] = historyInfo[i].gethValue();      //내역 사용 금액
+                    hName[i] = historyInfo[i].gethName();        //내역 사용 처 이름
+                    aBalance[i] = historyInfo[i].getaBalance();  //내역 사용 후 잔액
+                    cType[i] = historyInfo[i].getcType();        //카드 이름
+                    cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+                }
+
+                //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+            }
+        });
+
+        ///////////////////////////////////////////////
+
+
+
+
         btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
         btn_next=(ImageButton)getView().findViewById(R.id.next_month);
         txt_present=(TextView)getView().findViewById(R.id.present_month);

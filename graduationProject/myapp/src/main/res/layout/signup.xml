@@ -4,14 +4,15 @@
     android:id="@+id/signupContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFF">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFF"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="16dp">
 
 
         <TextView
@@ -60,8 +61,6 @@
                 android:textColor="#FFF"
                 android:fontFamily="@font/consola"
                 android:background="#2BB0DD"
-
-                android:onClick="onCheckBtnClicked"
                 />
 
 
@@ -219,7 +218,5 @@
 
 
         </LinearLayout>
-
-
     </LinearLayout>
 </ScrollView>
