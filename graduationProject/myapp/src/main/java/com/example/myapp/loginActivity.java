@@ -3,7 +3,6 @@ package com.example.myapp;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -194,18 +193,18 @@ public class loginActivity extends AppCompatActivity {
 
                     JSONObject data = json.getJSONObject("data");
 
-                    String userID = (String) data.get("id");
-                    String userName = (String) data.get("name");
-                    String userPhone = (String) data.get("phone");
-                    int userAccountCheck = (int) data.get("accountCheck");
-                    String userUpdateAt = (String) data.get("update_at");
 
-                    UserInfo userInfo = null;
+                        String userID = (String) data.get("id");
+                        String userName = (String) data.get("name");
+                        String userPhone = (String) data.get("phone");
+                        int userAccountCheck = (int) data.get("accountCheck");
+                        String userUpdateAt = (String) data.get("update_at");
 
-                    if(userAccountCheck == 1){
-                        String userABalance = (String) data.get("aBalance").toString();
-                        userInfo = new UserInfo(userID, userName, userPhone, userAccountCheck, userUpdateAt, userABalance);
+                        UserInfo userInfo = null;
 
+                        if(userAccountCheck == 1){
+                            String userABalance = (String) data.get("aBalance").toString();
+                            userInfo = new UserInfo(userID, userName, userPhone, userAccountCheck, userUpdateAt, userABalance);
                     }else if(userAccountCheck == 0){
 
                         userInfo = new UserInfo(userID, userName, userPhone, userAccountCheck, userUpdateAt);
@@ -241,5 +240,5 @@ public class loginActivity extends AppCompatActivity {
     private void ShowToast(String s){
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
-}
 
+}
