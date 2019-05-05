@@ -59,6 +59,7 @@ public class menu1_fragment_tab2 extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
         listView = (ListView)getView().findViewById(R.id.list_view);
         btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
         btn_next=(ImageButton)getView().findViewById(R.id.next_month);
@@ -78,7 +79,64 @@ public class menu1_fragment_tab2 extends Fragment {
         //디비에서 월별로 따로 불러와야 할듯 ----> 월 변경시 dividerheight에 의해 공백 생김
         //각 날마다 그 날의 수입과 지출 합계를 보여줄수 있는 테이블 필요 -> 리스트뷰에서 연산하려니 너무 복잡하게 꼬임
 
-        list = new ArrayList<BindData>();
+        /////////////////////////////////
+        //요청 정보 입력!!!!!!!test
+        AccountHistoryRequest test = new AccountHistoryRequest(
+                "1",                                //현재 로그인 아이디
+                year+"-0"+month+"-01",                       //요청할 해당 달의 시작 날짜
+                year+"-0"+month+"-31",                       //요청할 해당 달의 마지막 날짜
+                RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
+                getContext());                             //이것두 고정이요
+
+
+        //Request 함수 호출해서 정보 accountHistoryInfo 객체에서 받아와서 사용
+        test.Request(new AccountHistoryRequest.VolleyCallback() {
+            @Override
+            public void onSuccess(AccountHistoryInfo[] accountHistoryInfo) {
+                int arrLength = accountHistoryInfo.length;
+
+                String[] hDate = new String[arrLength];
+                String[] hType = new String[arrLength];
+                String[] hValue = new String[arrLength];
+                String[] hName = new String[arrLength];
+                String[] aBalance = new String[arrLength];
+                String[] cType = new String[arrLength];
+                String[] cName = new String[arrLength];
+
+                for(int i = 0; i < arrLength; i++){
+
+                    hDate[i] = accountHistoryInfo[i].gethDate();        //내역 사용 날짜
+                    hType[i] = accountHistoryInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
+                    hValue[i] = accountHistoryInfo[i].gethValue();      //내역 사용 금액
+                    hName[i] = accountHistoryInfo[i].gethName();        //내역 사용 처 이름
+                    aBalance[i] = accountHistoryInfo[i].getaBalance();  //내역 사용 후 잔액
+                    cType[i] = accountHistoryInfo[i].getcType();        //카드 이름
+                    cName[i] = accountHistoryInfo[i].getcName();        //카테고릐 분류
+                }
+
+                //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+
+                ///
+                list = new ArrayList<BindData>();
+                for (int i = 0; i < arrLength; i++) {
+                    list.add(new BindData(
+                            Integer.parseInt(hDate[i].substring(0,4)),  //연도
+                            Integer.parseInt(hDate[i].substring(5,7)),  //월
+                            Integer.parseInt(hDate[i].substring(8,10)), //일
+                            hDate[i].substring(11,13),  //시
+                            hDate[i].substring(14,16),  //분
+                            hName[i],   //사용 처
+                            cType[i],   //카드 이름
+                            Integer.parseInt(hValue[i]) //금액
+                    ));
+                }
+                ///
+            }
+        });
+
+        ///////////////////////////////////////////////
+
+/*        list = new ArrayList<BindData>();
         for (int i = 0; i < menu1_consumption_Data.id_.length; i++) {
             list.add(new BindData(
                     menu1_consumption_Data.yearArray[i],
@@ -90,7 +148,8 @@ public class menu1_fragment_tab2 extends Fragment {
                     menu1_consumption_Data.detailArray[i],
                     menu1_consumption_Data.priceArray_[i]
             ));
-        }
+        }*/
+
         // 어댑터를 등록 및 설정
         DataAdapter adapter = new DataAdapter(getActivity(), list);
         listView.setAdapter(adapter);
