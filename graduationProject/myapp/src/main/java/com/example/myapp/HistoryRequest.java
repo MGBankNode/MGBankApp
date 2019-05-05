@@ -16,17 +16,17 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountHistoryRequest {
+public class HistoryRequest {
 
     private String userID;
     private String sDate;
     private String lDate;
     private RequestInfo.RequestType rType;
     private Context context;
-    private AccountHistoryInfo[] accountHistoryInfo;
+    private HistoryInfo[] historyInfo;
 
 
-    AccountHistoryRequest(String userID, String sDate, String lDate, RequestInfo.RequestType rType, Context context){
+    HistoryRequest(String userID, String sDate, String lDate, RequestInfo.RequestType rType, Context context){
         this.userID = userID;
         this.sDate = sDate;
         this.lDate = lDate;
@@ -35,7 +35,7 @@ public class AccountHistoryRequest {
     }
 
     public interface VolleyCallback{
-        void onSuccess(AccountHistoryInfo[] accountHistoryInfo);
+        void onSuccess(HistoryInfo[] historyInfo);
     }
 
     public void Request(final VolleyCallback callback){
@@ -102,7 +102,7 @@ public class AccountHistoryRequest {
                     JSONArray dataArray = json.getJSONArray("history");
                     //Toast.makeText(context, dataArray.toString(), Toast.LENGTH_LONG).show();
 
-                    accountHistoryInfo = new AccountHistoryInfo[dataArray.length()];
+                    historyInfo = new HistoryInfo[dataArray.length()];
 
                     for(int i = 0; i < dataArray.length(); ++i){
 
@@ -117,18 +117,18 @@ public class AccountHistoryRequest {
                         String cName = record.getString("cName");
 
 
-                        accountHistoryInfo[i] = new AccountHistoryInfo(hDate, hType, hValue, hName, aBalance, cType, cName);
+                        historyInfo[i] = new HistoryInfo(hDate, hType, hValue, hName, aBalance, cType, cName);
 
                     }
-                    callback.onSuccess(accountHistoryInfo);
+                    callback.onSuccess(historyInfo);
                     break;
 
                 case "error":
-                    accountHistoryInfo = null;
+                    historyInfo = null;
                     break;
 
                 case "db_fail":
-                    accountHistoryInfo = null;
+                    historyInfo = null;
                     break;
 
             }

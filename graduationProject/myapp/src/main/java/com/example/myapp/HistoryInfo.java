@@ -1,6 +1,6 @@
 package com.example.myapp;
 
-public class AccountHistoryInfo {
+public class HistoryInfo {
 
     String hDate;       //내역 사용 날짜
     String hType;       //내역 사용 타입 => 입금/충금/카드
@@ -11,7 +11,7 @@ public class AccountHistoryInfo {
     String cName;       //카테고리 분류
 
 
-    AccountHistoryInfo(String hDate, String hType, String hValue, String hName, String aBalance, String cType,String cName){
+    HistoryInfo(String hDate, String hType, String hValue, String hName, String aBalance, String cType, String cName){
         this.hDate = hDate;
         this.hType = hType;
         this.hValue = hValue;

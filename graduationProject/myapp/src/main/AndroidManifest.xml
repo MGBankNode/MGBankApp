@@ -49,7 +49,9 @@
                 <data android:mimeType="text/plane" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".MypageActivity"
+            android:screenOrientation="portrait"/>
         <!-- 서비스 태그 추가 -->
         <service
             android:name=".MyFirebaseMessagingService">

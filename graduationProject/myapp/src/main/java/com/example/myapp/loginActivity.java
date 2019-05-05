@@ -2,13 +2,18 @@ package com.example.myapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -22,6 +27,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class loginActivity extends AppCompatActivity {
 
     EditText loginIDEditText;
@@ -30,6 +36,8 @@ public class loginActivity extends AppCompatActivity {
     Button loginCancelBtn;
     Button moveToSignUpBtn;
     Button logInConfirmBtn;
+    Button loginCancleBtn;
+    Button loginConfirmBtn;
 
     EditText etLogin;
 
@@ -183,12 +191,25 @@ public class loginActivity extends AppCompatActivity {
                 case "success":
                     ShowToast("로그인 성공");
 
-                    String userID = (String) json.get("id");
-                    String userName = (String) json.get("name");
-                    int userAccountCheck = (int) json.get("accountCheck");
-                    String userUpdateAt = (String) json.get("update_at");
+                    JSONObject data = json.getJSONObject("data");
 
-                    UserInfo userInfo = new UserInfo(userID, userName, userAccountCheck, userUpdateAt);
+
+                        String userID = (String) data.get("id");
+                        String userName = (String) data.get("name");
+                        String userPhone = (String) data.get("phone");
+                        int userAccountCheck = (int) data.get("accountCheck");
+                        String userUpdateAt = (String) data.get("update_at");
+
+                        UserInfo userInfo = null;
+
+                        if(userAccountCheck == 1){
+                            String userABalance = (String) data.get("aBalance").toString();
+                            userInfo = new UserInfo(userID, userName, userPhone, userAccountCheck, userUpdateAt, userABalance);
+                    }else if(userAccountCheck == 0){
+
+                        userInfo = new UserInfo(userID, userName, userPhone, userAccountCheck, userUpdateAt);
+
+                    }
 
                     //Go to MainActivity
                     finish();
@@ -219,4 +240,5 @@ public class loginActivity extends AppCompatActivity {
     private void ShowToast(String s){
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
+
 }

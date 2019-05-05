@@ -21,6 +21,23 @@
         android:padding="8dp">
 
         <ImageView
+            android:id="@+id/userMenu"
+            android:layout_width="20dp"
+            android:layout_height="22dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="1dp"
+            android:src="@drawable/user"/>
+
+
+        <ImageView
+            android:id="@+id/noticeMenu"
+            android:layout_width="22dp"
+            android:layout_height="23dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/megaphone"/>
+
+
+        <ImageView
             android:id="@+id/homeMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

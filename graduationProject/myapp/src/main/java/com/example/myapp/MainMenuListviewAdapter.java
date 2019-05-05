@@ -22,8 +22,6 @@ public class MainMenuListviewAdapter extends BaseAdapter {
         this.layout = layout;
     }
 
-
-
     @Override
     public int getCount() {
         return data.size();
