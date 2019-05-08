@@ -84,14 +84,12 @@ public class MainActivity extends AppCompatActivity
 
     Stack<String> st;
 
+    public int userAccountCheck;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Device 정보 불러오기 + 권한 설정
-        myDeviceInfo = getDeviceInfo();
-
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setElevation(0);
@@ -248,6 +246,9 @@ public class MainActivity extends AppCompatActivity
         welcomeTextView = findViewById(R.id.welcomeTv);
         userLastAtTxt = findViewById(R.id.userLastAtTxt);
 
+        // Device 정보 불러오기 + 권한 설정
+        myDeviceInfo = getDeviceInfo();
+
         //로그인 액티비티에서, User 정보 전달 받기
         Intent intent = getIntent();
         myUserInfo = (UserInfo) intent.getSerializableExtra("UserInfoObject");
@@ -255,14 +256,18 @@ public class MainActivity extends AppCompatActivity
         //사용자 이름 변경
         String tempLoginUser = myUserInfo.getUserName();
         if(tempLoginUser != null) {
+
             welcomeTextView.setText(Html.fromHtml("<u>" + tempLoginUser + "</u>")); // 밑줄 긋기
+
         }
         getMenuInflater().inflate(R.menu.main, menu);
 
         welcomeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startmypage();
+
+                StartActivity(MypageActivity.class);
+
             }
         });
 
@@ -270,14 +275,44 @@ public class MainActivity extends AppCompatActivity
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
         userLastAtTxt.setText(changeText);
 
+
+        userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
-        if(myUserInfo.getUserAccountCheck() == 1){
+        if(userAccountCheck == 1){
 
             TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
 
             String userABalance = myUserInfo.getUserABalance() + "원";
             userABalanceTxtView.setText(userABalance);
 
+        }else if(userAccountCheck == 0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("");
+            builder.setMessage("앱을 사용하려면 계좌등록을 하셔야 합니다. 계좌 등록을 하시겠습니까?");
+            builder.setCancelable(false);
+            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(deviceCheckResult.equals("")){
+
+                        DeviceCheckHandler();
+
+                    }else{
+
+                        StartActivity(SettingDialogActivity.class);
+
+                    }
+                }
+            });
+            builder.setNegativeButton("아니오(로그아웃)", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                    Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
+                    startActivity(returnLogin);
+                }
+            });
+            builder.show();
         }
 
 
@@ -319,16 +354,15 @@ public class MainActivity extends AppCompatActivity
         userMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startmypage();
+
+                StartActivity(MypageActivity.class);
+
             }
         });
 
         return true;
     }
 
-    protected void startmypage() {
-        startActivity(new Intent(this, MypageActivity.class));
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -342,10 +376,7 @@ public class MainActivity extends AppCompatActivity
 
             }else{
 
-                Intent intent = new Intent(this, SettingDialogActivity.class);
-                intent.putExtra("DeviceInfoObject", myDeviceInfo);
-                intent.putExtra("DeviceCheckResult", deviceCheckResult);
-                startActivityForResult(intent, 1);
+                StartActivity(SettingDialogActivity.class);
 
             }
 
@@ -360,8 +391,23 @@ public class MainActivity extends AppCompatActivity
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
                 deviceCheckResult = data.getStringExtra("DeviceCheckResult");
+                userAccountCheck = Integer.parseInt(data.getStringExtra("UserAccountCheck"));
+            }
+            else if(resultCode == RESULT_CANCELED){
+                finish();
+                Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
+                startActivity(returnLogin);
             }
         }
+    }
+
+    protected void StartActivity(Class startClass){
+        Intent intent = new Intent(MainActivity.this, startClass);
+        intent.putExtra("DeviceInfoObject", myDeviceInfo);
+        intent.putExtra("DeviceCheckResult", deviceCheckResult);
+        intent.putExtra("UserAccountCheck", String.valueOf(userAccountCheck));
+        intent.putExtra("UserID", myUserInfo.getUserID());
+        startActivityForResult(intent, 1);
     }
 
 
@@ -471,20 +517,16 @@ public class MainActivity extends AppCompatActivity
 
             JSONObject json = new JSONObject(response);
             String resultString = (String) json.get("message");
-            Intent intent = new Intent(this, SettingDialogActivity.class);
+
             switch (resultString) {
                 case "YES":
-                    intent.putExtra("DeviceInfoObject", myDeviceInfo);
                     deviceCheckResult = "YES";
-                    intent.putExtra("DeviceCheckResult", deviceCheckResult);
-                    startActivityForResult(intent, 1);
+                    StartActivity(SettingDialogActivity.class);
                     break;
 
                 case "NO":
-                    intent.putExtra("DeviceInfoObject", myDeviceInfo);
                     deviceCheckResult = "NO";
-                    intent.putExtra("DeviceCheckResult", deviceCheckResult);
-                    startActivityForResult(intent, 1);
+                    StartActivity(SettingDialogActivity.class);
                     break;
 
                 case "error":
@@ -635,4 +677,7 @@ public class MainActivity extends AppCompatActivity
         WifiInfo info = wifiManager.getConnectionInfo();
         return info.getMacAddress();
     }
+
+
+
 }

@@ -89,7 +89,7 @@ public class HistoryRequest {
         = 내역 조회 요청 응답 처리 함수
     */
 
-    private void HistoryResponse(String response, final  VolleyCallback callback){
+    private void HistoryResponse(String response, final VolleyCallback callback){
         try{
             Log.d("onResponse 호출 ", response);
 
