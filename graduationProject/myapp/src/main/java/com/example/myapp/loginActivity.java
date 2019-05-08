@@ -58,7 +58,16 @@ public class loginActivity extends AppCompatActivity {
         logInConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginHandler();
+                LoginHandler(new VolleyCallback() {
+                    @Override
+                    public void onSuccess(UserInfo userInfo) {
+                        //Go to MainActivity
+                        finish();
+                        Intent mIntent = new Intent(loginActivity.this, MainActivity.class);
+                        mIntent.putExtra("UserInfoObject", userInfo);
+                        startActivity(mIntent);
+                    }
+                });
             }
         });
 
@@ -107,8 +116,11 @@ public class loginActivity extends AppCompatActivity {
         = 로그인 버튼 요청 처리 핸들러
         (Button : logInConfirmBtn)
     */
+    public interface VolleyCallback{
+        void onSuccess(UserInfo userInfo);
+    }
 
-    public void LoginHandler(){
+    public void LoginHandler(final VolleyCallback callback){
 
         loginIDEditText = findViewById(R.id.etLogin);
         loginPWEditText = findViewById(R.id.etLoginPassword);
@@ -138,7 +150,7 @@ public class loginActivity extends AppCompatActivity {
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
-                        LoginResponse(response);
+                        LoginResponse(response, callback);
                     }
                 },
                 new Response.ErrorListener(){
@@ -180,7 +192,7 @@ public class loginActivity extends AppCompatActivity {
         = 로그인 요청 응답 처리 함수
     */
 
-    private void LoginResponse(String response){
+    private void LoginResponse(String response, final VolleyCallback callback){
         try{
             Log.d("onResponse 호출 ", response);
 
@@ -194,16 +206,15 @@ public class loginActivity extends AppCompatActivity {
                     JSONObject data = json.getJSONObject("data");
 
 
-                        String userID = (String) data.get("id");
-                        String userName = (String) data.get("name");
-                        String userPhone = (String) data.get("phone");
-                        int userAccountCheck = (int) data.get("accountCheck");
-                        String userUpdateAt = (String) data.get("update_at");
+                    String userID = (String) data.get("id");
+                    String userName = (String) data.get("name");
+                    String userPhone = (String) data.get("phone");
+                    int userAccountCheck =  Integer.parseInt((String)(data.get("accountCheck")));
+                    String userUpdateAt = (String) data.get("update_at");
 
-                        UserInfo userInfo = null;
-
-                        if(userAccountCheck == 1){
-                            String userABalance = (String) data.get("aBalance").toString();
+                    UserInfo userInfo = null;
+                    if(userAccountCheck == 1){
+                            String userABalance = (String) data.get("aBalance");
                             userInfo = new UserInfo(userID, userName, userPhone, userAccountCheck, userUpdateAt, userABalance);
                     }else if(userAccountCheck == 0){
 
@@ -211,11 +222,7 @@ public class loginActivity extends AppCompatActivity {
 
                     }
 
-                    //Go to MainActivity
-                    finish();
-                    Intent mIntent = new Intent(loginActivity.this, MainActivity.class);
-                    mIntent.putExtra("UserInfoObject", userInfo);
-                    startActivity(mIntent);
+                    callback.onSuccess(userInfo);
                     break;
 
                 case "fail":

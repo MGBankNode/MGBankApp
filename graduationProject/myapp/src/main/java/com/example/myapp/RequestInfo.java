@@ -9,7 +9,8 @@ public class RequestInfo {
         ADD_DEVICE,
         DEVICE_CHECK,
         DELETE_DEVICE,
-        ACCOUNT_HISTORY
+        ACCOUNT_HISTORY,
+        ADD_ACCOUNT
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -59,6 +60,10 @@ public class RequestInfo {
 
             case ACCOUNT_HISTORY:
                 processURL = "/nodeapi/history/accounthistory";
+                break;
+
+            case ADD_ACCOUNT:
+                processURL = "/nodeapi/account/addaccount";
                 break;
         }
         return processURL;
