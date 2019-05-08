@@ -2,6 +2,7 @@ package com.example.myapp;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class menu1_CustomDialog {
     private Context context;
@@ -17,8 +19,9 @@ public class menu1_CustomDialog {
     public menu1_CustomDialog(Context context){
         this.context=context;
     }
+
     // 호출할 다이얼로그 함수를 정의한다.
-    public void callFunction(final int position) { //파라미터에 textview와 같은것을 넘겨받을수  잇음
+    public void callFunction(final int position, int year, int month) { //파라미터에 textview와 같은것을 넘겨받을수  잇음
 
         // 커스텀 다이얼로그를 정의하기위해 Dialog클래스를 생성한다.
         final Dialog dlg = new Dialog(context);
@@ -50,18 +53,60 @@ public class menu1_CustomDialog {
         final TextView d_input = (TextView) dlg.findViewById(R.id.detail_input);
         final TextView d_time = (TextView) dlg.findViewById(R.id.detail_time);
 
-        DecimalFormat myFormatter = new DecimalFormat("###,###");
 
-        d_name.setText(menu1_consumption_Data.nameArray[position]);
-        if(menu1_consumption_Data.priceArray_[position]>=0)
-            d_price.setText("+"+myFormatter.format(menu1_consumption_Data.priceArray_[position])+" 원");
-        else
-            d_price.setText(myFormatter.format(menu1_consumption_Data.priceArray_[position])+" 원");
-        //d_categori.setText("");
-        d_output.setText(menu1_consumption_Data.detailArray[position]);
-        d_input.setText(menu1_consumption_Data.nameArray[position]);
-        d_time.setText(menu1_consumption_Data.yearArray[position]+"/"+menu1_consumption_Data.monthArray[position]+"/"+menu1_consumption_Data.dayArray[position]+"/"
-                +menu1_consumption_Data.hourArray[position]+":"+menu1_consumption_Data.minuteArray[position]);
+        /////////////////////////////////
+        //요청 정보 입력!!!!!!!test
+        HistoryRequest test = new HistoryRequest(
+                "1",                          //현재 로그인 아이디
+                year+"-"+month+"-1",                         //요청할 해당 달의 시작 날짜
+                year+"-"+month+"-31",                     //요청할 해당 달의 마지막 날짜
+                RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
+                context);                             //이것두 고정이요
+
+
+        //Request 함수 호출해서 정보 accountHistoryInfo 객체에서 받아와서 사용
+        test.Request(new HistoryRequest.VolleyCallback() {
+            @Override
+            public void onSuccess(HistoryInfo[] accountHistoryInfo) {
+                int arrLength = accountHistoryInfo.length;
+
+                String[] hDate = new String[arrLength];
+                String[] hType = new String[arrLength];
+                String[] hValue = new String[arrLength];
+                String[] hName = new String[arrLength];
+                String[] aBalance = new String[arrLength];
+                String[] cType = new String[arrLength];
+                String[] cName = new String[arrLength];
+
+                for(int i = 0; i < arrLength; i++){
+
+                    hDate[i] = accountHistoryInfo[i].gethDate();        //내역 사용 날짜
+                    hType[i] = accountHistoryInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
+                    hValue[i] = accountHistoryInfo[i].gethValue();      //내역 사용 금액
+                    hName[i] = accountHistoryInfo[i].gethName();        //내역 사용 처 이름
+                    aBalance[i] = accountHistoryInfo[i].getaBalance();  //내역 사용 후 잔액
+                    cType[i] = accountHistoryInfo[i].getcType();        //카드 이름
+                    cName[i] = accountHistoryInfo[i].getcName();        //카테고릐 분류
+                }
+                //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+
+                DecimalFormat myFormatter = new DecimalFormat("###,###");
+
+                d_name.setText(hName[position]);
+                if(hType[position].equals("입금"))
+                    d_price.setText("+"+myFormatter.format(Integer.parseInt(hValue[position]))+" 원");
+                else
+                    d_price.setText("-"+myFormatter.format(Integer.parseInt(hValue[position]))+" 원");
+                d_categori.setText(cName[position]);
+                d_output.setText(cType[position]);
+                d_input.setText(hName[position]);
+                d_time.setText(hDate[position]);
+
+            }
+        });
+
+        ///////////////////////////////////////////////
+
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override

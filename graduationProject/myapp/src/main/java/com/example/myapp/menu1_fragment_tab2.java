@@ -32,6 +32,7 @@ import java.util.Locale;
 public class menu1_fragment_tab2 extends Fragment {
     ListView listView;
     List<BindData> list;
+    public BindData[] indexData;
 
     int date = 0;
     int month = 3;
@@ -56,43 +57,21 @@ public class menu1_fragment_tab2 extends Fragment {
                 container, false);
         return layout;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        listView = (ListView)getView().findViewById(R.id.list_view);
-        btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
-        btn_next=(ImageButton)getView().findViewById(R.id.next_month);
-        txt_present=(TextView)getView().findViewById(R.id.present_month);
-        txt_year=(TextView)getView().findViewById(R.id.present_year);
-
-        //오늘 연도, 월
-        final Date date = new Date(System.currentTimeMillis());
-        final SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
-        final SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
-        year =Integer.parseInt(curYearFormat.format(date));
-        month = Integer.parseInt(curMonthFormat.format(date));
-        txt_present.setText(month + "월");
-
-        // 소비내역 리스트 데이터를 추가
-        // menu1_consumption_data 샘플 데이터---- 디비연동해서 계좌 내역 받아오기
-        //디비에서 월별로 따로 불러와야 할듯 ----> 월 변경시 dividerheight에 의해 공백 생김
-        //각 날마다 그 날의 수입과 지출 합계를 보여줄수 있는 테이블 필요 -> 리스트뷰에서 연산하려니 너무 복잡하게 꼬임
-
+    public void request_test(){
         /////////////////////////////////
         //요청 정보 입력!!!!!!!test
-        AccountHistoryRequest test = new AccountHistoryRequest(
-                "1",                                //현재 로그인 아이디
-                year+"-0"+month+"-01",                       //요청할 해당 달의 시작 날짜
-                year+"-0"+month+"-31",                       //요청할 해당 달의 마지막 날짜
+        HistoryRequest test = new HistoryRequest(
+                "1",                          //현재 로그인 아이디
+                year+"-"+month+"-1",                       //요청할 해당 달의 시작 날짜
+                year+"-"+month+"-31",                       //요청할 해당 달의 마지막 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
                 getContext());                             //이것두 고정이요
 
 
         //Request 함수 호출해서 정보 accountHistoryInfo 객체에서 받아와서 사용
-        test.Request(new AccountHistoryRequest.VolleyCallback() {
+        test.Request(new HistoryRequest.VolleyCallback() {
             @Override
-            public void onSuccess(AccountHistoryInfo[] accountHistoryInfo) {
+            public void onSuccess(HistoryInfo[] accountHistoryInfo) {
                 int arrLength = accountHistoryInfo.length;
 
                 String[] hDate = new String[arrLength];
@@ -116,43 +95,55 @@ public class menu1_fragment_tab2 extends Fragment {
 
                 //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
 
-                ///
-                list = new ArrayList<BindData>();
-                for (int i = 0; i < arrLength; i++) {
-                    list.add(new BindData(
-                            Integer.parseInt(hDate[i].substring(0,4)),  //연도
+                indexData = new BindData[arrLength];
+
+                for(int i=0; i<arrLength; i++){
+                    indexData[i]= new BindData(Integer.parseInt(hDate[i].substring(0,4)),  //연도
                             Integer.parseInt(hDate[i].substring(5,7)),  //월
                             Integer.parseInt(hDate[i].substring(8,10)), //일
                             hDate[i].substring(11,13),  //시
                             hDate[i].substring(14,16),  //분
                             hName[i],   //사용 처
                             cType[i],   //카드 이름
-                            Integer.parseInt(hValue[i]) //금액
-                    ));
+                            Integer.parseInt(hValue[i]), //금액
+                            hType[i],    //내역 타입
+                            cName[i]    //카테고리 분류
+                    );
                 }
-                ///
+
+                list = new ArrayList<BindData>();
+                for (int i = 0; i < indexData.length; i++) {
+                    list.add(indexData[i]);
+                }
+                // 어댑터를 등록 및 설정
+                DataAdapter adapter = new DataAdapter(getActivity(), list);
+                listView.setAdapter(adapter);
+
             }
         });
 
         ///////////////////////////////////////////////
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-/*        list = new ArrayList<BindData>();
-        for (int i = 0; i < menu1_consumption_Data.id_.length; i++) {
-            list.add(new BindData(
-                    menu1_consumption_Data.yearArray[i],
-                    menu1_consumption_Data.monthArray[i],
-                    menu1_consumption_Data.dayArray[i],
-                    menu1_consumption_Data.hourArray[i],
-                    menu1_consumption_Data.minuteArray[i],
-                    menu1_consumption_Data.nameArray[i],
-                    menu1_consumption_Data.detailArray[i],
-                    menu1_consumption_Data.priceArray_[i]
-            ));
-        }*/
+        listView = (ListView)getView().findViewById(R.id.list_view);
+        btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
+        btn_next=(ImageButton)getView().findViewById(R.id.next_month);
+        txt_present=(TextView)getView().findViewById(R.id.present_month);
+        txt_year=(TextView)getView().findViewById(R.id.present_year);
 
-        // 어댑터를 등록 및 설정
-        DataAdapter adapter = new DataAdapter(getActivity(), list);
-        listView.setAdapter(adapter);
+        //오늘 연도, 월
+        final Date date = new Date(System.currentTimeMillis());
+        final SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
+        final SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
+        year =Integer.parseInt(curYearFormat.format(date));
+        month = Integer.parseInt(curMonthFormat.format(date))-1;
+        txt_present.setText(month + "월");
+
+        // 소비내역 리스트 데이터를 추가
+        request_test();
+
 
         //월 이동 버튼 누를 때
         btn_previous.setOnClickListener(new View.OnClickListener() {
@@ -166,10 +157,9 @@ public class menu1_fragment_tab2 extends Fragment {
                 }
                 txt_present.setText(month + "월");
                 txt_year.setText(year + "년");
-                // 인덱스 표시 어댑터 설정
-                DataAdapter adapter = new DataAdapter(getActivity(), list);
-                // 어댑터를 설정
-                listView.setAdapter(adapter);
+
+                request_test();
+
             }
         });
         btn_next.setOnClickListener(new View.OnClickListener() {
@@ -183,10 +173,8 @@ public class menu1_fragment_tab2 extends Fragment {
                 }
                 txt_present.setText(month + "월");
                 txt_year.setText(year + "년");
-                // 인덱스 표시 어댑터 설정
-                DataAdapter adapter = new DataAdapter(getActivity(), list);
-                // 어댑터를 설정
-                listView.setAdapter(adapter);
+
+                request_test();
             }
         });
 
@@ -200,7 +188,7 @@ public class menu1_fragment_tab2 extends Fragment {
 
                 //커스텀 다이얼로그 생성
                 menu1_CustomDialog customDialog = new menu1_CustomDialog(getActivity());
-                customDialog.callFunction(position);
+                customDialog.callFunction(position,year,month);
             }
         });
         super.onActivityCreated(savedInstanceState);
@@ -277,14 +265,14 @@ public class menu1_fragment_tab2 extends Fragment {
                     viewHolder.name.setText(data.name);
                     viewHolder.card.setVisibility(View.VISIBLE);
                     viewHolder.card.setText(data.card);
-                    if (data.price < 0) {
-                        viewHolder.ingredient.setText("loss");
+                    if (!data.type.equals("입금")) {
+                        viewHolder.ingredient.setText(data.categori);
                         viewHolder.ingredient.setBackgroundResource(R.drawable.loss_label);
                         viewHolder.ingredient.setTextColor(Color.RED);
                         viewHolder.price.setTextColor(Color.RED);
                         todayLoss = data.price;
                     } else {
-                        viewHolder.ingredient.setText("benefit");
+                        viewHolder.ingredient.setText(data.categori);
                         viewHolder.ingredient.setBackgroundResource(R.drawable.benefit_label);
                         viewHolder.ingredient.setTextColor(Color.rgb(60, 193, 238));
                         viewHolder.price.setTextColor(Color.rgb(60, 193, 238));
@@ -352,8 +340,9 @@ public class menu1_fragment_tab2 extends Fragment {
         int year,month, date;
         String hour, minute, name, card;
         int price;
+        String type, categori;
 
-        public BindData(int year, int month, int date, String hour, String minute, String name, String card, int price) {
+        public BindData(int year, int month, int date, String hour, String minute, String name, String card, int price, String type, String categori) {
             this.year=year;
             this.month = month;
             this.date = date;
@@ -362,6 +351,8 @@ public class menu1_fragment_tab2 extends Fragment {
             this.name = name;
             this.card = card;
             this.price = price;
+            this.type = type;
+            this.categori=categori;
         }
     }
 }
