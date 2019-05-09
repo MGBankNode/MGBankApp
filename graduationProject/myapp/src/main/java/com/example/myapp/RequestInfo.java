@@ -10,6 +10,7 @@ public class RequestInfo {
         DEVICE_CHECK,
         DELETE_DEVICE,
         ACCOUNT_HISTORY,
+        ACCOUNT_BALANCE,
         ADD_ACCOUNT
     }
 
@@ -60,6 +61,10 @@ public class RequestInfo {
 
             case ACCOUNT_HISTORY:
                 processURL = "/nodeapi/history/accounthistory";
+                break;
+
+            case ACCOUNT_BALANCE:
+                processURL = "/nodeapi/history/accountbalance";
                 break;
 
             case ADD_ACCOUNT:
