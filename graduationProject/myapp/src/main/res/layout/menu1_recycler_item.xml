@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="20dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     android:id="@+id/list_layout1">
 
     <LinearLayout
@@ -28,13 +31,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+0원"
+            android:text=""
             android:textSize="15sp"
             android:textColor="#3cc1ee"
             android:id="@+id/day_benefit"
             android:gravity="right"
             android:layout_weight="50"
-
             />
 
         <TextView
@@ -42,14 +44,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="-5,000원"
+            android:text=""
             android:textColor="#F00"
             android:gravity="right"
             android:layout_weight="15"
             android:paddingRight="25dp" />
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,8 +95,8 @@
                     android:padding="5dp"/>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/ingredient_btn"
+            <TextView
+                android:id="@+id/ingredient"
                 android:gravity="center"
                 android:layout_width="60dp"
                 android:layout_height="23dp"
@@ -138,17 +139,31 @@
                     android:gravity="center"/>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/price"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="-2,900원"
-                android:textSize="17dp"
-                android:paddingRight="5dp" />
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="-2,900원"
+                    android:textSize="17dp"
+                    android:paddingRight="20dp" />
+                <TextView
+                    android:id="@+id/balance_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="20원"
+                    android:textSize="13sp"
+                    android:gravity="right"
+                    android:paddingRight="20dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

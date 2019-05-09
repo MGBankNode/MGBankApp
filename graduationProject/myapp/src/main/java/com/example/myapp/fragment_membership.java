@@ -38,6 +38,7 @@ public class fragment_membership extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
+
     ArrayList<DataModel> data;
 
     Fragment fragment;
@@ -82,6 +83,7 @@ public class fragment_membership extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+
         data = new ArrayList<DataModel>();
         for (int i = 0; i < membership_Data.nameArray.length; i++) {
             data.add(new DataModel(
@@ -92,6 +94,7 @@ public class fragment_membership extends Fragment {
                     membership_Data.backgroundArray[i]
             ));
         }
+
 
         adapter = new CustomAdapter(data);
         recyclerView.setAdapter(adapter);
@@ -175,8 +178,8 @@ public class fragment_membership extends Fragment {
         }
 
         @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                            int viewType) {
+
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.menu3_list_item, parent, false);
 
@@ -207,11 +210,13 @@ public class fragment_membership extends Fragment {
                 }
             });
 
+
             MyViewHolder myViewHolder = new MyViewHolder(view);
             return myViewHolder;
         }
 
         @Override
+
         public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
 
             TextView textViewName = holder.textViewName;
