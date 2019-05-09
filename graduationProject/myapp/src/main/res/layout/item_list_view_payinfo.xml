@@ -28,7 +28,7 @@
             android:id="@+id/stat_textView"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:fontFamily="@font/yungodic310"
             android:gravity="center"
             android:shadowColor="#484848"
@@ -94,7 +94,7 @@
                 android:shadowRadius="2.0"
                 android:text="999999원"
                 android:textColor="#000"
-                android:textSize="17dp" />
+                android:textSize="15dp" />
         </LinearLayout>
     </LinearLayout>
 

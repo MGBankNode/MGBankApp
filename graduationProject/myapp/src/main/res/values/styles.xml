@@ -32,4 +32,8 @@
 
         <item name="colorAccent">#2BB0DD</item>                    <!-- 하단 움직이는 바 색-->
     </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
 </resources>

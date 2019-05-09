@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity
 
         backPressCloseHandler = new backPressCloseHandler(this);
 
+        startMainFragment();
         makeMenuList();
     }
 
@@ -448,6 +449,15 @@ public class MainActivity extends AppCompatActivity
 
     public void onDetailBtnClicked(View view) {
         Fragment detailFragment = new consumptionReportFragment();
+//        Bundle bundle = new Bundle(1);
+//        bundle.putString("userId", "AAA");
+//
+//        detailFragment.setArguments(bundle);
+
+
+       //Toast.makeText(getApplication(), "버튼 선택됨", Toast.LENGTH_SHORT).show();
+
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
         fragmentTransaction.commit();
@@ -679,7 +689,18 @@ public class MainActivity extends AppCompatActivity
         WifiInfo info = wifiManager.getConnectionInfo();
         return info.getMacAddress();
     }
+    public void startMainFragment(){
 
+        fr = new fragment_home();
 
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+        fragmentTransaction.commit();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+    }
 
 }
