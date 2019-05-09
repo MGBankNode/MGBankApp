@@ -60,21 +60,13 @@ public class SettingDialogActivity extends Activity {
         userAccountCheck = Integer.parseInt(intent.getStringExtra("UserAccountCheck"));
         userID = intent.getStringExtra("UserID");
 
+        if (deviceCheckResult.equals("YES")) {
 
-
-<<<<<<< HEAD
-            if (deviceCheckResult.equals("YES")) {
-=======
             pushSwitch.setChecked(true);
             originDeviceCheckValue = 1;
->>>>>>> f8299e1353dcfab27be43ad9adc528a5ab0a0c5f
 
-                pushSwitch.setChecked(true);
-                originValue = 1;
+        } else if (deviceCheckResult.equals("NO")) {
 
-<<<<<<< HEAD
-            } else if (deviceCheckResult.equals("NO")) {
-=======
             pushSwitch.setChecked(false);
             originDeviceCheckValue = 0;
 
@@ -89,12 +81,8 @@ public class SettingDialogActivity extends Activity {
 
             accountSwitch.setChecked(false);
             originAccountCheckValue = 0;
->>>>>>> f8299e1353dcfab27be43ad9adc528a5ab0a0c5f
 
-                pushSwitch.setChecked(false);
-                originValue = 0;
-
-            }
+        }
 
         //완료 버튼을 눌렀을 때
         switchFinishBtn.setOnClickListener(new View.OnClickListener() {
@@ -104,12 +92,12 @@ public class SettingDialogActivity extends Activity {
                 if (pushSwitch.isChecked()) {
 
                     if (originDeviceCheckValue == 1) {  //기존과 같은 경우 accountSwitch 검사 후
-                                                        // 아무작업도 안함(0)
+                        // 아무작업도 안함(0)
                         deviceCheckResult = "YES";
                         CheckOriginAccountCheckValue(0);
 
                     } else {                            //기존과 다른 경우 accountSwitch 검사 후
-                                                        // ADD 작업 해야함(1)
+                        // ADD 작업 해야함(1)
                         CheckOriginAccountCheckValue(1);
 
                     }
@@ -118,11 +106,11 @@ public class SettingDialogActivity extends Activity {
                 } else {
 
                     if (originDeviceCheckValue == 1) {  //기존과 다른 경우 accountSwitch 검사 후
-                                                        // Delete 작업 해야함(2)
+                        // Delete 작업 해야함(2)
                         CheckOriginAccountCheckValue(2);
 
                     } else {                            //기존과 같은 경우 accountSwitch 검사 후
-                                                        //아무작없도 안함(0)
+                        //아무작없도 안함(0)
                         deviceCheckResult = "NO";
                         CheckOriginAccountCheckValue(0);
 
