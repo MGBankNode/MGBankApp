@@ -284,6 +284,7 @@ public class MainActivity extends AppCompatActivity
             TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
 
             String userABalance = myUserInfo.getUserABalance() + "원";
+            Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
             userABalanceTxtView.setText(userABalance);
 
         }else if(userAccountCheck == 0){
@@ -404,6 +405,7 @@ public class MainActivity extends AppCompatActivity
                             TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
 
                             String userABalance = myUserInfo.getUserABalance() + "원";
+                            Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
                             userABalanceTxtView.setText(userABalance);
                         }
                     });

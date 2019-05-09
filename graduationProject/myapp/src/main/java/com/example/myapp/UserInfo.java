@@ -25,7 +25,7 @@ public class UserInfo implements Serializable {
     String userUpdateAt;
 
 
-    String userABalance;
+    String userABalance = "0";
 
     public UserInfo(String userID){
         this.userID = userID;
