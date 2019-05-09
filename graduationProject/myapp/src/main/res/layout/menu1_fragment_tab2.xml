@@ -52,12 +52,13 @@
                     android:src="@drawable/ic_next"
                     android:background="#fff"/>
         </LinearLayout>
-        <ListView
+
+        <android.support.v7.widget.RecyclerView
             android:layout_margin="10dp"
-            android:id="@+id/list_view"
+            android:id="@+id/recycler_view"
             android:textSize="50dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_date"
             android:dividerHeight="3dp"
             android:divider="#00000000" />

@@ -2,6 +2,8 @@ package com.example.myapp;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -31,11 +33,12 @@ public class menu1_CustomDialog {
 
         // 커스텀 다이얼로그의 레이아웃을 설정한다.
         dlg.setContentView(R.layout.menu1_customdialog);
+        dlg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); //배경 투명하게
 
         // 커스텀 다이얼로그 사이즈를 조정한다.
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dlg.getWindow().getAttributes());
-        lp.width=WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width=WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height=WindowManager.LayoutParams.WRAP_CONTENT;
         Window window = dlg.getWindow();
         window.setAttributes(lp);
@@ -45,7 +48,6 @@ public class menu1_CustomDialog {
 
         // 커스텀 다이얼로그의 각 위젯들을 정의한다.
         final Button okButton = (Button) dlg.findViewById(R.id.okButton);
-        final Button cancelButton = (Button) dlg.findViewById(R.id.cancelButton);
         final TextView d_name = (TextView) dlg.findViewById(R.id.detail_name);
         final TextView d_price = (TextView) dlg.findViewById(R.id.detail_price);
         final TextView d_categori = (TextView) dlg.findViewById(R.id.detail_categori);
@@ -100,29 +102,18 @@ public class menu1_CustomDialog {
                 d_categori.setText(cName[position]);
                 d_output.setText(cType[position]);
                 d_input.setText(hName[position]);
-                d_time.setText(hDate[position]);
+                d_time.setText(hDate[position].substring(0,16));
 
             }
         });
 
         ///////////////////////////////////////////////
-
-
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // '확인' 버튼 클릭시 메인 액티비티에서 설정한 main_label에
                 // 커스텀 다이얼로그에서 입력한 메시지를 대입한다.
                 //main_label.setText(message.getText().toString());
-
-                // 커스텀 다이얼로그를 종료한다.
-                dlg.dismiss();
-            }
-        });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "취소 했습니다.", Toast.LENGTH_SHORT).show();
 
                 // 커스텀 다이얼로그를 종료한다.
                 dlg.dismiss();
