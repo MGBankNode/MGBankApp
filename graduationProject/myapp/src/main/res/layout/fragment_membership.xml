@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
-        android:fontFamily="@font/bmdohyeon" />
+        android:fontFamily="@font/applegothicneo_b" />
 
     <ImageView
         android:id="@+id/bcd_img"

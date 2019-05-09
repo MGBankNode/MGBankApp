@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/bmdohyeon"
+            android:fontFamily="@font/applegothicneo_b"
             android:gravity="center"
             android:text="Node Bank"
             android:textColor="#2BB0DD"
