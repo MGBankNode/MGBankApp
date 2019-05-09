@@ -48,17 +48,18 @@ public class SettingDialogActivity extends Activity {
         myDeviceInfo = (DeviceInfo) intent.getSerializableExtra("DeviceInfoObject");
         String deviceCheckResult = intent.getStringExtra("DeviceCheckResult");
 
-        if (deviceCheckResult.equals("YES")) {
 
-            pushSwitch.setChecked(true);
-            originValue = 1;
+            if (deviceCheckResult.equals("YES")) {
 
-        } else if (deviceCheckResult.equals("NO")) {
+                pushSwitch.setChecked(true);
+                originValue = 1;
 
-            pushSwitch.setChecked(false);
-            originValue = 0;
+            } else if (deviceCheckResult.equals("NO")) {
 
-        }
+                pushSwitch.setChecked(false);
+                originValue = 0;
+
+            }
 
         switchFinishBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -286,6 +286,8 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(this, MypageActivity.class));
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

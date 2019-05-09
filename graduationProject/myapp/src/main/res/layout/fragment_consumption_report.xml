@@ -16,6 +16,7 @@
         android:layout_height="5dp"
         android:background="#C4BFBF"
         >
+
     </LinearLayout>
 
     <LinearLayout
@@ -25,7 +26,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="4dp"
-        >
+     >
         <ImageView
             android:layout_width="55dp"
             android:layout_height="50dp"
@@ -59,7 +60,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/malgun"
             android:textSize="18dp"
-            android:text="이번 주 지출 내역"
+            android:text="주 평균 지출 내역"
             android:textColor="#000"
             android:layout_marginTop="10dp"
             android:padding="20dp"/>
@@ -74,10 +75,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/consumptionSumTv"
+        android:id="@+id/weekSum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="통계통계"
+        android:text="지난 3주간 평균 지출은 "
         android:textSize="15dp"
         android:textColor="#000"
         android:fontFamily="@font/malgun"
@@ -87,6 +88,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="370dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
         <TextView
@@ -94,7 +96,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/malgun"
             android:textSize="18dp"
-            android:text="이번 주 지출 내역"
+            android:text="일 평균 지출 내역"
             android:textColor="#000"
             android:layout_marginTop="10dp"
             android:padding="20dp"/>
@@ -108,6 +110,16 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/daySum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="일 평균 지출은 "
+        android:textSize="15dp"
+        android:textColor="#000"
+        android:fontFamily="@font/malgun"
+        android:layout_marginTop="10dp"
+        android:padding="18dp"/>
 </LinearLayout>
 
 </ScrollView>
