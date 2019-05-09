@@ -44,25 +44,25 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-        Spinner spinner = findViewById(R.id.spinner);
+//        Spinner spinner = findViewById(R.id.spinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.bankarray, R.layout.spinneritem);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.bankarray, R.layout.spinneritem);
 
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    Toast.makeText(getApplicationContext(), parent.getItemAtPosition(position) + "을 선택", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        spinner.setAdapter(adapter);
+//
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (position > 0) {
+//                    Toast.makeText(getApplicationContext(), parent.getItemAtPosition(position) + "을 선택", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         idCheckBtn = findViewById(R.id.certificationIdBtn);
         idCheckBtn.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +86,7 @@ public class SignUpActivity extends AppCompatActivity {
         = 아이디 중복체크 이벤트 핸들러
         (Button : certificationIdBtn)
     */
+
     public void IDCheckHandler(){
 
         String btnString = idCheckBtn.getText().toString();
@@ -129,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
             Volley.newRequestQueue(this).add(request);
             Log.d("요청 url: ", url);
 
-        }else if(btnString.equals("수정")){
+        } else if(btnString.equals("수정")){
 
             joinIDEditText = findViewById(R.id.etID);
             joinIDEditText.setFocusable(true);

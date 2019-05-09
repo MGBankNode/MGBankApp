@@ -55,7 +55,7 @@ public class reportListviewAdapter extends BaseAdapter {
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             lparam.height = 30;
             linearLayout.setLayoutParams(lparam);
-            linearLayout.setBackgroundColor(Color.parseColor("#2BB0DD"));
+            linearLayout.setBackgroundColor(Color.rgb(230,230,230));
         }
         else {
 
