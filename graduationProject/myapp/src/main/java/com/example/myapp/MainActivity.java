@@ -72,8 +72,7 @@ public class MainActivity extends AppCompatActivity
 
         backPressCloseHandler = new backPressCloseHandler(this);
 
-
-
+        startMainFragment();
     }
 
     @Override
@@ -198,7 +197,7 @@ public class MainActivity extends AppCompatActivity
 //        detailFragment.setArguments(bundle);
 
 
-       // Toast.makeText(getApplication(), "버튼 선택됨", Toast.LENGTH_SHORT).show();
+       //Toast.makeText(getApplication(), "버튼 선택됨", Toast.LENGTH_SHORT).show();
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -453,4 +452,18 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+    public void startMainFragment(){
+
+        fr = new fragment_home();
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+        fragmentTransaction.commit();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+    }
+
 }

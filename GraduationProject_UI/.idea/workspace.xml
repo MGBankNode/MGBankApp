@@ -10,15 +10,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Firebase" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="811dd2ee-e5de-42be-8120-d17f0ecaf3a3" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/GraduationProject_UI.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../graduationProject/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graduationProject/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../graduationProject/myapp/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../graduationProject/myapp/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../graduationProject/myapp/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graduationProject/myapp/src/main/res/layout/fragment_home.xml" afterDir="false" />
-    </list>
+    <list default="true" id="811dd2ee-e5de-42be-8120-d17f0ecaf3a3" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,9 +39,18 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="965490222">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -69,14 +70,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="GradleLocalSettings">
-    <option name="myGradleHomes">
-      <map />
-    </option>
-    <option name="myGradleVersions">
-      <map />
-    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -115,9 +108,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="952" />
+    <option name="x" value="20" />
+    <option name="y" value="25" />
     <option name="width" value="977" />
-    <option name="height" value="1038" />
+    <option name="height" value="954" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -127,33 +121,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="GraduationProject_UI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject_UI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GraduationProject_UI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject_UI" type="462c0819:PsiDirectoryNode" />
-              <item name=".gradle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GraduationProject_UI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject_UI" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GraduationProject_UI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject_UI" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
@@ -166,6 +133,18 @@
           <select />
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="GraduationProject_UI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GraduationProject_UI" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -175,7 +154,7 @@
     <property name="ExportApk.SignV2" value="true" />
     <property name="android.sdk.path" value="C:/sdk" />
     <property name="device.picker.selection" value="Nexus_5X_API_26" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/GraduationProject_UI" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../GraduationProject_UI" />
     <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
   </component>
   <component name="RecentsManager">
@@ -390,19 +369,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
-      <module name="GraduationProject_UI" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="WORKING_DIRECTORY" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <properties />
@@ -426,9 +392,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="762" y="0" width="781" height="830" extended-state="0" />
+    <frame x="20" y="25" width="977" height="954" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30929264" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3090909" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Build Variants" order="2" side_tool="true" />
       <window_info id="Designer" order="3" />
@@ -444,7 +410,7 @@
       <window_info anchor="bottom" id="Run" order="5" weight="0.27508456" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50441504" side_tool="true" visible="true" weight="0.4152299" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50441504" side_tool="true" visible="true" weight="0.41415313" />
       <window_info anchor="bottom" id="Logcat" order="9" sideWeight="0.495585" weight="0.3461105" />
       <window_info active="true" anchor="bottom" id="Messages" order="10" sideWeight="0.49117" visible="true" weight="0.32694477" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
