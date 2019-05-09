@@ -1,6 +1,8 @@
 package com.example.myapp;
 
 import android.app.Activity;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 public class backPressCloseHandler {
@@ -9,10 +11,13 @@ public class backPressCloseHandler {
     private Activity activity;
 
     public backPressCloseHandler(Activity context) {
+
         this.activity = context;
+
     }
 
     public void onBackPressed() {
+
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
             showToast();
@@ -24,7 +29,7 @@ public class backPressCloseHandler {
     }
 
     public void showToast() {
-        toast = Toast.makeText(activity, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT); toast.show();
+        toast = Toast.makeText(activity, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다." , Toast.LENGTH_SHORT); toast.show();
     }
 
 }

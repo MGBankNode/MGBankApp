@@ -22,15 +22,48 @@
             android:resource="@xml/dialog_in" />
 
         <activity
-            android:name=".MainActivity"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".SettingDialogActivity"
+            android:label="Settings"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".MainScreen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".loginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plane" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MypageActivity"
+            android:screenOrientation="portrait"/>
+        <!-- 서비스 태그 추가 -->
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

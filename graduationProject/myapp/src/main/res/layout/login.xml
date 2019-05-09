@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:id="@+id/loginFrag"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFF"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/applegothicneo_b"
+            android:gravity="center"
+            android:text="Node Bank"
+            android:textColor="#2BB0DD"
+            android:textFontWeight="400"
+            android:textSize="33dp" />
+
+
+        <EditText
+            android:id="@+id/etLogin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/signupedit"
+            android:padding="12dp"
+            android:textSize="13dp"
+            android:hint="아이디"
+            android:inputType="text"/>
+
+
+        <EditText
+            android:id="@+id/etLoginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/signupedit"
+            android:padding="12dp"
+            android:textSize="13dp"
+            android:hint="비밀번호"
+            android:inputType="textPassword"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아이디가 없나요?"
+            android:textSize="15dp"
+            />
+
+        <Button
+            android:id="@+id/moveToSignupBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:text="회원가입"
+            android:textColor="#646464"
+            android:textSize="15dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/logInConfirmBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:padding="8dp"
+            android:background="#2BB0DD"
+            android:fontFamily="@font/consola"
+            android:text="로그인"
+            android:textColor="#FFF"
+            android:textSize="17dp"
+            />
+
+
+        <Button
+            android:id="@+id/logInCancleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_gravity="center|bottom"
+            android:padding="8dp"
+            android:background="#2BB0DD"
+            android:fontFamily="@font/consola"
+            android:text="취소"
+            android:textColor="#FFF"
+            android:textSize="17dp"
+            />
+    </LinearLayout>
+    </LinearLayout>
+</ScrollView>
