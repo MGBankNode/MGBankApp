@@ -62,6 +62,11 @@ public class SettingDialogActivity extends Activity {
 
         if (deviceCheckResult.equals("YES")) {
 
+<<<<<<< HEAD
+=======
+        if (deviceCheckResult.equals("YES")) {
+
+>>>>>>> d358eb95090bdeb7b538cb59867f448f87ed6ef1
             pushSwitch.setChecked(true);
             originDeviceCheckValue = 1;
 
