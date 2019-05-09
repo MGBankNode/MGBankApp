@@ -51,6 +51,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity
     public UserInfo myUserInfo;
     public DeviceInfo myDeviceInfo;
     public String deviceCheckResult = "";
+
+    Stack<String> st;
+
     public int userAccountCheck;
     
     @Override
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity
 
         backPressCloseHandler = new backPressCloseHandler(this);
 
+        startMainFragment();
         makeMenuList();
     }
 
@@ -128,6 +133,8 @@ public class MainActivity extends AppCompatActivity
         menu2list.setAdapter(menu2ListviewAdapter);
         menu3list.setAdapter(menu3ListviewAdapter);
 
+        st = new Stack<String>();
+        st.push("home");
         menu1list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,11 +143,13 @@ public class MainActivity extends AppCompatActivity
                     case 0:
                         fr = new fragment_menu1();
                         fr.setArguments(makeBundle("apage", 0));
+                        st.push("a");
                         break;
 
                     case 1:
                         fr = new fragment_menu1();
                         fr.setArguments(makeBundle("apage", 1));
+                        st.push("b");
                         break;
 
                 }
@@ -154,11 +163,13 @@ public class MainActivity extends AppCompatActivity
                     case 0:
                         fr = new consumptionEvaluation_viewPager();
                         fr.setArguments(makeBundle("cpage", 0));
+                        st.push("c");
                         break;
 
                     case 1:
                         fr = new consumptionEvaluation_viewPager();
                         fr.setArguments(makeBundle("cpage", 1));
+                        st.push("d");
                         break;
                 }
                 changeFragment(fr);
@@ -171,6 +182,7 @@ public class MainActivity extends AppCompatActivity
                 switch (position) {
                     case 0:
                         fr = new fragment_menu3();
+                        st.push("e");
                         break;
                 }
                 changeFragment(fr);
@@ -192,7 +204,41 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
 //            super.onBackPressed();
-            backPressCloseHandler.onBackPressed();
+            if(st.peek() == "home")
+                backPressCloseHandler.onBackPressed();
+            else{
+                st.pop();
+                switch (st.peek()) {
+                    case "a":
+                        fr = new fragment_menu1();
+                        fr.setArguments(makeBundle("apage", 0));
+                        break;
+
+                    case "b":
+                        fr = new fragment_menu1();
+                        fr.setArguments(makeBundle("apage", 1));
+                        break;
+                    case "c":
+                        fr = new consumptionEvaluation_viewPager();
+                        fr.setArguments(makeBundle("cpage", 0));
+                        break;
+
+                    case "d":
+                        fr = new consumptionEvaluation_viewPager();
+                        fr.setArguments(makeBundle("cpage", 1));
+                        break;
+                    case "e":
+                        fr = new fragment_menu3();
+                        break;
+                    case "home":
+                        fr = new fragment_home();
+                        break;
+                    default:
+                        break;
+                }
+                changeFragment(fr);
+            }
+
         }
     }
 
@@ -416,6 +462,15 @@ public class MainActivity extends AppCompatActivity
 
     public void onDetailBtnClicked(View view) {
         Fragment detailFragment = new consumptionReportFragment();
+//        Bundle bundle = new Bundle(1);
+//        bundle.putString("userId", "AAA");
+//
+//        detailFragment.setArguments(bundle);
+
+
+       //Toast.makeText(getApplication(), "버튼 선택됨", Toast.LENGTH_SHORT).show();
+
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
         fragmentTransaction.commit();
@@ -647,7 +702,18 @@ public class MainActivity extends AppCompatActivity
         WifiInfo info = wifiManager.getConnectionInfo();
         return info.getMacAddress();
     }
+    public void startMainFragment(){
 
+        fr = new fragment_home();
 
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+        fragmentTransaction.commit();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+    }
 
 }

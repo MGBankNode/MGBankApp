@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
@@ -18,7 +19,7 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="2"
-                android:fontFamily="@font/bmdohyeon"
+                android:fontFamily="@font/applegothicneo_m"
                 android:gravity="center"
                 android:text="예산을 설정해주세요"
                 android:textColor="#000"
@@ -30,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_weight="2"
-                android:fontFamily="@font/bmdohyeon"
+                android:fontFamily="@font/applegothicneo_m"
                 android:gravity="center"
                 android:text="남은 예산은 0원 입니다."
                 android:textColor="#000"
@@ -52,7 +53,7 @@
                     android:layout_height="30dp"/>
             </RelativeLayout>
             <TextView
-                android:fontFamily="@font/bmdohyeon"
+                android:fontFamily="@font/applegothicneo_m"
                 android:gravity="center"
                 android:textSize="15dp"
                 android:text="금융비서의 알림이 없습니다."
@@ -61,28 +62,32 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
         <include layout="@layout/separator"/>
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/piechart"
-            android:layout_width="match_parent"
-            android:layout_height="250dp" />
-        <include layout="@layout/separator"/>
         <TextView
-            android:layout_marginVertical="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="11dp"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
             android:text="분석"
-            android:fontFamily="@font/yungodic310"
+            android:shadowColor="#484848"
+            android:shadowDx="2.0"
+            android:shadowDy="2.0"
+            android:shadowRadius="2.0"
+            android:fontFamily="@font/applegothicneo_b"
             android:textColor="#000"
             android:textSize="20dp"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
         <include layout="@layout/separator"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView01"
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/piechart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
-
+            android:layout_height="280dp" />
+        <include layout="@layout/separator"/>
+        <fragment android:id="@+id/testFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.example.myapp.StatList">
+        </fragment>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp" />

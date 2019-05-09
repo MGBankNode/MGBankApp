@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center"
+    android:orientation="vertical"
+    tools:context=".CustomDialog">
+
+    <LinearLayout
+        android:background="@drawable/dialog_background"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:background="@drawable/dialog_text_background"
+            android:layout_width="match_parent"
+            android:text="분류 수정"
+            android:textSize="23dp"
+            android:gravity="center"
+            android:textColor="#FFF"
+            android:fontFamily="@font/applegothicneo_b"
+            android:layout_height="40dp" />
+        <LinearLayout
+            android:padding="30dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/pay_account_name"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/applegothicneo_m"
+                android:text="PayAccountName"
+                android:textColor="#2BB0DD"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/pay_account_stat_name"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="30dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/applegothicneo_m"
+                android:text="PayAccountStatName"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/pay_account_stat_spinner"
+                android:layout_width="180dp"
+                android:layout_height="30dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginTop="15dp">
+
+            </Spinner>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/pay_account_stat_change_button"
+                    android:layout_width="90dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/correct_button_bg"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:gravity="center"
+                    android:text="수정"
+                    android:textColor="#444"
+                    android:textSize="21dp" />
+                <TextView
+                    android:id="@+id/pay_account_stat_cancel_button"
+                    android:layout_width="90dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/cancel_button_bg"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:gravity="center"
+                    android:text="취소"
+                    android:textColor="#444"
+                    android:textSize="21dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

@@ -100,7 +100,7 @@ public class HistoryRequest {
                 case "success":
 
                     JSONArray dataArray = json.getJSONArray("history");
-                    Toast.makeText(context, dataArray.toString(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, dataArray.toString(), Toast.LENGTH_LONG).show();
 
                     historyInfo = new HistoryInfo[dataArray.length()];
 
