@@ -6,18 +6,20 @@
     android:gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <android.support.design.widget.AppBarLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:theme="@style/TabTheme">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/TabTheme">
 
-    <android.support.design.widget.TabLayout
-    android:id="@+id/layout_tab"
-    android:layout_width="match_parent"
-    android:layout_height="45dp"
-    app:tabGravity="fill"
-    app:tabMode="fixed" />
 
+        <android.support.design.widget.TabLayout
+
+            android:id="@+id/layout_tab"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
