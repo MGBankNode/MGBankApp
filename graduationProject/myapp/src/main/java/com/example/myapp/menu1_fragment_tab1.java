@@ -69,7 +69,7 @@ public class menu1_fragment_tab1 extends Fragment {
         /////////////////////////////////
         //요청 정보 입력!!!!!!!test
         HistoryRequest test = new HistoryRequest(
-                "a",                                //현재 로그인 아이디
+                "b",                                //현재 로그인 아이디
                 "2019-04-01",                       //요청할 해당 달의 시작 날짜
                 "2019-04-30",                       //요청할 해당 달의 마지막 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
