@@ -349,6 +349,19 @@ public class MainActivity extends AppCompatActivity
             if(resultCode == RESULT_OK){
                 deviceCheckResult = data.getStringExtra("DeviceCheckResult");
                 userAccountCheck = Integer.parseInt(data.getStringExtra("UserAccountCheck"));
+
+                if(userAccountCheck == 1){
+                    myUserInfo.UpdateABalance(getApplicationContext(), new UserInfo.VolleyCallback(){
+                        @Override
+                        public void onSuccess(String aBalance){
+                            myUserInfo.setUserABalance(aBalance);
+                            TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
+
+                            String userABalance = myUserInfo.getUserABalance() + "원";
+                            userABalanceTxtView.setText(userABalance);
+                        }
+                    });
+                }
             }
             else if(resultCode == RESULT_CANCELED){
                 finish();
