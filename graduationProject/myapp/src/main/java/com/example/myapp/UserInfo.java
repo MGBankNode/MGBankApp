@@ -138,8 +138,8 @@ public class UserInfo implements Serializable {
     }
 
     /*
-        HistoryResponse(String): void
-        = 내역 조회 요청 응답 처리 함수
+        BalanceResponse(String): void
+        = 잔액 조회 요청 응답 처리 함수
     */
 
     private void BalanceResponse(String response, final VolleyCallback callback){
@@ -155,6 +155,9 @@ public class UserInfo implements Serializable {
                     String aBalance = (String) json.get("aBalance");
 
                     callback.onSuccess(aBalance);
+                    break;
+
+                case "fail":
                     break;
 
                 case "error":

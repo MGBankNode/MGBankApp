@@ -24,6 +24,7 @@ public class HistoryRequest {
     private RequestInfo.RequestType rType;
     private Context context;
     private HistoryInfo[] historyInfo;
+    private DailyHistoryInfo[] dailyHistoryInfo;
 
 
     HistoryRequest(String userID, String sDate, String lDate, RequestInfo.RequestType rType, Context context){
@@ -35,7 +36,7 @@ public class HistoryRequest {
     }
 
     public interface VolleyCallback{
-        void onSuccess(HistoryInfo[] historyInfo);
+        void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo);
     }
 
     public void Request(final VolleyCallback callback){
@@ -120,7 +121,23 @@ public class HistoryRequest {
                         historyInfo[i] = new HistoryInfo(hDate, hType, hValue, hName, aBalance, cType, cName);
 
                     }
-                    callback.onSuccess(historyInfo);
+
+                    JSONArray dailyDataArray = json.getJSONArray("daily_history");
+                    dailyHistoryInfo = new DailyHistoryInfo[dailyDataArray.length()];
+
+                    for(int i = 0; i < dailyDataArray.length(); ++i){
+
+                        JSONObject record = dailyDataArray.getJSONObject(i);
+
+                        String day = record.getString("day");
+                        String dailyBenefit = record.getString("benefit");
+                        String dailyLoss = record.getString("loss");
+
+                        dailyHistoryInfo[i] = new DailyHistoryInfo(day, dailyBenefit, dailyLoss);
+
+                    }
+
+                    callback.onSuccess(historyInfo, dailyHistoryInfo);
                     break;
 
                 case "error":

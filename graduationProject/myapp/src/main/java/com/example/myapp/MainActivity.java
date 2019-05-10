@@ -280,7 +280,9 @@ public class MainActivity extends AppCompatActivity
         userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
         if(userAccountCheck == 1){
-
+            //계좌 등록이 되어있는 경우
+            //잔액은 로그인 시에 myUserInfo의 userABalance에 담겨 넘겨옴
+            //getUserABalance() 함수를 호출해서 값을 가져오기만 하면됨
             TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
 
             String userABalance = myUserInfo.getUserABalance() + "원";
