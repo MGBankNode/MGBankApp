@@ -289,6 +289,40 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
             userABalanceTxtView.setText(userABalance);
 
+
+            //내역을 얻어와야함
+            //먼저 HistoryRequest 각각 정보 입력하여 객체생성
+            HistoryRequest testRequest = new HistoryRequest(
+                    myUserInfo.getUserID(),                            //사용자 아이디 myUserInfo 객체에서 getUserID()받아와 사용하시면되요
+                    "2019-05-01",                               //전달의 시작 날짜 - 일은 01로 고정시키고 년도랑 월만 계산해서 가져오시면되요(시작일은 무조건 01이므로)
+                    "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
+                    RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
+                    getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
+                                                                        //fragment 쪽에서는 getContext()하시면 될 것 같아요
+
+
+            //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
+            testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
+                @Override
+                public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
+                    int arrLength = historyInfo.length;
+
+                    String[] hValue = new String[arrLength];
+                    String[] hName = new String[arrLength];
+                    String[] cName = new String[arrLength];
+
+                    for(int i = 0; i < arrLength; i++){
+
+                        hValue[i] = historyInfo[i].gethValue();      //내역 사용 금액
+                        hName[i] = historyInfo[i].gethName();        //내역 사용 처 이름
+                        cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+
+                    }
+
+                    //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+                }
+            });
+
         }else if(userAccountCheck == 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("");
@@ -411,6 +445,42 @@ public class MainActivity extends AppCompatActivity
                             userABalanceTxtView.setText(userABalance);
                         }
                     });
+
+
+                    //여기는 계좌등록을 하고 난후, 메인화면에 데이터를 불러와야 하기때문에 호출해줌
+                    //내역을 얻어와야함
+                    //먼저 HistoryRequest 각각 정보 입력하여 객체생성
+                    HistoryRequest testRequest = new HistoryRequest(
+                            myUserInfo.getUserID(),                            //사용자 아이디 myUserInfo 객체에서 getUserID()받아와 사용하시면되요
+                            "2019-05-01",                               //전달의 시작 날짜 - 일은 01로 고정시키고 년도랑 월만 계산해서 가져오시면되요(시작일은 무조건 01이므로)
+                            "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
+                            RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
+                            getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
+                                                                                //fragment 쪽에서는 getContext()하시면 될 것 같아요
+
+
+                    //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
+                    testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
+                        @Override
+                        public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
+                            int arrLength = historyInfo.length;
+
+                            String[] hValue = new String[arrLength];
+                            String[] hName = new String[arrLength];
+                            String[] cName = new String[arrLength];
+
+                            for(int i = 0; i < arrLength; i++){
+
+                                hValue[i] = historyInfo[i].gethValue();      //내역 사용 금액
+                                hName[i] = historyInfo[i].gethName();        //내역 사용 처 이름
+                                cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+
+                            }
+
+                            //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+                        }
+                    });
+
                 }
             }
             else if(resultCode == RESULT_CANCELED){

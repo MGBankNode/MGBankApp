@@ -69,6 +69,36 @@ public class HistoryRequest {
 
     }
 
+    public void HomeRequest(final VolleyCallback callback){
+        RequestInfo requestInfo = new RequestInfo(rType);
+
+        String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        HomeHistoryResponse(response, callback);
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams(){
+                return HomeHistoryRequest();
+            }
+        };
+        request.setShouldCache(false);
+        Volley.newRequestQueue(context).add(request);
+        Log.d("요청 url: ", url);
+
+    }
+
       /*
         HistoryRequest(): Map<String, String>
         = 내역 조회 요청 전달 파라미터 설정 함수
@@ -138,6 +168,73 @@ public class HistoryRequest {
                     }
 
                     callback.onSuccess(historyInfo, dailyHistoryInfo);
+                    break;
+
+                case "error":
+                    historyInfo = null;
+                    break;
+
+                case "db_fail":
+                    historyInfo = null;
+                    break;
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    /*
+        HomeHistoryRequest(): Map<String, String>
+        = 홈 내역 조회 요청 전달 파라미터 설정 함수
+    */
+
+    private Map<String, String> HomeHistoryRequest(){
+
+        Map<String, String> params = new HashMap<>();
+
+        params.put("id", userID);
+        params.put("sDate", sDate);
+        params.put("lDate", lDate);
+        return params;
+
+    }
+
+    /*
+        HomeHistoryResponse(String): void
+        = 홈 내역 조회 요청 응답 처리 함수
+    */
+
+    private void HomeHistoryResponse(String response, final VolleyCallback callback){
+        try{
+            Log.d("onResponse 호출 ", response);
+
+            JSONObject json = new JSONObject(response);
+            String resultString = (String) json.get("message");
+
+            switch (resultString) {
+                case "success":
+
+                    JSONArray dataArray = json.getJSONArray("history");
+                    //Toast.makeText(context, dataArray.toString(), Toast.LENGTH_LONG).show();
+
+                    historyInfo = new HistoryInfo[dataArray.length()];
+
+                    for(int i = 0; i < dataArray.length(); ++i){
+
+                        JSONObject record = dataArray.getJSONObject(i);
+
+                        String hValue = record.getString("hValue");
+                        String hName = record.getString("hName");
+                        String cName = record.getString("cName");
+
+                        historyInfo[i] = new HistoryInfo(hValue, hName,  cName);
+
+                    }
+
+                    callback.onSuccess(historyInfo, null);
                     break;
 
                 case "error":
