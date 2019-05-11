@@ -1,1 +1,1 @@
-include ':app', ':myapplication', ':myapp', ':testchart'
+include ':app', ':myapplication', ':myapp', ':testchart', ':spinnermodule', ':testday'

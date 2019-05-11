@@ -28,12 +28,11 @@ public class consumptionEvaluationFragment extends Fragment {
         ListView reportListView = view.findViewById(R.id.reportList);
         Button detailBtn = view.findViewById(R.id.detailBtn);
 
-
         ArrayList<reportElement> reportElements = new ArrayList<>();
         reportElements.add(new reportElement("[3월 3주차 주간 리포트]", 149403));
-        reportElements.add(new reportElement());
+        //reportElements.add(new reportElement());
         reportElements.add(new reportElement("[3월 2주차 주간 리포트]", 155889));
-        reportElements.add(new reportElement());
+        //reportElements.add(new reportElement());
         reportElements.add(new reportElement("[3월 1주차 주간 리포트]", 139230));
 
 

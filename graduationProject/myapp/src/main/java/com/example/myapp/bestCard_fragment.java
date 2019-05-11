@@ -30,8 +30,6 @@ public class bestCard_fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bestcard, container, false);
 
 
-//    ㆍ
-
         arraylist.add(new cardElement(R.drawable.card_peach, "피치 체크카드", "영화ㆍ문화공연 에서 더 많은 혜택 을 받을 수 있어요!"));
 
         bestCardImage = view.findViewById(R.id.bestCardImage);

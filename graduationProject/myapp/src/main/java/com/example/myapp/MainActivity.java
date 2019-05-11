@@ -410,6 +410,9 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("DeviceCheckResult", deviceCheckResult);
         intent.putExtra("UserAccountCheck", String.valueOf(userAccountCheck));
         intent.putExtra("UserID", myUserInfo.getUserID());
+        intent.putExtra("UserName", myUserInfo.getUserName());
+        intent.putExtra("UserPhone", myUserInfo.getUserPhone());
+
         startActivityForResult(intent, 1);
     }
 
