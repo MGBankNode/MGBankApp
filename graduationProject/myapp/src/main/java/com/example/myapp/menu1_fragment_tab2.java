@@ -112,7 +112,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
         /////////////////////////////////
         //요청 정보 입력!!!!!!!test
         HistoryRequest test = new HistoryRequest(
-                "1",                          //현재 로그인 아이디
+                "a",                          //현재 로그인 아이디
                 year+"-"+month+"-1",                       //요청할 해당 달의 시작 날짜
                 year+"-"+month+"-31",                       //요청할 해당 달의 마지막 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
