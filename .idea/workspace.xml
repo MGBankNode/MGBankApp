@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7ea3c7db-f054-44c8-bf51-4c48b30e6f1d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="7ea3c7db-f054-44c8-bf51-4c48b30e6f1d" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +13,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/graduationProject/myapp/src/main/res/layout/menu1_recycler_item.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
+            <state relative-caret-position="494">
               <caret line="26" column="57" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
             </state>
           </provider>
@@ -43,8 +40,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-513">
-              <caret line="351" column="61" selection-start-line="351" selection-start-column="61" selection-end-line="351" selection-end-column="61" />
+            <state relative-caret-position="1114">
+              <caret line="306" column="19" selection-start-line="306" selection-start-column="19" selection-end-line="306" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -78,17 +75,16 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="140" />
-    <option name="y" value="43" />
-    <option name="width" value="1400" />
-    <option name="height" value="907" />
+    <option name="x" value="955" />
+    <option name="y" value="21" />
+    <option name="width" value="974" />
+    <option name="height" value="1046" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -96,27 +92,17 @@
               <item name="MGBankApp" type="b2602c69:ProjectViewProjectNode" />
               <item name="MGBankApp" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="MGBankApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MGBankApp" type="462c0819:PsiDirectoryNode" />
-              <item name="graduationProject" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MGBankApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MGBankApp" type="462c0819:PsiDirectoryNode" />
-              <item name="graduationProject" type="462c0819:PsiDirectoryNode" />
-              <item name="myapp" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/graduationProject" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -159,35 +145,52 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Resources Explorer" />
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info id="Capture Tool" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.22334754" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.22286618" />
       <window_info id="Structure" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
       <window_info id="Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info id="Resources Explorer" order="7" />
       <window_info anchor="bottom" id="TODO" order="0" weight="0.32899022" />
       <window_info anchor="bottom" id="Terminal" order="1" />
       <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50149256" side_tool="true" weight="0.32901555" />
       <window_info anchor="bottom" id="Version Control" order="3" sideWeight="0.49850747" visible="true" weight="0.27440348" />
       <window_info anchor="bottom" id="Find" order="4" />
       <window_info anchor="bottom" id="Messages" order="5" />
-      <window_info anchor="right" id="Assistant" weight="0.3336887" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Palette&#9;" order="2" />
       <window_info anchor="right" id="Preview" order="3" weight="0.24200426" />
+      <window_info anchor="right" id="Assistant" order="4" weight="0.3336887" />
     </layout>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/encodings.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graduationProject/myapp/src/main/res/layout/menu1_recycler_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="26" column="57" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/graduationProject/myapp/src/main/java/com/example/myapp/MainScreen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graduationProject/myapp/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -208,27 +211,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/graduationProject/myapp/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/encodings.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/graduationProject/myapp/src/main/res/layout/menu1_recycler_item.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="26" column="57" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-513">
-          <caret line="351" column="61" selection-start-line="351" selection-start-column="61" selection-end-line="351" selection-end-column="61" />
+        <state relative-caret-position="1114">
+          <caret line="306" column="19" selection-start-line="306" selection-start-column="19" selection-end-line="306" selection-end-column="19" />
         </state>
       </provider>
     </entry>
