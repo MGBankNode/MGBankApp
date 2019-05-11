@@ -1,5 +1,6 @@
 package com.example.myapp;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,7 +51,7 @@ public class consumptionReportFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
+        final View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
 
         DrawWeekChart(view);
         DrawDayChart(view);
@@ -58,69 +59,91 @@ public class consumptionReportFragment extends Fragment {
         return view;
     }
 
-    public void DrawDayChart(View view) {
-        int sum = 0;
+    public void DrawDayChart(final View view) {
+        Context context = getContext();
 
-        dayChart =  view.findViewById(R.id.chartDay);
-        daySum = view.findViewById(R.id.daySum);
+        // 이런 정보가 담겨져 있는 객체를 받아왔다고 가정
+        AnalysisInfo analysisWeekInfo = new AnalysisInfo("2", "2019-05-05", "2019-05-12");
 
-        ArrayList<BarEntry> entries = new ArrayList<>();
+        //요청 정보 입력!!!!!!!test
+        AnalysisRequest test = new AnalysisRequest(
+                "b",                               //현재 로그인 아이디
+                analysisWeekInfo.getsDate(),                      //시작 날짜
+                analysisWeekInfo.getlDate(),                       //마지막 날짜
+                RequestInfo.RequestType.ANALYSIS_DAILY,    //고정
+                context);                                 //고정
 
-        entries.add(new BarEntry(1f, 19230));
-        entries.add(new BarEntry(2f, 25889));
-        entries.add(new BarEntry(3f, 21940));
-        entries.add(new BarEntry(4f, 31321));
-        entries.add(new BarEntry(5f, 24529));
-        entries.add(new BarEntry(6f, 43291));
-        entries.add(new BarEntry(7f, 14291));
 
-        String[] labels = new String[] {"", "월", "화", "수", "목", "금", "토", "일"};
+        //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
+        test.DailyRequestHandler(new AnalysisRequest.VolleyCallback() {
+            @Override
+            public void onSuccess(AnalysisInfo[] info) {
 
-        YAxis leftAxis = dayChart.getAxisLeft();
-        YAxis rightAxis = dayChart.getAxisRight();
-        XAxis xAxis = dayChart.getXAxis();
+                int sum = 0;
 
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(11f);
-        xAxis.setTextColor(Color.rgb(155,155,155));
+                dayChart =  view.findViewById(R.id.chartDay);
+                daySum = view.findViewById(R.id.daySum);
 
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        xAxis.setLabelCount(7);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setDrawGridLines(false);
+                ArrayList<BarEntry> entries = new ArrayList<>();
+                //info[0].getDaily() 하면 날짜 나옴
+                entries.add(new BarEntry(1f, Integer.parseInt(info[0].getDailySum())));
+                entries.add(new BarEntry(2f, 0));
+                entries.add(new BarEntry(3f, Integer.parseInt(info[1].getDailySum())));
+                entries.add(new BarEntry(4f, Integer.parseInt(info[2].getDailySum())));
+                entries.add(new BarEntry(5f, Integer.parseInt(info[3].getDailySum())));
+                entries.add(new BarEntry(6f, Integer.parseInt(info[4].getDailySum())));
+                entries.add(new BarEntry(7f, Integer.parseInt(info[5].getDailySum())));
 
-        leftAxis.setDrawLabels(true);
-        leftAxis.setAxisMinimum(9000);
-        leftAxis.setGranularity(6000);
-        leftAxis.setYOffset(-30f);
-        leftAxis.setTextColor(Color.rgb(155,155,155));
-        leftAxis.setDrawAxisLine(true);
-        leftAxis.setDrawGridLines(false);
+                String[] labels = new String[] {"", "월", "화", "수", "목", "금", "토", "일"};
 
-        rightAxis.setDrawAxisLine(false);
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setDrawLabels(false);
+                YAxis leftAxis = dayChart.getAxisLeft();
+                YAxis rightAxis = dayChart.getAxisRight();
+                XAxis xAxis = dayChart.getXAxis();
 
-        BarDataSet set = new BarDataSet(entries, "");
-        set.setColors(decisionColor(entries, DayNum));
-        set.setValueTextColor(Color.rgb(90,90,90));
-        set.setValueTextSize(9);
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(11f);
+                xAxis.setTextColor(Color.rgb(155,155,155));
 
-        BarData data = new BarData(set);
+                xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+                xAxis.setLabelCount(7);
+                xAxis.setDrawAxisLine(true);
+                xAxis.setDrawGridLines(false);
 
-        data.setBarWidth(0.6f); // set custom bar width
+                leftAxis.setDrawLabels(true);
+                leftAxis.setAxisMinimum(9000);
+                leftAxis.setGranularity(6000);
+                leftAxis.setYOffset(-30f);
+                leftAxis.setTextColor(Color.rgb(155,155,155));
+                leftAxis.setDrawAxisLine(true);
+                leftAxis.setDrawGridLines(false);
 
-        setChartData(dayChart, data);
+                rightAxis.setDrawAxisLine(false);
+                rightAxis.setDrawGridLines(false);
+                rightAxis.setDrawLabels(false);
 
-        for(int i=0; i<entries.size(); i++)
-            sum += (int) entries.get(i).getY();
+                BarDataSet set = new BarDataSet(entries, "");
+                set.setColors(decisionColor(entries, DayNum));
+                set.setValueTextColor(Color.rgb(90,90,90));
+                set.setValueTextSize(9);
 
-        sum /= DayNum;
+                BarData data = new BarData(set);
 
-        String temp = sum + "원 입니다!";
+                data.setBarWidth(0.6f); // set custom bar width
 
-        daySum.append(temp);
+                setChartData(dayChart, data);
 
+                for(int i=0; i<entries.size(); i++)
+                    sum += (int) entries.get(i).getY();
+
+                sum /= DayNum;
+
+                String temp = sum + "원 입니다!";
+
+                daySum.append(temp);
+
+
+            }
+        });
 
     }
 
