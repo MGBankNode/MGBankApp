@@ -2,36 +2,38 @@ package com.example.myapp;
 
 public class AnalysisInfo {
 
-    private String week;
-    private String weekSum;
-
-
+    private String one;
+    private String oneSum;
 
     private String sDate;
     private String lDate;
 
-    AnalysisInfo(String week, String weekSum){
-        this.week = week;
-        this.weekSum = weekSum;
+    AnalysisInfo(String one, String oneSum){
+        this.one = one;
+        this.oneSum = oneSum;
     }
 
-    AnalysisInfo(String week, String sDate, String lDate){
-        this.week = week;
+    AnalysisInfo(String one, String sDate, String lDate){
+        this.one = one;
         this.sDate = sDate;
         this.lDate = lDate;
     }
 
     public String getWeek() {
-        return week;
+        return one;
     }
 
     public String getWeekSum() {
-        return weekSum;
+        return oneSum;
     }
 
     public void setWeekSum(String weekSum) {
-        this.weekSum = weekSum;
+        this.oneSum = weekSum;
     }
+
+    public String getDaily() { return one; }
+
+    public String getDailySum() { return oneSum; }
 
     public String getsDate() {
         return sDate;
