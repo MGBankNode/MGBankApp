@@ -81,4 +81,13 @@ public class MypageActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("DeviceCheckResult", deviceCheckResult);
+        intent.putExtra("UserAccountCheck", String.valueOf(userAccountCheck));
+        setResult(RESULT_OK, intent);
+        finish();
+        return;
+    }
 }

@@ -66,10 +66,10 @@ public class menu1_CustomDialog {
                 context);                             //이것두 고정이요
 
 
-        //Request 함수 호출해서 정보 accountHistoryInfo 객체에서 받아와서 사용
+        //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
         test.Request(new HistoryRequest.VolleyCallback() {
             @Override
-            public void onSuccess(HistoryInfo[] accountHistoryInfo) {
+            public void onSuccess(HistoryInfo[] accountHistoryInfo, DailyHistoryInfo[] dailyHistoryInfo) {
                 int arrLength = accountHistoryInfo.length;
 
                 String[] hDate = new String[arrLength];
@@ -91,6 +91,22 @@ public class menu1_CustomDialog {
                     cName[i] = accountHistoryInfo[i].getcName();        //카테고릐 분류
                 }
                 //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+
+                int arrLength2 = dailyHistoryInfo.length;
+                String day[] = new String[arrLength2];
+                String dailyBenefit[] = new String[arrLength2];
+                String dailyLoss[] = new String[arrLength2];
+
+                for(int i = 0; i < arrLength2; i++){
+
+                    day[i] = dailyHistoryInfo[i].getDay();                      //일
+                    dailyBenefit[i] = dailyHistoryInfo[i].getDailyBenefit();    //수익
+                    dailyLoss[i] = dailyHistoryInfo[i].getDailyLoss();          //지출
+
+                }
+
+                //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+
 
                 DecimalFormat myFormatter = new DecimalFormat("###,###");
 

@@ -10,6 +10,11 @@ public class HistoryInfo {
     String cType;       //카드 이름
     String cName;       //카테고리 분류
 
+    HistoryInfo(String hValue, String hName, String cName){
+        this.hValue = hValue;
+        this.hName = hName;
+        this.cName = cName;
+    }
 
     HistoryInfo(String hDate, String hType, String hValue, String hName, String aBalance, String cType, String cName){
         this.hDate = hDate;
