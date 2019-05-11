@@ -12,7 +12,8 @@ public class RequestInfo {
         ACCOUNT_HISTORY,
         ACCOUNT_HOME_HISTORY,
         ACCOUNT_BALANCE,
-        ADD_ACCOUNT
+        ADD_ACCOUNT,
+        ANALYSIS_WEEK
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -75,6 +76,11 @@ public class RequestInfo {
             case ADD_ACCOUNT:
                 processURL = "/nodeapi/account/addaccount";
                 break;
+
+            case ANALYSIS_WEEK:
+                processURL = "/nodeapi/analysis/analysisweek";
+                break;
+
         }
         return processURL;
     }
