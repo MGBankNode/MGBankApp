@@ -60,6 +60,7 @@ public class fragment_home extends Fragment {
         Stat Life = new Stat(LIFE);
         Stat Coffee = new Stat(COFFEE);
 
+
         //식비 데이터
         PayInfomation p;
         p = (new PayInfomation("자판기", 1200, Food));
@@ -253,5 +254,9 @@ public class fragment_home extends Fragment {
         Util util = new Util();
         TextView tv = (TextView)getView().findViewById(R.id.mainFragment_textView);
         tv.setText(util.comma(123456789) + "원");
+    }
+
+    public void yunji(){
+        //ex : 지지고, 3000원, 식비
     }
 }
