@@ -4,24 +4,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="#FFF">
 
-    <!--<TextView-->
-        <!--android:text="소비평가~~~~~~~~~"-->
-        <!--android:textSize="20dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:padding="8dp"-->
-
-        <!--/>-->
-
-    <ListView
-        android:id="@+id/reportList"
+    <LinearLayout
+        android:id="@+id/tv_date"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="45dp"
+        android:background="#fff"
+        android:orientation="horizontal"
         >
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/report_previous_month"
+            android:src="@drawable/ic_previous"
+            android:background="#fff"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/present_month"
+                android:text="3월"
+                android:textSize="22dp"
+                android:textColor="#000"
+                android:textAlignment="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2019년"
+                android:textSize="12dp"
+                android:id="@+id/present_year"/>
+        </LinearLayout>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/report_next_month"
+            android:src="@drawable/ic_next"
+            android:background="#fff"/>
+    </LinearLayout>
 
-    </ListView>
+        <ListView
+            android:id="@+id/reportList"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#C6C6C6"
+            android:footerDividersEnabled="false"
+            android:dividerHeight="8dp"
+            >
+        </ListView>
+
+
+
 </LinearLayout>

@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MypageActivity extends AppCompatActivity {
 
@@ -14,6 +16,11 @@ public class MypageActivity extends AppCompatActivity {
     private String deviceCheckResult;
     private int userAccountCheck;
     private String userID;
+    private String userName;
+    private String userPhone;
+
+    private TextView tv_userName;
+    private TextView tv_userPhoneNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +31,9 @@ public class MypageActivity extends AppCompatActivity {
         myDeviceInfo = (DeviceInfo) intent.getSerializableExtra("DeviceInfoObject");
         deviceCheckResult = intent.getStringExtra("DeviceCheckResult");
         userAccountCheck = Integer.parseInt(intent.getStringExtra("UserAccountCheck"));
-        userID = intent.getStringExtra("userID");
+        userID = intent.getStringExtra("UserID");
+        userName = intent.getStringExtra("UserName");
+        userPhone = intent.getStringExtra("UserPhone");
 
         registeraccount = findViewById(R.id.registerAccount);
         registeraccount.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +47,12 @@ public class MypageActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+
+        tv_userName = findViewById(R.id.mypage_username);
+        tv_userName.setText(userName);
+
+        tv_userPhoneNum = findViewById(R.id.mypage_phoneNumber);
+        tv_userPhoneNum.setText(userPhone);
 
     }
 

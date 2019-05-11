@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Stack;
 
 
 /**
@@ -32,6 +36,7 @@ public class CustomDialog extends DialogFragment {
     private String result;
     private CustomDialogResult dialogResult;
     private Fragment fragment;
+
     public CustomDialog() {
         // Required empty public constructor
     }
@@ -68,17 +73,37 @@ public class CustomDialog extends DialogFragment {
 
         //스피너 설정
         final Spinner spinner = (Spinner) getView().findViewById(R.id.pay_account_stat_spinner);
-        String[] item = Stat.statNames;
+        ArrayList<String> item = new ArrayList<>(Arrays.asList(Stat.statNames));
+        Stack<String> st = new Stack<>();
+        String currentstat = getArguments().getString("PAY_ACCOUNT_STAT");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                R.layout.spin_dropdown, item);
+        for(String str : item) {
+            if(str != currentstat)
+                st.push(str);
+        }
+        st.push(currentstat);
 
+        item.clear();
+
+        while(true) {
+            if(st.empty())
+                break;
+
+            item.add(st.pop());
+        }
+
+
+       //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+             //   R.layout.spin_dropdown, item);
+
+        SpinnerAdapter adapter = new SpinnerAdapter(getContext(), item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) { }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
+
         });
 
         final TextView textView = (TextView) getView().findViewById(R.id.pay_account_stat_change_button);
@@ -101,7 +126,11 @@ public class CustomDialog extends DialogFragment {
                 dialogFragment.dismiss();
             }
         });
+
+
         super.onActivityCreated(savedInstanceState);
+
+
     }
     public void setDialogResult(CustomDialogResult cdr){
         dialogResult = cdr;

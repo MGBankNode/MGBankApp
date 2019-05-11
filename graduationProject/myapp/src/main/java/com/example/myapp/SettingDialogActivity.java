@@ -60,7 +60,6 @@ public class SettingDialogActivity extends Activity {
         userAccountCheck = Integer.parseInt(intent.getStringExtra("UserAccountCheck"));
         userID = intent.getStringExtra("UserID");
 
-
         if (deviceCheckResult.equals("YES")) {
 
             pushSwitch.setChecked(true);
@@ -93,12 +92,12 @@ public class SettingDialogActivity extends Activity {
                 if (pushSwitch.isChecked()) {
 
                     if (originDeviceCheckValue == 1) {  //기존과 같은 경우 accountSwitch 검사 후
-                                                        // 아무작업도 안함(0)
+                        // 아무작업도 안함(0)
                         deviceCheckResult = "YES";
                         CheckOriginAccountCheckValue(0);
 
                     } else {                            //기존과 다른 경우 accountSwitch 검사 후
-                                                        // ADD 작업 해야함(1)
+                        // ADD 작업 해야함(1)
                         CheckOriginAccountCheckValue(1);
 
                     }
@@ -107,11 +106,11 @@ public class SettingDialogActivity extends Activity {
                 } else {
 
                     if (originDeviceCheckValue == 1) {  //기존과 다른 경우 accountSwitch 검사 후
-                                                        // Delete 작업 해야함(2)
+                        // Delete 작업 해야함(2)
                         CheckOriginAccountCheckValue(2);
 
                     } else {                            //기존과 같은 경우 accountSwitch 검사 후
-                                                        //아무작없도 안함(0)
+                        //아무작없도 안함(0)
                         deviceCheckResult = "NO";
                         CheckOriginAccountCheckValue(0);
 

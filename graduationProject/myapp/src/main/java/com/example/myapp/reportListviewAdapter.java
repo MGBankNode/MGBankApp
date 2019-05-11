@@ -9,7 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class reportListviewAdapter extends BaseAdapter {
 
@@ -47,26 +49,20 @@ public class reportListviewAdapter extends BaseAdapter {
         TextView rpDate = convertView.findViewById(R.id.reportDate);
         TextView rpExpenditure = convertView.findViewById(R.id.reportExpenditure);
 
-        if(position % 2 == 1) {
-            LinearLayout linearLayout = convertView.findViewById(R.id.reportContainer);
-            rpDate.setText("");
-            rpExpenditure.setText("");
-            LinearLayout.LayoutParams lparam = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            lparam.height = 30;
-            linearLayout.setLayoutParams(lparam);
-            linearLayout.setBackgroundColor(Color.rgb(230,230,230));
-        }
-        else {
+        final SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
+        final SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
+        final SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
 
-            rpDate.setText(data.get(position).getReportDate());
+        rpDate.setText(data.get(position).getReportDate());
 
-            rpmoney = data.get(position).getReportExpenditure();
-            String tempStr = String.format("%,d", rpmoney);
-            String result = "총 " +tempStr + "원 사용";
-            rpExpenditure.setText(result);
+        rpmoney = data.get(position).getReportExpenditure();
+        String tempStr = String.format("%,d", rpmoney);
+        String result = "총 " +tempStr + "원 사용";
+        rpExpenditure.setText(result);
 
-        }
+
+
+
         return convertView;
     }
 }

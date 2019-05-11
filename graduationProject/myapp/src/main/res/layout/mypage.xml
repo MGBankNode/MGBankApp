@@ -24,17 +24,17 @@
             >
 
             <ImageView
-                android:id="@+id/mypgae_userimage"
+                android:id="@+id/mypage_userimage"
                 android:layout_width="30dp"
                 android:layout_height="32dp"
                 android:src="@drawable/profile"
                 />
             <TextView
-                android:id="@+id/mypgae_username"
+                android:id="@+id/mypage_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/mypgae_userimage"
+                android:layout_toRightOf="@id/mypage_userimage"
                 android:layout_centerVertical="true"
                 android:textColor="#000"
                 android:text="username"
@@ -56,17 +56,17 @@
             >
 
             <ImageView
-                android:id="@+id/mypgae_phoneImage"
+                android:id="@+id/mypage_phoneImage"
                 android:layout_width="30dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_call_black_24dp"
                 />
             <TextView
-                android:id="@+id/mypgae_phoneNumber"
+                android:id="@+id/mypage_phoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/mypgae_phoneImage"
+                android:layout_toRightOf="@id/mypage_phoneImage"
                 android:layout_centerVertical="true"
                 android:textColor="#000"
                 android:text="phonenumber"
@@ -90,17 +90,17 @@
             >
 
             <ImageView
-                android:id="@+id/mypgae_accountimage"
+                android:id="@+id/mypage_accountimage"
                 android:layout_width="30dp"
                 android:layout_height="32dp"
                 android:src="@drawable/credit"
                 />
             <TextView
-                android:id="@+id/mypgae_account"
+                android:id="@+id/mypage_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/mypgae_accountimage"
+                android:layout_toRightOf="@id/mypage_accountimage"
                 android:layout_centerVertical="true"
                 android:textColor="#000"
                 android:text="계좌 등록/추가"
