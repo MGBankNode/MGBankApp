@@ -14,7 +14,8 @@ public class RequestInfo {
         ACCOUNT_BALANCE,
         ADD_ACCOUNT,
         ANALYSIS_WEEK,
-        ANALYSIS_DAILY
+        ANALYSIS_DAILY,
+        BARCODE_POINT
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -86,6 +87,9 @@ public class RequestInfo {
                 processURL = "/nodeapi/analysis/analysisdaily";
                 break;
 
+            case BARCODE_POINT:
+                processURL = "/nodeapi/barcode/barcodepoint";
+                break;
         }
         return processURL;
     }
