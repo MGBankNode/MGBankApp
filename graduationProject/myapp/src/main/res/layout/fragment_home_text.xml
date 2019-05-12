@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="220dp">
     <TextView android:id="@+id/text1"
-        android:text="고객님의 잔고는"
+        android:text="고객님의 금월 지출은"
         android:fontFamily="@font/applegothicneo_b"
         android:textColor="#fff"
         android:shadowColor="#00709D"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </TextView>
-    <TextView android:text="남았습니다."
+    <TextView android:text="입니다."
         android:fontFamily="@font/applegothicneo_b"
         android:textColor="#fff"
         android:shadowColor="#00709D"

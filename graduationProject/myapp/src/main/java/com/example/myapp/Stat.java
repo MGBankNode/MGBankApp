@@ -13,15 +13,19 @@ import java.util.HashMap;
  */
 
 public class Stat implements Serializable {
-    static final String BEAUTY = "뷰티/미용";
     static final String CULTURE = "문화/여가";
-    static final String LIFE = "생활";
+    static final String LIFE = "생활/쇼핑";
     static final String FOOD = "식비";
-    static final String PAYMENT = "인터넷 결제";
     static final String TRAFFIC = "교통";
-    static final String NONE = "미지정";
+    static final String NONE = "미분류";
+    static final String FINANCE = "금융";
+    static final String TRAVEL = "여행/숙박";
+    static final String DRINK = "술/유흥";
+    static final String DWELLING = "주거/통신";
+    static final String HOSPITAL = "의료/건강";
     static final String COFFEE = "카페/간식";
-    static final String[] statNames = {BEAUTY, CULTURE, LIFE, FOOD, PAYMENT, TRAFFIC, NONE, COFFEE};
+    static final String[] statNames = {CULTURE, LIFE, FOOD, TRAFFIC, NONE
+            , COFFEE, FINANCE, TRAVEL, DRINK, DWELLING, HOSPITAL};
     private String s_name;
     private int s_price;
     private ArrayList<PayInfomation> list;
@@ -32,7 +36,7 @@ public class Stat implements Serializable {
     }
 
     public void addInfo(PayInfomation info){
-        Log.d("KJH", "Add payinfomation name : " + info.getAccountName() + ", price : " + info.getPrice());
+        Log.d("KJH", "Add payinfomation " + s_name + " name : " + info.getAccountName() + ", price : " + info.getPrice());
         list.add(info);
         s_price += info.getPrice();
     }
@@ -63,27 +67,28 @@ public class Stat implements Serializable {
             if(firstValue.equals(secondValue)) return -1;
             else if(firstValue.equals(secondValue)) return 1;
             else return 0;
-        }
+        };
     }
     public void setClassificationData() {
         if (list.isEmpty()) return;
-        Log.d("KJH", "setClassificationData() loop 0 : Name : " + list.get(0).getAccountName()
-                + ", price : " + list.get(0).getPrice());
-        classificationData.put(list.get(0).getAccountName(), list.get(0).getPrice());
         classificationData = new HashMap<String, Integer>();
+        classificationData.put(list.get(0).getAccountName(), list.get(0).getPrice());
+
         for (int i = 1; i < list.size(); i++) {
             String temp = list.get(i).getAccountName();
             if(classificationData.containsKey(temp)) {
-                Log.d("KJH", "setClassificationData() loop " + i + " : Name : " + temp
-                        + ", price : " + list.get(i).getPrice());
                 classificationData.put(temp, classificationData.get(temp) + list.get(i).getPrice());
             }
             else {
-                Log.d("KJH", "setClassificationData() loop " + i + " : Name : " + temp
-                        + ", price : " + list.get(i).getPrice());
                 classificationData.put(temp, list.get(i).getPrice());
             }
         }
-
     }
+    public void getSelectedHashMap(ArrayList<String> list, HashMap<String, Integer> result){
+        for(int position = 0; position < list.size(); position++){
+            if(classificationData.containsKey(list.get(position)))
+                result.put(list.get(position), classificationData.get(list.get(position)));
+        }
+    }
+    public boolean isEmpty(){return list.isEmpty();}
 }

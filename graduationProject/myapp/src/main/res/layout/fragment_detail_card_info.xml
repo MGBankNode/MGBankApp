@@ -15,35 +15,24 @@
             android:id="@+id/collapsingToolbarLayout03"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:title="당신을 위한 맞춤 카드"
-            app:expandedTitleTextAppearance="@style/ExpandedTitle"
-            app:collapsedTitleTextAppearance="@style/CollapsedTitle"
+            app:title="카드 이름"
             app:expandedTitleGravity="top"
+            app:collapsedTitleTextAppearance="@style/CollapsedTitle"
+            app:expandedTitleTextAppearance="@style/ExpandedTitle"
+            android:fitsSystemWindows="true"
             app:contentScrim="#FFF"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <LinearLayout
+                android:paddingTop="65dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingTop="50dp"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.8">
-                <TextView
-                    android:id="@+id/bestCardName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/malgun"
-                    android:text="피치 체크카드"
-                    android:textSize="19dp"
-                    android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/bestCardImage"
+                    android:id="@+id/detailCardImage"
                     android:layout_width="match_parent"
                     android:layout_height="115dp"
                     android:layout_marginTop="10dp"
@@ -65,7 +54,7 @@
                         android:textSize="25dp" />
 
                     <TextView
-                        android:id="@+id/discountTextView"
+                        android:id="@+id/detailDiscountTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
@@ -83,19 +72,28 @@
                         android:text="원 절약"
                         android:textSize="25dp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_margin="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView android:id="@+id/detail_TextViewButton"
+                        android:background="@drawable/correct_button_bg"
+                        android:gravity="center"
+                        android:text="자세히 보기"
+                        android:textSize="23dp"
+                        android:layout_width="220dp"
+                        android:layout_height="50dp" />
+                </LinearLayout>
             </LinearLayout>
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar2"
+                android:id="@+id/toolbar3"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-    <TextView
-        android:elevation="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-    <include layout="@layout/card_list_layout"/>
-
+    <include layout="@layout/detail_card_list_layout"/>
 </android.support.design.widget.CoordinatorLayout>
