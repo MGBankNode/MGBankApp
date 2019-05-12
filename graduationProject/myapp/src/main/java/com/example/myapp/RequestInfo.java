@@ -15,7 +15,8 @@ public class RequestInfo {
         ADD_ACCOUNT,
         ANALYSIS_WEEK,
         ANALYSIS_DAILY,
-        BARCODE_POINT
+        BARCODE_POINT,
+        UPDATE_CATEGORY
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -89,6 +90,10 @@ public class RequestInfo {
 
             case BARCODE_POINT:
                 processURL = "/nodeapi/barcode/barcodepoint";
+                break;
+
+            case UPDATE_CATEGORY:
+                processURL = "/nodeapi/category/updatecategory";
                 break;
         }
         return processURL;
