@@ -42,6 +42,7 @@ public class menu1_fragment_tab1 extends Fragment {
     TextView txt_year;
     Button btn_benefit;
     Button btn_loss;
+    ImageButton btn_receipt;
 
     private GridAdapter gridAdapter;
     private ArrayList<String> dayList;
@@ -132,7 +133,7 @@ public class menu1_fragment_tab1 extends Fragment {
         txt_year=(TextView)getView().findViewById(R.id.present_year);
         btn_benefit=(Button)getView().findViewById(R.id.result_benefit_btn);
         btn_loss=(Button)getView().findViewById(R.id.result_loss_btn);
-
+        btn_receipt = (ImageButton)getView().findViewById(R.id.receipt_btn);
         /////////////////////////////그리드 뷰 로드//////////////////////////////////////
         gridView = (GridView)getView().findViewById(R.id.gridview);
         //오늘날짜 설정
@@ -277,6 +278,13 @@ public class menu1_fragment_tab1 extends Fragment {
             }
         });
 
+        btn_receipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddReceiptActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
         super.onActivityCreated(savedInstanceState);
     }
 
