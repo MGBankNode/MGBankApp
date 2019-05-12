@@ -36,6 +36,9 @@ public class menu1_fragment_tab1 extends Fragment {
     int year = 2019;
     int day = 1;
     int startDay = 0;
+    int lastDay =31;
+    int monthlyBenefit = 0, monthlyLoss = 0;
+
     ImageButton btn_previous;
     ImageButton btn_next;
     TextView txt_present;
@@ -46,6 +49,9 @@ public class menu1_fragment_tab1 extends Fragment {
 
     private GridAdapter gridAdapter;
     private ArrayList<String> dayList;
+    private ArrayList<String> benefitList;
+    private ArrayList<String> lossList;
+
     private GridView gridView;
     private Calendar mCal;
     public menu1_fragment_tab1() {    }
@@ -61,18 +67,23 @@ public class menu1_fragment_tab1 extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.menu1_fragment_tab1,
                 container, false);
+
         return layout;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
+    public void request_test(){
         /////////////////////////////////
-        //요청 정보 입력!!!!!!!test
+        //요청 정보 입력
+        int request_year=year, request_month=month+1;
+        if((request_month)==13){
+            request_year=year+1;
+            request_month=1;
+        }
+
         HistoryRequest test = new HistoryRequest(
-                "b",                                //현재 로그인 아이디
-                "2019-04-01",                       //요청할 해당 달의 시작 날짜
-                "2019-04-31",                       //요청할 해당 달의 마지막 날짜
+                "b",                          //현재 로그인 아이디
+                year+"-"+month+"-1",                       //요청할 해당 달의 시작 날짜
+                request_year+"-"+request_month+"-1",       //요청할 해당 다음달의 시작 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
                 getContext());                             //이것두 고정이요
 
@@ -81,51 +92,75 @@ public class menu1_fragment_tab1 extends Fragment {
         test.Request(new HistoryRequest.VolleyCallback() {
             @Override
             public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
-                int arrLength = historyInfo.length;
+                monthlyBenefit=0;
+                monthlyLoss=0;
 
-                String[] hDate = new String[arrLength];
-                String[] hType = new String[arrLength];
-                String[] hValue = new String[arrLength];
-                String[] hName = new String[arrLength];
-                String[] aBalance = new String[arrLength];
-                String[] cType = new String[arrLength];
-                String[] cName = new String[arrLength];
-
-                for(int i = 0; i < arrLength; i++){
-
-                    hDate[i] = historyInfo[i].gethDate();        //내역 사용 날짜
-                    hType[i] = historyInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
-                    hValue[i] = historyInfo[i].gethValue();      //내역 사용 금액
-                    hName[i] = historyInfo[i].gethName();        //내역 사용 처 이름
-                    aBalance[i] = historyInfo[i].getaBalance();  //내역 사용 후 잔액
-                    cType[i] = historyInfo[i].getcType();        //카드 이름
-                    cName[i] = historyInfo[i].getcName();        //카테고릐 분류
-                }
-
-                //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+                String[] day_ ;
+                String[] dailyBenefit;
+                String[] dailyLoss;
 
                 int arrLength2 = dailyHistoryInfo.length;
-                String day[] = new String[arrLength2];
-                String dailyBenefit[] = new String[arrLength2];
-                String dailyLoss[] = new String[arrLength2];
+                day_ = new String[arrLength2];
+                dailyBenefit = new String[arrLength2];
+                dailyLoss = new String[arrLength2];
+                String[] arr1, arr2;
+
+                arr1 = new String[lastDay];
+                arr2 = new String[lastDay];
 
                 for(int i = 0; i < arrLength2; i++){
-
-                    day[i] = dailyHistoryInfo[i].getDay();                      //일
+                    day_[i] = dailyHistoryInfo[i].getDay();                      //일
                     dailyBenefit[i] = dailyHistoryInfo[i].getDailyBenefit();    //수익
                     dailyLoss[i] = dailyHistoryInfo[i].getDailyLoss();          //지출
 
+                    monthlyBenefit+=Integer.parseInt(dailyBenefit[i]);  //월 수익
+                    monthlyLoss+=Integer.parseInt(dailyLoss[i]);        //월 지출
+                }
+                //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+                for (int i = 0; i < lastDay; i++) {
+                    for (int j = 0; j < arrLength2; j++) {
+                        arr1[i] = "0";
+                        arr2[i] = "0";
+                    }
+                }
+                int date1,date2;
+                for (int i = 0; i <lastDay; i++) {
+                    for(int j=0; j<arrLength2; j++){
+                        if(Integer.parseInt(dailyBenefit[j])!=0){
+                            date1=Integer.parseInt(day_[j]);
+                            arr1[date1-1]=dailyBenefit[j];
+                        }
+                        if(Integer.parseInt(dailyLoss[j])!=0){
+                            date2=Integer.parseInt(day_[j]);
+                            arr2[date2-1]=dailyLoss[j];
+                        }
+                    }
                 }
 
-                //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+                //1일 - 요일 매칭 시키기 위해 공백 add
+                for (int i = 1; i < startDay; i++) {
+                    dayList.add("");
+                    benefitList.add("");
+                    lossList.add("");
+                }
+                //해당 월에 표시할 일수 구함
+                for (int i = 0; i < lastDay; i++) {
+                    dayList.add("" + (i + 1));
+                    benefitList.add(""+arr1[i]);
+                    lossList.add(""+arr2[i]);
+                }
+                Log.i("nkw","월: "+month+", 마지막 날 : "+Calendar.DAY_OF_MONTH+","+mCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+                //그리드 뷰 설정 및 표시
+                gridAdapter = new GridAdapter(getActivity(), dayList, benefitList, lossList);
+                gridView.setAdapter(gridAdapter);
 
             }
         });
-
         ///////////////////////////////////////////////
+    }
 
-
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
         btn_next=(ImageButton)getView().findViewById(R.id.next_month);
@@ -147,6 +182,8 @@ public class menu1_fragment_tab1 extends Fragment {
 
         //dayList 데이터 생성
         dayList = new ArrayList<String>();
+        benefitList = new ArrayList<String>();
+        lossList = new ArrayList<String>();
         mCal = Calendar.getInstance();
 
         //현재 날짜 텍스트뷰에 설정
@@ -156,20 +193,14 @@ public class menu1_fragment_tab1 extends Fragment {
 
         txt_present.setText(month + "월");
         txt_year.setText(year + "년");
-
         //달력 년,월,일 세팅
         mCal.set(year, month-1, 1);
         //월 시작 요일
         startDay = mCal.get(Calendar.DAY_OF_WEEK);
+        //월 마지막 날
+        lastDay = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        request_test();
 
-        //1일 - 요일 매칭 시키기 위해 공백 add
-        for (int i = 1; i < startDay; i++) {
-            dayList.add("");
-        }
-        setCalendarDate();
-        //그리드 뷰 설정 및 표시
-        gridAdapter = new GridAdapter(getActivity(), dayList);
-        gridView.setAdapter(gridAdapter);
 
         //월 이동 버튼 누를 때
         btn_previous.setOnClickListener(new View.OnClickListener(){
@@ -185,17 +216,15 @@ public class menu1_fragment_tab1 extends Fragment {
                 txt_present.setText(month + "월");
                 txt_year.setText(year + "년");
 
+                mCal = Calendar.getInstance();
                 mCal.set(year, month-1, 1);
                 startDay = mCal.get(Calendar.DAY_OF_WEEK);
-                dayList=new ArrayList<>();
-                //1일 - 요일 매칭 시키기 위해 공백 add
-                for (int i = 1; i < startDay; i++) {
-                    dayList.add("");
-                }
+                lastDay = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-                setCalendarDate();
-                gridAdapter = new GridAdapter(getActivity(), dayList);
-                gridView.setAdapter(gridAdapter);
+                dayList=new ArrayList<>();
+                benefitList=new ArrayList<>();
+                lossList=new ArrayList<>();
+                request_test();
             }
         });
         btn_next.setOnClickListener(new View.OnClickListener(){
@@ -211,16 +240,16 @@ public class menu1_fragment_tab1 extends Fragment {
                 txt_present.setText(month + "월");
                 txt_year.setText(year + "년");
 
+                mCal = Calendar.getInstance();
                 mCal.set(year, month-1, 1);
                 startDay = mCal.get(Calendar.DAY_OF_WEEK);
+                lastDay = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
                 dayList=new ArrayList<>();
-                //1일 - 요일 매칭 시키기 위해 공백 add
-                for (int i = 1; i < startDay; i++) {
-                    dayList.add("");
-                }
-                setCalendarDate();
-                gridAdapter = new GridAdapter(getActivity(), dayList);
-                gridView.setAdapter(gridAdapter);
+                benefitList=new ArrayList<>();
+                lossList=new ArrayList<>();
+
+                request_test();
             }
         });
 
@@ -242,16 +271,16 @@ public class menu1_fragment_tab1 extends Fragment {
             public void onClick(View v) {
                 if(btn_benefit.getText().equals("benefit")){
                     btn_benefit.setTextSize(13);
-                    btn_benefit.setText("+"+"1,500,000"+"원");
+                    btn_benefit.setText("+"+monthlyBenefit+"원");
 
-                    gridAdapter = new GridAdapter(getActivity(), dayList);
+                    gridAdapter = new GridAdapter(getActivity(), dayList, benefitList,lossList);
                     gridView.setAdapter(gridAdapter);
                 }
                 else{
                     btn_benefit.setTextSize(15);
                     btn_benefit.setText("benefit");
 
-                    gridAdapter = new GridAdapter(getActivity(), dayList);
+                    gridAdapter = new GridAdapter(getActivity(), dayList, benefitList,lossList);
                     gridView.setAdapter(gridAdapter);
                 }
 
@@ -263,16 +292,16 @@ public class menu1_fragment_tab1 extends Fragment {
             public void onClick(View v) {
                 if(btn_loss.getText().equals("loss")){
                     btn_loss.setTextSize(13);
-                    btn_loss.setText("-1,000,000"+"원");
+                    btn_loss.setText("-"+monthlyLoss+"원");
 
-                    gridAdapter = new GridAdapter(getActivity(), dayList);
+                    gridAdapter = new GridAdapter(getActivity(), dayList, benefitList,lossList);
                     gridView.setAdapter(gridAdapter);
                 }
                 else {
                     btn_loss.setTextSize(15);
                     btn_loss.setText("loss");
 
-                    gridAdapter = new GridAdapter(getActivity(), dayList);
+                    gridAdapter = new GridAdapter(getActivity(), dayList, benefitList,lossList);
                     gridView.setAdapter(gridAdapter);
                 }
             }
@@ -286,13 +315,6 @@ public class menu1_fragment_tab1 extends Fragment {
             }
         });
         super.onActivityCreated(savedInstanceState);
-    }
-
-    //해당 월에 표시할 일수 구함
-    private void setCalendarDate() {
-        for (int i = 0; i < mCal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
-            dayList.add("" + (i + 1));
-        }
     }
 
     // 팝업창 다이얼로그
@@ -324,9 +346,14 @@ public class menu1_fragment_tab1 extends Fragment {
     public class GridAdapter extends BaseAdapter {
         private final List<String> list;
         private final LayoutInflater inflater;
+        private final List<String> benefitList;
+        private final List<String> lossList;
 
-        public GridAdapter(Context context, List<String> list) {
+
+        public GridAdapter(Context context, List<String> list, List<String> benefitList, List<String> lossList) {
             this.list = list;
+            this.benefitList=benefitList;
+            this.lossList=lossList;
             this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
@@ -364,10 +391,13 @@ public class menu1_fragment_tab1 extends Fragment {
             //나중에 데이터베이스로 부터 Benefit과 Loss를 가져와야 함
             //position에 day를 대입해서 디비 연동하면 될듯
 
+
             holder.tvItemGridView.setText("" + getItem(position));
+
             if(!getItem(position).equals("")) {
-                holder.tvPlus.setText("Benefit");
-                holder.tvMinus.setText("Loss");
+                holder.tvPlus.setText(""+benefitList.get(position));
+                holder.tvMinus.setText(""+lossList.get(position));
+
                 //버튼 눌럿을때 수입 지출 보이게 하는 조건
                 if(!btn_benefit.getText().equals("benefit") && !btn_loss.getText().equals("loss")){
                     holder.tvPlus.setVisibility(View.VISIBLE);
@@ -406,6 +436,5 @@ public class menu1_fragment_tab1 extends Fragment {
         TextView tvPlus;
         TextView tvMinus;
     }
-
 
 }
