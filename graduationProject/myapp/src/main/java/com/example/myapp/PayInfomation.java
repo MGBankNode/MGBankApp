@@ -27,6 +27,6 @@ public class PayInfomation implements Serializable {
     public String getDate(){return p_date.toString();}
     @Override
     public String toString(){
-        return accountName;
+        return accountName + "(" + stat + ") : " + p_price;
     }
 }

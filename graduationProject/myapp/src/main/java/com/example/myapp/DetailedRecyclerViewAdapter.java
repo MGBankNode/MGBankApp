@@ -93,14 +93,10 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /////////////////////////////////
-                CreditCard PeachCard = new CreditCard("피치카드", R.drawable.card_peach);
-                PeachCard.addBenefits("GS25", 5);
-                PeachCard.addBenefits("지에스25", 5);
-                PeachCard.addBenefits("세븐일레븐", 5);
-                PeachCard.addBenefits("CU", 5);
-                ArrayList<String> temp = new ArrayList<String>();
-                int tempInt = PeachCard.getDiscountedPice(data, temp);
+//                /////////////////////////////////
+//                CardDataBase cardDataBase = new CardDataBase();
+//                ArrayList<String> temp = new ArrayList<String>();
+//                int tempInt = cardDataBase.PeachCard.getDiscountedPrice(data, temp);
                 /////////////////////////////////
                 Log.d("KJH", data.get(position) + "");
                 CustomDialog cd = new CustomDialog();
