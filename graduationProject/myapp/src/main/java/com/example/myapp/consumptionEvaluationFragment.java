@@ -7,14 +7,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,8 +26,19 @@ import java.util.Date;
 
 public class consumptionEvaluationFragment extends Fragment {
 
+    View view;
+    Context context;
+
     Fragment fr;
     AnalysisInfo[] analysisWeekInfo;
+    TextView mainMonthTv;
+    TextView mainYearTv;
+
+    ImageButton previousBtn;
+    ImageButton nextBtn;
+
+    public int curYear;
+    public int curMonth;
 
     private String getMonthDay(int year, int month, String startLastCheck){
         Calendar cal = Calendar.getInstance();
@@ -125,33 +140,102 @@ public class consumptionEvaluationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
-        final Context context = getContext();
+        view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
+        context = getContext();
+
+        previousBtn = view.findViewById(R.id.previous_month_);
+        nextBtn = view.findViewById(R.id.next_month_);
 
         //현재 날짜 받아오기
         Calendar cal = Calendar.getInstance();
         String todayDate = getCalToString(cal);
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-//        int day = cal.get(Calendar.DATE);
+        curYear = cal.get(Calendar.YEAR);
+        curMonth = cal.get(Calendar.MONTH);
+        final int mainMonth = curMonth;
 
-        Button detailBtn = view.findViewById(R.id.detailBtn);
+        drawList(curMonth, curYear);
+
+        previousBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(">>>curmont",String.valueOf(curMonth));
+                curMonth--;
+                if(curMonth < 0) {
+                    curMonth = 11;
+                    curYear--;
+                }
+                drawList(curMonth, curYear);
+            }
+        });
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(">>>curmont",String.valueOf(curMonth));
+                if(curMonth == mainMonth)
+                    return;
+
+                curMonth++;
+
+                if(curMonth >= 12) {
+                    curMonth = 0;
+                    curYear++;
+                }
+                drawList(curMonth, curYear);
+            }
+        });
+
+        return view;
+    }
+
+    public void drawList(int month, int year) {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date dte = new Date();
+        // 현재 날짜
+        String today = df.format(dte);
 
         String dates = getDates(year, month); //"2019-04-28,2019-05-05,2019-05-12,2019-05-19,2019-05-26";        //모든 날짜들
         String[] date = dates.split(",");
+
+        //현재 날짜에서 크기 비교하기 위해 형태 바꿔줌
+        today = today.replace("-", "");
+
+        // 대소 비교 위해 정수형
+        int tempToday = Integer.parseInt(today);
+
+        String ridHyphenDates = dates.replace("-", "");
+        String[] ridHyphenDatesArray = ridHyphenDates.split(",");
+
+        int[] integerDateArray = new int[ridHyphenDatesArray.length];
+
+        for(int i=0; i<ridHyphenDatesArray.length; i++)
+            integerDateArray[i] = Integer.parseInt(ridHyphenDatesArray[i]);
+
+        int arrayCnt = 0;
+
+        for(int i=0; i<integerDateArray.length; i++) {
+            if(tempToday < integerDateArray[i])
+                break;
+
+            arrayCnt++;
+        }
+
+        Log.d(">>>cnt", String.valueOf(arrayCnt));
+
+        String[] tempdateArray = new String[arrayCnt]; // 안하면 안나옴
+        // 현재 날짜 까지 짜르는 로직 만들어야 함
+        for(int i=0; i<arrayCnt; i++)
+            tempdateArray[i] = date[i];
+
+        date = tempdateArray; //  현재 날짜 까지만 짜름
 
         int weekCount = date.length - 1;
         analysisWeekInfo = new AnalysisInfo[weekCount];
 
         for(int i = 0; i < weekCount; ++i){
-
-
-
-        }
-        for(int i = 0; i < weekCount; ++i){
-
             analysisWeekInfo[i] = new AnalysisInfo(Integer.toString(i + 1), date[i], date[i + 1]);  //주차, 시작날자, 끝날짜 저장
-
         }
 
         //요청 정보 입력!!!!!!!test
@@ -161,6 +245,7 @@ public class consumptionEvaluationFragment extends Fragment {
                 RequestInfo.RequestType.ANALYSIS_WEEK,    //고정
                 context);                                 //고정
 
+        final String tempMonthStr = String.valueOf(month + 1) + "월";
 
         //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
         test.WeekRequestHandler(new AnalysisRequest.VolleyCallback() {
@@ -172,22 +257,22 @@ public class consumptionEvaluationFragment extends Fragment {
                 ListView reportListView = view.findViewById(R.id.reportList);
 
                 for(int i = 0; i < arrLength; i++){
-
                     analysisWeekInfo[i].setWeekSum(info[i].getWeekSum());       //주별 총합 지출 추가 저장
 
-                    reportElements.add(new reportElement("[5월 "+ analysisWeekInfo[i].getWeek()  + "주차 주간 리포트]",
+                    reportElements.add(new reportElement("[" + tempMonthStr + analysisWeekInfo[i].getWeek()  + "주차 주간 리포트]",
                             Integer.parseInt(analysisWeekInfo[i].getWeekSum())));
 
-                    reportElements.add(new reportElement());
-
                 }
-
                 reportListviewAdapter reportListviewAdapter = new reportListviewAdapter(context, R.layout.report_list_item, reportElements);
                 reportListView.setAdapter(reportListviewAdapter);
             }
         });
 
-
-        return view;
+        mainMonthTv = view.findViewById(R.id.present_month_);
+        mainMonthTv.setText(tempMonthStr);
+        mainYearTv = view.findViewById(R.id.present_year_);
+        String mainYearStr = String.valueOf(curYear) + "년";
+        mainYearTv.setText(mainYearStr);
     }
+
 }
