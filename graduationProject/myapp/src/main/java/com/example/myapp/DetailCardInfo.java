@@ -26,9 +26,10 @@ import java.util.List;
  */
 public class DetailCardInfo extends Fragment {
 
-    private ArrayList<String> sData;
+//    private ArrayList<String> sData;
     private CreditCard selectedCard;
-    private ArrayList<Stat> stats;
+    private HashMap<CreditCard, HashMap<Stat,Integer>> discountData;
+//    private ArrayList<Stat> stats;
 
     RecyclerView recyclerView = null;
     DetailCardInfoAdapter adapter = null;
@@ -47,10 +48,12 @@ public class DetailCardInfo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        sData = (ArrayList<String>) getArguments().get("ACCOUNTS");
-        Log.d("KJH", "ACCOUNTS SIZE : " + sData.size());
+//        sData = (ArrayList<String>) getArguments().get("ACCOUNTS");
+//        Log.d("KJH", "ACCOUNTS SIZE : " + sData.size());
+
         selectedCard = (CreditCard) getArguments().get("CARD");
-        stats = (ArrayList<Stat>) getArguments().get("STAT");
+        discountData = (HashMap<CreditCard, HashMap<Stat,Integer>>) getArguments().get("DATA");
+//        stats = (ArrayList<Stat>) getArguments().get("STAT");
         return inflater.inflate(R.layout.fragment_detail_card_info, container, false);
     }
 
@@ -74,7 +77,7 @@ public class DetailCardInfo extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
 
-        adapter = new DetailCardInfoAdapter(sData, selectedCard, stats);
+        adapter = new DetailCardInfoAdapter(discountData, selectedCard);
         recyclerView.setAdapter(adapter);
     }
 }

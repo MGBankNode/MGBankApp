@@ -45,7 +45,7 @@ public class CreditCard implements Serializable {
             }
         }
     }
-    //사용자의 해쉬맵과 비교하여 할인된 값을 가져옴
+    //사용자의 해쉬맵과 비교하여 할인된 값을 가져옴, 문자열 어레이에 저장
     public int getDiscountedPrice(HashMap<String, Integer> userClassificationData, ArrayList<String> result){
         Log.d("KJH", "getDiscountedPrice");
         ArrayList<String> benefitsKeys = new ArrayList<String>();
@@ -60,6 +60,31 @@ public class CreditCard implements Serializable {
                 //Log.d("KJH", "getDiscountedPrice : " + benefitsPosition + ", " + userPosition);
                 if(userKeys.get(userPosition).contains(benefitsKeys.get(benefitsPosition))){
                     result.add(userKeys.get(userPosition));
+                    Log.d("TESTLOG", "result.add(" + userKeys.get(userPosition) + ")");
+                    if(benefits.get(benefitsKeys.get(benefitsPosition)) < 100) {
+                        discountedPrice += (userClassificationData.get(userKeys.get(userPosition))
+                                * benefits.get(benefitsKeys.get(benefitsPosition)) / 100);
+                    }
+                    else{
+                        discountedPrice += benefits.get(benefitsKeys.get(benefitsPosition));
+                    }
+                }
+            }
+        }
+        return discountedPrice;
+    }
+    //사용자의 해쉬맵과 비교하여 할인된 값을 가져옴
+    public int getDiscountedPrice(HashMap<String, Integer> userClassificationData){
+        Log.d("KJH", "getDiscountedPrice");
+        ArrayList<String> benefitsKeys = new ArrayList<String>();
+        ArrayList<String> userKeys = new ArrayList<String>();
+        ArrayList<String> resultAccountNames = new ArrayList<String>();
+        int discountedPrice = 0;
+        benefitsKeys.addAll(benefits.keySet());
+        userKeys.addAll(userClassificationData.keySet());
+        for(int benefitsPosition = 0; benefitsPosition < benefitsKeys.size(); benefitsPosition++){
+            for(int userPosition = 0; userPosition < userKeys.size(); userPosition++){
+                if(userKeys.get(userPosition).contains(benefitsKeys.get(benefitsPosition))){
                     Log.d("TESTLOG", "result.add(" + userKeys.get(userPosition) + ")");
                     if(benefits.get(benefitsKeys.get(benefitsPosition)) < 100) {
                         discountedPrice += (userClassificationData.get(userKeys.get(userPosition))
