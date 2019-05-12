@@ -191,6 +191,7 @@ public class menu1_fragment_tab1 extends Fragment {
                 for (int i = 1; i < startDay; i++) {
                     dayList.add("");
                 }
+
                 setCalendarDate();
                 gridAdapter = new GridAdapter(getActivity(), dayList);
                 gridView.setAdapter(gridAdapter);
