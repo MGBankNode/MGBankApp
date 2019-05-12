@@ -39,19 +39,18 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
     private HashMap<CreditCard, Integer> priceData ;
-    private HashMap<CreditCard, ArrayList<String>> stringData;
     private List<CreditCard> keys;
-    private ArrayList<Stat> stats;
+    private HashMap<CreditCard, HashMap<Stat, Integer>> discountData;
 
 
-    CardRecyclerViewAdapter(HashMap<CreditCard, Integer> d, HashMap<CreditCard, ArrayList<String>> d2,
-                            ArrayList<Stat> stats){
+    CardRecyclerViewAdapter(HashMap<CreditCard, Integer> d,
+                            HashMap<CreditCard, HashMap<Stat, Integer>> discountData){
         this.priceData = d;
-        this.stringData = d2;
-        this.stats = stats;
+        this.discountData = discountData;
         keys = new ArrayList<CreditCard>();
         keys.addAll(priceData.keySet());
         dataSort();
+        Log.d("CardRecyclerViewAdapter", "marin Data size : " + priceData.size() +", data size : " + discountData);
     }
 
     @Override
@@ -79,10 +78,7 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 Bundle args = new Bundle();
                 args.putSerializable("CARD", keys.get(position));
                 Log.d("CardRecyclerViewAdapter", "Card adpater : " + keys.get(position));
-                args.putSerializable("ACCOUNTS", stringData.get(keys.get(position)));
-                Log.d("CardRecyclerViewAdapter", "ACCOUNTS size adpater : " + stringData.get(keys.get(position)).size());
-                args.putSerializable("STAT", stats);
-                Log.d("CardRecyclerViewAdapter", "Stats size adpater : " + stats.size());
+                args.putSerializable("DATA", discountData);
 
                 args.putString("PRICE", util.comma(priceData.get(keys.get(position))));
 

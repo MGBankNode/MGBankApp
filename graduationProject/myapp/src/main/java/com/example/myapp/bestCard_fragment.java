@@ -34,13 +34,14 @@ public class bestCard_fragment extends Fragment {
     ArrayList<CreditCard> cData;
     ArrayList<Stat> sData;
     HashMap<CreditCard, Integer> discountedPrices;
-    HashMap<CreditCard, ArrayList<String>> discountedAccountNames;
+    //HashMap<CreditCard, ArrayList<String>> discountedAccountNames;
     Util util = new Util();
 
 
     CreditCard BestCard;
     int BestDiscountedPrice = 0;
     ArrayList<String> BestCardAccountsNames;
+    HashMap<CreditCard, HashMap<Stat, Integer>> discountData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class bestCard_fragment extends Fragment {
         CardDataBase cardDataBase = new CardDataBase();
         cData = new ArrayList<CreditCard>();
         discountedPrices = new HashMap<CreditCard, Integer>();
-        discountedAccountNames = new HashMap<CreditCard, ArrayList<String>>();
+        //discountedAccountNames = new HashMap<CreditCard, ArrayList<String>>();
         for(int position = 0; position < cardDataBase.CardList.size(); position++){
             cData.add(cardDataBase.CardList.get(position));
         }
@@ -57,41 +58,69 @@ public class bestCard_fragment extends Fragment {
 
         sData = new ArrayList<Stat>();
         sData = (ArrayList<Stat>)getArguments().get("DATA");
+        Log.d("KJH", "sData size : " + sData.size()) ;
+        discountData = new HashMap<CreditCard, HashMap<Stat, Integer>>();
 
         ////////모든 카드에 대해 모든 내역에 대한 할인 금액을 구한다////////
         for(int cPosition = 0; cPosition < cData.size(); cPosition++){
             int temp = 0;
-            discountedAccountNames.put(cData.get(cPosition), new ArrayList<String>());
+            discountData.put(cData.get(cPosition), new HashMap<Stat, Integer>());
             for(int sPosition = 0; sPosition < sData.size(); sPosition++){
-                Stat tempStat = sData.get(sPosition);
-                ArrayList<String> tempString = new ArrayList<String>();
-                tempStat.setClassificationData();
-                temp += cData.get(cPosition).getDiscountedPrice(tempStat.getClassificationData(),
-                         tempString);
-                if(tempString.size()>0) {
-                    discountedAccountNames.get(cData.get(cPosition)).addAll(tempString);
-                    Log.d("TESTLOG", cData.get(cPosition) + " tempString size : " + tempString.size());
+                int discounted = sData.get(sPosition).getDiscountedPrice(cData.get(cPosition));
+                temp += discounted;
+                Log.d("KJH", "cPosition : " + cPosition +
+                        ", sPosition : " + sPosition + ", temp : " + temp);
+                if(discounted > 0){
+                    discountData.get(cData.get(cPosition)).put(sData.get(sPosition), discounted);
                 }
             }
-            if(cPosition == 0) BestDiscountedPrice = temp;
+            Log.d("KJH", "card :" + cData.get(cPosition) + ", temp : " + temp );
+            if(cPosition == 0) {
+                BestDiscountedPrice = temp;
+                BestCard = cData.get(cPosition);
+            }
             if(BestDiscountedPrice < temp){
+                Log.d("KJH", "BestCard : " + BestCard);
                 BestCard = cData.get(cPosition);
                 BestDiscountedPrice = temp;
-                BestCardAccountsNames = discountedAccountNames.get(cData.get(cPosition));
             }
             discountedPrices.put(cData.get(cPosition), temp);
-            //discountedAccountNames.put(cData.get(cPosition), tempString);
-            //제일 할인율이 높은 카드는 리사이클러뷰에서 제외시킨다.
         }
         discountedPrices.remove(BestCard);
-        discountedAccountNames.remove(BestCard);
-        ArrayList<CreditCard> forList = new ArrayList<CreditCard>();
-        forList.addAll(discountedAccountNames.keySet());
-        for(int i = 0; i < forList.size(); i++){
-            Log.d("DiscountedAccountNames", forList.get(i).toString() +
-                    ", " + discountedAccountNames.get(forList.get(i)).size() +
-                    ", " + discountedPrices.get(forList.get(i)));
-        }
+        discountData.remove(BestCard);
+//        for(int cPosition = 0; cPosition < cData.size(); cPosition++){
+//            int temp = 0;
+//            discountedAccountNames.put(cData.get(cPosition), new ArrayList<String>());
+//            for(int sPosition = 0; sPosition < sData.size(); sPosition++){
+//                Stat tempStat = sData.get(sPosition);
+//                ArrayList<String> tempString = new ArrayList<String>();
+//                tempStat.setClassificationData();
+//                temp += cData.get(cPosition).getDiscountedPrice(tempStat.getClassificationData(),
+//                         tempString);
+//                if(tempString.size()>0) {
+//                    discountedAccountNames.get(cData.get(cPosition)).addAll(tempString);
+//                    Log.d("TESTLOG", cData.get(cPosition) + " tempString size : " + tempString.size());
+//                }
+//            }
+//            if(cPosition == 0) BestDiscountedPrice = temp;
+//            if(BestDiscountedPrice < temp){
+//                BestCard = cData.get(cPosition);
+//                BestDiscountedPrice = temp;
+//                BestCardAccountsNames = discountedAccountNames.get(cData.get(cPosition));
+//            }
+//            discountedPrices.put(cData.get(cPosition), temp);
+//            //discountedAccountNames.put(cData.get(cPosition), tempString);
+//            //제일 할인율이 높은 카드는 리사이클러뷰에서 제외시킨다.
+//        }
+//        discountedPrices.remove(BestCard);
+//        discountedAccountNames.remove(BestCard);
+//        ArrayList<CreditCard> forList = new ArrayList<CreditCard>();
+//        forList.addAll(discountedAccountNames.keySet());
+//        for(int i = 0; i < forList.size(); i++){
+//            Log.d("DiscountedAccountNames", forList.get(i).toString() +
+//                    ", " + discountedAccountNames.get(forList.get(i)).size() +
+//                    ", " + discountedPrices.get(forList.get(i)));
+//        }
         return view;
     }
 
@@ -113,7 +142,7 @@ public class bestCard_fragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
 
-        adapter = new CardRecyclerViewAdapter(discountedPrices, discountedAccountNames, sData);
+        adapter = new CardRecyclerViewAdapter(discountedPrices, discountData);
         recyclerView.setAdapter(adapter);
 
     }
@@ -140,4 +169,5 @@ public class bestCard_fragment extends Fragment {
         });
         builder.show();
     }
+
 }

@@ -1,53 +1,51 @@
 package com.example.myapp;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Util util = new Util();
     public static class ViewHolder extends RecyclerView.ViewHolder{
         View container;
-        TextView detailAccountTv;
+        TextView detailStatTv;
         TextView detailPriceTv;
 
         ViewHolder(View view){
             super(view);
             container = view;
-            this.detailAccountTv = (TextView) view.findViewById(R.id.detail_account_name);
+            this.detailStatTv = (TextView) view.findViewById(R.id.detail_stat_name);
             this.detailPriceTv = (TextView)view.findViewById(R.id.detail_account_price);
         }
     }
-    private ArrayList<String> sData;
+//    private ArrayList<String> sData;
     private CreditCard selectedCard;
-    private ArrayList<Stat> stats;
-    private HashMap<String, Integer> datas;
+    private ArrayList<Stat> keys;
+    private HashMap<CreditCard, HashMap<Stat,Integer>> discountData;
+//    private HashMap<String, Integer> datas;
 
 
-    DetailCardInfoAdapter(ArrayList<String> d, CreditCard sc, ArrayList<Stat> sd){
-        this.sData = d;
-        Log.d("DetailCardInfiAdapter", "sData Size : " + sData.size());
+    DetailCardInfoAdapter(HashMap<CreditCard, HashMap<Stat,Integer>> d, CreditCard sc){
+        discountData = d;
         this.selectedCard = sc;
-        this.stats = sd;
-        datas = new HashMap<String, Integer>();
-        for(int sPosition = 0; sPosition < stats.size(); sPosition++){
-            stats.get(sPosition).getSelectedHashMap(sData, datas);
-        }
+        keys = new ArrayList<Stat>();
+        keys.addAll(discountData.get(selectedCard).keySet());
+
+//        this.sData = d;
+//        Log.d("DetailCardInfiAdapter", "sData Size : " + sData.size());
+//        this.selectedCard = sc;
+//        this.stats = sd;
+//        datas = new HashMap<String, Integer>();
+//        for(int sPosition = 0; sPosition < stats.size(); sPosition++){
+//            stats.get(sPosition).getSelectedHashMap(sData, datas);
+//        }
     }
 
     @Override
@@ -61,20 +59,20 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         Log.d("KJH", "detailAdapter loop : " + position);
         final ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.detailAccountTv.setText(sData.get(position));
-        viewHolder.detailPriceTv.setText(util.comma(selectedCard.getDiscountedPrice(sData.get(position), datas.get(sData.get(position)))));
+        viewHolder.detailStatTv.setText(keys.get(position).toString());
+        viewHolder.detailPriceTv.setText(util.comma(discountData.get(selectedCard).get(keys.get(position))));
 
         //아이템 리스너 설정
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("KJH", sData.get(position) + "");
+                Log.d("KJH", keys.get(position) + "");
             }
         });
     }
     @Override
     public int getItemCount(){
-        return sData.size();
+        return keys.size();
     }
 
 
