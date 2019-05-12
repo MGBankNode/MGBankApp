@@ -110,10 +110,40 @@ public class CustomDialog extends DialogFragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result = spinner.getSelectedItem().toString();
-                dialogResult.finish(result);
-                DialogFragment dialogFragment = (DialogFragment)fragment;
-                dialogFragment.dismiss();
+
+                // /////////////////////카테고리 변경 요청////////////////////////////
+                ///////////////////////////////////////////////////////////////////
+                CategoryRequest categoryRequest = new CategoryRequest(
+                        "b",                    //사용자 아이디
+                        4151,       //사용처 이름
+                        3,                  //기존 카테고리 번호
+                        2,                  //바꿀 카테고리 번호
+                        getContext(),                   //context 고정
+                        RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
+
+                categoryRequest.UpdateCategoryHandler(new CategoryRequest.VolleyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        result = spinner.getSelectedItem().toString();
+                        dialogResult.finish(result);
+                        DialogFragment dialogFragment = (DialogFragment)fragment;
+                        dialogFragment.dismiss();
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+                ///////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////
+
             }
         });
         final TextView canceltextView = (TextView) getView().findViewById(R.id.pay_account_stat_cancel_button);

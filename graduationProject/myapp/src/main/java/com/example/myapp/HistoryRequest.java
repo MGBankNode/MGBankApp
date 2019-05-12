@@ -139,6 +139,7 @@ public class HistoryRequest {
 
                         JSONObject record = dataArray.getJSONObject(i);
 
+                        int hId = record.getInt("hId");
                         String hDate = record.getString("hDate");
                         String hType = record.getString("hType");
                         String hValue = record.getString("hValue");
@@ -148,7 +149,7 @@ public class HistoryRequest {
                         String cName = record.getString("cName");
 
 
-                        historyInfo[i] = new HistoryInfo(hDate, hType, hValue, hName, aBalance, cType, cName);
+                        historyInfo[i] = new HistoryInfo(hId, hDate, hType, hValue, hName, aBalance, cType, cName);
 
                     }
 
@@ -226,11 +227,13 @@ public class HistoryRequest {
 
                         JSONObject record = dataArray.getJSONObject(i);
 
+                        int hId = record.getInt("hId");
+                        String hDate = record.getString("hDate");
                         String hValue = record.getString("hValue");
                         String hName = record.getString("hName");
                         String cName = record.getString("cName");
 
-                        historyInfo[i] = new HistoryInfo(hValue, hName,  cName);
+                        historyInfo[i] = new HistoryInfo(hId, hDate,hValue, hName, cName);
 
                     }
 
