@@ -4,9 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class bestCard_fragment extends Fragment {
 
@@ -21,37 +26,126 @@ public class bestCard_fragment extends Fragment {
 
     ArrayList<cardElement> arraylist = new ArrayList<>();
     ImageView bestCardImage;
-    TextView bestCardNmae;
-    TextView bestCardMerit;
+    TextView bestCardName;
+    TextView bestcardDiscountedPrice;
+    RecyclerView recyclerView;
+    CardRecyclerViewAdapter adapter = null;
+    LinearLayoutManager layoutManager = null;
+    ArrayList<CreditCard> cData;
+    ArrayList<Stat> sData;
+    HashMap<CreditCard, Integer> discountedPrices;
+    //HashMap<CreditCard, ArrayList<String>> discountedAccountNames;
+    Util util = new Util();
 
+
+    CreditCard BestCard;
+    int BestDiscountedPrice = 0;
+    ArrayList<String> BestCardAccountsNames;
+    HashMap<CreditCard, HashMap<Stat, Integer>> discountData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bestcard, container, false);
+        CardDataBase cardDataBase = new CardDataBase();
+        cData = new ArrayList<CreditCard>();
+        discountedPrices = new HashMap<CreditCard, Integer>();
+        //discountedAccountNames = new HashMap<CreditCard, ArrayList<String>>();
+        for(int position = 0; position < cardDataBase.CardList.size(); position++){
+            cData.add(cardDataBase.CardList.get(position));
+        }
+        Log.d("KJH", "cData Size() : "+ cData.size());
 
 
-        arraylist.add(new cardElement(R.drawable.card_peach, "피치 체크카드", "영화ㆍ문화공연 에서 더 많은 혜택 을 받을 수 있어요!"));
+        sData = new ArrayList<Stat>();
+        sData = (ArrayList<Stat>)getArguments().get("DATA");
+        Log.d("KJH", "sData size : " + sData.size()) ;
+        discountData = new HashMap<CreditCard, HashMap<Stat, Integer>>();
 
-        bestCardImage = view.findViewById(R.id.bestCardImage);
-        bestCardNmae = view.findViewById(R.id.bestCardName);
-        bestCardMerit = view.findViewById(R.id.bestCardMerit);
-
-        bestCardImage.setImageResource(arraylist.get(0).getIcon());
-        bestCardNmae.setText(Html.fromHtml("<u>" +arraylist.get(0).getName() + "</u>")); // 밑줄 긋기
-        bestCardMerit.setText(arraylist.get(0).getMerit());
-
-
-
-        bestCardImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog();
+        ////////모든 카드에 대해 모든 내역에 대한 할인 금액을 구한다////////
+        for(int cPosition = 0; cPosition < cData.size(); cPosition++){
+            int temp = 0;
+            discountData.put(cData.get(cPosition), new HashMap<Stat, Integer>());
+            for(int sPosition = 0; sPosition < sData.size(); sPosition++){
+                int discounted = sData.get(sPosition).getDiscountedPrice(cData.get(cPosition));
+                temp += discounted;
+                Log.d("KJH", "cPosition : " + cPosition +
+                        ", sPosition : " + sPosition + ", temp : " + temp);
+                if(discounted > 0){
+                    discountData.get(cData.get(cPosition)).put(sData.get(sPosition), discounted);
+                }
             }
-        });
-
+            Log.d("KJH", "card :" + cData.get(cPosition) + ", temp : " + temp );
+            if(cPosition == 0) {
+                BestDiscountedPrice = temp;
+                BestCard = cData.get(cPosition);
+            }
+            if(BestDiscountedPrice < temp){
+                Log.d("KJH", "BestCard : " + BestCard);
+                BestCard = cData.get(cPosition);
+                BestDiscountedPrice = temp;
+            }
+            discountedPrices.put(cData.get(cPosition), temp);
+        }
+        discountedPrices.remove(BestCard);
+        discountData.remove(BestCard);
+//        for(int cPosition = 0; cPosition < cData.size(); cPosition++){
+//            int temp = 0;
+//            discountedAccountNames.put(cData.get(cPosition), new ArrayList<String>());
+//            for(int sPosition = 0; sPosition < sData.size(); sPosition++){
+//                Stat tempStat = sData.get(sPosition);
+//                ArrayList<String> tempString = new ArrayList<String>();
+//                tempStat.setClassificationData();
+//                temp += cData.get(cPosition).getDiscountedPrice(tempStat.getClassificationData(),
+//                         tempString);
+//                if(tempString.size()>0) {
+//                    discountedAccountNames.get(cData.get(cPosition)).addAll(tempString);
+//                    Log.d("TESTLOG", cData.get(cPosition) + " tempString size : " + tempString.size());
+//                }
+//            }
+//            if(cPosition == 0) BestDiscountedPrice = temp;
+//            if(BestDiscountedPrice < temp){
+//                BestCard = cData.get(cPosition);
+//                BestDiscountedPrice = temp;
+//                BestCardAccountsNames = discountedAccountNames.get(cData.get(cPosition));
+//            }
+//            discountedPrices.put(cData.get(cPosition), temp);
+//            //discountedAccountNames.put(cData.get(cPosition), tempString);
+//            //제일 할인율이 높은 카드는 리사이클러뷰에서 제외시킨다.
+//        }
+//        discountedPrices.remove(BestCard);
+//        discountedAccountNames.remove(BestCard);
+//        ArrayList<CreditCard> forList = new ArrayList<CreditCard>();
+//        forList.addAll(discountedAccountNames.keySet());
+//        for(int i = 0; i < forList.size(); i++){
+//            Log.d("DiscountedAccountNames", forList.get(i).toString() +
+//                    ", " + discountedAccountNames.get(forList.get(i)).size() +
+//                    ", " + discountedPrices.get(forList.get(i)));
+//        }
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        bestCardImage = (ImageView)getView().findViewById(R.id.bestCardImage);
+        bestCardName = (TextView)getView().findViewById(R.id.bestCardName);
+        bestcardDiscountedPrice = (TextView)getView().findViewById(R.id.discountTextView);
+        bestCardImage.setImageResource(BestCard.getIcon());
+        bestCardName.setText(BestCard.toString());
+        bestcardDiscountedPrice.setText(util.comma(BestDiscountedPrice));
+        setRecyclerView();
+        super.onActivityCreated(savedInstanceState);
+    }
+    public void setRecyclerView(){
+        recyclerView = (RecyclerView)getView().findViewById(R.id.cardRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getView().getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
+
+        adapter = new CardRecyclerViewAdapter(discountedPrices, discountData);
+        recyclerView.setAdapter(adapter);
+
+    }
     public void alertDialog() {
 
         final String url = "https://mgcheck.kfcc.co.kr/pers/appl/persPeachGuid.do";
@@ -75,4 +169,5 @@ public class bestCard_fragment extends Fragment {
         });
         builder.show();
     }
+
 }

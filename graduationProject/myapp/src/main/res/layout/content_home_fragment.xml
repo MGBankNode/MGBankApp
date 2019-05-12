@@ -83,11 +83,11 @@
             android:layout_width="match_parent"
             android:layout_height="280dp" />
         <include layout="@layout/separator"/>
-        <fragment android:id="@+id/testFragment"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView01"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.example.myapp.StatList">
-        </fragment>
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp" />
