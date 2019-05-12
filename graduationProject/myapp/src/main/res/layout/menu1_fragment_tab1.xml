@@ -127,14 +127,38 @@
         android:stretchMode="columnWidth"></GridView>
 
     <LinearLayout
+        android:id="@+id/id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/receipt_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10pt"
+            android:gravity="right"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/receipt_btn"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:padding="0dp"
+                android:src="@drawable/bill"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
         android:gravity="right"
         android:orientation="horizontal"
         android:paddingRight="10dp">
-        
+
+
         <Button
             android:id="@+id/result_benefit_btn"
             android:layout_width="100dp"
@@ -161,5 +185,5 @@
             android:textColor="#F22"
             android:textSize="15dp" />
     </LinearLayout>
-
+    </LinearLayout>
 </RelativeLayout>
