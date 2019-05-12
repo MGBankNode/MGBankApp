@@ -17,4 +17,7 @@ public class membership_Data {
                 "일부 제휴사 매장에서 모파일카드(바코드)이용에 제한이 있을 수 있습니다.\nL.POINT는 제휴사 정책으로 인해 L.POINT 홈페이지에서만 탈퇴가능합니다.", ""};
         static String[] h5_Array = {"080.320.1234\nhttp://www.happypointcard.com", "1577.8888\nhttp://www.cjone.com", "1899.8900\nhttps://www.lpoint.com", ""};
 
+        static public void setScoreArray(String point){
+                scoreArray[3] = point;
+        }
 }

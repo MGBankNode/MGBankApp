@@ -1,178 +1,157 @@
 package com.example.myapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class consumptionEvaluationFragment extends Fragment {
 
-    int LastDay;
-    int month;
-
-    View view;
-
-    DateActivity Today;
-
-    ImageButton previous_month;
-    ImageButton next_month;
-
-    String dates = "";
-    TextView mainMonth;
-    TextView mainYear;
     Fragment fr;
     AnalysisInfo[] analysisWeekInfo;
 
-    ArrayList<DateActivity> sunDayList = new ArrayList<>();
-    ArrayList<DateActivity> tempList = new ArrayList<>();
-    DateActivity[][] dateArray;
+    private String getMonthDay(int year, int month, String startLastCheck){
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month,1);
 
-    Context context;
+        String day = "01";
+        if(startLastCheck.equals("LAST")){
 
-    DateActivity mDateActivity;
+            day = String.valueOf(cal.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
-        context = getContext();
+        }
 
-        mainYear = view.findViewById(R.id.present_year);
-        mainMonth = view.findViewById(R.id.present_month);
+        return day;
+    }
+
+    private String getCalToString(Calendar cal){
+
+        String dateString;
+
+        String year = Integer.toString(cal.get(Calendar.YEAR));
+        String month = Integer.toString(cal.get(Calendar.MONTH) + 1);
+        String day = Integer.toString(cal.get(Calendar.DATE));
+
+        if(month.length() == 1){
+
+            month = "0" + month;
+
+        }
+
+        if(day.length() == 1){
+
+            day = "0" + day;
+
+        }
+
+        dateString = year + "-" + month + "-" + day;
+
+        return dateString;
+    }
+
+    public String getDates(int year, int month){
 
         Calendar cal = Calendar.getInstance();
 
-        int year = cal.get(Calendar.YEAR);
-        month = cal.get(Calendar.MONTH) + 1;
-        final int date = cal.get(Calendar.DATE);
-        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        //달의 시작 날짜 + 요일
+        String monthStartDay = getMonthDay(year, month, "START");
+        cal.set(year, month, Integer.parseInt(monthStartDay));
+        int monthStartWeek = cal.get(Calendar.DAY_OF_WEEK);
 
-        final String mainMonthStr = String.valueOf(month) + "월";
-        mainMonth.setText(mainMonthStr);
 
-        Today =  new DateActivity(year,month, date, dayOfWeek);
-        // 제일 가까운 일요일
-        LastDay = Today.getDay() - Today.getDayOfWeek() + 1;
+        //===> 달 시작 날짜로 real 시작 날짜 구하기
+        int startGap = monthStartWeek - 1;
+        cal.add(Calendar.DATE, -startGap);
 
-        mDateActivity = new DateActivity(Today.getYear(), Today.getMonth(), LastDay);
-        sunDayList.add(mDateActivity);
+        String startDate = getCalToString(cal);
+        int sYear = cal.get(Calendar.YEAR);
+        int sMonth = cal.get(Calendar.MONTH);
+        int sDay = cal.get(Calendar.DATE);
 
-        dateArray = new DateActivity[12][7];
+        //달의 마지막 날짜 + 요일
+        String monthLastDay = getMonthDay(year, month, "LAST");
+        cal.set(year, month, Integer.parseInt(monthLastDay));
+        int monthLastWeek = cal.get(Calendar.DAY_OF_WEEK);
 
-        //int tempMonth = Today.getMonth();
+        //===>  달 마지막 날짜로 real 마지막 날짜 구하기
+        int LastGap = 8 - monthLastWeek;
+        cal.add(Calendar.DATE, LastGap);
 
-        if(LastDay <= 0) {
-            // 안내문구
-            // return
-        }
-        else {
+        String lastDate = getCalToString(cal);
 
-            while(true) {
+        int tempYear = sYear;
+        int tempMonth = sMonth;
+        int tempDay = sDay;
 
-                mDateActivity = mDateActivity.getLastSunday();
-                sunDayList.add(mDateActivity);
+        cal.set(tempYear, tempMonth, tempDay);
+        String tempDates = startDate;
+        cal.add(Calendar.DATE, 7);
+        String tempString;
+        tempString = getCalToString(cal);
 
-                if(month != mDateActivity.getMonth())
-                    break;
+        while(true){
+            if(tempString.equals(lastDate)){
+                tempDates = tempDates + "," + lastDate;
+                break;
             }
+            tempDates = tempDates + "," + tempString;
+
+            tempYear = cal.get(Calendar.YEAR);
+            tempMonth = cal.get(Calendar.MONTH);
+            tempDay = cal.get(Calendar.DATE);
+
+            cal.set(tempYear, tempMonth, tempDay);
+            cal.add(Calendar.DATE, 7);
+            tempString = getCalToString(cal);
         }
-        for(int i=0; i<sunDayList.size(); i++) {
-            dateArray[month][i] = sunDayList.get(i);
 
-        }
-
-
-        previous_month = view.findViewById(R.id.previous_month);
-        previous_month.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDateActivity = mDateActivity.recoverDate();
-
-                sunDayList.clear();
-                //mDateActivity = new DateActivity(Today.getYear(), Today.getMonth(), LastDay);
-                //mDateActivity = new DateActivity(mDateActivity.getYear(), mDateActivity.getMonth(), mDateActivity.getDay());
-                sunDayList.add(mDateActivity);
-
-                int cnt = 0;
-                int tempYear = mDateActivity.getYear();
-                month--;
-
-                while (true) {
-                    int tempInt = mDateActivity.getMonth(); // 5월 5일 -> 4월 28 4 21 4 12 4 5
-                    mDateActivity = mDateActivity.getLastSunday(); // 4월 28일 4 21 4 12 4 5 3.
-
-                    sunDayList.add(mDateActivity);
-
-                    if (tempInt != mDateActivity.getMonth())
-                        cnt++;
-
-                    if (cnt == 2)
-                        break;
-                }
-
-                String tempMonthStr = String.valueOf(month) + "월";
-                mainMonth.setText(tempMonthStr);
-
-                String tempYearStr = String.valueOf(tempYear) + "년";
-                mainYear.setText(tempYearStr);
-
-                for(int i=0; i<sunDayList.size(); i++) {
-                    dateArray[month][i] = sunDayList.get(i);
-                }
-
-                drawList(sunDayList, tempMonthStr);
-
-                }
-            });
-
-        next_month = view.findViewById(R.id.report_next_month);
-        next_month.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sunDayList.clear();
-                month++;
-
-
-
-                for (int i = 0; i < dateArray[month].length; i++) {
-                    if(dateArray[month][i] == null)
-                    sunDayList.add(dateArray[month][i]);
-                }
-
-                String tempMonthStr = String.valueOf(month) + "월";
-                mainMonth.setText(tempMonthStr);
-
-                drawList(sunDayList, tempMonthStr);
-            }
-        });
-
-
-        drawList(sunDayList, mainMonthStr);
-
-        return view;
+        return tempDates;
     }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
-    public void drawList(ArrayList<DateActivity> List, String mmMonth) {
-        final String Month = mmMonth;
+        final View view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
+        final Context context = getContext();
 
-        dates = makeFormat(List);
+        //현재 날짜 받아오기
+        Calendar cal = Calendar.getInstance();
+        String todayDate = getCalToString(cal);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+//        int day = cal.get(Calendar.DATE);
 
-        String[] dateArray = dates.split(",");
+        Button detailBtn = view.findViewById(R.id.detailBtn);
 
-        analysisWeekInfo = new AnalysisInfo[List.size() -1];
+        String dates = getDates(year, month); //"2019-04-28,2019-05-05,2019-05-12,2019-05-19,2019-05-26";        //모든 날짜들
+        String[] date = dates.split(",");
 
-        for(int i = 0; i < List.size() - 1; ++i){
-            analysisWeekInfo[i] = new AnalysisInfo(Integer.toString(i + 1), dateArray[i], dateArray[i + 1]);  //주차, 시작날자, 끝날짜 저장
+        int weekCount = date.length - 1;
+        analysisWeekInfo = new AnalysisInfo[weekCount];
+
+        for(int i = 0; i < weekCount; ++i){
+
+
+
+        }
+        for(int i = 0; i < weekCount; ++i){
+
+            analysisWeekInfo[i] = new AnalysisInfo(Integer.toString(i + 1), date[i], date[i + 1]);  //주차, 시작날자, 끝날짜 저장
+
         }
 
         //요청 정보 입력!!!!!!!test
@@ -181,6 +160,7 @@ public class consumptionEvaluationFragment extends Fragment {
                 dates,            //날짜들 list
                 RequestInfo.RequestType.ANALYSIS_WEEK,    //고정
                 context);                                 //고정
+
 
         //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
         test.WeekRequestHandler(new AnalysisRequest.VolleyCallback() {
@@ -195,46 +175,19 @@ public class consumptionEvaluationFragment extends Fragment {
 
                     analysisWeekInfo[i].setWeekSum(info[i].getWeekSum());       //주별 총합 지출 추가 저장
 
-                    reportElements.add(new reportElement("["+ Month + " " + analysisWeekInfo[i].getWeek()  + "주차 주간 리포트]",
+                    reportElements.add(new reportElement("[5월 "+ analysisWeekInfo[i].getWeek()  + "주차 주간 리포트]",
                             Integer.parseInt(analysisWeekInfo[i].getWeekSum())));
 
+                    reportElements.add(new reportElement());
+
                 }
+
                 reportListviewAdapter reportListviewAdapter = new reportListviewAdapter(context, R.layout.report_list_item, reportElements);
                 reportListView.setAdapter(reportListviewAdapter);
             }
         });
-    }
 
-    public String makeFormat(ArrayList<DateActivity> List) {
-        String result = "";
 
-        String tempyear = "";
-        String tempmonthStr = "";
-        String tempdayStr = "";
-
-        for(int i=List.size() -1; i>=0; i--) {
-            DateActivity tempDate = List.get(i);
-            tempyear = String.valueOf(tempDate.getYear());
-
-            if(tempDate.getMonth() < 10) {
-                tempmonthStr = "0" + String.valueOf(tempDate.getMonth());
-            }
-            else {
-                tempmonthStr = String.valueOf(tempDate.getMonth());
-            }
-
-            if(tempDate.getDay() < 10) {
-                tempdayStr = "0" + String.valueOf(tempDate.getDay());
-            }
-            else {
-                tempdayStr = String.valueOf(tempDate.getDay());
-            }
-
-            result += tempyear + "-" + tempmonthStr + "-" + tempdayStr;
-            if(i > 0) {
-                result  += ",";
-            }
-        }
-        return result;
+        return view;
     }
 }

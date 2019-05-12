@@ -16,18 +16,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class fragment_membership extends Fragment {
+
     public fragment_membership() {    }
 
     private  static final  int WHITE = 0xffffffff;
@@ -43,6 +53,8 @@ public class fragment_membership extends Fragment {
 
     Fragment fragment;
 
+    String userID = "b";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_membership, container, false);
@@ -54,54 +66,58 @@ public class fragment_membership extends Fragment {
         barcoode_img = (ImageView)getView().findViewById(R.id.bcd_img);
         barcode_txt=(TextView)getView().findViewById(R.id.bcd_txt);
 
-        //사용자의 바코드 번호 16자리 -----회원가입시 바코드 번호 생성하여 디비에 등록된것 불러오기
-        String barcode_data = "1234567890123456";
-        //String barcode_data = "9999999999999999";
-
-        //바코드 번호 4자리씩 끊기
-        Long num = Long.parseLong(barcode_data);
-        Long num1 = num%10000;
-        Long num2 = (num/10000)%10000;
-        Long num3 = ((num/10000)/10000)%10000;
-        Long num4 = ((num/10000)/10000)/10000;
-        String barcode_num=(Long.toString(num4)+"  "+Long.toString(num3)+"  "+Long.toString(num2)+"  "+Long.toString(num1));
-
-        //바코드 출력
-        try{
-            Bitmap bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.CODE_128,800,200);
-            barcoode_img.setImageBitmap(bitmap);
-            barcode_txt.setText(barcode_num);
-        }catch (WriterException e){
-            e.printStackTrace();
-        }
-
-        //리사이클러뷰 (카드뷰)
-        recyclerView = (RecyclerView)getView().findViewById(R.id.point_list);
-        recyclerView.setHasFixedSize(true);
-
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        data = new ArrayList<DataModel>();
-        for (int i = 0; i < membership_Data.nameArray.length; i++) {
-            data.add(new DataModel(
-                    membership_Data.nameArray[i],
-                    membership_Data.scoreArray[i],
-                    membership_Data.id_[i],
-                    membership_Data.drawableArray[i],
-                    membership_Data.backgroundArray[i]
-            ));
-        }
+        BarcodePointRequestHandler(new VolleyCallback() {
+            @Override
+            public void onSuccess(String barcode_data, String point) {
+                //사용자의 바코드 번호 16자리 -----회원가입시 바코드 번호 생성하여 디비에 등록된것 불러오기
+                //String barcode_data = "9999999999999999";
+
+                //Toast.makeText(getContext(), barcode_data + point, Toast.LENGTH_LONG).show();
+                //바코드 번호 4자리씩 끊기
+
+                String barcode_num=(barcode_data.substring(0, 4) +"  "+ barcode_data.substring(4, 8)
+                        + "  " + barcode_data.substring(8, 12) +"  "+ barcode_data.substring(12, 16));
+
+                //바코드 출력
+                try{
+                    Bitmap bitmap = encodeAsBitmap(barcode_data, BarcodeFormat.CODE_128,800,200);
+                    barcoode_img.setImageBitmap(bitmap);
+                    barcode_txt.setText(barcode_num);
+                }catch (WriterException e){
+                    e.printStackTrace();
+                }
+
+                //리사이클러뷰 (카드뷰)
+                recyclerView = (RecyclerView)getView().findViewById(R.id.point_list);
+                recyclerView.setHasFixedSize(true);
+
+                layoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+                membership_Data.setScoreArray(point + "p");
+
+                data = new ArrayList<DataModel>();
+                for (int i = 0; i < membership_Data.nameArray.length; i++) {
+                    data.add(new DataModel(
+                            membership_Data.nameArray[i],
+                            membership_Data.scoreArray[i],
+                            membership_Data.id_[i],
+                            membership_Data.drawableArray[i],
+                            membership_Data.backgroundArray[i]
+                    ));
+                }
 
 
-        adapter = new CustomAdapter(data);
-        recyclerView.setAdapter(adapter);
-
-
+                adapter = new CustomAdapter(data);
+                recyclerView.setAdapter(adapter);
+            }
+        });
 
         super.onActivityCreated(savedInstanceState);
+
     }
 
     //////////////////////////////////////////////바코드 이미지 생성////////////////////////////////////
@@ -272,4 +288,90 @@ public class fragment_membership extends Fragment {
 
         public int getBackground() {return background; }
     }
+
+
+    public interface VolleyCallback{
+        void onSuccess(String barcode, String point);
+    }
+
+    //바코드 + 적립 포인트 얻어오기 요청
+    public void BarcodePointRequestHandler(final VolleyCallback callback){
+        RequestInfo requestInfo = new RequestInfo(RequestInfo.RequestType.BARCODE_POINT);
+
+        String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        BarcodePointResponse(response, callback);
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        error.printStackTrace();
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams(){
+                return BarcodePointRequest();
+            }
+        };
+        request.setShouldCache(false);
+        Volley.newRequestQueue(getContext()).add(request);
+        Log.d("요청 url: ", url);
+
+    }
+
+/*
+        BarcodePointRequest(): Map<String, String>
+        = 바코드 + 포인트 적립 요청 전달 파라미터 설정 함수
+    */
+
+    private Map<String, String> BarcodePointRequest(){
+
+        Map<String, String> params = new HashMap<>();
+
+        params.put("id", userID);
+        return params;
+
+    }
+
+    /*
+        BarcodePointResponse(String, final VolleyCallback): void
+        = 일별 분석 요청 응답 처리 함수
+    */
+
+    private void BarcodePointResponse(String response, final VolleyCallback callback){
+        try{
+            Log.d("onResponse 호출 ", response);
+
+            JSONObject json = new JSONObject(response);
+            String resultString = (String) json.get("message");
+
+            switch (resultString) {
+                case "success":
+                    JSONObject data = json.getJSONObject("data");
+
+                    String barcode = (String) data.get("barcode");
+                    String point = (String) data.get("point");
+
+                    callback.onSuccess(barcode, point);
+                    break;
+
+                case "error":
+                    break;
+
+                case "db_fail":
+                    break;
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
