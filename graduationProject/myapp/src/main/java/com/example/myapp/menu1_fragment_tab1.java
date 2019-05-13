@@ -72,8 +72,10 @@ public class menu1_fragment_tab1 extends Fragment {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.menu1_fragment_tab1,
                 container, false);
 
-        /*userID = getArguments().getString("ID");
-        Log.i("nkw","tab1 userID="+userID);*/
+        if(getArguments()!=null){
+            userID = getArguments().getString("ID");
+            Log.i("nkw","tab1 userID="+userID);
+        }
         return layout;
     }
 
