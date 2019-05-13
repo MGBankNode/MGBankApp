@@ -34,6 +34,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,7 +49,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -60,9 +63,9 @@ public class MainActivity extends AppCompatActivity
     protected TextView welcomeTextView;
     protected TextView userLastAtTxt;
     protected ImageView closeMenu;
-    protected ImageView homeMenu;
-    protected ImageView userMenu;
-    protected ImageView noticeMenu;
+    protected LinearLayout homeMenu;
+    protected LinearLayout userMenu;
+    protected LinearLayout noticeMenu;
 
     private ListView menu1list;
     private ListView menu2list;
@@ -274,8 +277,14 @@ public class MainActivity extends AppCompatActivity
 
         //사용자 마지막 접속시간 변경
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
-        userLastAtTxt.setText(changeText);
+//        String[] starts = changeText.split("T");
+//        String[] dates = starts[0].split("-");
+//        String date = dates[0] + "년 " + dates[1] + "월 " + dates[2] + "일 ";
+//        String[] times = starts[1].split(":");
+//        String time = times[0] + "시 " + times[1] + "분";
+//        String format_changeText = date + time;
 
+        userLastAtTxt.setText(changeText);
 
         userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
@@ -289,7 +298,6 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
             userABalanceTxtView.setText(userABalance);
 
-
             //내역을 얻어와야함
             //먼저 HistoryRequest 각각 정보 입력하여 객체생성
             HistoryRequest testRequest = new HistoryRequest(
@@ -299,7 +307,7 @@ public class MainActivity extends AppCompatActivity
                     RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
                     getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
                                                                         //fragment 쪽에서는 getContext()하시면 될 것 같아요
-
+            //myUserInfo.getUserID()
 
             //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
             testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
@@ -537,21 +545,19 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void onDetailBtnClicked(View view) {
-        Fragment detailFragment = new consumptionReportFragment();
-//        Bundle bundle = new Bundle(1);
-//        bundle.putString("userId", "AAA");
+//    public void onDetailBtnClicked(View view) {
+//        Fragment detailFragment = new consumptionReportFragment();
+////        Bundle bundle = new Bundle(1);
+////        bundle.putString("userId", "AAA");
+////
+////        detailFragment.setArguments(bundle);
 //
-//        detailFragment.setArguments(bundle);
-
-
-       //Toast.makeText(getApplication(), "버튼 선택됨", Toast.LENGTH_SHORT).show();
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
-        fragmentTransaction.commit();
-    }
+//
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
+//        fragmentTransaction.commit();
+//    }
 
     public void changeFragment(Fragment fr) {
         FragmentManager fm = getSupportFragmentManager();

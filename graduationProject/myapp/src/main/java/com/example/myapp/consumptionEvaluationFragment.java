@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ import java.util.Date;
 
 public class consumptionEvaluationFragment extends Fragment {
 
+    LinearLayout ct;
+
     View view;
     Context context;
 
@@ -34,11 +37,18 @@ public class consumptionEvaluationFragment extends Fragment {
     TextView mainMonthTv;
     TextView mainYearTv;
 
+    ListView reportListView;
+
     ImageButton previousBtn;
     ImageButton nextBtn;
+    Button detailButton;
+
+    String[] transferStr;
 
     public int curYear;
     public int curMonth;
+
+    private FragmentActivity myContext;
 
     private String getMonthDay(int year, int month, String startLastCheck){
         Calendar cal = Calendar.getInstance();
@@ -137,12 +147,21 @@ public class consumptionEvaluationFragment extends Fragment {
 
         return tempDates;
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        myContext=(FragmentActivity) activity;
+        super.onAttach(activity);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
         context = getContext();
 
+//        detailButton = view.findViewById(R.id.detailBtn);
+//        reportListView = view.findViewById(R.id.reportList);
         previousBtn = view.findViewById(R.id.previous_month_);
         nextBtn = view.findViewById(R.id.next_month_);
 
@@ -153,25 +172,26 @@ public class consumptionEvaluationFragment extends Fragment {
         curMonth = cal.get(Calendar.MONTH);
         final int mainMonth = curMonth;
 
-        drawList(curMonth, curYear);
+        transferStr = drawList(curMonth, curYear);
 
         previousBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(">>>curmont",String.valueOf(curMonth));
+
                 curMonth--;
                 if(curMonth < 0) {
                     curMonth = 11;
                     curYear--;
                 }
-                drawList(curMonth, curYear);
+                transferStr =  drawList(curMonth, curYear);
+
             }
         });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(">>>curmont",String.valueOf(curMonth));
+
                 if(curMonth == mainMonth)
                     return;
 
@@ -181,14 +201,46 @@ public class consumptionEvaluationFragment extends Fragment {
                     curMonth = 0;
                     curYear++;
                 }
-                drawList(curMonth, curYear);
+                transferStr = drawList(curMonth, curYear);
+
+            }
+
+        });
+
+        reportListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changeFr(position, transferStr[position], transferStr[position+1]);
             }
         });
 
+
         return view;
     }
+    public void changeFr(int position, String tStr_1, String tStr_2) {
+        Fragment detailFragment = new consumptionReportFragment();
 
-    public void drawList(int month, int year) {
+       // Log.d(">>>str2", tStr_2);
+
+        AnalysisInfo frData = new AnalysisInfo(String.valueOf(position+1), tStr_1, tStr_2);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("dateData", frData);
+        bundle.putString("LastDay", tStr_2);
+        bundle.putInt("Month", curMonth+1);
+        bundle.putInt("Week", position+1);
+
+        detailFragment.setArguments(bundle);
+
+        FragmentManager fm = myContext.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
+        fragmentTransaction.commit();
+
+    }
+
+    public String[] drawList(int month, int year) {
+
+        reportListView = view.findViewById(R.id.reportList);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -222,10 +274,8 @@ public class consumptionEvaluationFragment extends Fragment {
             arrayCnt++;
         }
 
-        Log.d(">>>cnt", String.valueOf(arrayCnt));
-
         String[] tempdateArray = new String[arrayCnt]; // 안하면 안나옴
-        // 현재 날짜 까지 짜르는 로직 만들어야 함
+
         for(int i=0; i<arrayCnt; i++)
             tempdateArray[i] = date[i];
 
@@ -237,6 +287,7 @@ public class consumptionEvaluationFragment extends Fragment {
         for(int i = 0; i < weekCount; ++i){
             analysisWeekInfo[i] = new AnalysisInfo(Integer.toString(i + 1), date[i], date[i + 1]);  //주차, 시작날자, 끝날짜 저장
         }
+       // analysisWeekInfo[i] = new AnalysisInfo()
 
         //요청 정보 입력!!!!!!!test
         AnalysisRequest test = new AnalysisRequest(
@@ -254,12 +305,11 @@ public class consumptionEvaluationFragment extends Fragment {
                 int arrLength = analysisWeekInfo.length;
 
                 ArrayList<reportElement> reportElements = new ArrayList<>();
-                ListView reportListView = view.findViewById(R.id.reportList);
 
                 for(int i = 0; i < arrLength; i++){
                     analysisWeekInfo[i].setWeekSum(info[i].getWeekSum());       //주별 총합 지출 추가 저장
 
-                    reportElements.add(new reportElement("[" + tempMonthStr + analysisWeekInfo[i].getWeek()  + "주차 주간 리포트]",
+                    reportElements.add(new reportElement("[" + tempMonthStr + " "+ analysisWeekInfo[i].getWeek()  + "주차 주간 리포트]",
                             Integer.parseInt(analysisWeekInfo[i].getWeekSum())));
 
                 }
@@ -273,6 +323,11 @@ public class consumptionEvaluationFragment extends Fragment {
         mainYearTv = view.findViewById(R.id.present_year_);
         String mainYearStr = String.valueOf(curYear) + "년";
         mainYearTv.setText(mainYearStr);
+
+        return date;
     }
+
+
+
 
 }

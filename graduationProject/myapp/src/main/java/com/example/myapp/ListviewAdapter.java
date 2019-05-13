@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,8 @@ public class ListviewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
+
+
         if(convertView==null){
             convertView=inflater.inflate(layout,parent,false);
         }
@@ -50,7 +53,6 @@ public class ListviewAdapter extends BaseAdapter {
 
         TextView content =(TextView)convertView.findViewById(R.id.card_merit);
         content.setText(listviewitem.getMerit());
-
 
 
         return convertView;
