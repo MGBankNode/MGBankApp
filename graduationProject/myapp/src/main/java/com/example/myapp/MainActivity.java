@@ -145,6 +145,16 @@ public class MainActivity extends AppCompatActivity
                 switch (position) {
 
                     case 0:
+/*
+                        //menu1 fragment로 UserID 전달
+                        String userID = myUserInfo.getUserID();
+                        Fragment viewpagerMenu1Fragment = new menu1_fragment_tab1();
+                        Bundle bundle1 = new Bundle(1);
+                        bundle1.putString("ID",userID);
+                        viewpagerMenu1Fragment.setArguments(bundle1);
+                        Log.i("nkw","myUserInfo.getUserID()="+myUserInfo.getUserID());
+*/
+
                         fr = new fragment_menu1();
                         fr.setArguments(makeBundle("apage", 0));
                         st.push("a");

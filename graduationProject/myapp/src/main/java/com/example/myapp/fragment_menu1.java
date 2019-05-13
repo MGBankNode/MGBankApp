@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 public class fragment_menu1 extends Fragment {
     public fragment_menu1() {    }
 
+    String userID;
     TabLayout tabLayout;
     ViewPager pager;
 
@@ -30,6 +32,10 @@ public class fragment_menu1 extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("달력"));
         tabLayout.addTab(tabLayout.newTab().setText("내역"));
 
+/*        if(getArguments() != null){
+            userID = getArguments().getString("userID","");
+            Log.i("nkw","menu1_userID="+userID);
+        }*/
         return view;
     }
 
