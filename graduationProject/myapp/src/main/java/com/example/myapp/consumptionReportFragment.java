@@ -32,8 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class consumptionReportFragment extends Fragment {
-    public consumptionReportFragment() {
-    }
+    public consumptionReportFragment() {}
 
     final static int minColor = Color.rgb(43, 176, 221);
     final static int normColor = Color.GRAY;
@@ -42,28 +41,56 @@ public class consumptionReportFragment extends Fragment {
     final static int WeekNum = 4;
     final static int DayNum = 7;
 
-    private BarChart weekChart;
-    private BarChart dayChart;
+    public String lDay;
+    public int cYear;
+    public int cMonth;
+    public int cDay;
 
-    private TextView weekSum;
-    private TextView daySum;
+    public String[] labelArray;
 
+    public BarChart weekChart;
+    public BarChart dayChart;
+
+    public TextView weekSum;
+    public TextView daySum;
+
+    View view;
+
+    AnalysisInfo analysisWeekData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         final View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
 
-        DrawWeekChart(view);
-        DrawDayChart(view);
+        TextView mainDate = view.findViewById(R.id.reportMainDate);
+
+        Bundle bundle = getArguments();
+        analysisWeekData = (AnalysisInfo) bundle.getSerializable("dateData");
+        lDay =  bundle.getString("LastDay");
+
+        int reportMainMonth = bundle.getInt("Month");
+        int reportMainWeek = bundle.getInt("Week");
+
+        String mainDateStr = String.valueOf(reportMainMonth) + "월 " + String.valueOf(reportMainWeek) + "주차";
+        mainDate.setText(mainDateStr);
+
+       // String result = lDay;
+
+
+
+
+        DrawWeekChart(view, lDay);
+        DrawDayChart(view, analysisWeekData);
 
         return view;
     }
 
-    public void DrawDayChart(final View view) {
+    public void DrawDayChart(final View view, AnalysisInfo Info) {
         Context context = getContext();
-
+        //Info.get
         // 이런 정보가 담겨져 있는 객체를 받아왔다고 가정
-        AnalysisInfo analysisWeekInfo = new AnalysisInfo("2", "2019-05-05", "2019-05-12");
+        AnalysisInfo analysisWeekInfo = Info;
 
         //요청 정보 입력!!!!!!!test
         AnalysisRequest test = new AnalysisRequest(
@@ -85,14 +112,30 @@ public class consumptionReportFragment extends Fragment {
                 daySum = view.findViewById(R.id.daySum);
 
                 ArrayList<BarEntry> entries = new ArrayList<>();
-                //info[0].getDaily() 하면 날짜 나옴
-                entries.add(new BarEntry(1f, Integer.parseInt(info[0].getDailySum())));
-                entries.add(new BarEntry(2f, 0));
-                entries.add(new BarEntry(3f, Integer.parseInt(info[1].getDailySum())));
-                entries.add(new BarEntry(4f, Integer.parseInt(info[2].getDailySum())));
-                entries.add(new BarEntry(5f, Integer.parseInt(info[3].getDailySum())));
-                entries.add(new BarEntry(6f, Integer.parseInt(info[4].getDailySum())));
-                entries.add(new BarEntry(7f, Integer.parseInt(info[5].getDailySum())));
+
+                int[] sumArray = new int[8];
+
+                int ci = 1;
+                int cj = 0;
+                while (true) {
+                    if(ci>7)
+                        break;
+
+                    AnalysisInfo tempInfo = info[cj];
+
+                    if(ci==Integer.parseInt(tempInfo.getDaily())) {
+                        sumArray[ci] = Integer.parseInt(tempInfo.getDailySum());
+                        ci++;
+                        cj++;
+                    }
+                    else {
+                        sumArray[ci] = 0;
+                        ci++;
+                    }
+                }
+
+                for(int i=1; i<sumArray.length; i++)
+                    entries.add(new BarEntry(i, sumArray[i]));
 
                 String[] labels = new String[] {"", "월", "화", "수", "목", "금", "토", "일"};
 
@@ -140,83 +183,144 @@ public class consumptionReportFragment extends Fragment {
                 String temp = sum + "원 입니다!";
 
                 daySum.append(temp);
-
-
             }
         });
-
     }
 
 
-    public void DrawWeekChart(View view) {
-        int sum = 0;
+    public void DrawWeekChart(View view, String str) {
+
+        final String[] labelArray = new String[5];
+
+        String result = str;
 
         weekChart =  view.findViewById(R.id.chartWeek);
         weekSum = view.findViewById(R.id.weekSum);
 
-        ArrayList<BarEntry> entries = new ArrayList<>();
+        String[] lDate = result.split("-");
 
-        entries.add(new BarEntry(1f, 139230));
-        entries.add(new BarEntry(2f, 155889));
-        entries.add(new BarEntry(3f, 149403));
-        entries.add(new BarEntry(4f, 173291));
+        cYear = Integer.parseInt(lDate[0]);
+        cMonth = Integer.parseInt(lDate[1]);
+        cDay = Integer.parseInt(lDate[2]);
 
-        String[] labels = new String[] {"", "1주차", "2주차", "3주차", "4주차"};
+        labelArray[labelArray.length-1] = "~" + cMonth + "." + cDay;
 
-        int tempmonth = 3;
-        int tempdate = 9;
+        for(int i=0; i<4; i++) {
+            cDay -= 7;
 
-        for(int i=1; i< labels.length; i++) {
-            String tempstr = "~" + tempmonth + "." + tempdate;
-            labels[i] = tempstr;
-            tempdate += 7;
+            result += ",";
+
+            if(cDay < 1) {
+                cMonth--;
+                if(cMonth < 1) {
+                    cMonth = 12;
+                    cYear--;
+                }
+
+                if (cMonth == 2) {
+                    cDay += 28;
+                } else if (cMonth % 2 == 1 || cMonth == 8) {
+                    cDay += 31;
+                } else if (cMonth % 2 == 0) {
+                    cDay += 30;
+                }
+            }
+            String tempcMonth = String.valueOf(cMonth);
+            String tempcDay = String.valueOf(cDay);
+
+            if(cMonth < 10)
+                tempcMonth = "0" + cMonth;
+            if(cDay < 10)
+                tempcDay = "0" + cDay;
+
+            labelArray[labelArray.length-i-2] = "~" + tempcMonth + "." + tempcDay;
+            result = result + (cYear + "-" + tempcMonth + "-" + tempcDay);
+
         }
+        labelArray[0] = "";
+
+        // 끝 날짜 잡고 감소 시키면서 저장함 (내림차순)
+        // 서버 호출 포멧은 오름차순이므로, 데이터 뒤집어줌
+        String[] results = result.split(",");
+        String[] reversed = new String[results.length];
+        for(int i=0; i<results.length; i++)
+            reversed[i] = results[results.length-i-1];
 
 
-        YAxis leftAxis = weekChart.getAxisLeft();
-        YAxis rightAxis = weekChart.getAxisRight();
-        XAxis xAxis = weekChart.getXAxis();
+        result = reversed[0];
 
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(11f);
-        xAxis.setTextColor(Color.rgb(155,155,155));
+        for(int i=1; i<reversed.length; i++)
+            result += ","+ reversed[i];
 
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        xAxis.setLabelCount(4);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setDrawGridLines(false);
+        Log.d(">>>result", result);
 
-        leftAxis.setDrawLabels(true);
-        leftAxis.setAxisMinimum(90000);
-        leftAxis.setGranularity(30000);
-        leftAxis.setYOffset(-30f);
-        leftAxis.setTextColor(Color.rgb(155,155,155));
-        leftAxis.setDrawAxisLine(true);
-        leftAxis.setDrawGridLines(false);
 
-        rightAxis.setDrawAxisLine(false);
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setDrawLabels(false);
+        AnalysisRequest test = new AnalysisRequest(
+                "b",                               //현재 로그인 아이디
+                result,            //날짜들 list
+                RequestInfo.RequestType.ANALYSIS_WEEK,    //고정
+                getContext());                                 //고정
 
-        BarDataSet set = new BarDataSet(entries, "");
-        set.setColors(decisionColor(entries, WeekNum));
-        set.setValueTextColor(Color.rgb(90,90,90));
-        set.setValueTextSize(9);
+        //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
+        test.WeekRequestHandler(new AnalysisRequest.VolleyCallback() {
+            @Override
+            public void onSuccess(AnalysisInfo[] info) {
+                int sum = 0;
 
-        BarData data = new BarData(set);
+                ArrayList<BarEntry> entries = new ArrayList<>();
+                for(int i=0; i<info.length; i++)
+                    entries.add(new BarEntry(i+1, Integer.parseInt(info[i].getWeekSum())));
 
-        data.setBarWidth(0.6f); // set custom bar width
+                YAxis leftAxis = weekChart.getAxisLeft();
+                YAxis rightAxis = weekChart.getAxisRight();
+                XAxis xAxis = weekChart.getXAxis();
 
-        setChartData(weekChart, data);
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(11f);
+                xAxis.setTextColor(Color.rgb(155,155,155));
 
-        for(int i=0; i<entries.size() - 1; i++)
-            sum += (int) entries.get(i).getY();
+                xAxis.setValueFormatter(new IndexAxisValueFormatter(labelArray));
+                xAxis.setLabelCount(4);
+                xAxis.setDrawAxisLine(true);
+                xAxis.setDrawGridLines(false);
 
-        sum /= (WeekNum-1);
+                leftAxis.setDrawLabels(true);
+                leftAxis.setAxisMinimum(90000);
+                leftAxis.setGranularity(30000);
+                leftAxis.setYOffset(-30f);
+                leftAxis.setTextColor(Color.rgb(155,155,155));
+                leftAxis.setDrawAxisLine(true);
+                leftAxis.setDrawGridLines(false);
 
-        String temp = sum + "원 입니다!";
+                rightAxis.setDrawAxisLine(false);
+                rightAxis.setDrawGridLines(false);
+                rightAxis.setDrawLabels(false);
 
-        weekSum.append(temp);
+                BarDataSet set = new BarDataSet(entries, "");
+                set.setColors(decisionColor(entries, WeekNum));
+                set.setValueTextColor(Color.rgb(90,90,90));
+                set.setValueTextSize(9);
+
+                BarData data = new BarData(set);
+
+                data.setBarWidth(0.6f); // set custom bar width
+
+                setChartData(weekChart, data);
+
+                for(int i=0; i<entries.size() - 1; i++)
+                    sum += (int) entries.get(i).getY();
+
+                sum /= (WeekNum-1);
+
+                String temp = sum + "원 입니다!";
+
+                weekSum.append(temp);
+            }
+
+        });
+
+
+
     }
 
     public int[] decisionColor(ArrayList<BarEntry> entries, int size) {

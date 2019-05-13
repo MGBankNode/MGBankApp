@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class reportListviewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final Context context = parent.getContext();
+
         if(convertView==null){
             convertView=inflater.inflate(layout,parent,false);
         }
@@ -59,9 +62,6 @@ public class reportListviewAdapter extends BaseAdapter {
         String tempStr = String.format("%,d", rpmoney);
         String result = "총 " +tempStr + "원 사용";
         rpExpenditure.setText(result);
-
-
-
 
         return convertView;
     }

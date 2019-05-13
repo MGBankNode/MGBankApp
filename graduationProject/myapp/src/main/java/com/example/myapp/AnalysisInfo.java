@@ -1,6 +1,8 @@
 package com.example.myapp;
 
-public class AnalysisInfo {
+import java.io.Serializable;
+
+public class AnalysisInfo implements Serializable {
 
     private String one;
     private String oneSum;
