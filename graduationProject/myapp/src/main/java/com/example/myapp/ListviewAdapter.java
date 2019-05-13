@@ -42,9 +42,6 @@ public class ListviewAdapter extends BaseAdapter {
 
         cardElement listviewitem = data.get(position);
 
-//       TextView kind=(TextView)convertView.findViewById(R.id.card_kind);
-//       kind.setText(listviewitem.getKind());
-
         ImageView icon=(ImageView)convertView.findViewById(R.id.card_ic);
         icon.setImageResource(listviewitem.getIcon());
 
