@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +33,8 @@ import java.util.Locale;
 
 public class menu1_fragment_tab1 extends Fragment {
 
+    String userID;
+    DecimalFormat myFormatter;
     int month = 3;
     int year = 2019;
     int day = 1;
@@ -58,6 +61,7 @@ public class menu1_fragment_tab1 extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        myFormatter = new DecimalFormat("###,###");
         super.onCreate(savedInstanceState);
     }
 
@@ -68,6 +72,8 @@ public class menu1_fragment_tab1 extends Fragment {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.menu1_fragment_tab1,
                 container, false);
 
+        /*userID = getArguments().getString("ID");
+        Log.i("nkw","tab1 userID="+userID);*/
         return layout;
     }
 
@@ -116,6 +122,10 @@ public class menu1_fragment_tab1 extends Fragment {
                     monthlyBenefit+=Integer.parseInt(dailyBenefit[i]);  //월 수익
                     monthlyLoss+=Integer.parseInt(dailyLoss[i]);        //월 지출
                 }
+
+                btn_benefit.setText("+"+myFormatter.format(monthlyBenefit)+"원");
+                btn_loss.setText("-"+myFormatter.format(monthlyLoss) +"원");
+
                 //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
                 for (int i = 0; i < lastDay; i++) {
                     for (int j = 0; j < arrLength2; j++) {
@@ -230,7 +240,11 @@ public class menu1_fragment_tab1 extends Fragment {
         btn_next.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) { //next month
-                if(month == 12){
+                if((year==Integer.parseInt(curYearFormat.format(date)))&&
+                        (month == Integer.parseInt(curMonthFormat.format(date)))){
+                    year=Integer.parseInt(curYearFormat.format(date));
+                    month=Integer.parseInt(curMonthFormat.format(date));
+                }else if (month == 12) {
                     month =1;
                     year+=1;
                 }
@@ -271,7 +285,7 @@ public class menu1_fragment_tab1 extends Fragment {
             public void onClick(View v) {
                 if(btn_benefit.getText().equals("benefit")){
                     btn_benefit.setTextSize(13);
-                    btn_benefit.setText("+"+monthlyBenefit+"원");
+                    btn_benefit.setText("+"+myFormatter.format(monthlyBenefit)+"원");
 
                     gridAdapter = new GridAdapter(getActivity(), dayList, benefitList,lossList);
                     gridView.setAdapter(gridAdapter);
@@ -292,7 +306,7 @@ public class menu1_fragment_tab1 extends Fragment {
             public void onClick(View v) {
                 if(btn_loss.getText().equals("loss")){
                     btn_loss.setTextSize(13);
-                    btn_loss.setText("-"+monthlyLoss+"원");
+                    btn_loss.setText("-"+myFormatter.format(monthlyLoss)+"원");
 
                     gridAdapter = new GridAdapter(getActivity(), dayList, benefitList,lossList);
                     gridView.setAdapter(gridAdapter);
@@ -395,22 +409,20 @@ public class menu1_fragment_tab1 extends Fragment {
             holder.tvItemGridView.setText("" + getItem(position));
 
             if(!getItem(position).equals("")) {
-                holder.tvPlus.setText(""+benefitList.get(position));
-                holder.tvMinus.setText(""+lossList.get(position));
+                holder.tvPlus.setText(""+myFormatter.format(Integer.parseInt(benefitList.get(position))) );
+                holder.tvMinus.setText(""+myFormatter.format(Integer.parseInt(lossList.get(position))) );
 
                 //버튼 눌럿을때 수입 지출 보이게 하는 조건
-                if(!btn_benefit.getText().equals("benefit") && !btn_loss.getText().equals("loss")){
+                if(!btn_benefit.getText().equals("benefit")){
                     holder.tvPlus.setVisibility(View.VISIBLE);
-                    holder.tvMinus.setVisibility(View.VISIBLE);
-                }else if(!btn_benefit.getText().equals("benefit") && btn_loss.getText().equals("loss")){
-                    holder.tvPlus.setVisibility(View.VISIBLE);
-                    holder.tvMinus.setVisibility(View.INVISIBLE);
                 }
-                else if(btn_benefit.getText().equals("benefit") && !btn_loss.getText().equals("loss")){
+                else {
                     holder.tvPlus.setVisibility(View.INVISIBLE);
+                }
+                if(!btn_loss.getText().equals("loss")){
                     holder.tvMinus.setVisibility(View.VISIBLE);
-                }else{
-                    holder.tvPlus.setVisibility(View.INVISIBLE);
+                }
+                else{
                     holder.tvMinus.setVisibility(View.INVISIBLE);
                 }
             }
