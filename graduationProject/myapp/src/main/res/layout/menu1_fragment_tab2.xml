@@ -63,4 +63,24 @@
             android:dividerHeight="3dp"
             android:divider="#00000000" />
 
+        <LinearLayout
+            android:id="@+id/receipt_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10pt"
+            android:layout_alignParentBottom="true"
+
+            android:gravity="right"
+            android:orientation="horizontal">
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/receipt2_btn"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    android:padding="0dp"
+                    android:src="@drawable/bill"/>
+        </LinearLayout>
+
+
 </RelativeLayout>

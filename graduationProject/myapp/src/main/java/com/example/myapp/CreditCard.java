@@ -6,8 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import androidx.annotation.NonNull;
-
 public class CreditCard implements Serializable {
     private int icon;
     private String cardName;
@@ -119,8 +117,6 @@ public class CreditCard implements Serializable {
         return discountedPrice;
     }
 
-
-    @NonNull
     @Override
     public String toString() {
         return cardName;

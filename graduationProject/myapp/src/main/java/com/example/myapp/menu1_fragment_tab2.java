@@ -1,5 +1,7 @@
 package com.example.myapp;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,6 +33,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
     int year = 2019;
     ImageButton btn_previous;
     ImageButton btn_next;
+    ImageButton btn_receipt;
     TextView txt_present;
     TextView txt_year;
 
@@ -53,6 +56,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         recyclerView = (RecyclerView)getView().findViewById(R.id.recycler_view);
         btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
+        btn_receipt = (ImageButton)getView().findViewById(R.id.receipt2_btn);
         btn_next=(ImageButton)getView().findViewById(R.id.next_month);
         txt_present=(TextView)getView().findViewById(R.id.present_month);
         txt_year=(TextView)getView().findViewById(R.id.present_year);
@@ -106,6 +110,14 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
             }
         });
 
+        btn_receipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { 
+                Intent intent = new Intent(getActivity(), AddReceiptActivity.class);
+                startActivityForResult(intent, 1);
+
+            }
+        });
         super.onActivityCreated(savedInstanceState);
     }
     public void request_test(){

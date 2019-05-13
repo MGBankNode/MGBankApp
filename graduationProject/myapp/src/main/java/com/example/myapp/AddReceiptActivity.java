@@ -56,6 +56,7 @@ public class AddReceiptActivity extends Activity {
 
     ImageButton btn_camera;
     ImageButton btn_photo;
+    ImageButton btn_cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,8 @@ public class AddReceiptActivity extends Activity {
         setContentView(R.layout.activity_receipt);
         btn_camera =(ImageButton)findViewById(R.id.cameraBtn);
         btn_photo = (ImageButton)findViewById(R.id.photoBtn);
+        btn_cancel = (ImageButton)findViewById(R.id.cancelBtn);
+
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +78,13 @@ public class AddReceiptActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startGalleryChooser();
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
