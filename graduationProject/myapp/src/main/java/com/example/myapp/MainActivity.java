@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity
     Stack<String> st;
 
     public int userAccountCheck;
+    public String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,30 +146,27 @@ public class MainActivity extends AppCompatActivity
         menu1list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle bundle1 = new Bundle(1);
                 switch (position) {
 
                     case 0:
-/*                        //menu1 fragment로 UserID 전달
-                        String userID = myUserInfo.getUserID();
-                        Fragment menu1FragmentTab1 = new menu1_fragment_tab1();
-                        Bundle bundle1 = new Bundle(1);
-                        bundle1.putString("ID",userID);
-                        menu1FragmentTab1.setArguments(bundle1);
-                        Log.i("nkw","myUserInfo.getUserID()="+myUserInfo.getUserID());*/
 
                         fr = new fragment_menu1();
-                        fr.setArguments(makeBundle("apage", 0));
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 0);
                         st.push("a");
                         break;
 
                     case 1:
                         fr = new fragment_menu1();
-                        fr.setArguments(makeBundle("apage", 1));
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 1);
                         st.push("b");
                         break;
 
                 }
-                changeFragment(fr);
+                changeFragment(fr, bundle1);
             }
         });
         menu2list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -187,7 +185,7 @@ public class MainActivity extends AppCompatActivity
                         st.push("d");
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
         });
 
@@ -200,7 +198,7 @@ public class MainActivity extends AppCompatActivity
                         st.push("e");
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
         });
     }
@@ -251,7 +249,7 @@ public class MainActivity extends AppCompatActivity
                     default:
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
 
         }
@@ -270,6 +268,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         myUserInfo = (UserInfo) intent.getSerializableExtra("UserInfoObject");
 
+        userID = myUserInfo.getUserID();
         //사용자 이름 변경
         String tempLoginUser = myUserInfo.getUserName();
         if(tempLoginUser != null) {
@@ -319,7 +318,7 @@ public class MainActivity extends AppCompatActivity
                     "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
                     RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
                     getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
-                                                                        //fragment 쪽에서는 getContext()하시면 될 것 같아요
+            //fragment 쪽에서는 getContext()하시면 될 것 같아요
             //myUserInfo.getUserID()
 
             //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
@@ -552,7 +551,7 @@ public class MainActivity extends AppCompatActivity
                             "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
                             RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
                             getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
-                                                                                //fragment 쪽에서는 getContext()하시면 될 것 같아요
+                    //fragment 쪽에서는 getContext()하시면 될 것 같아요
 
 
                     //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
@@ -696,18 +695,31 @@ public class MainActivity extends AppCompatActivity
 //        fragmentTransaction.commit();
 //    }
 
-    public void changeFragment(Fragment fr) {
-        Bundle args = new Bundle();
-        args.putSerializable("DATA", sData);
-        fr.setArguments(args);
+    public void changeFragment(Fragment fr, Bundle bundle) {
+
+
+        if(bundle == null){
+            bundle = new Bundle(1);
+        }
+        bundle.putSerializable("DATA", sData);
+
+        fr.setArguments(bundle);
+
+
 
         FragmentManager fm = getSupportFragmentManager();
+
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
         fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+
         fragmentTransaction.commit();
 
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         drawer.closeDrawer(GravityCompat.START);
+
     }
 
     /*
