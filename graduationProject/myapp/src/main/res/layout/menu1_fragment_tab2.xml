@@ -63,7 +63,7 @@
             android:dividerHeight="3dp"
             android:divider="#00000000" />
 
-        <LinearLayout
+         <LinearLayout
             android:id="@+id/receipt_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
