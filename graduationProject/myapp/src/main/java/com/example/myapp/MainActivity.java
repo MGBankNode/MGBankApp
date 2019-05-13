@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
     Stack<String> st;
 
     public int userAccountCheck;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,15 +145,13 @@ public class MainActivity extends AppCompatActivity
                 switch (position) {
 
                     case 0:
-/*
-                        //menu1 fragment로 UserID 전달
+/*                        //menu1 fragment로 UserID 전달
                         String userID = myUserInfo.getUserID();
-                        Fragment viewpagerMenu1Fragment = new menu1_fragment_tab1();
+                        Fragment menu1FragmentTab1 = new menu1_fragment_tab1();
                         Bundle bundle1 = new Bundle(1);
                         bundle1.putString("ID",userID);
-                        viewpagerMenu1Fragment.setArguments(bundle1);
-                        Log.i("nkw","myUserInfo.getUserID()="+myUserInfo.getUserID());
-*/
+                        menu1FragmentTab1.setArguments(bundle1);
+                        Log.i("nkw","myUserInfo.getUserID()="+myUserInfo.getUserID());*/
 
                         fr = new fragment_menu1();
                         fr.setArguments(makeBundle("apage", 0));
