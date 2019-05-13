@@ -24,7 +24,7 @@ public class menu1_CustomDialog {
     }
 
     // 호출할 다이얼로그 함수를 정의한다.
-    public void callFunction(final int position, int year, int month) { //파라미터에 textview와 같은것을 넘겨받을수  잇음
+    public void callFunction(final int position, int year, int month, String userID) { //파라미터에 textview와 같은것을 넘겨받을수  잇음
 
         // 커스텀 다이얼로그를 정의하기위해 Dialog클래스를 생성한다.
         final Dialog dlg = new Dialog(context);
@@ -67,7 +67,7 @@ public class menu1_CustomDialog {
         }
 
         HistoryRequest test = new HistoryRequest(
-                "b",                          //현재 로그인 아이디
+                userID,                          //현재 로그인 아이디
                 year+"-"+month+"-1",                       //요청할 해당 달의 시작 날짜
                 request_year+"-"+request_month+"-1",       //요청할 해당 다음달의 시작 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.PublicKey;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +39,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
     TextView txt_present;
     TextView txt_year;
 
+    public String userID;
 
     public menu1_fragment_tab2(){    }
     @Override
@@ -49,6 +52,10 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                              @Nullable Bundle savedInstanceState) {
         RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.menu1_fragment_tab2,
                 container, false);
+        if(getArguments() != null){
+            userID = getArguments().getString("ID");
+            Log.i("nkw","menu1_tab2_userID="+userID);
+        }
         return layout;
     }
 
@@ -130,7 +137,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
         }
 
         HistoryRequest test = new HistoryRequest(
-                "b",                          //현재 로그인 아이디
+                userID,                          //현재 로그인 아이디
                 year+"-"+month+"-1",                       //요청할 해당 달의 시작 날짜
                 request_year+"-"+request_month+"-1",       //요청할 해당 다음달의 시작 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
@@ -218,7 +225,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
         Toast.makeText(getContext(),position+"번 아이템 클릭",Toast.LENGTH_LONG).show();
         //커스텀 다이얼로그 생성
         menu1_CustomDialog customDialog = new menu1_CustomDialog(getActivity());
-        customDialog.callFunction(indexData.length-1-position,year,month);
+        customDialog.callFunction(indexData.length-1-position,year,month,userID);
     }
 
 }
