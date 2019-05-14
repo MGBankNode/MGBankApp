@@ -97,76 +97,72 @@ public class menu1_fragment_tab1 extends Fragment {
 
 
         //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
-        test.Request(new HistoryRequest.VolleyCallback() {
-            @Override
-            public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
-                monthlyBenefit=0;
-                monthlyLoss=0;
+        test.Request((HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) -> {
+            monthlyBenefit=0;
+            monthlyLoss=0;
 
-                String[] day_ ;
-                String[] dailyBenefit;
-                String[] dailyLoss;
+            String[] day_ ;
+            String[] dailyBenefit;
+            String[] dailyLoss;
 
-                int arrLength2 = dailyHistoryInfo.length;
-                day_ = new String[arrLength2];
-                dailyBenefit = new String[arrLength2];
-                dailyLoss = new String[arrLength2];
-                String[] arr1, arr2;
+            int arrLength2 = dailyHistoryInfo.length;
+            day_ = new String[arrLength2];
+            dailyBenefit = new String[arrLength2];
+            dailyLoss = new String[arrLength2];
+            String[] arr1, arr2;
 
-                arr1 = new String[lastDay];
-                arr2 = new String[lastDay];
+            arr1 = new String[lastDay];
+            arr2 = new String[lastDay];
 
-                for(int i = 0; i < arrLength2; i++){
-                    day_[i] = dailyHistoryInfo[i].getDay();                      //일
-                    dailyBenefit[i] = dailyHistoryInfo[i].getDailyBenefit();    //수익
-                    dailyLoss[i] = dailyHistoryInfo[i].getDailyLoss();          //지출
+            for(int i = 0; i < arrLength2; i++){
+                day_[i] = dailyHistoryInfo[i].getDay();                      //일
+                dailyBenefit[i] = dailyHistoryInfo[i].getDailyBenefit();    //수익
+                dailyLoss[i] = dailyHistoryInfo[i].getDailyLoss();          //지출
 
-                    monthlyBenefit+=Integer.parseInt(dailyBenefit[i]);  //월 수익
-                    monthlyLoss+=Integer.parseInt(dailyLoss[i]);        //월 지출
-                }
-
-                btn_benefit.setText("+"+myFormatter.format(monthlyBenefit)+"원");
-                btn_loss.setText("-"+myFormatter.format(monthlyLoss) +"원");
-
-                //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
-                for (int i = 0; i < lastDay; i++) {
-                    for (int j = 0; j < arrLength2; j++) {
-                        arr1[i] = "0";
-                        arr2[i] = "0";
-                    }
-                }
-                int date1,date2;
-                for (int i = 0; i <lastDay; i++) {
-                    for(int j=0; j<arrLength2; j++){
-                        if(Integer.parseInt(dailyBenefit[j])!=0){
-                            date1=Integer.parseInt(day_[j]);
-                            arr1[date1-1]=dailyBenefit[j];
-                        }
-                        if(Integer.parseInt(dailyLoss[j])!=0){
-                            date2=Integer.parseInt(day_[j]);
-                            arr2[date2-1]=dailyLoss[j];
-                        }
-                    }
-                }
-
-                //1일 - 요일 매칭 시키기 위해 공백 add
-                for (int i = 1; i < startDay; i++) {
-                    dayList.add("");
-                    benefitList.add("");
-                    lossList.add("");
-                }
-                //해당 월에 표시할 일수 구함
-                for (int i = 0; i < lastDay; i++) {
-                    dayList.add("" + (i + 1));
-                    benefitList.add(""+arr1[i]);
-                    lossList.add(""+arr2[i]);
-                }
-                Log.i("nkw","월: "+month+", 마지막 날 : "+Calendar.DAY_OF_MONTH+","+mCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-                //그리드 뷰 설정 및 표시
-                gridAdapter = new GridAdapter(getActivity(), dayList, benefitList, lossList);
-                gridView.setAdapter(gridAdapter);
-
+                monthlyBenefit+=Integer.parseInt(dailyBenefit[i]);  //월 수익
+                monthlyLoss+=Integer.parseInt(dailyLoss[i]);        //월 지출
             }
+
+            btn_benefit.setText("+"+myFormatter.format(monthlyBenefit)+"원");
+            btn_loss.setText("-"+myFormatter.format(monthlyLoss) +"원");
+
+            //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+            for (int i = 0; i < lastDay; i++) {
+                for (int j = 0; j < arrLength2; j++) {
+                    arr1[i] = "0";
+                    arr2[i] = "0";
+                }
+            }
+            int date1,date2;
+            for (int i = 0; i <lastDay; i++) {
+                for(int j=0; j<arrLength2; j++){
+                    if(Integer.parseInt(dailyBenefit[j])!=0){
+                        date1=Integer.parseInt(day_[j]);
+                        arr1[date1-1]=dailyBenefit[j];
+                    }
+                    if(Integer.parseInt(dailyLoss[j])!=0){
+                        date2=Integer.parseInt(day_[j]);
+                        arr2[date2-1]=dailyLoss[j];
+                    }
+                }
+            }
+
+            //1일 - 요일 매칭 시키기 위해 공백 add
+            for (int i = 1; i < startDay; i++) {
+                dayList.add("");
+                benefitList.add("");
+                lossList.add("");
+            }
+            //해당 월에 표시할 일수 구함
+            for (int i = 0; i < lastDay; i++) {
+                dayList.add("" + (i + 1));
+                benefitList.add(""+arr1[i]);
+                lossList.add(""+arr2[i]);
+            }
+            Log.i("nkw","월: "+month+", 마지막 날 : "+Calendar.DAY_OF_MONTH+","+mCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+            //그리드 뷰 설정 및 표시
+            gridAdapter = new GridAdapter(getActivity(), dayList, benefitList, lossList);
+            gridView.setAdapter(gridAdapter);
         });
         ///////////////////////////////////////////////
     }

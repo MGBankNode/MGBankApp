@@ -2,6 +2,7 @@ package com.example.myapp;
 
 public class HistoryInfo {
 
+    AccountInfo accountInfo;
     int hId;            //카테고리 변경시에 필요한 아이디
     String hDate;       //내역 사용 날짜
     String hType;       //내역 사용 타입 => 입금/충금/카드
@@ -11,7 +12,11 @@ public class HistoryInfo {
     String cType;       //카드 이름
     String cName;       //카테고리 분류
 
-    HistoryInfo(int hId, String hDate,String hValue, String hName, String cName){
+    HistoryInfo(String aNum, String aBalance){
+        accountInfo = new AccountInfo(aNum, aBalance);
+    }
+
+    HistoryInfo(int hId, String hDate, String hValue, String hName, String cName){
         this.hId = hId;
         this.hDate = hDate;
         this.hValue = hValue;
@@ -29,6 +34,8 @@ public class HistoryInfo {
         this.cType = cType;
         this.cName = cName;
     }
+
+    public AccountInfo getAccountInfo() { return accountInfo; }
 
     public int gethId() {
         return hId;
