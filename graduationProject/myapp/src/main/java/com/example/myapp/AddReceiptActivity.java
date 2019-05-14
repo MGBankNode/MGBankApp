@@ -148,6 +148,13 @@ public class AddReceiptActivity extends Activity {
                 LinearLayout resultLayout = (LinearLayout)findViewById(R.id.layout_result);
                 initialLayout.setVisibility(View.GONE);
                 resultLayout.setVisibility(View.VISIBLE);
+
+
+                ReceiptRequest test = new ReceiptRequest("후문식당", RequestInfo.RequestType.HNAME_CHECK, getApplicationContext());
+                test.StoreRequest(cId -> {
+                        String storecId = cId;
+                        Toast.makeText(getApplicationContext(), storecId, Toast.LENGTH_LONG).show();
+                });
             }
         });
     }

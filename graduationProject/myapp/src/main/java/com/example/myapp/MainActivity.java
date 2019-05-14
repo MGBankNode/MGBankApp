@@ -280,6 +280,122 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+     void MainStart(){
+         //내역을 얻어와야함
+         //먼저 HistoryRequest 각각 정보 입력하여 객체생성
+         HistoryRequest testRequest = new HistoryRequest(
+                 myUserInfo.getUserID(),                            //사용자 아이디 myUserInfo 객체에서 getUserID()받아와 사용하시면되요
+                 "2019-02-01",                               //전달의 시작 날짜 - 일은 01로 고정시키고 년도랑 월만 계산해서 가져오시면되요(시작일은 무조건 01이므로)
+                 "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
+                 RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
+                 getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
+
+         //fragment 쪽에서는 getContext()하시면 될 것 같아요
+
+
+         //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
+         testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
+             @Override
+             public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
+                 int arrLength = historyInfo.length;
+
+                 ArrayList<Stat> temp = new ArrayList<Stat>();
+                 Stat Culture = new Stat(Stat.CULTURE);
+                 Stat Food = new Stat(Stat.FOOD);
+                 Stat Finance = new Stat(Stat.FINANCE);
+                 Stat Traffic = new Stat(Stat.TRAFFIC);
+                 Stat None = new Stat(Stat.NONE);
+                 Stat Life = new Stat(Stat.LIFE);
+                 Stat Coffee = new Stat(Stat.COFFEE);
+                 Stat Dwelling = new Stat(Stat.DWELLING);
+                 Stat Drink = new Stat(Stat.DRINK);
+                 Stat Travel = new Stat(Stat.TRAVEL);
+                 Stat Hospital = new Stat(Stat.HOSPITAL);
+
+                 String[] hValue = new String[arrLength];
+                 String[] hName = new String[arrLength];
+                 String[] cName = new String[arrLength];
+                 PayInfomation p;
+                 for (int i = 0; i < arrLength; i++) {
+                     cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+                     Date date = new Date(historyInfo[i].gethDate());
+                     Log.d("KJh", "Date : " + date);
+                     Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
+                     switch (cName[i]) {
+                         case "술/유흥":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
+                             break;
+                         case "생활(쇼핑)":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Life, date);
+                             break;
+                         case "교통":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Traffic, date);
+                             break;
+                         case "주거/통신":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date);
+                             break;
+                         case "의료/건강":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Hospital, date);
+                             break;
+                         case "금융":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Finance, date);
+                             break;
+                         case "문화/여가":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Culture, date);
+                             break;
+                         case "여행/숙박":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Travel, date);
+                             break;
+                         case "식비":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Food, date);
+                             break;
+                         case "카페/간식":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), Coffee, date);
+                             break;
+                         case "미분류":
+                             p = new PayInfomation(historyInfo[i].gethName(),
+                                     Integer.parseInt(historyInfo[i].gethValue()), None, date);
+                             break;
+                         default:
+                             break;
+
+                     }
+                 }
+
+                 temp.add(Drink);
+                 temp.add(Life);
+                 temp.add(Traffic);
+                 temp.add(Dwelling);
+                 temp.add(Hospital);
+                 temp.add(Finance);
+                 temp.add(Culture);
+                 temp.add(Travel);
+                 temp.add(Food);
+                 temp.add(Coffee);
+                 temp.add(None);
+
+                 sData.clear();
+                 for (int i = 0; i < temp.size(); i++) {
+                     if (!temp.get(i).isEmpty())
+                         sData.add(temp.get(i));
+                 }
+
+                 startMainFragment();
+                 //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+             }
+         });
+     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Log.d("KJH", "onCreateOptionsMenu()");
@@ -337,119 +453,7 @@ public class MainActivity extends AppCompatActivity
 //            Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
 //            userABalanceTxtView.setText(userABalance);
 
-            //내역을 얻어와야함
-            //먼저 HistoryRequest 각각 정보 입력하여 객체생성
-            HistoryRequest testRequest = new HistoryRequest(
-                    myUserInfo.getUserID(),                            //사용자 아이디 myUserInfo 객체에서 getUserID()받아와 사용하시면되요
-                    "2019-02-01",                               //전달의 시작 날짜 - 일은 01로 고정시키고 년도랑 월만 계산해서 가져오시면되요(시작일은 무조건 01이므로)
-                    "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
-                    RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
-                    getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
-
-            //fragment 쪽에서는 getContext()하시면 될 것 같아요
-
-
-            //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
-            testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
-                @Override
-                public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
-                    int arrLength = historyInfo.length;
-
-                    ArrayList<Stat> temp = new ArrayList<Stat>();
-                    Stat Culture = new Stat(Stat.CULTURE);
-                    Stat Food = new Stat(Stat.FOOD);
-                    Stat Finance = new Stat(Stat.FINANCE);
-                    Stat Traffic = new Stat(Stat.TRAFFIC);
-                    Stat None = new Stat(Stat.NONE);
-                    Stat Life = new Stat(Stat.LIFE);
-                    Stat Coffee = new Stat(Stat.COFFEE);
-                    Stat Dwelling = new Stat(Stat.DWELLING);
-                    Stat Drink = new Stat(Stat.DRINK);
-                    Stat Travel = new Stat(Stat.TRAVEL);
-                    Stat Hospital = new Stat(Stat.HOSPITAL);
-
-                    String[] hValue = new String[arrLength];
-                    String[] hName = new String[arrLength];
-                    String[] cName = new String[arrLength];
-                    PayInfomation p;
-                    for (int i = 0; i < arrLength; i++) {
-                        cName[i] = historyInfo[i].getcName();        //카테고릐 분류
-                        Date date = new Date(historyInfo[i].gethDate());
-                        Log.d("KJh", "Date : " + date);
-                        Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
-                        switch (cName[i]) {
-                            case "술/유흥":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
-                                break;
-                            case "생활(쇼핑)":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Life, date);
-                                break;
-                            case "교통":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Traffic, date);
-                                break;
-                            case "주거/통신":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date);
-                                break;
-                            case "의료/건강":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Hospital, date);
-                                break;
-                            case "금융":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Finance, date);
-                                break;
-                            case "문화/여가":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Culture, date);
-                                break;
-                            case "여행/숙박":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Travel, date);
-                                break;
-                            case "식비":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Food, date);
-                                break;
-                            case "카페/간식":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Coffee, date);
-                                break;
-                            case "미분류":
-                                p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), None, date);
-                                break;
-                            default:
-                                break;
-
-                        }
-                    }
-
-                    temp.add(Drink);
-                    temp.add(Life);
-                    temp.add(Traffic);
-                    temp.add(Dwelling);
-                    temp.add(Hospital);
-                    temp.add(Finance);
-                    temp.add(Culture);
-                    temp.add(Travel);
-                    temp.add(Food);
-                    temp.add(Coffee);
-                    temp.add(None);
-
-                    sData.clear();
-                    for (int i = 0; i < temp.size(); i++) {
-                        if (!temp.get(i).isEmpty())
-                            sData.add(temp.get(i));
-                    }
-
-                    startMainFragment();
-                    //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
-                }
-            });
+            MainStart();
 
         } else if (userAccountCheck == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -560,130 +564,7 @@ public class MainActivity extends AppCompatActivity
                 userAccountCheck = Integer.parseInt(data.getStringExtra("UserAccountCheck"));
 
                 if (userAccountCheck == 1) {
-                    myUserInfo.UpdateABalance(getApplicationContext(), new UserInfo.VolleyCallback() {
-                        @Override
-                        public void onSuccess(String aBalance) {
-                            myUserInfo.setUserABalance(aBalance);
-                            TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
-
-                            String userABalance = myUserInfo.getUserABalance() + "원";
-                            Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
-                            userABalanceTxtView.setText(userABalance);
-                        }
-                    });
-
-
-                    //여기는 계좌등록을 하고 난후, 메인화면에 데이터를 불러와야 하기때문에 호출해줌
-                    //내역을 얻어와야함
-                    //먼저 HistoryRequest 각각 정보 입력하여 객체생성
-                    HistoryRequest testRequest = new HistoryRequest(
-                            myUserInfo.getUserID(),                            //사용자 아이디 myUserInfo 객체에서 getUserID()받아와 사용하시면되요
-                            "2019-02-01",                               //전달의 시작 날짜 - 일은 01로 고정시키고 년도랑 월만 계산해서 가져오시면되요(시작일은 무조건 01이므로)
-                            "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
-                            RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
-                            getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
-                    //fragment 쪽에서는 getContext()하시면 될 것 같아요
-
-
-                    //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
-                    testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
-                        @Override
-                        public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
-                            int arrLength = historyInfo.length;
-
-                            ArrayList<Stat> temp = new ArrayList<Stat>();
-                            Stat Culture = new Stat(Stat.CULTURE);
-                            Stat Food = new Stat(Stat.FOOD);
-                            Stat Finance = new Stat(Stat.FINANCE);
-                            Stat Traffic = new Stat(Stat.TRAFFIC);
-                            Stat None = new Stat(Stat.NONE);
-                            Stat Life = new Stat(Stat.LIFE);
-                            Stat Coffee = new Stat(Stat.COFFEE);
-                            Stat Dwelling = new Stat(Stat.DWELLING);
-                            Stat Drink = new Stat(Stat.DRINK);
-                            Stat Travel = new Stat(Stat.TRAVEL);
-                            Stat Hospital = new Stat(Stat.HOSPITAL);
-
-                            String[] hValue = new String[arrLength];
-                            String[] hName = new String[arrLength];
-                            String[] cName = new String[arrLength];
-                            PayInfomation p;
-                            for (int i = 0; i < arrLength; i++) {
-                                cName[i] = historyInfo[i].getcName();        //카테고릐 분류
-                                Date date = new Date(historyInfo[i].gethDate());
-                                Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
-                                switch (cName[i]) {
-                                    case "술/유흥":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
-                                        break;
-                                    case "생활(쇼핑)":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Life, date);
-                                        break;
-                                    case "교통":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Traffic, date);
-                                        break;
-                                    case "주거/통신":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date);
-                                        break;
-                                    case "의료/건강":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Hospital, date);
-                                        break;
-                                    case "금융":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Finance, date);
-                                        break;
-                                    case "문화/여가":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Culture, date);
-                                        break;
-                                    case "여행/숙박":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Travel, date);
-                                        break;
-                                    case "식비":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Food, date);
-                                        break;
-                                    case "카페/간식":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Coffee, date);
-                                        break;
-                                    case "미분류":
-                                        p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), None, date);
-                                        break;
-                                    default:
-                                        break;
-
-                                }
-                            }
-
-                            temp.add(Drink);
-                            temp.add(Life);
-                            temp.add(Traffic);
-                            temp.add(Dwelling);
-                            temp.add(Hospital);
-                            temp.add(Finance);
-                            temp.add(Culture);
-                            temp.add(Travel);
-                            temp.add(Food);
-                            temp.add(Coffee);
-                            temp.add(None);
-
-                            sData.clear();
-                            for (int i = 0; i < temp.size(); i++) {
-                                if (!temp.get(i).isEmpty())
-                                    sData.add(temp.get(i));
-                            }
-                            //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
-                        }
-                    });
-
+                    MainStart();
                 }
             } else if (resultCode == RESULT_CANCELED) {
                 finish();
