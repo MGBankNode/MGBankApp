@@ -60,7 +60,6 @@ public class fragment_home extends Fragment {
         Log.d("homeFragment", sData.toString());
 
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);;
         setBudget = view.findViewById(R.id.setBudgetBtn);
 
         String budget = "";
