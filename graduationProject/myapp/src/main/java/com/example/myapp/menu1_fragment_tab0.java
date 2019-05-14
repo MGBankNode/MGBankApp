@@ -9,10 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class menu1_fragment_tab0 extends Fragment {
 
     String userID;
+    protected ListView accountListView;
 
     public menu1_fragment_tab0() {    }
 
@@ -27,7 +31,6 @@ public class menu1_fragment_tab0 extends Fragment {
             userID = getArguments().getString("ID");
             Log.i("nkw","menu1_tab0_userID="+userID);
         }
-
 
         //계좌 + 잔액 리스트 요청
         HistoryRequest test1 = new HistoryRequest(
@@ -51,6 +54,15 @@ public class menu1_fragment_tab0 extends Fragment {
             //계좌 번호= accountInfo[i].getaNum()
             //계좌 잔액 = accountInfo[i].getaBalance()
             //계좌 이름 = accountInfo[i].getaType()
+          
+            ArrayList<AccountListData> listItem = new ArrayList<>();
+
+            for(int i = 0; i < accountNum; i++){
+                listItem.add(new AccountListData(accountInfo[i].getaType(), accountInfo[i].getaNum(), accountInfo[i].getaBalance()));
+            }
+            accountListView = layout.findViewById(R.id.accountList);
+            accountListViewAdapter accountListViewAdapter = new accountListViewAdapter(getContext(), listItem, R.layout. accountlistitem);
+            accountListView.setAdapter(accountListViewAdapter);
 
         });
 
