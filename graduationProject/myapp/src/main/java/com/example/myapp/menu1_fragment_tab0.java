@@ -48,8 +48,9 @@ public class menu1_fragment_tab0 extends Fragment {
 
             }
 
-            //계좌 이름 = accountInfo[i].getaNum()
+            //계좌 번호= accountInfo[i].getaNum()
             //계좌 잔액 = accountInfo[i].getaBalance()
+            //계좌 이름 = accountInfo[i].getaType()
 
         });
 
@@ -64,7 +65,7 @@ public class menu1_fragment_tab0 extends Fragment {
         //BalanceListRequest 함수 호출해서 정보 historyInfo
         test2.AccountByRequest((HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) -> {
             int historyCount = historyInfo.length;
-            
+
             String[] hDate =  new String[historyCount];
             String[] hType =  new String[historyCount];
             String[] hValue =  new String[historyCount];

@@ -330,8 +330,9 @@ public class HistoryRequest {
 
                         String aNum = record.getString("aNum");
                         String aBalance = record.getString("aBalance");
+                        String aType = record.getString("aType");
 
-                        historyInfo[i] = new HistoryInfo(aNum, aBalance);
+                        historyInfo[i] = new HistoryInfo(aNum, aBalance, aType);
                     }
 
                     callback.onSuccess(historyInfo, null);

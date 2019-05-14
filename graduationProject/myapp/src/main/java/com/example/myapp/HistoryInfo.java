@@ -12,8 +12,8 @@ public class HistoryInfo {
     String cType;       //카드 이름
     String cName;       //카테고리 분류
 
-    HistoryInfo(String aNum, String aBalance){
-        accountInfo = new AccountInfo(aNum, aBalance);
+    HistoryInfo(String aNum, String aBalance, String aType){
+        accountInfo = new AccountInfo(aNum, aBalance, aType);
     }
 
     HistoryInfo(int hId, String hDate, String hValue, String hName, String cName){
