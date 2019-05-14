@@ -9,7 +9,7 @@
 
         <Switch
             android:id="@+id/pushSwitch"
-            android:text="Push 알림 ON/OFF  "
+            android:text="단말 등록 ON/OFF  "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"/>

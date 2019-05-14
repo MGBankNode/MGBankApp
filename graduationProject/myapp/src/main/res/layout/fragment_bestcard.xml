@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/main.appbar"
         android:layout_width="match_parent"
@@ -92,10 +93,12 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+
     <TextView
         android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
+
     <include layout="@layout/card_list_layout"/>
 
 </android.support.design.widget.CoordinatorLayout>

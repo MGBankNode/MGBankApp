@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity
     protected ImageView closeMenu;
     protected LinearLayout homeMenu;
     protected LinearLayout userMenu;
-    protected LinearLayout noticeMenu;
+    protected LinearLayout settingMenu;
     protected LinearLayout navChild;
     protected Button budgetBtn;
     protected Button setBudget;
@@ -526,6 +526,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        settingMenu = findViewById(R.id.settingMenu);
+        settingMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deviceCheckResult.equals("")) {
+
+                    DeviceCheckHandler();
+
+                } else {
+
+                    StartActivity(SettingDialogActivity.class);
+
+                }
+            }
+        });
+
 
         return true;
     }
@@ -533,19 +549,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+                   int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+            if (id == R.id.action_settings) {
 
-            if (deviceCheckResult.equals("")) {
+                if (deviceCheckResult.equals("")) {
 
-                DeviceCheckHandler();
+                    DeviceCheckHandler();
 
-            } else {
+                } else {
 
-                StartActivity(SettingDialogActivity.class);
+                    StartActivity(SettingDialogActivity.class);
 
-            }
+                }
 
             return true;
         }

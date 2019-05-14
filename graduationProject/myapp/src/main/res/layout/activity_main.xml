@@ -35,6 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:orientation="vertical">
 
                     <ExpandableListView
@@ -44,56 +45,11 @@
                         android:layout_height="match_parent"
                         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
                         />
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginTop="5dp"-->
-                        <!--android:padding="8dp"-->
-                        <!--android:text="가계부"-->
-                        <!--android:textSize="18dp"-->
-                        <!--android:textColor="#7D7D7D"-->
-                        <!--/>-->
 
-                    <!--<ListView-->
-                        <!--android:id="@+id/menu1_list"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:divider="#00000000"/>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="8dp"-->
-                        <!--android:layout_marginTop="5dp"-->
-                        <!--android:text="금융비서"-->
-                        <!--android:textSize="18dp"-->
-                        <!--android:textColor="#7D7D7D"-->
-
-                        <!--/>-->
-
-                    <!--<ListView-->
-                        <!--android:id="@+id/menu2_list"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:divider="#00000000"/>-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="8dp"-->
-                        <!--android:layout_marginTop="5dp"-->
-                        <!--android:text="통합멤버십"-->
-                        <!--android:textSize="18dp"-->
-                        <!--android:textColor="#7D7D7D"-->
-                        <!--/>-->
-
-                    <!--<ListView-->
-                        <!--android:id="@+id/menu3_list"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:divider="#00000000"/>-->
-                <!--</LinearLayout>-->
                 </LinearLayout>
+
             </LinearLayout>
+
     </android.support.design.widget.NavigationView>
+    
 </android.support.v4.widget.DrawerLayout>
