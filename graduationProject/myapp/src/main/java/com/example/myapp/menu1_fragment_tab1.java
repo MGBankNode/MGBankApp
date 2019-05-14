@@ -59,6 +59,15 @@ public class menu1_fragment_tab1 extends Fragment {
     private Calendar mCal;
     public menu1_fragment_tab1() {    }
 
+
+    String[] hDate;
+    String[] hType;
+    String[] hValue;
+    String[] hName;
+    String[] aBalance;
+    String[] cType;
+    String[] cName;
+    int arrLength;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         myFormatter = new DecimalFormat("###,###");
@@ -98,6 +107,28 @@ public class menu1_fragment_tab1 extends Fragment {
 
         //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
         test.Request((HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) -> {
+            arrLength = historyInfo.length;
+
+            hDate = new String[arrLength];
+            hType = new String[arrLength];
+            hValue = new String[arrLength];
+            hName = new String[arrLength];
+            aBalance = new String[arrLength];
+            cType = new String[arrLength];
+            cName = new String[arrLength];
+
+            for(int i = 0; i < arrLength; i++){
+
+                hDate[i] = historyInfo[i].gethDate();        //내역 사용 날짜
+                hType[i] = historyInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
+                hValue[i] = historyInfo[i].gethValue();      //내역 사용 금액
+                hName[i] = historyInfo[i].gethName();        //내역 사용 처 이름
+                aBalance[i] = historyInfo[i].getaBalance();  //내역 사용 후 잔액
+                cType[i] = historyInfo[i].getcType();        //카드 이름
+                cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+            }
+
+
             monthlyBenefit=0;
             monthlyLoss=0;
 
@@ -270,9 +301,63 @@ public class menu1_fragment_tab1 extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 day = (int)id - startDay + 2;  //해당 날짜
-                Log.i("NKW","id : "+id+" startDay:"+startDay+" day:"+day);
-                Toast.makeText(getActivity(),""+year+"년 "+month+"월 "+day +"일 입니다.",Toast.LENGTH_LONG).show();
-                alertDialog(position);
+
+                String datetime = year+"-";
+                if(month<10)
+                    datetime+="0"+month;
+                else
+                    datetime+=month;
+
+                datetime+="-";
+                if(day<10)
+                    datetime+="0"+day;
+                else
+                    datetime+=day;
+
+                int startNum = -1;
+                int endNum = -1;
+
+                Log.i("aaaa", Integer.toString(arrLength));
+                for(int i=0; i<arrLength; i++) {
+                    if(startNum==-1 && hDate[i].contains(datetime)) {
+                        startNum = i;
+                        Log.i("aa", hDate[i]);
+                    }
+
+                    if(startNum!=-1 &&  !hDate[i].contains(datetime)) {
+                        endNum = i;
+                        Log.i("bb", hDate[i]);
+                        break;
+                    }
+                }
+
+                if(endNum == -1)
+                    endNum = arrLength;
+
+                if(startNum == -1)
+                    Toast.makeText(getActivity(),"해당 날짜는 거래내역이 없습니다.",Toast.LENGTH_LONG).show();
+                else {
+                    String benefit = "Benefit : " + benefitList.get(position);
+                    String loss = "Loss : "+lossList.get(position);
+                    Intent intent = new Intent(getActivity(), menu1_calendar_popup.class);
+                    intent.putExtra("hDate", hDate);
+                    intent.putExtra("hName", hName);
+                    intent.putExtra("hType", hType);
+                    intent.putExtra("hValue", hValue);
+                    intent.putExtra("aBalance", aBalance);
+                    intent.putExtra("cType", cType);
+                    intent.putExtra("cName", cName);
+                    intent.putExtra("startNum", startNum);
+                    intent.putExtra("endNum", endNum);
+                    intent.putExtra("benefit", benefit);
+                    intent.putExtra("loss", loss);
+                    startActivityForResult(intent, 1);
+                }
+//                Log.i("NKW",startNum +" "+endNum);
+//
+//                Log.i("NKW","id : "+id+" startDay:"+startDay+" day:"+day);
+//                Toast.makeText(getActivity(),""+year+"년 "+month+"월 "+day +"일 입니다.",Toast.LENGTH_LONG).show();
+//                alertDialog(position);
             }
         });
 

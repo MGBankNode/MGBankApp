@@ -11,6 +11,7 @@ public class AccountInfo {
     AccountInfo(String aNum, String aBalance, String aType){
         this.aNum = aNum;
         this.aBalance = aBalance;
+        this.aType = aType;
     }
 
     public String getaNum() {
