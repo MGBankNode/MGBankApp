@@ -151,12 +151,6 @@ public class MainActivity extends AppCompatActivity
 
                 Bundle bundle1 = new Bundle(1);
                 switch (position) {
-                    case 0:
-                        fr = new fragment_menu1();
-                        bundle1.putString("ID", userID);
-                        bundle1.putInt("apage", 2);
-                        st.push("c");
-                        break;
                     case 1:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
@@ -170,7 +164,12 @@ public class MainActivity extends AppCompatActivity
                         bundle1.putInt("apage", 1);
                         st.push("b");
                         break;
-
+                    case 0:
+                        fr = new fragment_menu1();
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 2);
+                        st.push("c");
+                        break;
                 }
                 changeFragment(fr, bundle1);
             }
@@ -359,7 +358,7 @@ public class MainActivity extends AppCompatActivity
                                 p = new PayInfomation(historyInfo[i].gethName(),
                                         Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
                                 break;
-                            case "생활(쇼핑 포함)":
+                            case "생활(쇼핑)":
                                 p = new PayInfomation(historyInfo[i].gethName(),
                                         Integer.parseInt(historyInfo[i].gethValue()), Life, date);
                                 break;
