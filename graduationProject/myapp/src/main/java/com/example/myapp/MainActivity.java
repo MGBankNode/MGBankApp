@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity
     protected LinearLayout userMenu;
     protected LinearLayout noticeMenu;
     protected LinearLayout navChild;
+    protected Button budgetBtn;
+    protected Button setBudget;
     private ExpandableListView listView;
     private static final int MAINFRAGMENT = 1001;
     private static final int BESTCARDFRAGMENT = 1002;
@@ -107,7 +109,12 @@ public class MainActivity extends AppCompatActivity
     public int userAccountCheck;
     public String userID;
 
-
+    @Override
+    public void onBackPressed() {
+        Log.i("nkw","onBackpressed()");
+        textTitle.setText("");
+        super.onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,15 +138,6 @@ public class MainActivity extends AppCompatActivity
         sData = new ArrayList<Stat>();
 
         remainBudget = findViewById(R.id.remainBudget);
-
-//        setBudget = findViewById(R.id.setBudget);
-//        setBudget.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, SetBudget.class);
-//                startActivityForResult(intent, 2);
-//            }
-//        });
 
         ArrayList<myGroup> DataList = new ArrayList<myGroup>();
         listView = (ExpandableListView)findViewById(R.id.mylist);
@@ -173,13 +171,13 @@ public class MainActivity extends AppCompatActivity
 
                 switch (groupPosition) {
                     case 0: {
+                        textTitle.setText("가계부");
                         Bundle bundle1 = new Bundle(1);
                         switch (childPosition) {
                             case 0:
                                 fr = new fragment_menu1();
                                 bundle1.putString("ID", userID);
                                 bundle1.putInt("apage", 0);
-
                                 st.push("a");
                                 break;
 
@@ -204,6 +202,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                     }
                     case 1: {
+                        textTitle.setText("금융비서");
                         Bundle bundle1 = new Bundle(1);
                         switch (childPosition) {
                             case 0:
@@ -225,20 +224,39 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     case 2: {
-
+                        textTitle.setText("통합멤버쉽");
+                        Bundle bundle1 = new Bundle(1);
                         switch (childPosition) {
                             case 0:
                                 fr = new fragment_menu3();
+                                bundle1.putString("ID", userID);
+                                bundle1.putInt("apage", 0);
                                 st.push("f");
                                 break;
                         }
-                        changeFragment(fr, null);
+                        changeFragment(fr, bundle1);
                         break;
                     }
                 }
                 return false;
+
             }
         });
+//            setBudget = findViewById(R.id.setBudgetBtn);
+//            setBudget.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(MainActivity.this, SetBudget.class);
+//                startActivityForResult(intent, 2);
+////                BudgetRequest budgetRequest2 = new BudgetRequest(b, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
+////
+////                budgetRequest2.ChangeBudgetHandler(budget -> {
+////                    Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+////                });
+//            }
+//        });
+
     }
 
     public Bundle makeBundle(String str, int num) {
@@ -250,6 +268,7 @@ public class MainActivity extends AppCompatActivity
 
      void MainStart(){
         startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+
      }
 
     @Override
@@ -429,20 +448,25 @@ public class MainActivity extends AppCompatActivity
                 Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                 startActivity(returnLogin);
             }
+        }
 
-            if(requestCode == 2) {
-                Log.d(">>>", "succce");
+        else if(requestCode == 2) {
+
                 if(resultCode == RESULT_OK) {
-                    Log.d(">>>", "succce");
-                    String budget = data.getStringExtra("Budget");
-                    Log.d(">>>",data.getStringExtra("Budget"));
+                    budgetBtn = findViewById(R.id.setBudgetBtn);
+                    String budgetValue = data.getStringExtra("Budget");
+                    Log.d(">>>bud", budgetValue);
+
+                  BudgetRequest budgetRequest2 = new BudgetRequest(userID, budgetValue,RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
+
+                  budgetRequest2.ChangeBudgetHandler(budget -> {
+                     Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+                 });
+
+                    budgetValue += "원";
+                    budgetBtn.setText(budgetValue);
                 }
-
             }
-
-            }
-
-
     }
 
     protected void StartActivity(Class startClass) {
@@ -861,16 +885,6 @@ public class MainActivity extends AppCompatActivity
                         });
                         //////////////////////////////////////////////////////////////////
 
-
-
-                        //////////////////////////////////설정된 예산 요청///////////////////////
-                        BudgetRequest budgetRequest2 = new BudgetRequest(userID, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
-
-                        budgetRequest2.ChangeBudgetHandler(budget -> {
-                            Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
-                        });
-
-                        //////////////////////////////////////////////////////////////////
                         Log.d("KJH", "startMainFragment()");
                         fr = new fragment_home();
 

@@ -59,7 +59,6 @@ public class fragment_home extends Fragment {
         sData = (ArrayList<Stat>)getArguments().get("DATA");
         Log.d("homeFragment", sData.toString());
 
-
         setBudget = view.findViewById(R.id.setBudgetBtn);
 
         String budget = "";
@@ -67,11 +66,6 @@ public class fragment_home extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
-
-//    public void startBudgetActivity() {
-//        Intent intent = new Intent(getActivity(), SetBudget.class);
-//        getActivity().startActivityForResult(intent, 2);
-//    }
 
 
 
@@ -87,7 +81,7 @@ public class fragment_home extends Fragment {
         setBudget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(">>>", "Btn clicked");
+
                 Intent intent = new Intent(getActivity(), SetBudget.class);
                 getActivity().startActivityForResult(intent, 2);
             }
