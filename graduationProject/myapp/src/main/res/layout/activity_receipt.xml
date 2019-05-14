@@ -10,10 +10,13 @@
 
 >
     <LinearLayout
+
+        android:src="@drawable/list_label"
         android:orientation="vertical"
         android:id="@+id/layout_initial"
-        android:layout_width="300dp"
-        android:layout_height="200dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

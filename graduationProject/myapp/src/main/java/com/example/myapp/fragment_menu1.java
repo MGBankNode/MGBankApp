@@ -83,9 +83,11 @@ public class fragment_menu1 extends Fragment {
         @Override
         public Fragment getItem(int position) {
 
-            Fragment fr0 = new menu1_fragment_tab0();
+            Fragment fr0 = new menu1_fragment_tab3();
             Fragment fr1 = new menu1_fragment_tab1();
             Fragment fr2 = new menu1_fragment_tab2();
+          
+
             Bundle bundle = new Bundle(1);
             bundle.putString("ID", userID);
             fr0.setArguments(bundle);
@@ -95,6 +97,7 @@ public class fragment_menu1 extends Fragment {
             switch(position)
             {
                 case 0:
+
                     return fr0;
                 case 1:
                     return fr1;

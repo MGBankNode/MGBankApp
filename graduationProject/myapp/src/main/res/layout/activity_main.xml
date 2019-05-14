@@ -45,7 +45,6 @@
                         android:text="가계부"
                         android:textSize="18dp"
                         android:textColor="#7D7D7D"
-
                         />
 
                     <ListView

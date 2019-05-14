@@ -161,20 +161,26 @@ public class MainActivity extends AppCompatActivity
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
                         bundle1.putInt("apage", 0);
+
                         st.push("a");
                         break;
+
                     case 1:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
                         bundle1.putInt("apage", 1);
+
                         st.push("b");
+
                         break;
 
                     case 2:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
                         bundle1.putInt("apage", 2);
+
                         st.push("c");
+
                         break;
                 }
                 changeFragment(fr, bundle1);
