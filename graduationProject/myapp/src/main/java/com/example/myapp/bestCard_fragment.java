@@ -141,8 +141,8 @@ public class bestCard_fragment extends Fragment {
         layoutManager = new LinearLayoutManager(getView().getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
-
-        adapter = new CardRecyclerViewAdapter(discountedPrices, discountData);
+        //nkw
+        adapter = new CardRecyclerViewAdapter(discountedPrices, discountData, sData);
         recyclerView.setAdapter(adapter);
 
     }
