@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -36,9 +37,9 @@ public class Stat implements Serializable {
     }
 
     public void addInfo(PayInfomation info){
-        Log.d("KJH", "Add payinfomation " + s_name + " name : " + info.getAccountName() + ", price : " + info.getPrice());
         list.add(info);
         s_price += info.getPrice();
+        Log.d("KJH", "p name : " + info.getAccountName() + ", price : " + info.getPrice());
     }
     public int getPrice(){
         return s_price;
@@ -53,12 +54,12 @@ public class Stat implements Serializable {
     }
 
     //데이터를 금액순으로 소팅
-    public void dataSort(){
-        PayInfoComparator comp = new PayInfoComparator();
+    public void dataSortByPrice(){
+        PayInfoComparatorByPrice comp = new PayInfoComparatorByPrice();
         Collections.sort(this.list, comp);
     }
     //소팅에 필요한 비교자
-    public class PayInfoComparator implements Comparator<PayInfomation> {
+    public class PayInfoComparatorByPrice implements Comparator<PayInfomation> {
         @Override
         public int compare(PayInfomation first, PayInfomation second){
             String firstValue = first.getAccountName();
@@ -68,6 +69,23 @@ public class Stat implements Serializable {
             else if(firstValue.equals(secondValue)) return 1;
             else return 0;
         };
+    }
+    //데이터를 금액순으로 소팅
+    public void dataSortByDate(){
+        PayInfoComparatorByDate comp = new PayInfoComparatorByDate();
+        Collections.sort(this.list, comp);
+    }
+    //소팅에 필요한 비교자
+    public class PayInfoComparatorByDate implements Comparator<PayInfomation> {
+        @Override
+        public int compare(PayInfomation first, PayInfomation second){
+            Date firstValue = first.getDate();
+            Date secondValue = second.getDate();
+            int c = firstValue.compareTo(secondValue);
+            if(c > 0) return -1;
+            else if(c < 0) return 1;
+            else return 0;
+        }
     }
     public void setClassificationData() {
         if (list.isEmpty()) return;
@@ -103,12 +121,14 @@ public class Stat implements Serializable {
     //카드와 비교하여 이 분류의 할인 금액을 가져옴
     public int getDiscountedPrice(CreditCard card){
         setClassificationData();
-        return card.getDiscountedPrice(this.getClassificationData());
+        return card.getDiscountedPrice(this);
     }
     //카드와 비교하여 이 분류의 할인 금액과, 인자로 받은 리스트에 거래처의 이름을 저장함
         public int getDiscountedPrice(CreditCard card, ArrayList<String> result){
+        setClassificationData();
         ArrayList<String> temp = new ArrayList<String>();
-        int resultValue = card.getDiscountedPrice(getClassificationData(), temp);
+        int resultValue = card.getDiscountedPrice(this, temp);
+        result.clear();
         result.addAll(temp);
         return resultValue;
     }
@@ -118,5 +138,13 @@ public class Stat implements Serializable {
                 return list.get(position);
         }
         return null;
+    }
+    public ArrayList<PayInfomation> getPayInfomationList(String keyword){
+        ArrayList<PayInfomation> result = new ArrayList<PayInfomation>();
+        for(int position = 0; position < list.size(); position++){
+            if(list.get(position).getAccountName().contains(keyword))
+                result.add(list.get(position));
+        }
+        return result;
     }
 }
