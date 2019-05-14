@@ -7,10 +7,9 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".AddReceiptActivity"
-    android:background="@android:color/transparent"
+
 >
     <LinearLayout
-        android:background="@drawable/list_label"
         android:orientation="vertical"
         android:id="@+id/layout_initial"
         android:layout_width="300dp"
@@ -87,7 +86,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/list_label"
         android:orientation="vertical"
         android:visibility="gone"
         android:id="@+id/layout_result"
