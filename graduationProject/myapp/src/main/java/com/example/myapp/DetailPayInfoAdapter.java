@@ -1,5 +1,8 @@
 package com.example.myapp;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,7 +67,11 @@ public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.View
         temp = selectedCard.getDiscountedPrice(data.get(position).getAccountName(),
                 data.get(position).getPrice());
         if(temp > 0) {
-            viewHolder.detailDiscountPriceTv.setText(data.get(position).getPrice() - temp);
+            Log.d("KJH", "test Log : " + data.get(position).getPrice() + ", temp : " + temp);
+            viewHolder.detailOriginPriceTv.setPaintFlags(viewHolder.detailOriginPriceTv.getPaintFlags()
+                            | Paint.STRIKE_THRU_TEXT_FLAG);
+            viewHolder.detailDiscountPriceTv.setText(data.get(position).getPrice() - temp + "");
+            viewHolder.detailDiscountPriceTv.setTextColor(Color.parseColor("#2BB0DD"));
         }
 
         //아이템 리스너 설정

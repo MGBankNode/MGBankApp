@@ -29,17 +29,14 @@ public class fragment_menu1 extends Fragment {
 
         // tab part
         tabLayout = view.findViewById(R.id.layout_tab);
+        tabLayout.addTab(tabLayout.newTab().setText("잔액조회"));
         tabLayout.addTab(tabLayout.newTab().setText("달력"));
         tabLayout.addTab(tabLayout.newTab().setText("내역"));
-
-
 
         if(getArguments() != null){
             userID = getArguments().getString("ID");
             //Log.i("nkw","menu1_userID="+userID);
         }
-
-
         return view;
     }
 
@@ -47,7 +44,7 @@ public class fragment_menu1 extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         int pageNum = bundle.getInt("apage");
-       
+
 
         pager = getView().findViewById(R.id.pager);
 
@@ -86,18 +83,22 @@ public class fragment_menu1 extends Fragment {
         @Override
         public Fragment getItem(int position) {
 
+            Fragment fr0 = new menu1_fragment_tab0();
             Fragment fr1 = new menu1_fragment_tab1();
             Fragment fr2 = new menu1_fragment_tab2();
             Bundle bundle = new Bundle(1);
             bundle.putString("ID", userID);
+            fr0.setArguments(bundle);
             fr1.setArguments(bundle);
             fr2.setArguments(bundle);
 
             switch(position)
             {
                 case 0:
-                    return fr1;
+                    return fr0;
                 case 1:
+                    return fr1;
+                case 2:
                     return fr2;
                 default:
                     return null;
@@ -107,7 +108,7 @@ public class fragment_menu1 extends Fragment {
         @Override
         public int getCount() {
             // total page count
-            return 2;
+            return 3;
         }
     }
 

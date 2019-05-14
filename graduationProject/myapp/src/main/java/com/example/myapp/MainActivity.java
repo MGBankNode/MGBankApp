@@ -160,21 +160,21 @@ public class MainActivity extends AppCompatActivity
                     case 0:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
-                        bundle1.putInt("apage", 2);
-                        st.push("c");
+                        bundle1.putInt("apage", 0);
+                        st.push("a");
                         break;
                     case 1:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
-                        bundle1.putInt("apage", 0);
-                        st.push("a");
+                        bundle1.putInt("apage", 1);
+                        st.push("b");
                         break;
 
                     case 2:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
-                        bundle1.putInt("apage", 1);
-                        st.push("b");
+                        bundle1.putInt("apage", 2);
+                        st.push("c");
                         break;
                 }
                 changeFragment(fr, bundle1);
@@ -187,13 +187,13 @@ public class MainActivity extends AppCompatActivity
                     case 0:
                         fr = new consumptionEvaluation_viewPager();
                         fr.setArguments(makeBundle("cpage", 0));
-                        st.push("c");
+                        st.push("d");
                         break;
 
                     case 1:
                         fr = new bestCard_fragment();
                         fr.setArguments(makeBundle("cpage", 1));
-                        st.push("d");
+                        st.push("e");
                         break;
                 }
                 changeFragment(fr,null);
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity
                 switch (position) {
                     case 0:
                         fr = new fragment_menu3();
-                        st.push("e");
+                        st.push("f");
                         break;
                 }
                 changeFragment(fr,null);
@@ -246,14 +246,17 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case "c":
                         fr = new consumptionEvaluation_viewPager();
+                        fr.setArguments(makeBundle("apage", 2));
+                        break;
+                    case "d":
+                        fr = new consumptionEvaluation_viewPager();
                         fr.setArguments(makeBundle("cpage", 0));
                         break;
-
-                    case "d":
+                    case "e":
                         fr = new consumptionEvaluation_viewPager();
                         fr.setArguments(makeBundle("cpage", 1));
                         break;
-                    case "e":
+                    case "f":
                         fr = new fragment_menu3();
                         break;
                     case "home":
@@ -605,7 +608,7 @@ public class MainActivity extends AppCompatActivity
                                         p = new PayInfomation(historyInfo[i].gethName(),
                                                 Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
                                         break;
-                                    case "생활(쇼핑 포함)":
+                                    case "생활(쇼핑)":
                                         p = new PayInfomation(historyInfo[i].gethName(),
                                                 Integer.parseInt(historyInfo[i].gethValue()), Life, date);
                                         break;
