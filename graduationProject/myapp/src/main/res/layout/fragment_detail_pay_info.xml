@@ -20,7 +20,7 @@
         android:shadowRadius="2.0"
         android:id="@+id/detail_card_stat_name"/>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/detail_card_stat_recyclerview"
+        android:id="@+id/detail_card_account_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>

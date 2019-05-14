@@ -58,6 +58,7 @@ public class CreditCard implements Serializable {
             for(int userPosition = 0; userPosition < userKeys.size(); userPosition++){
                 //Log.d("KJH", "getDiscountedPrice : " + benefitsPosition + ", " + userPosition);
                 if(userKeys.get(userPosition).contains(benefitsKeys.get(benefitsPosition))){
+                    
                     result.add(userKeys.get(userPosition));
                     Log.d("TESTLOG", "result.add(" + userKeys.get(userPosition) + ")");
                     if(benefits.get(benefitsKeys.get(benefitsPosition)) < 100) {
