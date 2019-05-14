@@ -150,11 +150,60 @@ public class AddReceiptActivity extends Activity {
                 resultLayout.setVisibility(View.VISIBLE);
 
 
-                ReceiptRequest test = new ReceiptRequest("후문식당", RequestInfo.RequestType.HNAME_CHECK, getApplicationContext());
+
+                /*
+                //상정명 확인 요청
+                ReceiptRequest test = new ReceiptRequest("후문식당", RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
                 test.StoreRequest(cId -> {
                         String storecId = cId;
                         Toast.makeText(getApplicationContext(), storecId, Toast.LENGTH_LONG).show();
                 });
+
+                //영수증 추가 요청
+                ReceiptRequest test2 = new ReceiptRequest("2019-05-09 11:02:11", "30000" ,"후문식당", "b", "9", RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
+                test2.AddReceipt(hId -> {
+                    Toast.makeText(getApplicationContext(), hId, Toast.LENGTH_LONG).show();
+                });
+                */
+
+                //영수증 추가 요청시 cId를 바꾼 경우에만 카테고리 변경을 요청
+                /*
+                // /////////////////////카테고리 변경 요청////////////////////////////
+                ///////////////////////////////////////////////////////////////////
+                CategoryRequest categoryRequest = new CategoryRequest(
+                        "b",                    //사용자 아이디
+                        4151,               //사용처 이름
+                        3,                  //기존 카테고리 번호
+                        2,                  //바꿀 카테고리 번호
+                        getContext(),                   //context 고정
+                        RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
+
+                categoryRequest.UpdateCategoryHandler(new CategoryRequest.VolleyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        result = spinner.getSelectedItem().toString();
+                        dialogResult.finish(result);
+                        DialogFragment dialogFragment = (DialogFragment)fragment;
+                        dialogFragment.dismiss();
+
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+                ///////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////
+                 */
+
+
+
             }
         });
     }
