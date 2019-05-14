@@ -47,10 +47,7 @@ public class fragment_menu1 extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         int pageNum = bundle.getInt("apage");
-        String userId = bundle.getString("UserId");
-
-        Log.d(">>>userid", userId);
-
+       
 
         pager = getView().findViewById(R.id.pager);
 
