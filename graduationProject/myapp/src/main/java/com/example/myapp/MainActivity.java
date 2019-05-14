@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity
         st.push("home");
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 // 0 0 계좌조회  0 1 달력   0 2 내역
                 // 1 0 소비평가  1 1 카드추천
@@ -198,7 +197,7 @@ public class MainActivity extends AppCompatActivity
 
                                 break;
                         }
-                        changeFragment(fr,bundle1);
+                        changeFragment(fr, bundle1);
                         break;
                     }
                     case 1: {
@@ -216,26 +215,23 @@ public class MainActivity extends AppCompatActivity
                                 st.push("e");
                                 break;
                         }
-                        changeFragment(fr,bundle1);
+                        changeFragment(fr, bundle1);
                         break;
                     }
 
                     case 2: {
 
-                            switch (childPosition) {
-                                case 0:
-                                    fr = new fragment_menu3();
-                                    st.push("f");
-                                    break;
-                            }
-                            changeFragment(fr,null);
-                            break;
+                        switch (childPosition) {
+                            case 0:
+                                fr = new fragment_menu3();
+                                st.push("f");
+                                break;
+                        }
+                        changeFragment(fr, null);
+                        break;
                     }
                 }
-
-
-
-
+                return false;
             }
         });
     }
@@ -245,7 +241,7 @@ public class MainActivity extends AppCompatActivity
         bundle.putInt(str, num);
         return bundle;
     }
-);
+
 
      void MainStart(){
          //내역을 얻어와야함
