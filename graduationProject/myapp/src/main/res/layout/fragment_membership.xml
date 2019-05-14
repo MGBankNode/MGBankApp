@@ -1,50 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/main.appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout03"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:title="당신을 위한 통합 멤버십"
+            app:expandedTitleTextAppearance="@style/ExpandedTitle"
+            app:collapsedTitleTextAppearance="@style/CollapsedTitle"
+            app:expandedTitleGravity="top"
+            app:contentScrim="#FFF"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="50dp"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.8">
+
+                <ImageView
+                    android:id="@+id/bcd_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="20dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bcd_txt"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:layout_margin="5dp"/>
+
+            </LinearLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <TextView
+            android:text="MY 포인트"
+            android:textSize="22dp"
+            android:padding="4dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FC6498AA"
+            android:fontFamily="@font/nanumbarunpenb"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/point_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:padding="10dp"/>
+    </android.support.design.widget.AppBarLayout>
 
     <TextView
-        android:text="당신을 위한 통합 멤버십"
-        android:textSize="23dp"
-        android:textColor="#E62E9BC0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/applegothicneo_b" />
-
-    <ImageView
-        android:id="@+id/bcd_img"
+        android:elevation="4dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bcd_txt"
-        android:text=""
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:layout_margin="5dp"/>
+        android:layout_height="0dp" />
 
-    <TextView
-        android:text="MY 포인트"
-        android:textSize="22dp"
-        android:padding="4dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FC6498AA"
-        android:fontFamily="@font/nanumbarunpenb"/>
+</android.support.design.widget.CoordinatorLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/point_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:padding="10dp"/>
-
-</LinearLayout>
