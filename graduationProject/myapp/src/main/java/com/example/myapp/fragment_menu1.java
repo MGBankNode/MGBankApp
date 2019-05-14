@@ -45,6 +45,7 @@ public class fragment_menu1 extends Fragment {
         Bundle bundle = getArguments();
         int pageNum = bundle.getInt("apage");
 
+
         pager = getView().findViewById(R.id.pager);
 
         pager.setAdapter(new pagerAdapter(getFragmentManager()));
