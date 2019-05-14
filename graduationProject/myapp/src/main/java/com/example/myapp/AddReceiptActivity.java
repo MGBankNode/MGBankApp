@@ -386,9 +386,9 @@ public class AddReceiptActivity extends Activity {
             for(String d : data) {
                 Log.d("receipt : ", d+"\n");
 
-                if(count==0 && !d.contains("영수증"))
+                if(count==0 && !d.contains("영수증"));
                     storeName = d;
-                if(d.contains("매장")) {
+                if(d.contains("매장명") || d.contains("매장 명")) {
                     int index = d.indexOf(' ');
                     storeFlag=-1;
                     storeName = d.substring(index+1);
@@ -402,24 +402,24 @@ public class AddReceiptActivity extends Activity {
                     storeName = d;
                     storeFlag = 0;
                 }
-                if(storeFlag!= -1 && d.contains("영수증") && !d.contains("현금")) {
+                if(storeFlag!= -1 && d.contains("영수증") && !d.contains("소지")&& !d.contains("현금") && !d.contains("카드") &&!d.contains("결제")) {
                     storeFlag=1;
                 }
 
                 if(d.contains(",")) {
                     String confirm[] = d.split(" ");
                     for(String c : confirm) {
-                        String a = c.replace(",", "");
+                        String ff = c.replace(",", "");
                         try {
-                            int num = Integer.parseInt(a);
+                            int num = Integer.parseInt(ff);
                             if(moneyFlag <num) {
                                 moneyFlag = num;
-                                totalCost = a;
+                                totalCost = ff;
                             }
                         } catch(Exception e) {}
                     }
                 }
-                String date[] = d.split(" |-|:|/|\\.|년|월|일|\\(");
+                String date[] = d.split("]| |-|:|/|\\.|년|월|일|\\(");
                 int flag = 0;
 
                 for (String a : date) {
