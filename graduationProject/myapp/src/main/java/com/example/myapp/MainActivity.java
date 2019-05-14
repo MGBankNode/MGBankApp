@@ -221,14 +221,16 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     case 2: {
-
+                        Bundle bundle1 = new Bundle(1);
                         switch (childPosition) {
                             case 0:
                                 fr = new fragment_menu3();
+                                bundle1.putString("ID", userID);
+                                bundle1.putInt("apage", 0);
                                 st.push("f");
                                 break;
                         }
-                        changeFragment(fr, null);
+                        changeFragment(fr, bundle1);
                         break;
                     }
                 }
