@@ -86,6 +86,9 @@ public class consumptionReportFragment extends Fragment {
         return view;
     }
 
+    //
+
+
     public void DrawDayChart(final View view, AnalysisInfo Info) {
         Context context = getContext();
         //Info.get

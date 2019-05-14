@@ -88,6 +88,7 @@ public class AddReceiptActivity extends Activity {
         spinner =(Spinner)findViewById(R.id.categorySpinner);
         btn_change = (TextView)findViewById(R.id.change_button);
         btn_cancel2 = (TextView)findViewById(R.id.cancel_button);
+
         btn_write = (ImageButton)findViewById(R.id.writeBtn);
         arrayList = new ArrayList();
         arrayList.add("술/유흥");

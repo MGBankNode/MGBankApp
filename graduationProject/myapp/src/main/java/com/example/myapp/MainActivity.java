@@ -30,8 +30,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import android.widget.LinearLayout;
@@ -67,6 +69,10 @@ public class MainActivity extends AppCompatActivity
     protected LinearLayout homeMenu;
     protected LinearLayout userMenu;
     protected LinearLayout noticeMenu;
+    protected LinearLayout navChild;
+
+
+    public String mainUserId;
 
     private ListView menu1list;
     private ListView menu2list;
@@ -151,6 +157,12 @@ public class MainActivity extends AppCompatActivity
 
                 Bundle bundle1 = new Bundle(1);
                 switch (position) {
+                    case 0:
+                        fr = new fragment_menu1();
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 2);
+                        st.push("c");
+                        break;
                     case 1:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
@@ -163,12 +175,6 @@ public class MainActivity extends AppCompatActivity
                         bundle1.putString("ID", userID);
                         bundle1.putInt("apage", 1);
                         st.push("b");
-                        break;
-                    case 0:
-                        fr = new fragment_menu1();
-                        bundle1.putString("ID", userID);
-                        bundle1.putInt("apage", 2);
-                        st.push("c");
                         break;
                 }
                 changeFragment(fr, bundle1);
@@ -206,6 +212,7 @@ public class MainActivity extends AppCompatActivity
                 changeFragment(fr,null);
             }
         });
+
     }
 
 
@@ -229,6 +236,7 @@ public class MainActivity extends AppCompatActivity
                 switch (st.peek()) {
                     case "a":
                         fr = new fragment_menu1();
+                        Bundle bundle = new Bundle();
                         fr.setArguments(makeBundle("apage", 0));
                         break;
 
@@ -266,6 +274,13 @@ public class MainActivity extends AppCompatActivity
         welcomeTextView = findViewById(R.id.welcomeTv);
         userLastAtTxt = findViewById(R.id.userLastAtTxt);
 
+        // 상태바 만큼 띄우기
+        navChild = findViewById(R.id.nav_view_child);
+        NavigationView.LayoutParams layoutParams = (NavigationView.LayoutParams) navChild.getLayoutParams();
+        layoutParams.topMargin = getStatusBarHeight(getApplicationContext());
+        navChild.setLayoutParams(layoutParams);
+
+
         // Device 정보 불러오기 + 권한 설정
         myDeviceInfo = getDeviceInfo();
 
@@ -294,12 +309,7 @@ public class MainActivity extends AppCompatActivity
 
         //사용자 마지막 접속시간 변경
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
-//        String[] starts = changeText.split("T");
-//        String[] dates = starts[0].split("-");
-//        String date = dates[0] + "년 " + dates[1] + "월 " + dates[2] + "일 ";
-//        String[] times = starts[1].split(":");
-//        String time = times[0] + "시 " + times[1] + "분";
-//        String format_changeText = date + time;
+
 
         userLastAtTxt.setText(changeText);
 
@@ -323,7 +333,9 @@ public class MainActivity extends AppCompatActivity
                     "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
                     RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
                     getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
+
             //fragment 쪽에서는 getContext()하시면 될 것 같아요
+
 
             //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
             testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
@@ -500,6 +512,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
 
         return true;
     }
@@ -962,6 +975,21 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
     }
+
+    public static int getStatusBarHeight(Context context) {
+
+        int result = 0;
+
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+        if (resourceId > 0) {
+
+            result = context.getResources().getDimensionPixelSize(resourceId);
+
+        }
+        return result;
+    }
+
 
 
 }
