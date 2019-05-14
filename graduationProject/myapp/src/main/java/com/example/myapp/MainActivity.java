@@ -605,7 +605,7 @@ public class MainActivity extends AppCompatActivity
                                         p = new PayInfomation(historyInfo[i].gethName(),
                                                 Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
                                         break;
-                                    case "생활(쇼핑 포함)":
+                                    case "생활(쇼핑)":
                                         p = new PayInfomation(historyInfo[i].gethName(),
                                                 Integer.parseInt(historyInfo[i].gethValue()), Life, date);
                                         break;
