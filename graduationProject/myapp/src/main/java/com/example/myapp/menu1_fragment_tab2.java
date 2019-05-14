@@ -145,78 +145,76 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
 
 
         //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
-        test.Request(new HistoryRequest.VolleyCallback() {
-            @Override
-            public void onSuccess(HistoryInfo[] accountHistoryInfo, DailyHistoryInfo[] dailyHistoryInfo) {
-                int arrLength = accountHistoryInfo.length;
+        test.Request((HistoryInfo[] accountHistoryInfo, DailyHistoryInfo[] dailyHistoryInfo) -> {
+            int arrLength = accountHistoryInfo.length;
 
-                String[] hDate = new String[arrLength];
-                String[] hType = new String[arrLength];
-                String[] hValue = new String[arrLength];
-                String[] hName = new String[arrLength];
-                String[] aBalance = new String[arrLength];
-                String[] cType = new String[arrLength];
-                String[] cName = new String[arrLength];
+            String[] hDate = new String[arrLength];
+            String[] hType = new String[arrLength];
+            String[] hValue = new String[arrLength];
+            String[] hName = new String[arrLength];
+            String[] aBalance = new String[arrLength];
+            String[] cType = new String[arrLength];
+            String[] cName = new String[arrLength];
 
-                for(int i = 0; i < arrLength; i++){
+            for(int i = 0; i < arrLength; i++){
 
-                    hDate[i] = accountHistoryInfo[i].gethDate();        //내역 사용 날짜
-                    hType[i] = accountHistoryInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
-                    hValue[i] = accountHistoryInfo[i].gethValue();      //내역 사용 금액
-                    hName[i] = accountHistoryInfo[i].gethName();        //내역 사용 처 이름
-                    aBalance[i] = accountHistoryInfo[i].getaBalance();  //내역 사용 후 잔액
-                    cType[i] = accountHistoryInfo[i].getcType();        //카드 이름
-                    cName[i] = accountHistoryInfo[i].getcName();        //카테고릐 분류
-                }
+                hDate[i] = accountHistoryInfo[i].gethDate();        //내역 사용 날짜
+                hType[i] = accountHistoryInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
+                hValue[i] = accountHistoryInfo[i].gethValue();      //내역 사용 금액
+                hName[i] = accountHistoryInfo[i].gethName();        //내역 사용 처 이름
+                aBalance[i] = accountHistoryInfo[i].getaBalance();  //내역 사용 후 잔액
+                cType[i] = accountHistoryInfo[i].getcType();        //카드 이름
+                cName[i] = accountHistoryInfo[i].getcName();        //카테고릐 분류
+            }
 
-                //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+            //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
 
-                int arrLength2 = dailyHistoryInfo.length;
-                String day[] = new String[arrLength2];
-                String dailyBenefit[] = new String[arrLength2];
-                String dailyLoss[] = new String[arrLength2];
+            int arrLength2 = dailyHistoryInfo.length;
+            String day[] = new String[arrLength2];
+            String dailyBenefit[] = new String[arrLength2];
+            String dailyLoss[] = new String[arrLength2];
 
-                for(int i = 0; i < arrLength2; i++){
+            for(int i = 0; i < arrLength2; i++){
 
-                    day[i] = dailyHistoryInfo[i].getDay();                      //일
-                    dailyBenefit[i] = dailyHistoryInfo[i].getDailyBenefit();    //수익
-                    dailyLoss[i] = dailyHistoryInfo[i].getDailyLoss();          //지출
-
-                }
-
-                //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
-
-                indexData = new menu1_rvData[arrLength];
-
-                for(int i=0; i<arrLength; i++){
-                    indexData[i]= new menu1_rvData(Integer.parseInt(hDate[i].substring(0,4)),  //연도
-                            Integer.parseInt(hDate[i].substring(5,7)),  //월
-                            Integer.parseInt(hDate[i].substring(8,10)), //일
-                            hDate[i].substring(11,13),  //시
-                            hDate[i].substring(14,16),  //분
-                            hName[i],   //사용 처
-                            cType[i],   //카드 이름
-                            Integer.parseInt(hValue[i]), //금액
-                            hType[i],    //내역 타입
-                            cName[i],    //카테고리 분류
-                            Integer.parseInt(aBalance[i])
-                    );
-                }
-
-                menu1rvDataList = new ArrayList<menu1_rvData>();
-                for (int i = indexData.length-1; i >= 0; i--) {
-                    menu1rvDataList.add(indexData[i]);
-                }
-                //리사이클러뷰 어댑터 등록 및 설정
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getView().getContext()));
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-                rv_adapter =new menu1_RecyclerAdapter(menu1rvDataList,R.layout.menu1_recycler_item);
-                rv_adapter.setOnClickListener(menu1_fragment_tab2.this);    //클릭리스너 연결
-                recyclerView.setAdapter(rv_adapter);
+                day[i] = dailyHistoryInfo[i].getDay();                      //일
+                dailyBenefit[i] = dailyHistoryInfo[i].getDailyBenefit();    //수익
+                dailyLoss[i] = dailyHistoryInfo[i].getDailyLoss();          //지출
 
             }
+
+            //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+
+            indexData = new menu1_rvData[arrLength];
+
+            for(int i=0; i<arrLength; i++){
+                indexData[i]= new menu1_rvData(Integer.parseInt(hDate[i].substring(0,4)),  //연도
+                        Integer.parseInt(hDate[i].substring(5,7)),  //월
+                        Integer.parseInt(hDate[i].substring(8,10)), //일
+                        hDate[i].substring(11,13),  //시
+                        hDate[i].substring(14,16),  //분
+                        hName[i],   //사용 처
+                        cType[i],   //카드 이름
+                        Integer.parseInt(hValue[i]), //금액
+                        hType[i],    //내역 타입
+                        cName[i],    //카테고리 분류
+                        Integer.parseInt(aBalance[i])
+                );
+            }
+
+            menu1rvDataList = new ArrayList<menu1_rvData>();
+            for (int i = indexData.length-1; i >= 0; i--) {
+                menu1rvDataList.add(indexData[i]);
+            }
+            //리사이클러뷰 어댑터 등록 및 설정
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getView().getContext()));
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+            rv_adapter =new menu1_RecyclerAdapter(menu1rvDataList,R.layout.menu1_recycler_item);
+            rv_adapter.setOnClickListener(menu1_fragment_tab2.this);    //클릭리스너 연결
+            recyclerView.setAdapter(rv_adapter);
+
+
         });
         ///////////////////////////////////////////////
     }
@@ -226,6 +224,13 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
         //커스텀 다이얼로그 생성
         menu1_CustomDialog customDialog = new menu1_CustomDialog(getActivity());
         customDialog.callFunction(indexData.length-1-position,year,month,userID);
+
+        customDialog.setDialogResult(new menu1_CustomDialog.OnMyDialogResult() {
+            @Override
+            public void finish(String result) {
+                request_test();
+            }
+        });
     }
 
 }

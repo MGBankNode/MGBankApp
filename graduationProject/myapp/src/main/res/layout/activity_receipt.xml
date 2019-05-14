@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
+
     tools:context=".AddReceiptActivity"
 
 >
@@ -56,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:textSize="10pt"
+            android:fontFamily="@font/applegothicneo_m"
             android:text="영수증을 추가하시겠습니까?">
 
         </TextView>

@@ -21,7 +21,7 @@ public class ContentsPagerAdapter extends FragmentStatePagerAdapter {
                 return viewpagerMenu1Fragment;
 
             case 1:
-                bestCard_fragment bestCard_fragment = new bestCard_fragment();
+                viewpagerMenu1Fragment bestCard_fragment = new viewpagerMenu1Fragment();
                 return bestCard_fragment;
 
             default:

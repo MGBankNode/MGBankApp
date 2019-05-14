@@ -3,6 +3,8 @@ package com.example.myapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 public class fragment_pointcard extends Fragment {
     public fragment_pointcard(){}
 
+    String userID;
     ImageButton imgbutton;
     int point_id;
     ImageView point_logo;
@@ -30,6 +33,7 @@ public class fragment_pointcard extends Fragment {
 
         if(getArguments() != null){
             point_id = getArguments().getInt("point_id");
+            userID=getArguments().getString("ID");
             Log.i("NKW","point_id = "+point_id);
         }
         return view;
@@ -67,7 +71,15 @@ public class fragment_pointcard extends Fragment {
         imgbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getView().setVisibility(View.GONE);
+                Fragment fr = new fragment_membership();
+                Bundle bundle = new Bundle(1);
+                bundle.putString("ID", userID);
+                fr.setArguments(bundle);
+
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_pointCard, fr);
+                fragmentTransaction.commit();
             }
         });
 
