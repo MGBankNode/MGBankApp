@@ -9,4 +9,12 @@ public class Util {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
     }
+    public String dateFormToMonth(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        return sdf.format(date);
+    }
+    public String dateFormToYear(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        return sdf.format(date);
+    }
 }

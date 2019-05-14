@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 
 public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -36,17 +39,22 @@ public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.View
     private CreditCard selectedCard;
     private ArrayList<String> sdata;
     private ArrayList<PayInfomation> data;
+    private CardDataBase cdb = new CardDataBase();
 
 
     DetailPayInfoAdapter(Stat s, CreditCard c){
         this.selectedStat = s;
         this.selectedCard = c;
+        selectedCard.resetCondition();
         sdata = new ArrayList<String>();
-        s.getDiscountedPrice(c, sdata);
+        s.dataSortByPrice();
+        s.getDiscountedPrice(selectedCard, sdata);
         data = new ArrayList<PayInfomation>();
         for(int sPosition = 0; sPosition < sdata.size(); sPosition++){
             data.add(s.getPayInfomation(sdata.get(sPosition)));
         }
+        dataSortByDate();
+        c.resetCondition();
     }
 
     @Override
@@ -58,13 +66,13 @@ public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Log.d("KJH", "detailAdapter loop : " + position);
+        Log.d("KJH", "detailAdapter loop : " + position + ", " + data.get(position).getAccountName());
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.detailDateTv.setText(util.dateForm(data.get(position).getDate()));
         viewHolder.detailAccountTv.setText(data.get(position).getAccountName());
         viewHolder.detailOriginPriceTv.setText(util.comma(data.get(position).getPrice()));
         int temp = 0;
-        temp = selectedCard.getDiscountedPrice(data.get(position).getAccountName(),
+        temp = selectedCard.getDiscountedPrice(selectedStat, data.get(position).getAccountName(),
                 data.get(position).getPrice());
         if(temp > 0) {
             Log.d("KJH", "test Log : " + data.get(position).getPrice() + ", temp : " + temp);
@@ -89,23 +97,20 @@ public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     //데이터를 금액순으로 소팅
-    public void dataSort(){
-        ClassificationComparator comp = new ClassificationComparator();
-        //Collections.sort(keys, comp);
+    public void dataSortByDate(){
+        PayInfoComparatorByDate comp = new PayInfoComparatorByDate();
+        Collections.sort(this.data, comp);
     }
-
     //소팅에 필요한 비교자
-    public class ClassificationComparator implements Comparator<Object> {
+    public class PayInfoComparatorByDate implements Comparator<PayInfomation> {
         @Override
-        public int compare(Object first, Object second){
-//            Log.d("KJH", "ClassificationSort");
-//            int firstValue = sData.get(first);
-//            int secondValue = sData.get(second);
-//
-//            if(firstValue > secondValue) return -1;
-//            else if(firstValue < secondValue) return 1;
-//            else return 0;
-            return 1;
+        public int compare(PayInfomation first, PayInfomation second){
+            Date firstValue = first.getDate();
+            Date secondValue = second.getDate();
+            int c = firstValue.compareTo(secondValue);
+            if(c > 0) return -1;
+            else if(c < 0) return 1;
+            else return 0;
         }
     }
 
