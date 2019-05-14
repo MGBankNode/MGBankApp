@@ -73,7 +73,7 @@
                     android:layout_height="27dp"
                     android:id="@+id/hh"
                     android:text="18"
-                    android:textSize="15dp"
+                    android:textSize="13sp"
                     android:textColor="#000"
                     android:gravity="center"
                     android:padding="5dp"/>
@@ -82,7 +82,7 @@
                     android:layout_height="27dp"
                     android:text=":"
                     android:textColor="#000"
-                    android:textSize="15dp"
+                    android:textSize="13sp"
                     android:gravity="center" />
                 <TextView
                     android:layout_width="27dp"
@@ -90,7 +90,7 @@
                     android:id="@+id/mm"
                     android:text="00"
                     android:textColor="#000"
-                    android:textSize="15dp"
+                    android:textSize="13sp"
                     android:gravity="center"
                     android:padding="5dp"/>
             </LinearLayout>
