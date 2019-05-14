@@ -386,6 +386,24 @@ public class MainActivity extends AppCompatActivity
                          sData.add(temp.get(i));
                  }
 
+                //////////////////////////////////설정된 예산 요청///////////////////////
+                 BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
+
+                 budgetRequest1.GetBudgetHandler(budget -> {
+                     Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
+                 });
+                //////////////////////////////////////////////////////////////////
+
+
+
+                 //////////////////////////////////설정된 예산 요청///////////////////////
+                 BudgetRequest budgetRequest2 = new BudgetRequest(userID, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
+
+                 budgetRequest2.ChangeBudgetHandler(budget -> {
+                     Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+                 });
+                 //////////////////////////////////////////////////////////////////
+
                  startMainFragment();
                  //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
              }
