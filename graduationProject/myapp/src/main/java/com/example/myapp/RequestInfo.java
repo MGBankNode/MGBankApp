@@ -21,6 +21,7 @@ public class RequestInfo {
         BALANCE_LIST,
         STORE_CHECK,
         ADD_RECEIPT,
+        ADD_NEW_RECEIPT,
         DEFAULT_BUDGET,
         CHANGE_BUDGET
     }
@@ -116,6 +117,10 @@ public class RequestInfo {
 
             case ADD_RECEIPT:
                 processURL = "/nodeapi/receipt/addreceipt";
+                break;
+
+            case ADD_NEW_RECEIPT:
+                processURL = "/nodeapi/receipt/addnewreceipt";
                 break;
 
             case DEFAULT_BUDGET:
