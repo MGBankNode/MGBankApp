@@ -32,17 +32,24 @@ public class fragment_menu1 extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("달력"));
         tabLayout.addTab(tabLayout.newTab().setText("내역"));
 
+
+
         if(getArguments() != null){
             userID = getArguments().getString("ID");
             //Log.i("nkw","menu1_userID="+userID);
         }
+
 
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        int pageNum = getArguments().getInt("apage");
+        Bundle bundle = getArguments();
+        int pageNum = bundle.getInt("apage");
+        String userId = bundle.getString("UserId");
+
+        Log.d(">>>userid", userId);
 
 
         pager = getView().findViewById(R.id.pager);

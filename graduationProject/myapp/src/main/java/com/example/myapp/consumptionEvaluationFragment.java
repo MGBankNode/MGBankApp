@@ -248,6 +248,7 @@ public class consumptionEvaluationFragment extends Fragment {
         // 현재 날짜
         String today = df.format(dte);
 
+
         String dates = getDates(year, month); //"2019-04-28,2019-05-05,2019-05-12,2019-05-19,2019-05-26";        //모든 날짜들
         String[] date = dates.split(",");
 
@@ -259,6 +260,7 @@ public class consumptionEvaluationFragment extends Fragment {
 
         String ridHyphenDates = dates.replace("-", "");
         String[] ridHyphenDatesArray = ridHyphenDates.split(",");
+
 
         int[] integerDateArray = new int[ridHyphenDatesArray.length];
 
