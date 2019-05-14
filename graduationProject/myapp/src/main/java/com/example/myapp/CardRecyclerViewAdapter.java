@@ -42,15 +42,21 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<CreditCard> keys;
     private HashMap<CreditCard, HashMap<Stat, Integer>> discountData;
 
+    //nkw 어댑터 인자도 수정함
+    ArrayList<Stat> sData;
 
     CardRecyclerViewAdapter(HashMap<CreditCard, Integer> d,
-                            HashMap<CreditCard, HashMap<Stat, Integer>> discountData){
+                            HashMap<CreditCard, HashMap<Stat, Integer>> discountData,
+                            ArrayList<Stat> sData){ //nkw
         this.priceData = d;
         this.discountData = discountData;
         keys = new ArrayList<CreditCard>();
         keys.addAll(priceData.keySet());
         dataSort();
         Log.d("CardRecyclerViewAdapter", "marin Data size : " + priceData.size() +", data size : " + discountData);
+
+        //nkw
+        this.sData=sData;
     }
 
     @Override
@@ -79,6 +85,9 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 args.putSerializable("CARD", keys.get(position));
                 Log.d("CardRecyclerViewAdapter", "Card adpater : " + keys.get(position));
                 args.putSerializable("DATA", discountData);
+                //nkw
+                args.putSerializable("sDATA", sData);
+
 
                 args.putString("PRICE", util.comma(priceData.get(keys.get(position))));
 
