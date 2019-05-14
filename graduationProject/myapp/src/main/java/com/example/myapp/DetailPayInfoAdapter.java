@@ -30,7 +30,7 @@ public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
     private Stat selectedStat;
-    private CreditCard selectedCard
+    private CreditCard selectedCard;
     private ArrayList<String> sdata;
     private ArrayList<PayInfomation> data;
 
@@ -71,13 +71,13 @@ public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.View
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("KJH", keys.get(position) + "");
+                Log.d("KJH", data.get(position).getAccountName() + "");
             }
         });
     }
     @Override
     public int getItemCount(){
-        return keys.size();
+        return data.size();
     }
 
 

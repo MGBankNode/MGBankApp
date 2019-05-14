@@ -117,5 +117,6 @@ public class Stat implements Serializable {
             if(list.get(position).getAccountName().equals(keyword))
                 return list.get(position);
         }
+        return null;
     }
 }
