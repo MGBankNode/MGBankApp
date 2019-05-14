@@ -188,5 +188,60 @@ public class ReceiptRequest {
     }
 
 
+    public void AddNewReceipt(final VolleyCallback callback){
+        RequestInfo requestInfo = new RequestInfo(rType);
+
+        String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                response -> AddNewReceiptResponse(response, callback),
+                error -> { error.getMessage(); error.printStackTrace(); })
+        {
+            @Override
+            protected Map<String, String> getParams(){
+                return AddReceiptRequest();
+            }
+        };
+        request.setShouldCache(false);
+        Volley.newRequestQueue(context).add(request);
+        Log.d("요청 url: ", url);
+
+    }
+
+
+    /*
+        AddNewReceiptResponse(String): void
+        = 영수증 추가 요청 응답 처리 함수
+    */
+
+    private void AddNewReceiptResponse(String response, final VolleyCallback callback){
+        try{
+            Log.d("onResponse 호출 ", response);
+
+            JSONObject json = new JSONObject(response);
+            String resultString = (String) json.get("message");
+
+            switch (resultString) {
+                case "success":
+                    callback.onSuccess("");
+                    break;
+
+                case "fail":
+                    break;
+
+                case "error":
+                    break;
+
+                case "db_fail":
+                    break;
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
