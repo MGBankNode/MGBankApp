@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +20,23 @@ import java.util.ArrayList;
 
 public class menu1_CustomDialog {
     private Context context;
+    public ArrayList<String> arrayList;
+    String categori;
 
     public menu1_CustomDialog(Context context){
+
+        arrayList = new ArrayList<String>();
+        arrayList.add("술/유흥");
+        arrayList.add("생활(쇼핑)");
+        arrayList.add("교통");
+        arrayList.add("주거/통신");
+        arrayList.add("의료/건강");
+        arrayList.add("금융");
+        arrayList.add("문화/여가");
+        arrayList.add("여행/숙박");
+        arrayList.add("식비");
+        arrayList.add("카페/간식");
+        arrayList.add("미분류");
         this.context=context;
     }
 
@@ -52,10 +69,11 @@ public class menu1_CustomDialog {
         final Button okButton = (Button) dlg.findViewById(R.id.okButton);
         final EditText d_name = (EditText) dlg.findViewById(R.id.detail_name);
         final EditText d_price = (EditText) dlg.findViewById(R.id.detail_price);
-        final TextView d_categori = (TextView) dlg.findViewById(R.id.detail_categori);
+        final TextView d_categori = (TextView) dlg.findViewById(R.id.detail_cate);
         final EditText d_output = (EditText) dlg.findViewById(R.id.detail_output);
         final EditText d_input = (EditText) dlg.findViewById(R.id.detail_input);
         final EditText d_time = (EditText) dlg.findViewById(R.id.detail_time);
+        final Spinner spinner =(Spinner) dlg.findViewById(R.id.categorySpinner);
 
 
         /////////////////////////////////
@@ -127,6 +145,27 @@ public class menu1_CustomDialog {
                 d_input.setText(hName[position]);
                 d_time.setText(hDate[position].substring(0,16));
 
+                categori=cName[position];
+                //카테고리 스피너
+                SpinnerAdapter adapter = new SpinnerAdapter(context, arrayList);
+                spinner.setAdapter(adapter);
+
+                for(int i=0; i<arrayList.size();i++){
+                    if(arrayList.get(i).equals(categori)){
+                        spinner.setSelection(i);
+                        break;
+                    }else{
+                        spinner.setSelection(10);
+                    }
+                }
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        d_categori.setText(arrayList.get(i));
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) { }
+                });
             }
         });
 
@@ -134,7 +173,7 @@ public class menu1_CustomDialog {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "수정 모드로 전환합니다.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "수정 모드로 전환합니다.", Toast.LENGTH_SHORT).show();
 
                 if(editButton.getText().equals("수정")){
                     editButton.setText("적용");
@@ -143,6 +182,8 @@ public class menu1_CustomDialog {
                     d_output.setEnabled(true);
                     d_input.setEnabled(true);
                     d_time.setEnabled(true);
+                    d_categori.setVisibility(View.GONE);
+                    spinner.setVisibility(View.VISIBLE);
                 }
                 else{
                     editButton.setText("수정");
@@ -151,6 +192,8 @@ public class menu1_CustomDialog {
                     d_output.setEnabled(false);
                     d_input.setEnabled(false);
                     d_time.setEnabled(false);
+                    d_categori.setVisibility(View.VISIBLE);
+                    spinner.setVisibility(View.GONE);
                 }
 
             }
@@ -166,5 +209,6 @@ public class menu1_CustomDialog {
                 dlg.dismiss();
             }
         });
+
     }
 }
