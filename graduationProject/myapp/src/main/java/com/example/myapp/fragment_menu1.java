@@ -37,14 +37,14 @@ public class fragment_menu1 extends Fragment {
             userID = getArguments().getString("ID");
             //Log.i("nkw","menu1_userID="+userID);
         }
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        int pageNum = bundle.getInt("apage");
 
+        int pageNum = getArguments().getInt("apage");
         pager = getView().findViewById(R.id.pager);
 
         pager.setAdapter(new pagerAdapter(getFragmentManager()));
