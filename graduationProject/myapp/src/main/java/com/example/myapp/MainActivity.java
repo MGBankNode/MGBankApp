@@ -50,6 +50,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity
     ArrayList<Stat> sData = null;
 
     Toolbar toolbar;
-
+    TextView textTitle;
     final FragmentManager fm = getSupportFragmentManager();
     private backPressCloseHandler backPressCloseHandler;
 
@@ -104,8 +105,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         toolbar = findViewById(R.id.toolbar);
+        textTitle = (TextView)findViewById(R.id.text_title);
+        textTitle.setText("");
         toolbar.setElevation(0);
         setSupportActionBar(toolbar);
 
@@ -154,7 +156,7 @@ public class MainActivity extends AppCompatActivity
         menu1list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                textTitle.setText("가계부");
                 Bundle bundle1 = new Bundle(1);
                 switch (position) {
                     case 0:
@@ -183,6 +185,7 @@ public class MainActivity extends AppCompatActivity
         menu2list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                textTitle.setText("금융비서");
                 switch (position) {
                     case 0:
                         fr = new consumptionEvaluation_viewPager();
@@ -203,6 +206,7 @@ public class MainActivity extends AppCompatActivity
         menu3list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                textTitle.setText("통합멤버십");
                 switch (position) {
                     case 0:
                         fr = new fragment_menu3();
