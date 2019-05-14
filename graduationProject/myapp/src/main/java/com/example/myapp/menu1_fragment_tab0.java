@@ -9,10 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class menu1_fragment_tab0 extends Fragment {
 
     String userID;
+    protected ListView accountListView;
 
     public menu1_fragment_tab0() {    }
 
@@ -27,6 +31,17 @@ public class menu1_fragment_tab0 extends Fragment {
             userID = getArguments().getString("ID");
             Log.i("nkw","menu1_tab0_userID="+userID);
         }
+        
+        ArrayList<AccountListData> listItem = new ArrayList<>();
+
+        listItem.add(new AccountListData("NameA","123213124", "5000000"));
+        listItem.add(new AccountListData("NameB","123213124", "5000000"));
+
+        accountListView = layout.findViewById(R.id.accountList);
+        accountListViewAdapter accountListViewAdapter = new accountListViewAdapter(getContext(), listItem, R.layout. accountlistitem);
+        accountListView.setAdapter(accountListViewAdapter);
+
+
         return layout;
     }
 
