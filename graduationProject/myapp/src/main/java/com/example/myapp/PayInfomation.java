@@ -1,7 +1,7 @@
 package com.example.myapp;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by 강지현 on 2019-03-02.
@@ -10,12 +10,12 @@ import java.util.Calendar;
 public class PayInfomation implements Serializable {
     private String accountName;
     private int p_price;
-    private Calendar p_date;
+    private Date p_date;
     private Stat stat;
 
-    public PayInfomation(String n, int p, Stat s){
+    public PayInfomation(String n, int p, Stat s, Date date){
         accountName = n; p_price = p;
-        p_date = Calendar.getInstance();
+        p_date = date;
         stat = s;
         stat.addInfo(this);
     }
@@ -24,7 +24,7 @@ public class PayInfomation implements Serializable {
         return p_price;
     }
     public String getAccountName(){return accountName;}
-    public String getDate(){return p_date.toString();}
+    public Date getDate(){return p_date;}
     @Override
     public String toString(){
         return accountName + "(" + stat + ") : " + p_price;

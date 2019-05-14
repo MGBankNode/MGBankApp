@@ -106,18 +106,16 @@ public class Stat implements Serializable {
         return card.getDiscountedPrice(this.getClassificationData());
     }
     //카드와 비교하여 이 분류의 할인 금액과, 인자로 받은 리스트에 거래처의 이름을 저장함
-        public int getDiscountedPrice(CreditCard card, ArrayList<String>result){
+        public int getDiscountedPrice(CreditCard card, ArrayList<String> result){
         ArrayList<String> temp = new ArrayList<String>();
         int resultValue = card.getDiscountedPrice(getClassificationData(), temp);
         result.addAll(temp);
         return resultValue;
     }
-    public ArrayList<PayInfomation> getPayInfomation(String keyword){
-        ArrayList<PayInfomation> result = new ArrayList<PayInfomation>();
+    public PayInfomation getPayInfomation(String keyword){
         for(int position = 0; position < list.size(); position++){
-            if(list.get(position).getAccountName().contains(keyword))
-                result.add(list.get(position));
+            if(list.get(position).getAccountName().equals(keyword))
+                return list.get(position);
         }
-        return result;
     }
 }
