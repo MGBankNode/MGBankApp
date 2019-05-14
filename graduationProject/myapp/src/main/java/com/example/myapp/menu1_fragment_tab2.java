@@ -1,11 +1,14 @@
 package com.example.myapp;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.PublicKey;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,9 +35,11 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
     int year = 2019;
     ImageButton btn_previous;
     ImageButton btn_next;
+    ImageButton btn_receipt;
     TextView txt_present;
     TextView txt_year;
 
+    public String userID;
 
     public menu1_fragment_tab2(){    }
     @Override
@@ -46,6 +52,10 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                              @Nullable Bundle savedInstanceState) {
         RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.menu1_fragment_tab2,
                 container, false);
+        if(getArguments() != null){
+            userID = getArguments().getString("ID");
+            Log.i("nkw","menu1_tab2_userID="+userID);
+        }
         return layout;
     }
 
@@ -53,6 +63,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         recyclerView = (RecyclerView)getView().findViewById(R.id.recycler_view);
         btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
+        btn_receipt = (ImageButton)getView().findViewById(R.id.receipt2_btn);
         btn_next=(ImageButton)getView().findViewById(R.id.next_month);
         txt_present=(TextView)getView().findViewById(R.id.present_month);
         txt_year=(TextView)getView().findViewById(R.id.present_year);
@@ -106,15 +117,29 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
             }
         });
 
+        btn_receipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { 
+                Intent intent = new Intent(getActivity(), AddReceiptActivity.class);
+                startActivityForResult(intent, 1);
+
+            }
+        });
         super.onActivityCreated(savedInstanceState);
     }
     public void request_test(){
         /////////////////////////////////
-        //요청 정보 입력!!!!!!!test
+        //요청 정보 입력
+        int request_year=year, request_month=month+1;
+        if((request_month)==13){
+            request_year=year+1;
+            request_month=1;
+        }
+
         HistoryRequest test = new HistoryRequest(
-                "b",                          //현재 로그인 아이디
+                userID,                          //현재 로그인 아이디
                 year+"-"+month+"-1",                       //요청할 해당 달의 시작 날짜
-                year+"-"+month+"-31",                       //요청할 해당 달의 마지막 날짜
+                request_year+"-"+request_month+"-1",       //요청할 해당 다음달의 시작 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
                 getContext());                             //이것두 고정이요
 
@@ -179,7 +204,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 }
 
                 menu1rvDataList = new ArrayList<menu1_rvData>();
-                for (int i = 0; i < indexData.length; i++) {
+                for (int i = indexData.length-1; i >= 0; i--) {
                     menu1rvDataList.add(indexData[i]);
                 }
                 //리사이클러뷰 어댑터 등록 및 설정
@@ -200,7 +225,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
         Toast.makeText(getContext(),position+"번 아이템 클릭",Toast.LENGTH_LONG).show();
         //커스텀 다이얼로그 생성
         menu1_CustomDialog customDialog = new menu1_CustomDialog(getActivity());
-        customDialog.callFunction(position,year,month);
+        customDialog.callFunction(indexData.length-1-position,year,month,userID);
     }
 
 }

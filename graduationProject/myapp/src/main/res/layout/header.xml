@@ -5,210 +5,206 @@
     android:layout_height="250dp"
     android:background="#2BB0DD"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="10dp"
-    android:paddingBottom="14dp"
-    android:gravity="center"
+
+
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="18dp">
 
-        <ImageView
-            android:id="@+id/userMenu"
-            android:layout_width="20dp"
-            android:layout_height="22dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="1dp"
-            android:src="@drawable/user"/>
+        <TextView
+            android:id="@+id/homeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Node Bank"
+            android:textSize="16dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:textColor="#FFF"
 
+            android:fontFamily="@font/applegothicneo_b"/>
 
-        <ImageView
-            android:id="@+id/noticeMenu"
-            android:layout_width="22dp"
-            android:layout_height="23dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/megaphone"/>
-
-
-        <ImageView
-            android:id="@+id/homeMenu"
-            android:layout_width="22dp"
-            android:layout_height="23dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/home"/>
 
         <ImageView
             android:id="@+id/closeMenu"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="18dp"
             android:src="@drawable/ic_power_settings_new_black_24dp"/>
 
-
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/homeTv"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="#E0E0E0"/>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Node Bank"
-        android:textSize="30dp"
-        android:textColor="#FFF"
-        android:gravity="center"
-        android:textFontWeight="400"
-        android:fontFamily="@font/applegothicneo_b"/>
+        android:padding="16dp"
+        >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:padding="12dp"
-        android:gravity="center">
-
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/userimg"
+            />
 
         <TextView
             android:id="@+id/welcomeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_toRightOf="@id/profileImage"
+            android:layout_marginLeft="20dp"
             android:text="test"
             android:textColor="#FFF"
-            android:textSize="14dp"
+            android:textSize="15dp"
             android:textStyle="bold"
             android:fontFamily="@font/malgun"
             />
 
 
         <TextView
+            android:id="@+id/userLastAtTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:text="님 환영합니다"
-            android:textColor="#FFF"
-            android:textSize="13dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:text="마지막 접속 "
+            android:layout_below="@id/welcomeTv"
+            android:layout_toRightOf="@id/profileImage"
+            android:textColor="#FFFFFF"
+            android:textSize="11dp"
             android:fontFamily="@font/malgun"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/userLastAtTxt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:background="#E0E0E0"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="마지막 접속시간 : "
-        android:textColor="#FFFFFF"
-        android:textSize="10dp"
-        android:fontFamily="@font/malgun"
-        />
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="horizontal"
+        android:background="@drawable/loginbtn"
+        >
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="35dp"
-    android:orientation="horizontal"
-    android:gravity="center"
-    >
+        <LinearLayout
+            android:id="@+id/userMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/user_alter"
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
+                />
 
-        <!--android:paddingTop="16dp"-->
-        <!--android:paddingBottom="8dp"-->
-        <!--android:background="@drawable/menuimage"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="vertical"-->
-        <!--&gt;-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#DADADA"
+                android:textSize="13dp"
+                android:text="마이페이지"
+                android:layout_marginTop="10dp"
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
+                android:fontFamily="@font/applegothicneo_m"
+                />
 
-            <!--<ImageView-->
-                <!--android:id="@+id/menuBtn1"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="22dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:src="@drawable/notebook"-->
-                <!--android:onClick="onMenuBtnClicked"-->
-                <!--/>-->
+        </LinearLayout>
 
-            <!--<ImageView-->
-                <!--android:id="@+id/menuBtn2"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="22dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:src="@drawable/analysis"-->
-                <!--android:onClick="onMenuBtnClicked"-->
-                <!--/>-->
+        <LinearLayout
+            android:id="@+id/noticeMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
 
-            <!--<ImageView-->
-                <!--android:id="@+id/menuBtn3"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="22dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:src="@drawable/barcode"-->
-                <!--android:onClick="onMenuBtnClicked"-->
-                <!--/>-->
+            android:padding="10dp"
+            android:gravity="center">
 
+            <ImageView
 
-        <!--</LinearLayout>-->
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/notice_alter"/>
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:paddingTop="6dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--&gt;-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:text="가계부"-->
-                <!--android:textColor="#E6000000"-->
-                <!--android:textSize="12dp"-->
-                <!--android:fontFamily="@font/malgun"/>-->
+                android:textColor="#000"
+                android:textSize="13dp"
+                android:text="공지사항"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/applegothicneo_m"
+                />
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:text="소비평가"-->
-                <!--android:textColor="#E6000000"-->
-                <!--android:textSize="12dp"-->
-                <!--android:fontFamily="@font/malgun"/>-->
+        </LinearLayout>
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:text="맴버십"-->
-                <!--android:textColor="#E6000000"-->
-                <!--android:textSize="12dp"-->
-                <!--android:fontFamily="@font/malgun"/>-->
-        <!--</LinearLayout>-->
+        <LinearLayout
+            android:id="@+id/homeMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
 
-    <!--</LinearLayout>-->
+            android:padding="10dp"
+            android:gravity="center">
+
+            <ImageView
+
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/home_alter"/>
 
 
-</LinearLayout>
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="13dp"
+                android:text="홈"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/applegothicneo_m"
+                />
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+    
+
+
+
+
+
+
+    </LinearLayout>
+
+
+

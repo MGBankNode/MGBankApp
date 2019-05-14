@@ -2,6 +2,7 @@ package com.example.myapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,9 +15,14 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -33,8 +39,11 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -56,7 +65,12 @@ public class AddReceiptActivity extends Activity {
 
     ImageButton btn_camera;
     ImageButton btn_photo;
-
+    ImageButton btn_cancel;
+    TextView btn_change;
+    TextView btn_cancel2;
+    Spinner spinner;
+    ArrayList<String> arrayList;
+    ArrayAdapter<String> arrayAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +78,34 @@ public class AddReceiptActivity extends Activity {
         setContentView(R.layout.activity_receipt);
         btn_camera =(ImageButton)findViewById(R.id.cameraBtn);
         btn_photo = (ImageButton)findViewById(R.id.photoBtn);
+        btn_cancel = (ImageButton)findViewById(R.id.cancelBtn);
+        spinner =(Spinner)findViewById(R.id.categorySpinner);
+        btn_change = (TextView)findViewById(R.id.change_button);
+        btn_cancel2 = (TextView)findViewById(R.id.cancel_button);
+
+        arrayList = new ArrayList();
+        arrayList.add("술/유흥");
+        arrayList.add("생활(쇼핑)");
+        arrayList.add("교통");
+        arrayList.add("주거/통신");
+        arrayList.add("의료/건강");
+        arrayList.add("금융");
+        arrayList.add("문화/여가");
+        arrayList.add("여행/숙박");
+        arrayList.add("식비");
+        arrayList.add("카페/간식");
+        arrayList.add("미분류");
+
+        SpinnerAdapter adapter = new SpinnerAdapter(getApplicationContext(), arrayList);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(10);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) { }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+
+        });
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +117,20 @@ public class AddReceiptActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startGalleryChooser();
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        btn_cancel2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -111,10 +167,17 @@ public class AddReceiptActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LinearLayout parentLayout = (LinearLayout)findViewById(R.id.layout_parent);
+        LinearLayout initialLayout = (LinearLayout)findViewById(R.id.layout_initial);
+        LinearLayout resultLayout = (LinearLayout)findViewById(R.id.layout_result);
 
         if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            initialLayout.setVisibility(View.GONE);
+            resultLayout.setVisibility(View.VISIBLE);
             uploadImage(data.getData());
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            initialLayout.setVisibility(View.GONE);
+            resultLayout.setVisibility(View.VISIBLE);
             Uri photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
             uploadImage(photoUri);
         }
@@ -148,15 +211,12 @@ public class AddReceiptActivity extends Activity {
                                 MAX_DIMENSION);
 
                 callCloudVision(bitmap);
-         //       mMainImage.setImageBitmap(bitmap);
 
             } catch (IOException e) {
                 Log.d(TAG, "Image picking failed because " + e.getMessage());
-         //       Toast.makeText(this, R.string.image_picker_error, Toast.LENGTH_LONG).show();
             }
         } else {
             Log.d(TAG, "Image picker gave us a null image.");
-         //   Toast.makeText(this, R.string.image_picker_error, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -228,10 +288,10 @@ public class AddReceiptActivity extends Activity {
     }
 
     private static class LableDetectionTask extends AsyncTask<Object, Void, String> {
-        private final WeakReference<MainActivity> mActivityWeakReference;
+        private final WeakReference<AddReceiptActivity> mActivityWeakReference;
         private Vision.Images.Annotate mRequest;
 
-        LableDetectionTask(MainActivity activity, Vision.Images.Annotate annotate) {
+        LableDetectionTask(AddReceiptActivity activity, Vision.Images.Annotate annotate) {
             mActivityWeakReference = new WeakReference<>(activity);
             mRequest = annotate;
         }
@@ -253,10 +313,23 @@ public class AddReceiptActivity extends Activity {
         }
 
         protected void onPostExecute(String result) {
-            MainActivity activity = mActivityWeakReference.get();
+            AddReceiptActivity activity = mActivityWeakReference.get();
             if (activity != null && !activity.isFinishing()) {
-            //    TextView imageDetail = activity.findViewById(R.id.image_details);
-              //  imageDetail.setText(result);
+                String str[] = result.split("&");
+                EditText store = (EditText)activity.findViewById(R.id.storeEdit);
+                EditText date = (EditText)activity.findViewById(R.id.dateEdit);
+                EditText cost = (EditText)activity.findViewById(R.id.moneyEdit);
+                Spinner spinner =(Spinner)activity.findViewById(R.id.categorySpinner);
+                if(str.length>0) {
+                    store.setText(str[0]);
+                    if(str[0].contains("카페")||str[0].contains("커피")||str[0].contains("까페"))
+                        spinner.setSelection(9);
+                }
+                if(str.length>1)
+                    date.setText(str[1]);
+                if(str.length>2)
+                cost.setText(str[2]);
+
             }
         }
     }
@@ -266,13 +339,13 @@ public class AddReceiptActivity extends Activity {
       //  mImageDetails.setText(R.string.loading_message);
 
         // Do the real work in an async task, because we need to use the network anyway
-//        try {
-//            AsyncTask<Object, Void, String> labelDetectionTask = new LableDetectionTask(this, prepareAnnotationRequest(bitmap));
-//            labelDetectionTask.execute();
-//        } catch (IOException e) {
-//            Log.d(TAG, "failed to make API request because of other IOException " +
-//                    e.getMessage());
-//        }
+        try {
+            AsyncTask<Object, Void, String> labelDetectionTask = new LableDetectionTask(this, prepareAnnotationRequest(bitmap));
+            labelDetectionTask.execute();
+        } catch (IOException e) {
+            Log.d(TAG, "failed to make API request because of other IOException " +
+                    e.getMessage());
+        }
     }
 
     private Bitmap scaleBitmapDown(Bitmap bitmap, int maxDimension) {
@@ -295,36 +368,80 @@ public class AddReceiptActivity extends Activity {
         return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
     }
 
+
     private static String convertResponseToString(BatchAnnotateImagesResponse response) {
-        StringBuilder message = new StringBuilder("I found these things:\n\n");
-        String dateTime;
+        StringBuilder message = new StringBuilder();
+        String dateTime ="";
+        String storeName ="";
+        String totalCost ="";
+
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
         if (labels != null) {
             String str = labels.get(0).getDescription();
             String data[] = str.split("\n");
+            int dateFlag = 0;
+            int moneyFlag = 0;
+            int storeFlag =0;
+            int count =0;
             for(String d : data) {
-                String date[] = d.split(" |-|:|/|\\.|년|월|일|\\(");
+                Log.d("receipt : ", d+"\n");
+
+                if(count==0 && !d.contains("영수증"));
+                    storeName = d;
+                if(d.contains("매장명") || d.contains("매장 명")) {
+                    int index = d.indexOf(' ');
+                    storeFlag=-1;
+                    storeName = d.substring(index+1);
+                    if(storeName.contains("]")) {
+                        index = storeName.indexOf(']');
+                        storeName = storeName.substring(index+1);
+                    }
+                }
+
+                if(storeFlag==1) {
+                    storeName = d;
+                    storeFlag = 0;
+                }
+                if(storeFlag!= -1 && d.contains("영수증") && !d.contains("소지")&& !d.contains("현금") && !d.contains("카드") &&!d.contains("결제")) {
+                    storeFlag=1;
+                }
+
+                if(d.contains(",")) {
+                    String confirm[] = d.split(" ");
+                    for(String c : confirm) {
+                        String ff = c.replace(",", "");
+                        try {
+                            int num = Integer.parseInt(ff);
+                            if(moneyFlag <num) {
+                                moneyFlag = num;
+                                totalCost = ff;
+                            }
+                        } catch(Exception e) {}
+                    }
+                }
+                String date[] = d.split("]| |-|:|/|\\.|년|월|일|\\(");
                 int flag = 0;
 
                 for (String a : date) {
                     try {
-                        if(flag==0 && (a.equals("2019")||a.equals("19"))) {
+                        if(dateFlag==0 && flag==0 && (a.equals("2019")||a.equals("19")|| (a.length()==4 &&a.startsWith("20")))) {
                             flag = 1;
+                            dateFlag=1;
+                            if((a.length()==4 &&a.startsWith("20")) || a.equals("19")) a="2019";
                         }
 
                         if(flag > 0) {
-                            if(flag <3)
-                                message.append(a+"-");
+                            if(flag <3) dateTime+=a+"-";
+
                             if(flag==3)
-                                message.append(a+" ");
+                                dateTime+=a+" ";
                             if(flag==4)
-                                message.append(a+":");
+                                dateTime+=a+":";
                             if(flag==5) {
-                                message.append(a+"\n");
+                                dateTime+=a;
                                 flag = -1;
                             }
                             flag++;
-
                         }
 
 
@@ -332,11 +449,13 @@ public class AddReceiptActivity extends Activity {
                         Log.d("ERROR : ", e.toString());
                     }
                 }
+                count++;
             }
         } else {
             message.append("nothing");
         }
 
+        message.append(storeName+ "&" + dateTime+"&"+totalCost);
         return message.toString();
     }
 }

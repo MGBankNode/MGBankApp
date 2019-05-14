@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/report_previous_month"
+            android:id="@+id/previous_month_"
             android:src="@drawable/ic_previous"
             android:background="#fff"/>
         <LinearLayout
@@ -31,7 +31,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/present_month"
+                android:id="@+id/present_month_"
                 android:text="3월"
                 android:textSize="22dp"
                 android:textColor="#000"
@@ -41,13 +41,13 @@
                 android:layout_height="wrap_content"
                 android:text="2019년"
                 android:textSize="12dp"
-                android:id="@+id/present_year"/>
+                android:id="@+id/present_year_"/>
         </LinearLayout>
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/report_next_month"
+            android:id="@+id/next_month_"
             android:src="@drawable/ic_next"
             android:background="#fff"/>
     </LinearLayout>

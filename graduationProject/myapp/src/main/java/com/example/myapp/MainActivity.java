@@ -34,6 +34,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -62,9 +64,9 @@ public class MainActivity extends AppCompatActivity
     protected TextView welcomeTextView;
     protected TextView userLastAtTxt;
     protected ImageView closeMenu;
-    protected ImageView homeMenu;
-    protected ImageView userMenu;
-    protected ImageView noticeMenu;
+    protected LinearLayout homeMenu;
+    protected LinearLayout userMenu;
+    protected LinearLayout noticeMenu;
 
     private ListView menu1list;
     private ListView menu2list;
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     Stack<String> st;
 
     public int userAccountCheck;
+    public String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,22 +147,27 @@ public class MainActivity extends AppCompatActivity
         menu1list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle bundle1 = new Bundle(1);
                 switch (position) {
 
                     case 0:
+
                         fr = new fragment_menu1();
-                        fr.setArguments(makeBundle("apage", 0));
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 0);
                         st.push("a");
                         break;
 
                     case 1:
                         fr = new fragment_menu1();
-                        fr.setArguments(makeBundle("apage", 1));
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 1);
                         st.push("b");
                         break;
 
                 }
-                changeFragment(fr);
+                changeFragment(fr, bundle1);
             }
         });
         menu2list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -178,7 +186,7 @@ public class MainActivity extends AppCompatActivity
                         st.push("d");
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
         });
 
@@ -191,7 +199,7 @@ public class MainActivity extends AppCompatActivity
                         st.push("e");
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
         });
     }
@@ -242,7 +250,7 @@ public class MainActivity extends AppCompatActivity
                     default:
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
 
         }
@@ -261,6 +269,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         myUserInfo = (UserInfo) intent.getSerializableExtra("UserInfoObject");
 
+        userID = myUserInfo.getUserID();
         //사용자 이름 변경
         String tempLoginUser = myUserInfo.getUserName();
         if (tempLoginUser != null) {
@@ -281,8 +290,14 @@ public class MainActivity extends AppCompatActivity
 
         //사용자 마지막 접속시간 변경
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
-        userLastAtTxt.setText(changeText);
+//        String[] starts = changeText.split("T");
+//        String[] dates = starts[0].split("-");
+//        String date = dates[0] + "년 " + dates[1] + "월 " + dates[2] + "일 ";
+//        String[] times = starts[1].split(":");
+//        String time = times[0] + "시 " + times[1] + "분";
+//        String format_changeText = date + time;
 
+        userLastAtTxt.setText(changeText);
 
         userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
@@ -296,7 +311,6 @@ public class MainActivity extends AppCompatActivity
 //            Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
 //            userABalanceTxtView.setText(userABalance);
 
-
             //내역을 얻어와야함
             //먼저 HistoryRequest 각각 정보 입력하여 객체생성
             HistoryRequest testRequest = new HistoryRequest(
@@ -306,7 +320,6 @@ public class MainActivity extends AppCompatActivity
                     RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
                     getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
             //fragment 쪽에서는 getContext()하시면 될 것 같아요
-
 
             //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
             testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
@@ -672,34 +685,44 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void onDetailBtnClicked(View view) {
-        Fragment detailFragment = new consumptionReportFragment();
-//        Bundle bundle = new Bundle(1);
-//        bundle.putString("userId", "AAA");
+//    public void onDetailBtnClicked(View view) {
+//        Fragment detailFragment = new consumptionReportFragment();
+////        Bundle bundle = new Bundle(1);
+////        bundle.putString("userId", "AAA");
+////
+////        detailFragment.setArguments(bundle);
 //
-//        detailFragment.setArguments(bundle);
+//
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//        fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
+//        fragmentTransaction.commit();
+//    }
+
+    public void changeFragment(Fragment fr, Bundle bundle) {
+
+        if(bundle == null){
+            bundle = new Bundle(1);
+        }
+        bundle.putSerializable("DATA", sData);
+
+        fr.setArguments(bundle);
 
 
-        //Toast.makeText(getApplication(), "버튼 선택됨", Toast.LENGTH_SHORT).show();
 
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
-        fragmentTransaction.commit();
-    }
 
-    public void changeFragment(Fragment fr) {
-        Bundle args = new Bundle();
-        args.putSerializable("DATA", sData);
-        fr.setArguments(args);
-
-        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
         fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+
         fragmentTransaction.commit();
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         drawer.closeDrawer(GravityCompat.START);
+
     }
 
     /*
