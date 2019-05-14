@@ -36,6 +36,7 @@ public class CustomDialog extends DialogFragment {
     private String result;
     private CustomDialogResult dialogResult;
     private Fragment fragment;
+    private String selectedAccountName;
 
     public CustomDialog() {
         // Required empty public constructor
@@ -53,6 +54,9 @@ public class CustomDialog extends DialogFragment {
         getDialog().getWindow().setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM);
 
         fragment = getActivity().getSupportFragmentManager().findFragmentByTag("OpenDialog");
+
+        stat = (Stat)getArguments().get("STAT");
+        selectedAccountName = getArguments().getString("PAY_ACCOUNT");
         return inflater.inflate(R.layout.fragment_custom_dialog, container, false);
     }
 
@@ -67,9 +71,9 @@ public class CustomDialog extends DialogFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         TextView tv = (TextView) getView().findViewById(R.id.pay_account_name);
-        tv.setText(getArguments().getString("PAY_ACCOUNT"));
+        tv.setText(selectedAccountName);
         tv = (TextView) getView().findViewById(R.id.pay_account_stat_name);
-        tv.setText(getArguments().getString("PAY_ACCOUNT_STAT"));
+        tv.setText(stat.getName());
 
         //스피너 설정
         final Spinner spinner = (Spinner) getView().findViewById(R.id.pay_account_stat_spinner);
@@ -110,14 +114,16 @@ public class CustomDialog extends DialogFragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PayInfomation p = stat.getPayInfomation(selectedAccountName);
+                result = spinner.getSelectedItem().toString();
 
                 // /////////////////////카테고리 변경 요청////////////////////////////
                 ///////////////////////////////////////////////////////////////////
                 CategoryRequest categoryRequest = new CategoryRequest(
-                        "b",                    //사용자 아이디
-                        4151,       //사용처 이름
-                        3,                  //기존 카테고리 번호
-                        2,                  //바꿀 카테고리 번호
+                        stat.getUserId(),                    //사용자 아이디
+                        p.gethId(),       //사용처 이름
+                        getCategoryId(stat.getName()),                  //기존 카테고리 번호
+                        getCategoryId(result),                  //바꿀 카테고리 번호
                         getContext(),                   //context 고정
                         RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
 
@@ -143,7 +149,7 @@ public class CustomDialog extends DialogFragment {
                 });
                 ///////////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////////
-
+                dialogResult.finish(result);
             }
         });
         final TextView canceltextView = (TextView) getView().findViewById(R.id.pay_account_stat_cancel_button);
@@ -157,13 +163,28 @@ public class CustomDialog extends DialogFragment {
             }
         });
 
-
         super.onActivityCreated(savedInstanceState);
 
 
     }
     public void setDialogResult(CustomDialogResult cdr){
         dialogResult = cdr;
+    }
+    public int getCategoryId(String s){
+        switch(s){
+            case Stat.DRINK: return 1;
+            case Stat.LIFE: return 2;
+            case Stat.TRAFFIC: return 3;
+            case Stat.DWELLING: return 4;
+            case Stat.HOSPITAL: return 5;
+            case Stat.FINANCE: return 6;
+            case Stat.CULTURE: return 7;
+            case Stat.TRAVEL: return 8;
+            case Stat.FOOD: return 9;
+            case Stat.COFFEE: return 10;
+            case Stat.NONE: return 11;
+            default: return 0;
+        }
     }
 
 }

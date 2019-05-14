@@ -24,24 +24,37 @@
             app:contentScrim="#FFF"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/bestCardLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="50dp"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.8">
-                <TextView
-                    android:id="@+id/bestCardName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="30dp"
+                <LinearLayout
                     android:layout_marginTop="20dp"
-                    android:fontFamily="@font/malgun"
-                    android:text="피치 체크카드"
-                    android:textSize="19dp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+                    <TextView
+                        android:id="@+id/bestCardName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="30dp"
+                        android:fontFamily="@font/malgun"
+                        android:text="피치 체크카드"
+                        android:textSize="19dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_marginRight="10dp"
+                        android:gravity="right|center_vertical"
+                        android:fontFamily="@font/applegothicneo_m"
+                        android:text="카드추천은 6달간 데이터를 분석합니다."
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/bestCardImage"

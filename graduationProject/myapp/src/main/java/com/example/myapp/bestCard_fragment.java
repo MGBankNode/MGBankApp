@@ -6,15 +6,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -34,13 +37,14 @@ public class bestCard_fragment extends Fragment {
     ArrayList<CreditCard> cData;
     ArrayList<Stat> sData;
     HashMap<CreditCard, Integer> discountedPrices;
+    LinearLayout bestCardLayout;
     //HashMap<CreditCard, ArrayList<String>> discountedAccountNames;
     Util util = new Util();
 
 
     CreditCard BestCard;
     int BestDiscountedPrice = 0;
-    ArrayList<String> BestCardAccountsNames;
+    HashMap<CreditCard, HashMap<Stat, Integer>> bestDiscountData;
     HashMap<CreditCard, HashMap<Stat, Integer>> discountData;
 
     @Override
@@ -86,6 +90,8 @@ public class bestCard_fragment extends Fragment {
             discountedPrices.put(cData.get(cPosition), temp);
         }
         discountedPrices.remove(BestCard);
+        bestDiscountData = new HashMap<CreditCard, HashMap<Stat, Integer>>();
+        bestDiscountData.putAll(discountData);
         discountData.remove(BestCard);
         return view;
     }
@@ -99,6 +105,31 @@ public class bestCard_fragment extends Fragment {
         bestCardName.setText(BestCard.toString());
         bestcardDiscountedPrice.setText(util.comma(BestDiscountedPrice));
         setRecyclerView();
+
+        bestCardLayout = (LinearLayout)getView().findViewById(R.id.bestCardLayout);
+        bestCardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("KJH", BestCard.toString() + " click Event");
+
+                DetailCardInfo fr = new DetailCardInfo();
+                Bundle args = new Bundle();
+                args.putSerializable("CARD", BestCard);
+                args.putSerializable("DATA", bestDiscountData);
+                //nkw
+                args.putSerializable("sDATA", sData);
+
+                args.putString("PRICE", util.comma(BestDiscountedPrice));
+
+                fr.setArguments(args);
+                FragmentActivity f = (FragmentActivity)v.getContext();
+                FragmentManager fm = f.getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
         super.onActivityCreated(savedInstanceState);
     }
     public void setRecyclerView(){
