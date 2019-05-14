@@ -2,24 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="285dp"
     android:background="#2BB0DD"
     android:orientation="vertical"
-
-
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="18dp">
+        android:padding="18dp"
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/homeTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Node Bank"
-            android:textSize="16dp"
+            android:textSize="12pt"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:textColor="#FFF"
@@ -94,12 +94,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:orientation="horizontal"
         android:background="@drawable/loginbtn"
+        android:gravity="center_vertical"
         >
 
         <LinearLayout
@@ -114,18 +115,49 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/user_alter"
+                android:src="@drawable/user"
 
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#DADADA"
+                android:textColor="#000"
                 android:textSize="13dp"
                 android:text="마이페이지"
                 android:layout_marginTop="10dp"
 
+                android:fontFamily="@font/applegothicneo_m"
+                />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/homeMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+
+            android:padding="10dp"
+            android:gravity="center">
+
+            <ImageView
+
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/home"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="13dp"
+                android:text="홈"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/applegothicneo_m"
                 />
 
@@ -143,9 +175,9 @@
 
             <ImageView
 
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/notice_alter"/>
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/megaphone"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -160,50 +192,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/homeMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-
-            android:padding="10dp"
-            android:gravity="center">
-
-            <ImageView
-
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/home_alter"/>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textSize="13dp"
-                android:text="홈"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/applegothicneo_m"
-                />
-
-        </LinearLayout>
-
-
-
-
-
     </LinearLayout>
-
-
-
-    
-
-
-
-
-
-
     </LinearLayout>
 
 
