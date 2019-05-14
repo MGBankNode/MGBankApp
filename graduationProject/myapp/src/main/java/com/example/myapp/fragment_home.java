@@ -67,11 +67,6 @@ public class fragment_home extends Fragment {
         return view;
     }
 
-//    public void startBudgetActivity() {
-//        Intent intent = new Intent(getActivity(), SetBudget.class);
-//        getActivity().startActivityForResult(intent, 2);
-//    }
-
 
 
     @Override
@@ -86,7 +81,7 @@ public class fragment_home extends Fragment {
         setBudget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(">>>", "Btn clicked");
+
                 Intent intent = new Intent(getActivity(), SetBudget.class);
                 getActivity().startActivityForResult(intent, 2);
             }
