@@ -213,13 +213,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 textTitle.setText("통합멤버십");
+                Bundle bundle1 = new Bundle(1);
                 switch (position) {
                     case 0:
                         fr = new fragment_menu3();
+                        bundle1.putString("ID", userID);
                         st.push("f");
                         break;
                 }
-                changeFragment(fr,null);
+                changeFragment(fr,bundle1);
             }
         });
 
