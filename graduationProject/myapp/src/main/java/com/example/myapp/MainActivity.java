@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
         ArrayList<String> menu2items = new ArrayList<>();
         ArrayList<String> menu3items = new ArrayList<>();
 
-        menu1items.add("잔액조회");
+        menu1items.add("계좌조회");
         menu1items.add("달력");
         menu1items.add("내역");
         menu2items.add("소비평가");
@@ -163,20 +163,26 @@ public class MainActivity extends AppCompatActivity
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
                         bundle1.putInt("apage", 0);
+
                         st.push("a");
                         break;
+
                     case 1:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
                         bundle1.putInt("apage", 1);
+
                         st.push("b");
+
                         break;
 
                     case 2:
                         fr = new fragment_menu1();
                         bundle1.putString("ID", userID);
                         bundle1.putInt("apage", 2);
+
                         st.push("c");
+
                         break;
                 }
                 changeFragment(fr, bundle1);
@@ -240,7 +246,6 @@ public class MainActivity extends AppCompatActivity
                 switch (st.peek()) {
                     case "a":
                         fr = new fragment_menu1();
-                        Bundle bundle = new Bundle();
                         fr.setArguments(makeBundle("apage", 0));
                         break;
 
