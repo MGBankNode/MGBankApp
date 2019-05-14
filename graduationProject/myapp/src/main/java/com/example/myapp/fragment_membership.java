@@ -52,12 +52,15 @@ public class fragment_membership extends Fragment {
     ArrayList<DataModel> data;
 
     Fragment fragment;
-
-    String userID = "b";
+    String userID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_membership, container, false);
+        if(getArguments() != null){
+            userID = getArguments().getString("ID");
+            Log.i("nkw","menu3_membership_userID="+userID);
+        }
         return view;
     }
 
@@ -65,8 +68,6 @@ public class fragment_membership extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         barcoode_img = (ImageView)getView().findViewById(R.id.bcd_img);
         barcode_txt=(TextView)getView().findViewById(R.id.bcd_txt);
-
-
 
         BarcodePointRequestHandler(new VolleyCallback() {
             @Override
@@ -217,6 +218,7 @@ public class fragment_membership extends Fragment {
                     fragment = new fragment_pointcard();
                     Bundle bundle = new Bundle();
                     bundle.putInt("point_id",selectedID);
+                    bundle.putString("ID",userID);
                     fragment.setArguments(bundle);
 
                     FragmentManager fm = getActivity().getSupportFragmentManager();

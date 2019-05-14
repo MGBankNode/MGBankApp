@@ -35,6 +35,7 @@ public class fragment_menu3 extends Fragment {
     public fragment_menu3() {
     }
 
+    String userID;
     private TabLayout tabLayout;
 
     @Override
@@ -45,6 +46,20 @@ public class fragment_menu3 extends Fragment {
         tabLayout = view.findViewById(R.id.layout_tab);
         tabLayout.addTab(tabLayout.newTab().setText("멤버십"));
 
+
+        if(getArguments() != null){
+            userID = getArguments().getString("ID");
+            Log.i("nkw","menu3_userID="+userID);
+        }
+        Fragment fr = new fragment_membership();
+        Bundle bundle = new Bundle(1);
+        bundle.putString("ID", userID);
+        fr.setArguments(bundle);
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_pointCard, fr);
+        fragmentTransaction.commit();
         return view;
     }
 }
