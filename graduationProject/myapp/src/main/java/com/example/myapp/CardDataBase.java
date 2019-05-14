@@ -14,7 +14,7 @@ public class CardDataBase {
     *
     * 2. 혜택 집합에 혜택 추가하기 (횟수제한이나 금액제한이 없을시 int 인자값을 -1 로 준다.)
     * 해당카드혜택들의 집합 이름.add(new Benefits(String "혜택이름", new String[]{"혜택이", "적용", "될만한", "확실한", "문자열들"}
-    *       , int (혜택 퍼센트, 금액은 그냥 숫자로 기입), int (일별 횟수제한), int (월별 횟수제한), int (연도별 횟수제한), int (건당 횟수제한));
+    *       , int (혜택 퍼센트, 금액은 그냥 숫자로 기입), int (일별 횟수제한), int (월별 횟수제한), int (연도별 횟수제한), int (건당 금액제한));
     * ex)PeachCardBenefits.add(new Benefits("PeachConvenience",
                 new String[]{"GS25", "지에스25", "쥐에스25", "세븐일레븐", "CU", "씨유"}, 5, 1, 2, 0, -1));
     *
