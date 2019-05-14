@@ -106,7 +106,12 @@ public class MainActivity extends AppCompatActivity
     public int userAccountCheck;
     public String userID;
 
-
+    @Override
+    public void onBackPressed() {
+        Log.i("nkw","onBackpressed()");
+        textTitle.setText("");
+        super.onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,13 +168,13 @@ public class MainActivity extends AppCompatActivity
 
                 switch (groupPosition) {
                     case 0: {
+                        textTitle.setText("가계부");
                         Bundle bundle1 = new Bundle(1);
                         switch (childPosition) {
                             case 0:
                                 fr = new fragment_menu1();
                                 bundle1.putString("ID", userID);
                                 bundle1.putInt("apage", 0);
-
                                 st.push("a");
                                 break;
 
@@ -194,6 +199,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                     }
                     case 1: {
+                        textTitle.setText("금융비서");
                         Bundle bundle1 = new Bundle(1);
                         switch (childPosition) {
                             case 0:
@@ -213,6 +219,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     case 2: {
+                        textTitle.setText("통합멤버쉽");
                         Bundle bundle1 = new Bundle(1);
                         switch (childPosition) {
                             case 0:
@@ -226,9 +233,6 @@ public class MainActivity extends AppCompatActivity
                         break;
                     }
                 }
-
-
-
                 return false;
 
             }
