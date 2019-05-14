@@ -40,6 +40,7 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     DetailCardInfoAdapter(HashMap<CreditCard, HashMap<Stat,Integer>> d, CreditCard sc){
         discountData = d;
+        Log.d("KJH", "discountData Size() : " + discountData.size());
         this.selectedCard = sc;
         keys = new ArrayList<Stat>();
         keys.addAll(discountData.get(selectedCard).keySet());
