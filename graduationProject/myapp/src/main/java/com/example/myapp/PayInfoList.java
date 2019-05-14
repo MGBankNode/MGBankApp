@@ -55,4 +55,5 @@ public class PayInfoList extends Fragment {
         adapter = new DetailedRecyclerViewAdapter(stat.getClassificationData(), stat.toString());
         recyclerView.setAdapter(adapter);
     }
+
 }

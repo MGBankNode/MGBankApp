@@ -73,27 +73,11 @@ public class DetailCardInfo extends Fragment {
         collapsingToolbarLayout = (CollapsingToolbarLayout)getView().findViewById(R.id.collapsingToolbarLayout03);
         imageView = (ImageView) getView().findViewById(R.id.detailCardImage);
         textView = (TextView) getView().findViewById(R.id.detailDiscountTextView);
-        imgbutton = (ImageButton) getView().findViewById(R.id.close_fr_btn) ;   //nkw
         collapsingToolbarLayout.setTitle("  "+selectedCard.toString());         //nkw
         imageView.setImageResource(selectedCard.getIcon());
         textView.setText((getArguments().getString("PRICE")));
 
 
-        //뒤로가기 버튼 누르면 프래그먼트 안보이게 하기 nkw
-        imgbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = new bestCard_fragment();
-                Bundle bundle = new Bundle(1);
-                bundle.putSerializable("DATA", sData);
-                fragment.setArguments(bundle);
-
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.dynamic_mainFragment, fragment);
-                fragmentTransaction.commit();
-            }
-        });
         super.onActivityCreated(savedInstanceState);
 
     }

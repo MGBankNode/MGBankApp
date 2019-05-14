@@ -85,6 +85,8 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 FragmentManager fm = f.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+                fragmentTransaction.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
 
