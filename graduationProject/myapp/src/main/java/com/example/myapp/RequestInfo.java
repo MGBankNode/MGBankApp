@@ -20,7 +20,10 @@ public class RequestInfo {
         ACCOUNT_BY_HISTORY,
         BALANCE_LIST,
         STORE_CHECK,
-        ADD_RECEIPT
+        ADD_RECEIPT,
+        ADD_NEW_RECEIPT,
+        DEFAULT_BUDGET,
+        CHANGE_BUDGET
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -114,6 +117,18 @@ public class RequestInfo {
 
             case ADD_RECEIPT:
                 processURL = "/nodeapi/receipt/addreceipt";
+                break;
+
+            case ADD_NEW_RECEIPT:
+                processURL = "/nodeapi/receipt/addnewreceipt";
+                break;
+
+            case DEFAULT_BUDGET:
+                processURL = "/nodeapi/budget/defaultbudget";
+                break;
+
+            case CHANGE_BUDGET:
+                processURL = "/nodeapi/budget/changebudget";
                 break;
         }
         return processURL;

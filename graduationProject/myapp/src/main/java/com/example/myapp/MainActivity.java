@@ -27,12 +27,15 @@ import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -66,18 +69,18 @@ public class MainActivity extends AppCompatActivity
     protected Fragment fr;
     protected TextView welcomeTextView;
     protected TextView userLastAtTxt;
+    protected TextView remainBudget;
+
     protected ImageView closeMenu;
     protected LinearLayout homeMenu;
     protected LinearLayout userMenu;
     protected LinearLayout noticeMenu;
     protected LinearLayout navChild;
-
+    private ExpandableListView listView;
 
     public String mainUserId;
 
-    private ListView menu1list;
-    private ListView menu2list;
-    private ListView menu3list;
+
 
     //데이터베이스로 부터 받은 정보를 저장함
     ArrayList<Stat> sData = null;
@@ -124,116 +127,125 @@ public class MainActivity extends AppCompatActivity
         backPressCloseHandler = new backPressCloseHandler(this);
         sData = new ArrayList<Stat>();
 
-        //startMainFragment();
-        makeMenuList();
-    }
+        remainBudget = findViewById(R.id.remainBudget);
 
-    public void makeMenuList() {
+//        setBudget = findViewById(R.id.setBudget);
+//        setBudget.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, SetBudget.class);
+//                startActivityForResult(intent, 2);
+//            }
+//        });
 
-        menu1list = findViewById(R.id.menu1_list);
-        menu2list = findViewById(R.id.menu2_list);
-        menu3list = findViewById(R.id.menu3_list);
+        ArrayList<myGroup> DataList = new ArrayList<myGroup>();
+        listView = (ExpandableListView)findViewById(R.id.mylist);
+        myGroup temp = new myGroup("가계부");
+        temp.child.add("계좌조회");
+        temp.child.add("달력");
+        temp.child.add("내역");
+        DataList.add(temp);
+        temp = new myGroup("금융비서");
+        temp.child.add("소비평가");
+        temp.child.add("카드추천");
 
-        ArrayList<String> menu1items = new ArrayList<>();
-        ArrayList<String> menu2items = new ArrayList<>();
-        ArrayList<String> menu3items = new ArrayList<>();
+        DataList.add(temp);
+        temp = new myGroup("통합맴버쉽");
+        temp.child.add("통합맴버쉽");
 
-        menu1items.add("계좌조회");
-        menu1items.add("달력");
-        menu1items.add("내역");
-        menu2items.add("소비평가");
-        menu2items.add("카드추천");
-        menu3items.add("통합멤버십");
+        DataList.add(temp);
 
-        MainMenuListviewAdapter menu1ListviewAdapter = new MainMenuListviewAdapter(this, menu1items, R.layout.mainmenuitem);
-        MainMenuListviewAdapter menu2ListviewAdapter = new MainMenuListviewAdapter(this, menu2items, R.layout.mainmenuitem);
-        MainMenuListviewAdapter menu3ListviewAdapter = new MainMenuListviewAdapter(this, menu3items, R.layout.mainmenuitem);
-        menu1list.setAdapter(menu1ListviewAdapter);
-        menu2list.setAdapter(menu2ListviewAdapter);
-        menu3list.setAdapter(menu3ListviewAdapter);
-
+        ExpandAdapter adapter = new ExpandAdapter(getApplicationContext(),R.layout.group_row,R.layout.child_row,DataList);
+        listView.setGroupIndicator(null);
+        listView.setAdapter(adapter);
         st = new Stack<String>();
         st.push("home");
-        menu1list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                textTitle.setText("가계부");
-                Bundle bundle1 = new Bundle(1);
-                switch (position) {
-                    case 0:
-                        fr = new fragment_menu1();
-                        bundle1.putString("ID", userID);
-                        bundle1.putInt("apage", 0);
 
-                        st.push("a");
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                // 0 0 계좌조회  0 1 달력   0 2 내역
+                // 1 0 소비평가  1 1 카드추천
+                // 2 0 통합맴버쉽
+
+
+                switch (groupPosition) {
+                    case 0: {
+                        Bundle bundle1 = new Bundle(1);
+                        switch (childPosition) {
+                            case 0:
+                                fr = new fragment_menu1();
+                                bundle1.putString("ID", userID);
+                                bundle1.putInt("apage", 0);
+
+                                st.push("a");
+                                break;
+
+
+                            case 1:
+                                fr = new fragment_menu1();
+                                bundle1.putString("ID", userID);
+                                bundle1.putInt("apage", 1);
+                                st.push("b");
+                                break;
+
+                            case 2:
+                                fr = new fragment_menu1();
+                                bundle1.putString("ID", userID);
+                                bundle1.putInt("apage", 2);
+
+                                st.push("c");
+
+                                break;
+                        }
+                        changeFragment(fr,bundle1);
                         break;
+                    }
+                    case 1: {
+                        Bundle bundle1 = new Bundle(1);
+                        switch (childPosition) {
+                            case 0:
+                                fr = new consumptionEvaluation_viewPager();
+                                bundle1.putInt("cpage", 0);
+                                st.push("d");
+                                break;
 
-                    case 1:
-                        fr = new fragment_menu1();
-                        bundle1.putString("ID", userID);
-                        bundle1.putInt("apage", 1);
-
-                        st.push("b");
-
+                            case 1:
+                                fr = new bestCard_fragment();
+                                bundle1.putInt("cpage", 1);
+                                st.push("e");
+                                break;
+                        }
+                        changeFragment(fr,bundle1);
                         break;
+                    }
 
-                    case 2:
-                        fr = new fragment_menu1();
-                        bundle1.putString("ID", userID);
-                        bundle1.putInt("apage", 2);
+                    case 2: {
 
-                        st.push("c");
-
-                        break;
+                            switch (childPosition) {
+                                case 0:
+                                    fr = new fragment_menu3();
+                                    st.push("f");
+                                    break;
+                            }
+                            changeFragment(fr,null);
+                            break;
+                    }
                 }
-                changeFragment(fr, bundle1);
+
+
+
+
             }
         });
-        menu2list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                textTitle.setText("금융비서");
-                switch (position) {
-                    case 0:
-                        fr = new consumptionEvaluation_viewPager();
-                        fr.setArguments(makeBundle("cpage", 0));
-                        st.push("d");
-                        break;
-
-                    case 1:
-                        fr = new bestCard_fragment();
-                        fr.setArguments(makeBundle("cpage", 1));
-                        st.push("e");
-                        break;
-                }
-                changeFragment(fr,null);
-            }
-        });
-
-        menu3list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                textTitle.setText("통합멤버십");
-                switch (position) {
-                    case 0:
-                        fr = new fragment_menu3();
-                        st.push("f");
-                        break;
-                }
-                changeFragment(fr,null);
-            }
-        });
-
     }
-
 
     public Bundle makeBundle(String str, int num) {
         Bundle bundle = new Bundle(1);
         bundle.putInt(str, num);
         return bundle;
     }
-
-
+);
 
      void MainStart(){
          //내역을 얻어와야함
@@ -344,6 +356,24 @@ public class MainActivity extends AppCompatActivity
                      if (!temp.get(i).isEmpty())
                          sData.add(temp.get(i));
                  }
+
+                //////////////////////////////////설정된 예산 요청///////////////////////
+                 BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
+
+                 budgetRequest1.GetBudgetHandler(budget -> {
+                     Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
+                 });
+                //////////////////////////////////////////////////////////////////
+
+
+
+                 //////////////////////////////////설정된 예산 요청///////////////////////
+                 BudgetRequest budgetRequest2 = new BudgetRequest(userID, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
+
+                 budgetRequest2.ChangeBudgetHandler(budget -> {
+                     Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+                 });
+                 //////////////////////////////////////////////////////////////////
 
                  startMainFragment();
                  //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
@@ -470,6 +500,8 @@ public class MainActivity extends AppCompatActivity
         homeMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                textTitle = (TextView)findViewById(R.id.text_title);
+                textTitle.setText("");
                 startMainFragment();
             }
         });
@@ -526,7 +558,20 @@ public class MainActivity extends AppCompatActivity
                 Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                 startActivity(returnLogin);
             }
-        }
+
+            if(requestCode == 2) {
+                Log.d(">>>", "succce");
+                if(resultCode == RESULT_OK) {
+                    Log.d(">>>", "succce");
+                    String budget = data.getStringExtra("Budget");
+                    Log.d(">>>",data.getStringExtra("Budget"));
+                }
+
+            }
+
+            }
+
+
     }
 
     protected void StartActivity(Class startClass) {
@@ -550,20 +595,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-//    public void onDetailBtnClicked(View view) {
-//        Fragment detailFragment = new consumptionReportFragment();
-////        Bundle bundle = new Bundle(1);
-////        bundle.putString("userId", "AAA");
-////
-////        detailFragment.setArguments(bundle);
-//
-//
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragmentContainer_viewpager, detailFragment);
-//        fragmentTransaction.commit();
-//    }
-
     public void changeFragment(Fragment fr, Bundle bundle) {
 
         if(bundle == null){
@@ -572,8 +603,6 @@ public class MainActivity extends AppCompatActivity
         bundle.putSerializable("DATA", sData);
 
         fr.setArguments(bundle);
-
-
 
         FragmentManager fm = getSupportFragmentManager();
 

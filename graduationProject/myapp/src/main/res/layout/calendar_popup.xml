@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="350dp"
+    android:maxHeight="400dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+>
 
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:textSize="8pt"
+            android:layout_marginRight="10pt"
+            android:fontFamily="@font/applegothicneo_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#2BB0DD"
+            android:id="@+id/earnMoney"
+            />
+
+        <TextView
+            android:textSize="8pt"
+            android:layout_marginRight="10pt"
+            android:fontFamily="@font/applegothicneo_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF0000"
+            android:id="@+id/useMoney"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <android.support.v7.widget.RecyclerView
+        android:layout_margin="10dp"
+        android:id="@+id/recycler_view_popup"
+        android:textSize="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_date"
+        android:dividerHeight="3dp"
+        android:divider="#00000000" />
+    </LinearLayout>
 </LinearLayout>

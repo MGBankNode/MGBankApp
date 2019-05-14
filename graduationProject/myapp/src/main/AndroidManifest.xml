@@ -29,10 +29,19 @@
         android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
 
         <activity
+            android:name=".SetBudget"
+            android:label=""
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"
+        />
+        <activity
             android:name=".AddReceiptActivity"
             android:label=""
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
 
+        <activity
+            android:name=".menu1_calendar_popup"
+            android:label=""
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".MainScreen"
             android:screenOrientation="portrait" />

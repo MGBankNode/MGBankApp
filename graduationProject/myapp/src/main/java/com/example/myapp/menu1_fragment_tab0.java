@@ -32,6 +32,7 @@ public class menu1_fragment_tab0 extends Fragment {
             Log.i("nkw","menu1_tab0_userID="+userID);
         }
 
+
         //계좌 + 잔액 리스트 요청
         HistoryRequest test1 = new HistoryRequest(
                 userID,                                 //현재 로그인 아이디
