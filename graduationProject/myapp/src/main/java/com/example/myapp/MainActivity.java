@@ -282,6 +282,8 @@ public class MainActivity extends AppCompatActivity
                         fr = new fragment_menu3();
                         break;
                     case "home":
+                        textTitle = (TextView)findViewById(R.id.text_title);
+                        textTitle.setText("");
                         fr = new fragment_home();
                         break;
                     default:
@@ -546,6 +548,8 @@ public class MainActivity extends AppCompatActivity
         homeMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                textTitle = (TextView)findViewById(R.id.text_title);
+                textTitle.setText("");
                 startMainFragment();
             }
         });

@@ -39,6 +39,10 @@
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
 
         <activity
+            android:name=".menu1_calendar_popup"
+            android:label=""
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
             android:name=".MainScreen"
             android:screenOrientation="portrait" />
         <activity

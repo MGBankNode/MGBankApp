@@ -187,18 +187,18 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
             indexData = new menu1_rvData[arrLength];
 
             for(int i=0; i<arrLength; i++){
-                indexData[i]= new menu1_rvData(Integer.parseInt(hDate[i].substring(0,4)),  //연도
-                        Integer.parseInt(hDate[i].substring(5,7)),  //월
-                        Integer.parseInt(hDate[i].substring(8,10)), //일
-                        hDate[i].substring(11,13),  //시
-                        hDate[i].substring(14,16),  //분
-                        hName[i],   //사용 처
-                        cType[i],   //카드 이름
-                        Integer.parseInt(hValue[i]), //금액
-                        hType[i],    //내역 타입
-                        cName[i],    //카테고리 분류
-                        Integer.parseInt(aBalance[i])
-                );
+                    indexData[i]= new menu1_rvData(Integer.parseInt(hDate[i].substring(0,4)),  //연도
+                            Integer.parseInt(hDate[i].substring(5,7)),  //월
+                            Integer.parseInt(hDate[i].substring(8,10)), //일
+                            hDate[i].substring(11,13),  //시
+                            hDate[i].substring(14,16),  //분
+                            hName[i],   //사용 처
+                            cType[i],   //카드 이름
+                            Integer.parseInt(hValue[i]), //금액
+                            hType[i],    //내역 타입
+                            cName[i],    //카테고리 분류
+                            Integer.parseInt(aBalance[i])
+                    );
             }
 
             menu1rvDataList = new ArrayList<menu1_rvData>();

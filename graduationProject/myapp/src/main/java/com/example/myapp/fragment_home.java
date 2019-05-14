@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,8 @@ public class fragment_home extends Fragment {
         // Required empty public constructor
     }
 
-
+    Toolbar toolbar;
+    TextView textTitle;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class fragment_home extends Fragment {
         sData = (ArrayList<Stat>)getArguments().get("DATA");
         Log.d("homeFragment", sData.toString());
 
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);;
         setBudget = view.findViewById(R.id.setBudgetBtn);
 
         String budget = "";
