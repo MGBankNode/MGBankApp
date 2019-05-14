@@ -78,7 +78,6 @@
                         android:text="통합멤버십"
                         android:textSize="18dp"
                         android:textColor="#7D7D7D"
-
                         />
 
                     <ListView
