@@ -15,17 +15,19 @@ public class Benefits implements CardDiscount{
     final int YEARCONDITION;
     ArrayList<String> dayList;
     ArrayList<String> monthList;
+    private final int PRICE_CONDITION;
     //ArrayList<String> yearList;
 
     Util util = new Util();
 
-    public Benefits(String b_name, String[] list, int value, int dc, int mc, int yc){
+    public Benefits(String b_name, String[] list, int value, int dc, int mc, int yc, int priceC){
         this.b_name = b_name;
         this.benefitsNames = new ArrayList<String>(Arrays.asList(list));
         this.benefitValue = value;
         DAYCONDITION = dc;
         MONTHCONDITION = mc;
         YEARCONDITION = yc;
+        PRICE_CONDITION = priceC;
         dayList = new ArrayList<String>();
         monthList = new ArrayList<String>();
     }
@@ -45,12 +47,14 @@ public class Benefits implements CardDiscount{
                 PayInfomation temp = stat.getPayInfomation(AccountsName);
 
                 Log.d("KJH",  "거래처 : " + AccountsName + "(" + util.dateForm(temp.getDate()) +")"+ ", 할인처 : " + benefitsNames.get(position));
-                if(findMonth(temp.getDate())){
-                    Log.d("KJH",  "거래처 : " + AccountsName + "(" + util.dateForm(temp.getDate()) +")"+ ", 할인처 : " + benefitsNames.get(position) + "월 한도 통");
-                    if(findDay(temp.getDate())){
-                        Log.d("KJH",  "거래처 : " + AccountsName+ "(" + util.dateForm(temp.getDate()) +")" + ", 할인처 : " +
-                                benefitsNames.get(position) + ", monthSize : " + monthList.size() + " - 할인됨");
-                        return true;
+                if(findPriceCondition(temp.getPrice())) {
+                    if (findMonth(temp.getDate())) {
+                        Log.d("KJH", "거래처 : " + AccountsName + "(" + util.dateForm(temp.getDate()) + ")" + ", 할인처 : " + benefitsNames.get(position) + "월 한도 통");
+                        if (findDay(temp.getDate())) {
+                            Log.d("KJH", "거래처 : " + AccountsName + "(" + util.dateForm(temp.getDate()) + ")" + ", 할인처 : " +
+                                    benefitsNames.get(position) + ", monthSize : " + monthList.size() + " - 할인됨");
+                            return true;
+                        }
                     }
                 }
             }
@@ -107,6 +111,12 @@ public class Benefits implements CardDiscount{
         //Log.d("KJH", "월 한도 배열에 추가 : " + util.dateFormToMonth(date));
         monthList.add(util.dateFormToMonth(date));
         return true;
+    }
+    public boolean findPriceCondition(int price){
+        if(PRICE_CONDITION < 0) return true;
+        else if(PRICE_CONDITION > price) return false;
+        else if(PRICE_CONDITION <= price) return true;
+        else return false;
     }
     public void resetCondition(){
         dayList.clear();
