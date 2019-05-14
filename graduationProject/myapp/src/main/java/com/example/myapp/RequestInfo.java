@@ -18,7 +18,8 @@ public class RequestInfo {
         BARCODE_POINT,
         UPDATE_CATEGORY,
         ACCOUNT_BY_HISTORY,
-        BALANCE_LIST
+        BALANCE_LIST,
+        HNAME_CHECK
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -104,6 +105,10 @@ public class RequestInfo {
 
             case BALANCE_LIST:
                 processURL = "/nodeapi/history/balancelist";
+                break;
+
+            case HNAME_CHECK:
+                processURL = "/nodeapi/receipt/hnamecheck";
                 break;
         }
         return processURL;
