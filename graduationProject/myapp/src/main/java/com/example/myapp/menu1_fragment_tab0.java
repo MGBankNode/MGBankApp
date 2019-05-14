@@ -31,7 +31,7 @@ public class menu1_fragment_tab0 extends Fragment {
             userID = getArguments().getString("ID");
             Log.i("nkw","menu1_tab0_userID="+userID);
         }
-        
+
         ArrayList<AccountListData> listItem = new ArrayList<>();
 
         listItem.add(new AccountListData("NameA","123213124", "5000000"));

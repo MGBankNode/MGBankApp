@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="285dp"
+    android:layout_height="275dp"
     android:background="#2BB0DD"
     android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    >
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,9 +22,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:textColor="#FFF"
-
             android:fontFamily="@font/applegothicneo_b"/>
-
 
         <ImageView
             android:id="@+id/closeMenu"
@@ -34,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="18dp"
             android:src="@drawable/ic_power_settings_new_black_24dp"/>
-
     </RelativeLayout>
 
     <TextView
@@ -45,15 +41,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        >
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/userimg"
-            />
+            android:src="@drawable/userimg"/>
 
         <TextView
             android:id="@+id/welcomeTv"
@@ -66,8 +60,7 @@
             android:textColor="#FFF"
             android:textSize="15dp"
             android:textStyle="bold"
-            android:fontFamily="@font/malgun"
-            />
+            android:fontFamily="@font/malgun" />
 
 
         <TextView
@@ -84,7 +77,6 @@
             android:textSize="11dp"
             android:fontFamily="@font/malgun"
             />
-
     </RelativeLayout>
 
     <TextView
@@ -94,14 +86,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="90dp"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:orientation="horizontal"
         android:background="@drawable/loginbtn"
-        android:gravity="center_vertical"
-        >
+        android:gravity="center_vertical">
 
         <LinearLayout
             android:id="@+id/userMenu"
@@ -115,9 +106,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/user"
-
-                />
+                android:src="@drawable/user"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -126,13 +115,8 @@
                 android:textSize="13dp"
                 android:text="마이페이지"
                 android:layout_marginTop="10dp"
-
-                android:fontFamily="@font/applegothicneo_m"
-                />
-
+                android:fontFamily="@font/applegothicneo_m"/>
         </LinearLayout>
-
-
 
         <LinearLayout
             android:id="@+id/homeMenu"
@@ -140,16 +124,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-
             android:padding="10dp"
             android:gravity="center">
 
             <ImageView
-
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/home"/>
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,9 +139,7 @@
                 android:textSize="13dp"
                 android:text="홈"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/applegothicneo_m"
-                />
-
+                android:fontFamily="@font/applegothicneo_m"/>
         </LinearLayout>
 
         <LinearLayout
@@ -169,12 +148,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-
             android:padding="10dp"
             android:gravity="center">
 
             <ImageView
-
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/megaphone"/>
@@ -182,17 +159,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:textColor="#000"
                 android:textSize="13dp"
                 android:text="공지사항"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/applegothicneo_m"
-                />
-
+                android:fontFamily="@font/applegothicneo_m"/>
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>
 
 
