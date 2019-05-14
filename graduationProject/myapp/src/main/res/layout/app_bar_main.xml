@@ -17,6 +17,7 @@
             android:layout_height="60dp"
             android:elevation="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
