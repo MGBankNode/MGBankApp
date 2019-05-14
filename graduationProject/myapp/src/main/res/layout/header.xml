@@ -1,210 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:background="#2BB0DD"
-    android:orientation="vertical"
-
+    android:layout_height="wrap_content"
 
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="18dp">
-
-        <TextView
-            android:id="@+id/homeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Node Bank"
-            android:textSize="16dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:textColor="#FFF"
-
-            android:fontFamily="@font/applegothicneo_b"/>
-
-
-        <ImageView
-            android:id="@+id/closeMenu"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:src="@drawable/ic_power_settings_new_black_24dp"/>
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:background="#E0E0E0"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        >
-
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/userimg"
-            />
-
-        <TextView
-            android:id="@+id/welcomeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_toRightOf="@id/profileImage"
-            android:layout_marginLeft="20dp"
-            android:text="test"
-            android:textColor="#FFF"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:fontFamily="@font/malgun"
-            />
-
-
-        <TextView
-            android:id="@+id/userLastAtTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:text="마지막 접속 "
-            android:layout_below="@id/welcomeTv"
-            android:layout_toRightOf="@id/profileImage"
-            android:textColor="#FFFFFF"
-            android:textSize="11dp"
-            android:fontFamily="@font/malgun"
-            />
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"
-        android:background="#E0E0E0"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:orientation="horizontal"
-        android:background="@drawable/loginbtn"
-        >
+        android:layout_height="250dp"
+        android:background="#2BB0DD"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/userMenu"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:padding="18dp">
+
+            <TextView
+                android:id="@+id/homeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Node Bank"
+                android:textSize="16dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textColor="#FFF"
+                android:fontFamily="@font/applegothicneo_b"/>
+
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/user_alter"
+                android:id="@+id/closeMenu"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_power_settings_new_black_24dp"/>
 
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:background="#E0E0E0"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            >
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/userimg"
                 />
 
             <TextView
+                android:id="@+id/welcomeTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#DADADA"
-                android:textSize="13dp"
-                android:text="마이페이지"
-                android:layout_marginTop="10dp"
-
-                android:fontFamily="@font/applegothicneo_m"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@id/profileImage"
+                android:layout_marginLeft="20dp"
+                android:text="test"
+                android:textColor="#FFF"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/malgun"
                 />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/noticeMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-
-            android:padding="10dp"
-            android:gravity="center">
-
-            <ImageView
-
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/notice_alter"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:textColor="#000"
-                android:textSize="13dp"
-                android:text="공지사항"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/applegothicneo_m"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/homeMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-
-            android:padding="10dp"
-            android:gravity="center">
-
-            <ImageView
-
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/home_alter"/>
 
 
             <TextView
+                android:id="@+id/userLastAtTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textSize="13dp"
-                android:text="홈"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/applegothicneo_m"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:text="마지막 접속 "
+                android:layout_below="@id/welcomeTv"
+                android:layout_toRightOf="@id/profileImage"
+                android:textColor="#FFFFFF"
+                android:textSize="11dp"
+                android:fontFamily="@font/malgun"
                 />
 
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:background="#E0E0E0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="horizontal"
+            android:background="@drawable/loginbtn"
+            >
+
+            <LinearLayout
+                android:id="@+id/userMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/user_alter"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#DADADA"
+                    android:textSize="13dp"
+                    android:text="마이페이지"
+                    android:layout_marginTop="10dp"
+
+                    android:fontFamily="@font/applegothicneo_m"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/noticeMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+
+                android:padding="10dp"
+                android:gravity="center">
+
+                <ImageView
+
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/notice_alter"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:textColor="#000"
+                    android:textSize="13dp"
+                    android:text="공지사항"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/applegothicneo_m"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/homeMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+
+                android:padding="10dp"
+                android:gravity="center">
+
+                <ImageView
+
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/home_alter"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:textSize="13dp"
+                    android:text="홈"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/applegothicneo_m"
+                    />
+
+            </LinearLayout>
+
         </LinearLayout>
-
-
-
-
 
     </LinearLayout>
 
 
 
-    
 
-
-
-
-
-
-    </LinearLayout>
-
-
+</LinearLayout>
 

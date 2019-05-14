@@ -83,7 +83,7 @@ public class AddReceiptActivity extends Activity {
         btn_change = (TextView)findViewById(R.id.change_button);
         btn_cancel2 = (TextView)findViewById(R.id.cancel_button);
 
-        arrayList = new ArrayList();
+        arrayList = new ArrayList<String>();
         arrayList.add("술/유흥");
         arrayList.add("생활(쇼핑)");
         arrayList.add("교통");

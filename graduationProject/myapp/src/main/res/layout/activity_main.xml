@@ -17,21 +17,25 @@
         android:id="@+id/nav_view"
         android:layout_width="320dp"
         android:layout_height="match_parent"
+        android:background="#00FFFFFF"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         >
 
             <LinearLayout
+                android:id="@+id/nav_view_child"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="#FFF"
                 android:orientation="vertical">
 
-                <include layout="@layout/header"/>
+                <include layout="@layout/header" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -85,12 +89,6 @@
                         android:layout_height="wrap_content"
                         android:divider="#00000000"/>
                 </LinearLayout>
-
             </LinearLayout>
-
-
     </android.support.design.widget.NavigationView>
-
-
-
 </android.support.v4.widget.DrawerLayout>

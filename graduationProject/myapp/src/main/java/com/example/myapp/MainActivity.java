@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity
     protected LinearLayout homeMenu;
     protected LinearLayout userMenu;
     protected LinearLayout noticeMenu;
+    protected LinearLayout navChild;
+
+
+    public String mainUserId;
 
     private ListView menu1list;
     private ListView menu2list;
@@ -157,9 +161,14 @@ public class MainActivity extends AppCompatActivity
                         viewpagerMenu1Fragment.setArguments(bundle1);
                         Log.i("nkw","myUserInfo.getUserID()="+myUserInfo.getUserID());
 */
-
+                        Bundle bundle = new Bundle();
                         fr = new fragment_menu1();
-                        fr.setArguments(makeBundle("apage", 0));
+
+                        bundle.putInt("apage", 0);
+                        Log.d(">>>mainuser", mainUserId);
+                        bundle.putString("UserId", String.valueOf(mainUserId));
+                        fr.setArguments(bundle);
+
                         st.push("a");
                         break;
 
@@ -205,6 +214,11 @@ public class MainActivity extends AppCompatActivity
                 changeFragment(fr);
             }
         });
+
+        navChild = findViewById(R.id.nav_view_child);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) navChild.getLayoutParams();
+        layoutParams.topMargin = getStatusBarHeight(getApplicationContext());
+        navChild.setLayoutParams(layoutParams);
     }
 
 
@@ -228,6 +242,7 @@ public class MainActivity extends AppCompatActivity
                 switch (st.peek()) {
                     case "a":
                         fr = new fragment_menu1();
+                        Bundle bundle = new Bundle();
                         fr.setArguments(makeBundle("apage", 0));
                         break;
 
@@ -292,12 +307,7 @@ public class MainActivity extends AppCompatActivity
 
         //사용자 마지막 접속시간 변경
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
-//        String[] starts = changeText.split("T");
-//        String[] dates = starts[0].split("-");
-//        String date = dates[0] + "년 " + dates[1] + "월 " + dates[2] + "일 ";
-//        String[] times = starts[1].split(":");
-//        String time = times[0] + "시 " + times[1] + "분";
-//        String format_changeText = date + time;
+
 
         userLastAtTxt.setText(changeText);
 
@@ -322,8 +332,8 @@ public class MainActivity extends AppCompatActivity
                     RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
                     getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
                                                                         //fragment 쪽에서는 getContext()하시면 될 것 같아요
-            //myUserInfo.getUserID()
-
+            mainUserId = myUserInfo.getUserID();
+            Log.d(">>>ID", mainUserId);
             //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
             testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
                 @Override
@@ -944,6 +954,21 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
     }
+
+    public static int getStatusBarHeight(Context context) {
+
+        int result = 0;
+
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+        if (resourceId > 0) {
+
+            result = context.getResources().getDimensionPixelSize(resourceId);
+
+        }
+        return result;
+    }
+
 
 
 }
