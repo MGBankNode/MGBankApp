@@ -51,15 +51,16 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected Fragment fr ;
+    protected Fragment fr;
     protected TextView welcomeTextView;
     protected TextView userLastAtTxt;
     protected ImageView closeMenu;
@@ -95,7 +96,8 @@ public class MainActivity extends AppCompatActivity
     Stack<String> st;
 
     public int userAccountCheck;
-    
+    public String userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,15 +133,16 @@ public class MainActivity extends AppCompatActivity
         ArrayList<String> menu2items = new ArrayList<>();
         ArrayList<String> menu3items = new ArrayList<>();
 
+        menu1items.add("잔액조회");
         menu1items.add("달력");
         menu1items.add("내역");
         menu2items.add("소비평가");
         menu2items.add("카드추천");
-        menu3items.add("통합맴버쉽");
+        menu3items.add("통합멤버십");
 
-        MainMenuListviewAdapter menu1ListviewAdapter = new MainMenuListviewAdapter(this, menu1items ,R.layout.mainmenuitem);
-        MainMenuListviewAdapter menu2ListviewAdapter = new MainMenuListviewAdapter(this, menu2items ,R.layout.mainmenuitem);
-        MainMenuListviewAdapter menu3ListviewAdapter = new MainMenuListviewAdapter(this, menu3items ,R.layout.mainmenuitem);
+        MainMenuListviewAdapter menu1ListviewAdapter = new MainMenuListviewAdapter(this, menu1items, R.layout.mainmenuitem);
+        MainMenuListviewAdapter menu2ListviewAdapter = new MainMenuListviewAdapter(this, menu2items, R.layout.mainmenuitem);
+        MainMenuListviewAdapter menu3ListviewAdapter = new MainMenuListviewAdapter(this, menu3items, R.layout.mainmenuitem);
         menu1list.setAdapter(menu1ListviewAdapter);
         menu2list.setAdapter(menu2ListviewAdapter);
         menu3list.setAdapter(menu3ListviewAdapter);
@@ -149,37 +152,32 @@ public class MainActivity extends AppCompatActivity
         menu1list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle bundle1 = new Bundle(1);
                 switch (position) {
-
                     case 0:
-/*
-                        //menu1 fragment로 UserID 전달
-                        String userID = myUserInfo.getUserID();
-                        Fragment viewpagerMenu1Fragment = new menu1_fragment_tab1();
-                        Bundle bundle1 = new Bundle(1);
-                        bundle1.putString("ID",userID);
-                        viewpagerMenu1Fragment.setArguments(bundle1);
-                        Log.i("nkw","myUserInfo.getUserID()="+myUserInfo.getUserID());
-*/
-                        Bundle bundle = new Bundle();
+
                         fr = new fragment_menu1();
-
-                        bundle.putInt("apage", 0);
-                        Log.d(">>>mainuser", mainUserId);
-                        bundle.putString("UserId", String.valueOf(mainUserId));
-                        fr.setArguments(bundle);
-
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 2);
+                        st.push("c");
+                        break;
+                    case 1:
+                        fr = new fragment_menu1();
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 0);
                         st.push("a");
                         break;
 
-                    case 1:
+                    case 2:
                         fr = new fragment_menu1();
-                        fr.setArguments(makeBundle("apage", 1));
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 1);
                         st.push("b");
                         break;
 
                 }
-                changeFragment(fr);
+                changeFragment(fr, bundle1);
             }
         });
         menu2list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -198,7 +196,7 @@ public class MainActivity extends AppCompatActivity
                         st.push("d");
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
         });
 
@@ -211,14 +209,10 @@ public class MainActivity extends AppCompatActivity
                         st.push("e");
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
         });
 
-        navChild = findViewById(R.id.nav_view_child);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) navChild.getLayoutParams();
-        layoutParams.topMargin = getStatusBarHeight(getApplicationContext());
-        navChild.setLayoutParams(layoutParams);
     }
 
 
@@ -230,14 +224,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
 //            super.onBackPressed();
-            if(st.peek() == "home")
+            if (st.peek() == "home")
                 backPressCloseHandler.onBackPressed();
-            else{
+            else {
                 st.pop();
                 switch (st.peek()) {
                     case "a":
@@ -268,7 +262,7 @@ public class MainActivity extends AppCompatActivity
                     default:
                         break;
                 }
-                changeFragment(fr);
+                changeFragment(fr,null);
             }
 
         }
@@ -279,6 +273,10 @@ public class MainActivity extends AppCompatActivity
         Log.d("KJH", "onCreateOptionsMenu()");
         welcomeTextView = findViewById(R.id.welcomeTv);
         userLastAtTxt = findViewById(R.id.userLastAtTxt);
+        navChild = findViewById(R.id.nav_view_child);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) navChild.getLayoutParams();
+        layoutParams.topMargin = getStatusBarHeight(getApplicationContext());
+        navChild.setLayoutParams(layoutParams);
 
         // Device 정보 불러오기 + 권한 설정
         myDeviceInfo = getDeviceInfo();
@@ -287,9 +285,10 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         myUserInfo = (UserInfo) intent.getSerializableExtra("UserInfoObject");
 
+        userID = myUserInfo.getUserID();
         //사용자 이름 변경
         String tempLoginUser = myUserInfo.getUserName();
-        if(tempLoginUser != null) {
+        if (tempLoginUser != null) {
 
             welcomeTextView.setText(Html.fromHtml("<u>" + tempLoginUser + "</u>")); // 밑줄 긋기
 
@@ -313,7 +312,7 @@ public class MainActivity extends AppCompatActivity
 
         userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
-        if(userAccountCheck == 1){
+        if (userAccountCheck == 1) {
             //계좌 등록이 되어있는 경우
             //잔액은 로그인 시에 myUserInfo의 userABalance에 담겨 넘겨옴
             //getUserABalance() 함수를 호출해서 값을 가져오기만 하면됨
@@ -331,9 +330,10 @@ public class MainActivity extends AppCompatActivity
                     "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
                     RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
                     getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
-                                                                        //fragment 쪽에서는 getContext()하시면 될 것 같아요
-            mainUserId = myUserInfo.getUserID();
-            Log.d(">>>ID", mainUserId);
+
+            //fragment 쪽에서는 getContext()하시면 될 것 같아요
+
+
             //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
             testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
                 @Override
@@ -357,54 +357,58 @@ public class MainActivity extends AppCompatActivity
                     String[] hName = new String[arrLength];
                     String[] cName = new String[arrLength];
                     PayInfomation p;
-                    for(int i = 0; i < arrLength; i++){
+                    for (int i = 0; i < arrLength; i++) {
                         cName[i] = historyInfo[i].getcName();        //카테고릐 분류
-                        switch (cName[i]){
+                        Date date = new Date(historyInfo[i].gethDate());
+                        Log.d("KJh", "Date : " + date);
+                        Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
+                        switch (cName[i]) {
                             case "술/유흥":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Drink);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
                                 break;
                             case "생활(쇼핑 포함)":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Life);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Life, date);
                                 break;
                             case "교통":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Traffic);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Traffic, date);
                                 break;
                             case "주거/통신":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Dwelling);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date);
                                 break;
                             case "의료/건강":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Hospital);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Hospital, date);
                                 break;
                             case "금융":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Finance);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Finance, date);
                                 break;
                             case "문화/여가":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Culture);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Culture, date);
                                 break;
                             case "여행/숙박":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Travel);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Travel, date);
                                 break;
                             case "식비":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Food);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Food, date);
                                 break;
                             case "카페/간식":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), Coffee);
+                                        Integer.parseInt(historyInfo[i].gethValue()), Coffee, date);
                                 break;
                             case "미분류":
                                 p = new PayInfomation(historyInfo[i].gethName(),
-                                        Integer.parseInt(historyInfo[i].gethValue()), None);
+                                        Integer.parseInt(historyInfo[i].gethValue()), None, date);
                                 break;
-                            default : break;
+                            default:
+                                break;
 
                         }
                     }
@@ -422,8 +426,8 @@ public class MainActivity extends AppCompatActivity
                     temp.add(None);
 
                     sData.clear();
-                    for(int i = 0; i < temp.size(); i++){
-                        if(!temp.get(i).isEmpty())
+                    for (int i = 0; i < temp.size(); i++) {
+                        if (!temp.get(i).isEmpty())
                             sData.add(temp.get(i));
                     }
 
@@ -432,7 +436,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
-        }else if(userAccountCheck == 0){
+        } else if (userAccountCheck == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("");
             builder.setMessage("앱을 사용하려면 계좌등록을 하셔야 합니다. 계좌 등록을 하시겠습니까?");
@@ -440,11 +444,11 @@ public class MainActivity extends AppCompatActivity
             builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(deviceCheckResult.equals("")){
+                    if (deviceCheckResult.equals("")) {
 
                         DeviceCheckHandler();
 
-                    }else{
+                    } else {
 
                         StartActivity(SettingDialogActivity.class);
 
@@ -506,10 +510,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
         return true;
     }
-
-
 
 
     @Override
@@ -518,11 +521,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.action_settings) {
 
-            if(deviceCheckResult.equals("")){
+            if (deviceCheckResult.equals("")) {
 
                 DeviceCheckHandler();
 
-            }else{
+            } else {
 
                 StartActivity(SettingDialogActivity.class);
 
@@ -536,15 +539,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1){
-            if(resultCode == RESULT_OK){
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
                 deviceCheckResult = data.getStringExtra("DeviceCheckResult");
                 userAccountCheck = Integer.parseInt(data.getStringExtra("UserAccountCheck"));
 
-                if(userAccountCheck == 1){
-                    myUserInfo.UpdateABalance(getApplicationContext(), new UserInfo.VolleyCallback(){
+                if (userAccountCheck == 1) {
+                    myUserInfo.UpdateABalance(getApplicationContext(), new UserInfo.VolleyCallback() {
                         @Override
-                        public void onSuccess(String aBalance){
+                        public void onSuccess(String aBalance) {
                             myUserInfo.setUserABalance(aBalance);
                             TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
 
@@ -564,7 +567,7 @@ public class MainActivity extends AppCompatActivity
                             "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
                             RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
                             getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
-                                                                                //fragment 쪽에서는 getContext()하시면 될 것 같아요
+                    //fragment 쪽에서는 getContext()하시면 될 것 같아요
 
 
                     //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
@@ -590,54 +593,57 @@ public class MainActivity extends AppCompatActivity
                             String[] hName = new String[arrLength];
                             String[] cName = new String[arrLength];
                             PayInfomation p;
-                            for(int i = 0; i < arrLength; i++){
+                            for (int i = 0; i < arrLength; i++) {
                                 cName[i] = historyInfo[i].getcName();        //카테고릐 분류
-                                switch (cName[i]){
+                                Date date = new Date(historyInfo[i].gethDate());
+                                Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
+                                switch (cName[i]) {
                                     case "술/유흥":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Drink);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
                                         break;
                                     case "생활(쇼핑 포함)":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Life);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Life, date);
                                         break;
                                     case "교통":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Traffic);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Traffic, date);
                                         break;
                                     case "주거/통신":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Dwelling);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date);
                                         break;
                                     case "의료/건강":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Hospital);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Hospital, date);
                                         break;
                                     case "금융":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Finance);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Finance, date);
                                         break;
                                     case "문화/여가":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Culture);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Culture, date);
                                         break;
                                     case "여행/숙박":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Travel);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Travel, date);
                                         break;
                                     case "식비":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Food);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Food, date);
                                         break;
                                     case "카페/간식":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), Coffee);
+                                                Integer.parseInt(historyInfo[i].gethValue()), Coffee, date);
                                         break;
                                     case "미분류":
                                         p = new PayInfomation(historyInfo[i].gethName(),
-                                                Integer.parseInt(historyInfo[i].gethValue()), None);
+                                                Integer.parseInt(historyInfo[i].gethValue()), None, date);
                                         break;
-                                    default : break;
+                                    default:
+                                        break;
 
                                 }
                             }
@@ -655,8 +661,8 @@ public class MainActivity extends AppCompatActivity
                             temp.add(None);
 
                             sData.clear();
-                            for(int i = 0; i < temp.size(); i++){
-                                if(!temp.get(i).isEmpty())
+                            for (int i = 0; i < temp.size(); i++) {
+                                if (!temp.get(i).isEmpty())
                                     sData.add(temp.get(i));
                             }
                             //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
@@ -664,8 +670,7 @@ public class MainActivity extends AppCompatActivity
                     });
 
                 }
-            }
-            else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 finish();
                 Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                 startActivity(returnLogin);
@@ -673,7 +678,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    protected void StartActivity(Class startClass){
+    protected void StartActivity(Class startClass) {
         Intent intent = new Intent(MainActivity.this, startClass);
         intent.putExtra("DeviceInfoObject", myDeviceInfo);
         intent.putExtra("DeviceCheckResult", deviceCheckResult);
@@ -708,44 +713,56 @@ public class MainActivity extends AppCompatActivity
 //        fragmentTransaction.commit();
 //    }
 
-    public void changeFragment(Fragment fr) {
-        Bundle args = new Bundle();
-        args.putSerializable("DATA", sData);
-        fr.setArguments(args);
+    public void changeFragment(Fragment fr, Bundle bundle) {
+
+        if(bundle == null){
+            bundle = new Bundle(1);
+        }
+        bundle.putSerializable("DATA", sData);
+
+        fr.setArguments(bundle);
+
+
 
         FragmentManager fm = getSupportFragmentManager();
+
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
         fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+
         fragmentTransaction.commit();
 
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         drawer.closeDrawer(GravityCompat.START);
+
     }
 
     /*
         DeviceCheckHandler
         = 단말 정보 확인 처리 핸들러
      */
-    public void DeviceCheckHandler(){
+    public void DeviceCheckHandler() {
 
         RequestInfo requestInfo = new RequestInfo(RequestInfo.RequestType.DEVICE_CHECK);
         String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
         StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>(){
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response){
+                    public void onResponse(String response) {
                         DeviceCheckResponse(response);
                     }
                 },
-                new Response.ErrorListener(){
+                new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error){
+                    public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                     }
                 }
-        ){
+        ) {
             @Override
-            protected Map<String, String> getParams(){
+            protected Map<String, String> getParams() {
                 return DeviceCheckRequest();
             }
         };
@@ -759,7 +776,7 @@ public class MainActivity extends AppCompatActivity
         = 단말 정보 확인 요청 전달 파라미터 설정 함수
     */
 
-    private Map<String, String> DeviceCheckRequest(){
+    private Map<String, String> DeviceCheckRequest() {
         Map<String, String> params = new HashMap<>();
 
         params.put("mobile", myDeviceInfo.getMobile());
@@ -772,8 +789,8 @@ public class MainActivity extends AppCompatActivity
         = 단말 정보 확인 요청 응답 처리 함수
     */
 
-    private void DeviceCheckResponse(String response){
-        try{
+    private void DeviceCheckResponse(String response) {
+        try {
             Log.d("onResponse 호출 ", response);
 
             JSONObject json = new JSONObject(response);
@@ -800,12 +817,12 @@ public class MainActivity extends AppCompatActivity
 
             }
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void ShowToast(String s){
+    private void ShowToast(String s) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
@@ -814,7 +831,7 @@ public class MainActivity extends AppCompatActivity
         = 디바이스 정보 얻는 함수
      */
 
-    public DeviceInfo getDeviceInfo(){
+    public DeviceInfo getDeviceInfo() {
         DeviceInfo myDevice;
 
         if (!CheckPermission(phonePermission)) {
@@ -845,8 +862,8 @@ public class MainActivity extends AppCompatActivity
 
     public String getPhoneNumber() {
 
-        TelephonyManager phoneMgr = (TelephonyManager) getSystemService (Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission (this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        TelephonyManager phoneMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return "";
         }
         return phoneMgr.getLine1Number();
@@ -857,10 +874,10 @@ public class MainActivity extends AppCompatActivity
         = 권한 확인 함수
      */
 
-    private boolean CheckPermission(String permission){
+    private boolean CheckPermission(String permission) {
         if (Build.VERSION.SDK_INT >= 23) {
             int result = ContextCompat.checkSelfPermission(this, permission);
-            if (result == PackageManager.PERMISSION_GRANTED){
+            if (result == PackageManager.PERMISSION_GRANTED) {
 
                 return true;
 
@@ -881,11 +898,11 @@ public class MainActivity extends AppCompatActivity
         = 권한 허가 요청 함수
      */
 
-    private void RequestPermission(String permission){
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)){
+    private void RequestPermission(String permission) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
             Toast.makeText(this, "단말 정보를 위해 휴대전화 상태 권한을 허가해야 합니다. 추가적인 기능을 위해 허가해 주시기 바랍니다.", Toast.LENGTH_LONG).show();
         }
-        ActivityCompat.requestPermissions(this, new String[]{permission},MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+        ActivityCompat.requestPermissions(this, new String[]{permission}, MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
     }
 
     /*
@@ -916,7 +933,7 @@ public class MainActivity extends AppCompatActivity
         = 디바이스 화면 정보 얻는 함수
     */
 
-    private static String getDisplay(Context context){
+    private static String getDisplay(Context context) {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -933,12 +950,13 @@ public class MainActivity extends AppCompatActivity
         = 디바이스 MacAddress 정보 얻는 함수
     */
 
-    private static String getMacAddress(Context context){
+    private static String getMacAddress(Context context) {
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifiManager.getConnectionInfo();
         return info.getMacAddress();
     }
-    public void startMainFragment(){
+
+    public void startMainFragment() {
         Log.d("KJH", "startMainFragment()");
         fr = new fragment_home();
 

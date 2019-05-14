@@ -1,11 +1,17 @@
 package com.example.myapp;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -67,7 +73,22 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             @Override
             public void onClick(View v) {
                 Log.d("KJH", keys.get(position) + "");
+
+                Bundle args = new Bundle();
+
+                Fragment fr = new DetailPayInfo();
+
+                args.putSerializable("STAT", keys.get(position));
+                args.putSerializable("CARD", selectedCard);
+                fr.setArguments(args);
+                FragmentActivity f = (FragmentActivity)v.getContext();
+                FragmentManager fm = f.getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+                fragmentTransaction.commit();
             }
+
+
         });
     }
     @Override

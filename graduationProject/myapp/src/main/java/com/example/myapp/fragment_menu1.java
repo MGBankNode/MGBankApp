@@ -33,6 +33,13 @@ public class fragment_menu1 extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("내역"));
 
 
+
+        if(getArguments() != null){
+            userID = getArguments().getString("ID");
+            //Log.i("nkw","menu1_userID="+userID);
+        }
+
+
         return view;
     }
 
@@ -43,6 +50,7 @@ public class fragment_menu1 extends Fragment {
         String userId = bundle.getString("UserId");
 
         Log.d(">>>userid", userId);
+
 
         pager = getView().findViewById(R.id.pager);
 
@@ -80,12 +88,20 @@ public class fragment_menu1 extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+
+            Fragment fr1 = new menu1_fragment_tab1();
+            Fragment fr2 = new menu1_fragment_tab2();
+            Bundle bundle = new Bundle(1);
+            bundle.putString("ID", userID);
+            fr1.setArguments(bundle);
+            fr2.setArguments(bundle);
+
             switch(position)
             {
                 case 0:
-                    return new menu1_fragment_tab1();
+                    return fr1;
                 case 1:
-                    return new menu1_fragment_tab2();
+                    return fr2;
                 default:
                     return null;
             }

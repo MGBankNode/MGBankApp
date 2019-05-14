@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:layout_marginTop="5dp"
-                        android:text="통합맴버쉽"
+                        android:text="통합멤버십"
                         android:textSize="18dp"
                         android:textColor="#7D7D7D"
 

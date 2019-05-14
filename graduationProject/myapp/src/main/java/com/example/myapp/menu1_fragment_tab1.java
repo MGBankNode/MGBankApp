@@ -72,8 +72,10 @@ public class menu1_fragment_tab1 extends Fragment {
         RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.menu1_fragment_tab1,
                 container, false);
 
-        /*userID = getArguments().getString("ID");
-        Log.i("nkw","tab1 userID="+userID);*/
+        if(getArguments() != null){
+            userID = getArguments().getString("ID");
+            Log.i("nkw","menu1_tab1_userID="+userID);
+        }
         return layout;
     }
 
@@ -87,7 +89,7 @@ public class menu1_fragment_tab1 extends Fragment {
         }
 
         HistoryRequest test = new HistoryRequest(
-                "b",                          //현재 로그인 아이디
+                userID,                          //현재 로그인 아이디
                 year+"-"+month+"-1",                       //요청할 해당 달의 시작 날짜
                 request_year+"-"+request_month+"-1",       //요청할 해당 다음달의 시작 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
@@ -274,7 +276,7 @@ public class menu1_fragment_tab1 extends Fragment {
                 day = (int)id - startDay + 2;  //해당 날짜
                 Log.i("NKW","id : "+id+" startDay:"+startDay+" day:"+day);
                 Toast.makeText(getActivity(),""+year+"년 "+month+"월 "+day +"일 입니다.",Toast.LENGTH_LONG).show();
-                alertDialog();
+                alertDialog(position);
             }
         });
 
@@ -332,13 +334,13 @@ public class menu1_fragment_tab1 extends Fragment {
     }
 
     // 팝업창 다이얼로그
-    public void alertDialog() {
+    public void alertDialog(int position) {
 
         final String url = "https://www.naver.com";
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(""+year+"년 "+month+"월 "+day +"일");
-        builder.setMessage("수입은 123456789 원 입니다 \n지출은 987654321 원 입니다 ");
+        builder.setMessage("수입은 "+benefitList.get(position) +"원 입니다 \n지출은 "+ lossList.get(position) + "원 입니다 ");
         builder.setPositiveButton("수정", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

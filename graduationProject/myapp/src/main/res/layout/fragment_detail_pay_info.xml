@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFF"
+    tools:context=".StatList">
+    <TextView android:textSize="25dp"
+        android:gravity="center"
+        android:text="String"
+        android:textColor="#FFF"
+        android:fontFamily="@font/applegothicneo_b"
+        android:background="#2BB0DD"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:shadowColor="#00709D"
+        android:shadowDx="5.0"
+        android:shadowDy="5.0"
+        android:shadowRadius="2.0"
+        android:id="@+id/detail_card_stat_name"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/detail_card_stat_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

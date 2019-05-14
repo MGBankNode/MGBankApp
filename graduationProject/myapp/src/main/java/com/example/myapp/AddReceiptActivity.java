@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddReceiptActivity extends Activity {
+
     private static final String CLOUD_VISION_API_KEY = BuildConfig.API_KEY;
     public static final String FILE_NAME = "temp.jpg";
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
@@ -66,13 +67,17 @@ public class AddReceiptActivity extends Activity {
     ImageButton btn_camera;
     ImageButton btn_photo;
     ImageButton btn_cancel;
+    ImageButton btn_write;
     TextView btn_change;
     TextView btn_cancel2;
     Spinner spinner;
+
+    LinearLayout parentLayout;
+
     ArrayList<String> arrayList;
-    ArrayAdapter<String> arrayAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_receipt);
@@ -83,7 +88,8 @@ public class AddReceiptActivity extends Activity {
         btn_change = (TextView)findViewById(R.id.change_button);
         btn_cancel2 = (TextView)findViewById(R.id.cancel_button);
 
-        arrayList = new ArrayList<String>();
+        btn_write = (ImageButton)findViewById(R.id.writeBtn);
+        arrayList = new ArrayList();
         arrayList.add("술/유흥");
         arrayList.add("생활(쇼핑)");
         arrayList.add("교통");
@@ -133,6 +139,16 @@ public class AddReceiptActivity extends Activity {
                 finish();
             }
         });
+
+        btn_write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout initialLayout = (LinearLayout)findViewById(R.id.layout_initial);
+                LinearLayout resultLayout = (LinearLayout)findViewById(R.id.layout_result);
+                initialLayout.setVisibility(View.GONE);
+                resultLayout.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     public void startGalleryChooser() {
@@ -167,7 +183,6 @@ public class AddReceiptActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LinearLayout parentLayout = (LinearLayout)findViewById(R.id.layout_parent);
         LinearLayout initialLayout = (LinearLayout)findViewById(R.id.layout_initial);
         LinearLayout resultLayout = (LinearLayout)findViewById(R.id.layout_result);
 
@@ -388,7 +403,7 @@ public class AddReceiptActivity extends Activity {
 
                 if(count==0 && !d.contains("영수증"))
                     storeName = d;
-                if(d.contains("매장")) {
+                if(d.contains("매장명") || d.contains("매장 명")) {
                     int index = d.indexOf(' ');
                     storeFlag=-1;
                     storeName = d.substring(index+1);
@@ -402,24 +417,24 @@ public class AddReceiptActivity extends Activity {
                     storeName = d;
                     storeFlag = 0;
                 }
-                if(storeFlag!= -1 && d.contains("영수증") && !d.contains("현금")) {
+                if(storeFlag!= -1 && d.contains("영수증") && !d.contains("소지")&& !d.contains("현금") && !d.contains("카드") &&!d.contains("결제")) {
                     storeFlag=1;
                 }
 
                 if(d.contains(",")) {
                     String confirm[] = d.split(" ");
                     for(String c : confirm) {
-                        String a = c.replace(",", "");
+                        String ff = c.replace(",", "");
                         try {
-                            int num = Integer.parseInt(a);
+                            int num = Integer.parseInt(ff);
                             if(moneyFlag <num) {
                                 moneyFlag = num;
-                                totalCost = a;
+                                totalCost = ff;
                             }
                         } catch(Exception e) {}
                     }
                 }
-                String date[] = d.split(" |-|:|/|\\.|년|월|일|\\(");
+                String date[] = d.split("]| |-|:|/|\\.|년|월|일|\\(");
                 int flag = 0;
 
                 for (String a : date) {

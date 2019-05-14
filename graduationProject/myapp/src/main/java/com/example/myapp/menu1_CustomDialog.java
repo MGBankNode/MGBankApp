@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,7 @@ public class menu1_CustomDialog {
     }
 
     // 호출할 다이얼로그 함수를 정의한다.
-    public void callFunction(final int position, int year, int month) { //파라미터에 textview와 같은것을 넘겨받을수  잇음
+    public void callFunction(final int position, int year, int month, String userID) { //파라미터에 textview와 같은것을 넘겨받을수  잇음
 
         // 커스텀 다이얼로그를 정의하기위해 Dialog클래스를 생성한다.
         final Dialog dlg = new Dialog(context);
@@ -47,24 +48,30 @@ public class menu1_CustomDialog {
         dlg.show();
 
         // 커스텀 다이얼로그의 각 위젯들을 정의한다.
+        final Button editButton = (Button) dlg.findViewById(R.id.editButton);
         final Button okButton = (Button) dlg.findViewById(R.id.okButton);
-        final TextView d_name = (TextView) dlg.findViewById(R.id.detail_name);
-        final TextView d_price = (TextView) dlg.findViewById(R.id.detail_price);
+        final EditText d_name = (EditText) dlg.findViewById(R.id.detail_name);
+        final EditText d_price = (EditText) dlg.findViewById(R.id.detail_price);
         final TextView d_categori = (TextView) dlg.findViewById(R.id.detail_categori);
-        final TextView d_output = (TextView) dlg.findViewById(R.id.detail_output);
-        final TextView d_input = (TextView) dlg.findViewById(R.id.detail_input);
-        final TextView d_time = (TextView) dlg.findViewById(R.id.detail_time);
+        final EditText d_output = (EditText) dlg.findViewById(R.id.detail_output);
+        final EditText d_input = (EditText) dlg.findViewById(R.id.detail_input);
+        final EditText d_time = (EditText) dlg.findViewById(R.id.detail_time);
 
 
         /////////////////////////////////
         //요청 정보 입력!!!!!!!test
+        int request_year=year, request_month=month+1;
+        if((request_month)==13){
+            request_year=year+1;
+            request_month=1;
+        }
+
         HistoryRequest test = new HistoryRequest(
-                "b",                          //현재 로그인 아이디
-                year+"-"+month+"-1",                         //요청할 해당 달의 시작 날짜
-                year+"-"+month+"-31",                     //요청할 해당 달의 마지막 날짜
+                userID,                          //현재 로그인 아이디
+                year+"-"+month+"-1",                       //요청할 해당 달의 시작 날짜
+                request_year+"-"+request_month+"-1",       //요청할 해당 다음달의 시작 날짜
                 RequestInfo.RequestType.ACCOUNT_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
                 context);                             //이것두 고정이요
-
 
         //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
         test.Request(new HistoryRequest.VolleyCallback() {
@@ -124,6 +131,30 @@ public class menu1_CustomDialog {
         });
 
         ///////////////////////////////////////////////
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "수정 모드로 전환합니다.", Toast.LENGTH_SHORT).show();
+
+                if(editButton.getText().equals("수정")){
+                    editButton.setText("적용");
+                    d_name.setEnabled(true);
+                    d_price.setEnabled(true);
+                    d_output.setEnabled(true);
+                    d_input.setEnabled(true);
+                    d_time.setEnabled(true);
+                }
+                else{
+                    editButton.setText("수정");
+                    d_name.setEnabled(false);
+                    d_price.setEnabled(false);
+                    d_output.setEnabled(false);
+                    d_input.setEnabled(false);
+                    d_time.setEnabled(false);
+                }
+
+            }
+        });
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
