@@ -30,8 +30,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import android.widget.LinearLayout;
@@ -273,10 +275,13 @@ public class MainActivity extends AppCompatActivity
         Log.d("KJH", "onCreateOptionsMenu()");
         welcomeTextView = findViewById(R.id.welcomeTv);
         userLastAtTxt = findViewById(R.id.userLastAtTxt);
+
+        // 상태바 만큼 띄우기
         navChild = findViewById(R.id.nav_view_child);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) navChild.getLayoutParams();
+        NavigationView.LayoutParams layoutParams = (NavigationView.LayoutParams) navChild.getLayoutParams();
         layoutParams.topMargin = getStatusBarHeight(getApplicationContext());
         navChild.setLayoutParams(layoutParams);
+
 
         // Device 정보 불러오기 + 권한 설정
         myDeviceInfo = getDeviceInfo();
