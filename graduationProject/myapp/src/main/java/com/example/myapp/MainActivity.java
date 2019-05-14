@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity
     protected LinearLayout userMenu;
     protected LinearLayout noticeMenu;
     protected LinearLayout navChild;
+    protected Button budgetBtn;
     private ExpandableListView listView;
 
     public String mainUserId;
@@ -231,7 +232,11 @@ public class MainActivity extends AppCompatActivity
                         break;
                     }
                 }
+
+
+
                 return false;
+
             }
         });
     }
@@ -554,20 +559,16 @@ public class MainActivity extends AppCompatActivity
                 Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                 startActivity(returnLogin);
             }
+        }
 
-            if(requestCode == 2) {
-                Log.d(">>>", "succce");
+        else if(requestCode == 2) {
+
                 if(resultCode == RESULT_OK) {
-                    Log.d(">>>", "succce");
+
                     String budget = data.getStringExtra("Budget");
-                    Log.d(">>>",data.getStringExtra("Budget"));
+                    
                 }
-
             }
-
-            }
-
-
     }
 
     protected void StartActivity(Class startClass) {

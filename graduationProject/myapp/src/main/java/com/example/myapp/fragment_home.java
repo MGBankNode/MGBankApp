@@ -59,7 +59,6 @@ public class fragment_home extends Fragment {
         sData = (ArrayList<Stat>)getArguments().get("DATA");
         Log.d("homeFragment", sData.toString());
 
-
         setBudget = view.findViewById(R.id.setBudgetBtn);
 
         String budget = "";
