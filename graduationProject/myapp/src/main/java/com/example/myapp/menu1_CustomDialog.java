@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,9 +20,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class menu1_CustomDialog {
+    OnMyDialogResult mDialogResult;
+
     private Context context;
     public ArrayList<String> arrayList;
     String categori;
+    int prevCategory, curCategory;
+    int hId_num;
 
     public menu1_CustomDialog(Context context){
 
@@ -38,6 +43,13 @@ public class menu1_CustomDialog {
         arrayList.add("카페/간식");
         arrayList.add("미분류");
         this.context=context;
+    }
+
+    public void setDialogResult(OnMyDialogResult dialogResult){
+        mDialogResult = dialogResult;
+    }
+    public interface OnMyDialogResult{
+        void finish(String result);
     }
 
     // 호출할 다이얼로그 함수를 정의한다.
@@ -97,6 +109,7 @@ public class menu1_CustomDialog {
             public void onSuccess(HistoryInfo[] accountHistoryInfo, DailyHistoryInfo[] dailyHistoryInfo) {
                 int arrLength = accountHistoryInfo.length;
 
+                int[] hId = new int[arrLength];
                 String[] hDate = new String[arrLength];
                 String[] hType = new String[arrLength];
                 String[] hValue = new String[arrLength];
@@ -107,6 +120,7 @@ public class menu1_CustomDialog {
 
                 for(int i = 0; i < arrLength; i++){
 
+                    hId[i] = accountHistoryInfo[i].gethId();            //내역 사용 처 아이디
                     hDate[i] = accountHistoryInfo[i].gethDate();        //내역 사용 날짜
                     hType[i] = accountHistoryInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
                     hValue[i] = accountHistoryInfo[i].gethValue();      //내역 사용 금액
@@ -135,6 +149,7 @@ public class menu1_CustomDialog {
 
                 DecimalFormat myFormatter = new DecimalFormat("###,###");
 
+                hId_num=hId[position];
                 d_name.setText(hName[position]);
                 if(hType[position].equals("입금"))
                     d_price.setText("+"+myFormatter.format(Integer.parseInt(hValue[position]))+" 원");
@@ -153,15 +168,18 @@ public class menu1_CustomDialog {
                 for(int i=0; i<arrayList.size();i++){
                     if(arrayList.get(i).equals(categori)){
                         spinner.setSelection(i);
+                        prevCategory=i+1;
                         break;
                     }else{
                         spinner.setSelection(10);
+                        prevCategory=10;
                     }
                 }
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         d_categori.setText(arrayList.get(i));
+                        curCategory=i+1;
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) { }
@@ -177,23 +195,52 @@ public class menu1_CustomDialog {
 
                 if(editButton.getText().equals("수정")){
                     editButton.setText("적용");
-                    d_name.setEnabled(true);
+/*                    d_name.setEnabled(true);
                     d_price.setEnabled(true);
                     d_output.setEnabled(true);
                     d_input.setEnabled(true);
-                    d_time.setEnabled(true);
+                    d_time.setEnabled(true);*/
                     d_categori.setVisibility(View.GONE);
                     spinner.setVisibility(View.VISIBLE);
                 }
                 else{
-                    editButton.setText("수정");
-                    d_name.setEnabled(false);
-                    d_price.setEnabled(false);
-                    d_output.setEnabled(false);
-                    d_input.setEnabled(false);
-                    d_time.setEnabled(false);
-                    d_categori.setVisibility(View.VISIBLE);
-                    spinner.setVisibility(View.GONE);
+
+                    // /////////////////////카테고리 변경 요청////////////////////////////
+                    ///////////////////////////////////////////////////////////////////
+                    CategoryRequest categoryRequest = new CategoryRequest(
+                            userID,                    //사용자 아이디
+                            hId_num,       //사용처 이름
+                            prevCategory,                  //기존 카테고리 번호
+                            curCategory,                  //바꿀 카테고리 번호
+                            context,                   //context 고정
+                            RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
+
+                    categoryRequest.UpdateCategoryHandler(new CategoryRequest.VolleyCallback() {
+                        @Override
+                        public void onSuccess() {
+                            editButton.setText("수정");
+                            d_name.setEnabled(false);
+                            d_price.setEnabled(false);
+                            d_output.setEnabled(false);
+                            d_input.setEnabled(false);
+                            d_time.setEnabled(false);
+                            d_categori.setVisibility(View.VISIBLE);
+                            spinner.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onFail() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+                    ///////////////////////////////////////////////////////////////////
+                    ///////////////////////////////////////////////////////////////////
+
                 }
 
             }
@@ -201,14 +248,12 @@ public class menu1_CustomDialog {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // '확인' 버튼 클릭시 메인 액티비티에서 설정한 main_label에
-                // 커스텀 다이얼로그에서 입력한 메시지를 대입한다.
-                //main_label.setText(message.getText().toString());
-
-                // 커스텀 다이얼로그를 종료한다.
                 dlg.dismiss();
+                // 확인 버튼 시 커스텀 다이얼로그를 종료한다.
+                if( mDialogResult != null ){
+                    mDialogResult.finish("원하는 값을 담는다.");
+                }
             }
         });
-
     }
 }

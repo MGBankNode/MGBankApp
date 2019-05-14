@@ -16,28 +16,23 @@ public class CardDataBase {
         //PeachCard
         //임시로 한 것
         PeachCardBenefits.add(new Benefits("PeachConvenience",
-                new String[]{"GS25", "지에스25", "쥐에스25", "세븐일레븐", "CU", "씨유"}, 5){
-            @Override
-            public boolean discountCondition() {
-                return super.discountCondition();
-            }
-        });
+                new String[]{"GS25", "지에스25", "쥐에스25", "세븐일레븐", "CU", "씨유"}, 5, 1, 2, 0));
         PeachCardBenefits.add(new Benefits("PeachTheater",
-                new String[]{"CGV", "씨지비", "megabpx", "MEGABOX", "메가박스", "롯데시네마"}, 2000));
+                new String[]{"CGV", "씨지비", "megabpx", "MEGABOX", "메가박스", "롯데시네마"}, 2000, -1, -1, 0));
         //LimeCard
         //임시로 한것
         LimeCardBenefits.add(new Benefits("LimeConvenience",
-                new String[]{"GS25", "지에스25", "쥐에스25", "세븐일레븐", "CU", "씨유"}, 3));
+                new String[]{"GS25", "지에스25", "쥐에스25", "세븐일레븐", "CU", "씨유"}, 3,  1, 2, 0));
         LimeCardBenefits.add(new Benefits("LimeTheater",
-                new String[]{"CGV", "씨지비", "megabpx", "MEGABOX", "메가박스", "롯데시네마"}, 3000));
+                new String[]{"CGV", "씨지비", "megabpx", "MEGABOX", "메가박스", "롯데시네마"}, 3000,  0, 0, 0));
         //KakaoCard
         //임시로 한것
         KakaoCardBenefits.add(new Benefits("KakaoConvenience",
-                new String[]{"GS25", "지에스25", "쥐에스25", "세븐일레븐", "CU", "씨유"}, 10));
+                new String[]{"GS25", "지에스25", "쥐에스25", "세븐일레븐", "CU", "씨유"}, 10,  1, 2, 0));
         //SamsungCard
         //임시로 한것
         SamsungCardBenefits.add(new Benefits("SamsungTheater",
-                new String[]{"CGV", "씨지비", "megabpx", "MEGABOX", "메가박스", "롯데시네마"}, 5000));
+                new String[]{"CGV", "씨지비", "megabpx", "MEGABOX", "메가박스", "롯데시네마"}, 5000,  -1, -1, 0));
 
         CardList.add(new CreditCard("PeachCard", R.drawable.card_peach, PeachCardBenefits));
         CardList.add(new CreditCard("LimeCard", R.drawable.card_lime, LimeCardBenefits));

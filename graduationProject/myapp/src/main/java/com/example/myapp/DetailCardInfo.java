@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +41,9 @@ public class DetailCardInfo extends Fragment {
     CollapsingToolbarLayout collapsingToolbarLayout;
     ImageView imageView;
     TextView textView;
+    //nkw
+    ImageButton imgbutton;
+    ArrayList<Stat> sData;
 
     public DetailCardInfo() {
         // Required empty public constructor
@@ -53,6 +59,10 @@ public class DetailCardInfo extends Fragment {
 
         selectedCard = (CreditCard) getArguments().get("CARD");
         discountData = (HashMap<CreditCard, HashMap<Stat,Integer>>) getArguments().get("DATA");
+
+        //nkw
+        sData= (ArrayList<Stat>)getArguments().get("sDATA");
+
 //        stats = (ArrayList<Stat>) getArguments().get("STAT");
         return inflater.inflate(R.layout.fragment_detail_card_info, container, false);
     }
@@ -63,10 +73,29 @@ public class DetailCardInfo extends Fragment {
         collapsingToolbarLayout = (CollapsingToolbarLayout)getView().findViewById(R.id.collapsingToolbarLayout03);
         imageView = (ImageView) getView().findViewById(R.id.detailCardImage);
         textView = (TextView) getView().findViewById(R.id.detailDiscountTextView);
-        collapsingToolbarLayout.setTitle(selectedCard.toString());
+        imgbutton = (ImageButton) getView().findViewById(R.id.close_fr_btn) ;   //nkw
+        collapsingToolbarLayout.setTitle("  "+selectedCard.toString());         //nkw
         imageView.setImageResource(selectedCard.getIcon());
         textView.setText((getArguments().getString("PRICE")));
+
+
+        //뒤로가기 버튼 누르면 프래그먼트 안보이게 하기 nkw
+        imgbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new bestCard_fragment();
+                Bundle bundle = new Bundle(1);
+                bundle.putSerializable("DATA", sData);
+                fragment.setArguments(bundle);
+
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.dynamic_mainFragment, fragment);
+                fragmentTransaction.commit();
+            }
+        });
         super.onActivityCreated(savedInstanceState);
+
     }
 
     //리사이클러뷰 셋팅

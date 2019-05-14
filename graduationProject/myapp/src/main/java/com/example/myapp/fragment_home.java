@@ -1,6 +1,8 @@
 package com.example.myapp;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -33,7 +37,7 @@ public class fragment_home extends Fragment {
     RecyclerViewAdapter adapter = null;
     LinearLayoutManager layoutManager = null;
     private PieChart pieChart = null;
-
+    protected Button setBudget;
 
     public fragment_home() {
         // Required empty public constructor
@@ -45,18 +49,29 @@ public class fragment_home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //임시 데이터 셋팅
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+
         sData = new ArrayList<Stat>();
         sData = (ArrayList<Stat>)getArguments().get("DATA");
         Log.d("homeFragment", sData.toString());
 
+
         View view = inflater.inflate(R.layout.fragment_home, container, false);;
-//        toolbar = view.findViewById(R.id.toolbar);
-//        textTitle = (TextView)toolbar.findViewById(R.id.text_title);
-//        textTitle.setText("");
+        setBudget = view.findViewById(R.id.setBudgetBtn);
+
+        String budget = "";
 
         // Inflate the layout for this fragment
         return view;
     }
+
+//    public void startBudgetActivity() {
+//        Intent intent = new Intent(getActivity(), SetBudget.class);
+//        getActivity().startActivityForResult(intent, 2);
+//    }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -66,6 +81,16 @@ public class fragment_home extends Fragment {
         setPieChart();
         //잔고 콤마 셋팅
         setHomeText();
+
+        setBudget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(">>>", "Btn clicked");
+                Intent intent = new Intent(getActivity(), SetBudget.class);
+                getActivity().startActivityForResult(intent, 2);
+            }
+        });
+
         super.onActivityCreated(savedInstanceState);
     }
     //리사이클러뷰 셋팅

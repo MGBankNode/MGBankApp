@@ -29,6 +29,11 @@
         android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
 
         <activity
+            android:name=".SetBudget"
+            android:label=""
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"
+        />
+        <activity
             android:name=".AddReceiptActivity"
             android:label=""
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />

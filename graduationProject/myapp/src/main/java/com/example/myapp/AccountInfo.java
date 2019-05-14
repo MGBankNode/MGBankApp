@@ -5,7 +5,6 @@ public class AccountInfo {
 
     String aNum;
     String aBalance;
-
     String aType;
 
     AccountInfo(String aNum, String aBalance, String aType){

@@ -224,6 +224,13 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
         //커스텀 다이얼로그 생성
         menu1_CustomDialog customDialog = new menu1_CustomDialog(getActivity());
         customDialog.callFunction(indexData.length-1-position,year,month,userID);
+
+        customDialog.setDialogResult(new menu1_CustomDialog.OnMyDialogResult() {
+            @Override
+            public void finish(String result) {
+                request_test();
+            }
+        });
     }
 
 }

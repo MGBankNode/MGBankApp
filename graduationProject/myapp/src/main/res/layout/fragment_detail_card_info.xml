@@ -22,6 +22,14 @@
             android:fitsSystemWindows="true"
             app:contentScrim="#FFF"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <ImageButton
+                android:id="@+id/close_fr_btn"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="30dp"
+                android:background="#00ff0000"
+                android:gravity="right"
+                android:src="@drawable/ic_previous" />
 
             <LinearLayout
                 android:paddingTop="65dp"

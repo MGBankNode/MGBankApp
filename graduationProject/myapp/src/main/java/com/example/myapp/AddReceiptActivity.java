@@ -148,6 +148,71 @@ public class AddReceiptActivity extends Activity {
                 LinearLayout resultLayout = (LinearLayout)findViewById(R.id.layout_result);
                 initialLayout.setVisibility(View.GONE);
                 resultLayout.setVisibility(View.VISIBLE);
+
+
+
+/*
+                //상정명 확인 요청
+                ReceiptRequest test = new ReceiptRequest("후문식당", RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
+                test.StoreRequest(cId -> {
+                    Toast.makeText(getApplicationContext(), cId, Toast.LENGTH_LONG).show();
+                });
+
+                //영수증 추가 요청시 cId가 있으며 cId를 바꾸지 않은 경우
+                ReceiptRequest test2 = new ReceiptRequest("2019-05-09 11:02:11", "30000" ,"후문식당", "b", "9", RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
+                test2.AddReceipt(hId -> {
+                    String myhId  = hId;
+                    Toast.makeText(getApplicationContext(), myhId, Toast.LENGTH_LONG).show();
+                });
+
+
+                //영수증 추가 요청시 cId가 있으며 cId를 바꾼 경우에만 카테고리 변경을 요청
+                final String defaultcId = "9";
+                final Context context = getApplicationContext();
+                //영수증 추가 요청 - 사용자가 카테고리 변경했을 경우
+                ReceiptRequest test4 = new ReceiptRequest("2019-05-09 11:02:11", "30000" ,"후문식당", "b", "9", RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
+                test2.AddReceipt(hId -> {
+                    Toast.makeText(getApplicationContext(), hId, Toast.LENGTH_LONG).show();
+
+                    // /////////////////////카테고리 변경 요청////////////////////////////
+                    ///////////////////////////////////////////////////////////////////
+                    CategoryRequest categoryRequest = new CategoryRequest(
+                            "b",                    //사용자 아이디
+                            Integer.parseInt(hId),          //hId
+                            Integer.parseInt(defaultcId),   //기존 카테고리 번호
+                            2,                  //바꿀 카테고리 번호
+                            context,                        //context 고정
+                            RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
+
+                    categoryRequest.UpdateCategoryHandler(new CategoryRequest.VolleyCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onFail() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+                    ///////////////////////////////////////////////////////////////////
+                    ///////////////////////////////////////////////////////////////////
+
+                });
+
+
+                //영수증 추가 요청시 기존 cId가 없는 경우
+                ReceiptRequest test3 = new ReceiptRequest("2019-05-09 11:02:11", "30000" ,"가", "b", "9", RequestInfo.RequestType.ADD_NEW_RECEIPT, getApplicationContext());
+                test3.AddNewReceipt(hId -> {
+                    Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                });
+
+                */
             }
         });
     }
