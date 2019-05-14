@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 //그래프
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -33,6 +34,9 @@ public class fragment_home extends Fragment {
     LinearLayoutManager layoutManager = null;
     private PieChart pieChart = null;
 
+    //backButton
+    PayInfoList firstFragment = new PayInfoList();
+    Stack<Fragment> fragmentStack = new Stack<Fragment>();
 
     public fragment_home() {
         // Required empty public constructor

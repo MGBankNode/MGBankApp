@@ -12,6 +12,7 @@ public class PayInfomation implements Serializable {
     private int p_price;
     private Date p_date;
     private Stat stat;
+    private int hID;
 
     public PayInfomation(String n, int p, Stat s, Date date){
         accountName = n; p_price = p;

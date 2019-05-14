@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity
     public int userAccountCheck;
     public String userID;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,53 +233,7 @@ public class MainActivity extends AppCompatActivity
         return bundle;
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-//            super.onBackPressed();
-            if (st.peek() == "home")
-                backPressCloseHandler.onBackPressed();
-            else {
-                st.pop();
-                switch (st.peek()) {
-                    case "a":
-                        fr = new fragment_menu1();
-                        fr.setArguments(makeBundle("apage", 0));
-                        break;
 
-                    case "b":
-                        fr = new fragment_menu1();
-                        fr.setArguments(makeBundle("apage", 1));
-                        break;
-                    case "c":
-                        fr = new consumptionEvaluation_viewPager();
-                        fr.setArguments(makeBundle("apage", 2));
-                        break;
-                    case "d":
-                        fr = new consumptionEvaluation_viewPager();
-                        fr.setArguments(makeBundle("cpage", 0));
-                        break;
-                    case "e":
-                        fr = new consumptionEvaluation_viewPager();
-                        fr.setArguments(makeBundle("cpage", 1));
-                        break;
-                    case "f":
-                        fr = new fragment_menu3();
-                        break;
-                    case "home":
-                        fr = new fragment_home();
-                        break;
-                    default:
-                        break;
-                }
-                changeFragment(fr,null);
-            }
-
-        }
-    }
 
      void MainStart(){
          //내역을 얻어와야함
@@ -625,6 +580,10 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
 
         fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+
+        fragmentTransaction.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
+
+        fragmentTransaction.addToBackStack(null);
 
         fragmentTransaction.commit();
 
