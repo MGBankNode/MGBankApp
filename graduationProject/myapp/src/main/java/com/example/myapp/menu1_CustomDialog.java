@@ -20,12 +20,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class menu1_CustomDialog {
+    OnMyDialogResult mDialogResult;
+
     private Context context;
     public ArrayList<String> arrayList;
     String categori;
     int prevCategory, curCategory;
     int hId_num;
-
 
     public menu1_CustomDialog(Context context){
 
@@ -42,6 +43,13 @@ public class menu1_CustomDialog {
         arrayList.add("카페/간식");
         arrayList.add("미분류");
         this.context=context;
+    }
+
+    public void setDialogResult(OnMyDialogResult dialogResult){
+        mDialogResult = dialogResult;
+    }
+    public interface OnMyDialogResult{
+        void finish(String result);
     }
 
     // 호출할 다이얼로그 함수를 정의한다.
@@ -160,7 +168,7 @@ public class menu1_CustomDialog {
                 for(int i=0; i<arrayList.size();i++){
                     if(arrayList.get(i).equals(categori)){
                         spinner.setSelection(i);
-                        prevCategory=i;
+                        prevCategory=i+1;
                         break;
                     }else{
                         spinner.setSelection(10);
@@ -171,7 +179,7 @@ public class menu1_CustomDialog {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         d_categori.setText(arrayList.get(i));
-                        curCategory=i;
+                        curCategory=i+1;
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) { }
@@ -240,14 +248,12 @@ public class menu1_CustomDialog {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // '확인' 버튼 클릭시 메인 액티비티에서 설정한 main_label에
-                // 커스텀 다이얼로그에서 입력한 메시지를 대입한다.
-                //main_label.setText(message.getText().toString());
-
-                // 커스텀 다이얼로그를 종료한다.
                 dlg.dismiss();
+                // 확인 버튼 시 커스텀 다이얼로그를 종료한다.
+                if( mDialogResult != null ){
+                    mDialogResult.finish("원하는 값을 담는다.");
+                }
             }
         });
-
     }
 }
