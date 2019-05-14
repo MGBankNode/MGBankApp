@@ -11,6 +11,7 @@ public class CreditCard implements Serializable {
     private String cardName;
     private HashMap<String, Integer> benefits;
     private int discountPrice;
+    private int hh;
     public CreditCard(String name, int cardIcon){
         this.cardName = name;
         this.icon = cardIcon;
