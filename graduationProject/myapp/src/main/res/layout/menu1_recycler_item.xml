@@ -131,6 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:gravity="center_vertical"
                 android:fontFamily="@font/applegothicneo_b"
                 android:paddingLeft="10dp"
                 >
@@ -141,7 +142,7 @@
                     android:text="CU 광운대점"
                     android:fontFamily="@font/applegothicneo_b"
                     android:textColor="#000"
-                    android:textSize="17dp"
+                    android:textSize="15dp"
                     android:gravity="center"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -149,7 +150,7 @@
                     android:id="@+id/user_card"
                     android:text="MG MINT Check 카드"
                     android:fontFamily="@font/applegothicneo_b"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     android:gravity="center"/>
             </LinearLayout>
 
@@ -157,6 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:fontFamily="@font/applegothicneo_b"
                 android:orientation="vertical">
                 <TextView
@@ -166,7 +168,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="-2,900원"
-                    android:textSize="17dp"
+                    android:textSize="15dp"
                     android:fontFamily="@font/applegothicneo_b"
                     android:paddingRight="20dp" />
                 <TextView
@@ -175,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:text="20원"
                     android:fontFamily="@font/applegothicneo_b"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     android:gravity="right"
                     android:paddingRight="20dp" />
 

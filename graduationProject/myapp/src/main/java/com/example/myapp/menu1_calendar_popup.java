@@ -6,8 +6,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.content.Intent;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -19,6 +21,7 @@ public class menu1_calendar_popup extends Activity {
     List<menu1_rvData> menu1rvDataList;
     RecyclerView recyclerView;
     menu1_RecyclerAdapter rv_adapter;
+    ImageButton cancelBtn;
 
     TextView use_money;
     TextView earn_money;
@@ -30,6 +33,14 @@ public class menu1_calendar_popup extends Activity {
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view_popup);
         use_money = (TextView)findViewById(R.id.useMoney);
         earn_money = (TextView)findViewById(R.id.earnMoney);
+        cancelBtn = (ImageButton)findViewById(R.id.cancelBtn_calendar);
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         Intent intent = getIntent();
         String[] hDate = intent.getStringArrayExtra("hDate");
         String[] hName = intent.getStringArrayExtra("hName");
@@ -44,19 +55,23 @@ public class menu1_calendar_popup extends Activity {
         int startNum = intent.getIntExtra("startNum", 0);
         int endNum = intent.getIntExtra("endNum", 0);
 
-        use_money.setText(loss);
-        earn_money.setText(benefit);
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+        use_money.setText("Loss : "+decimalFormat.format(Integer.parseInt(loss))+"원");
+        earn_money.setText("Benefit : " +decimalFormat.format(Integer.parseInt(benefit))+"원");
 
         Log.i("err", Integer.toString(startNum)+" "+Integer.toString(endNum));
         indexData = new menu1_rvData[endNum-startNum];
         int count =0;
         for(int i=startNum; i<endNum; i++){
+            int x = hName[i].length();
+            if(x>9)
+                x = 9;
             indexData[count++]= new menu1_rvData(Integer.parseInt(hDate[i].substring(0,4)),  //연도
                     Integer.parseInt(hDate[i].substring(5,7)),  //월
                     Integer.parseInt(hDate[i].substring(8,10)), //일
                     hDate[i].substring(11,13),  //시
                     hDate[i].substring(14,16),  //분
-                    hName[i],   //사용 처
+                    hName[i].substring(0, x),   //사용 처
                     cType[i],   //카드 이름
                     Integer.parseInt(hValue[i]), //금액
                     hType[i],    //내역 타입
