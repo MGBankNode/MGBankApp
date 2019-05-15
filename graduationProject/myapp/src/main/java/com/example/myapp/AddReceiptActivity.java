@@ -190,11 +190,15 @@ public class AddReceiptActivity extends Activity {
                 String dateStr = date.getText().toString();
                 String dateTimeStr = dateTime.getText().toString();
 
+
                 String yearStr = dateStr.substring(0, 4);
                 String monthStr = dateStr.substring(4, 6);
                 String dayStr = dateStr.substring(6);
                 String hourStr = dateTimeStr.substring(0, 2);
-                String minStr = dateStr.substring(2);
+                String minStr = dateTimeStr.substring(2);
+
+                Log.d(">>>hour", hourStr);
+                Log.d(">>>min", minStr);
 
                 int stopFlag = 0;
                 if (Integer.parseInt(monthStr) > 12 || Integer.parseInt(dateStr) > 31) {
