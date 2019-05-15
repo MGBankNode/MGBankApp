@@ -172,17 +172,17 @@ public class AddReceiptActivity extends Activity {
         btn_change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout initialLayout = (LinearLayout)findViewById(R.id.layout_initial);
-                LinearLayout resultLayout = (LinearLayout)findViewById(R.id.layout_result);
+                LinearLayout initialLayout = (LinearLayout) findViewById(R.id.layout_initial);
+                LinearLayout resultLayout = (LinearLayout) findViewById(R.id.layout_result);
                 initialLayout.setVisibility(View.GONE);
                 resultLayout.setVisibility(View.VISIBLE);
 
 
-                EditText store = (EditText)findViewById(R.id.storeEdit);
-                EditText date = (EditText)findViewById(R.id.dateEdit);
+                EditText store = (EditText) findViewById(R.id.storeEdit);
+                EditText date = (EditText) findViewById(R.id.dateEdit);
                 EditText dateTime = findViewById(R.id.dateTimeEdit);
-                EditText cost = (EditText)findViewById(R.id.moneyEdit);
-                Spinner spinner =(Spinner)findViewById(R.id.categorySpinner);
+                EditText cost = (EditText) findViewById(R.id.moneyEdit);
+                Spinner spinner = (Spinner) findViewById(R.id.categorySpinner);
 
                 // 시간 분 0 없어도댐
                 // 날짜 시간 사이 공백
@@ -190,38 +190,40 @@ public class AddReceiptActivity extends Activity {
                 String dateStr = date.getText().toString();
                 String dateTimeStr = dateTime.getText().toString();
 
-                String yearStr = dateStr.substring(0,4);
-                String monthStr = dateStr.substring(4,6);
+                String yearStr = dateStr.substring(0, 4);
+                String monthStr = dateStr.substring(4, 6);
                 String dayStr = dateStr.substring(6);
-                String hourStr = dateTimeStr.substring(0,2);
+                String hourStr = dateTimeStr.substring(0, 2);
                 String minStr = dateStr.substring(2);
 
-                if(Integer.parseInt(monthStr) > 12 || Integer.parseInt(dateStr) > 31) {
+                int stopFlag = 0;
+                if (Integer.parseInt(monthStr) > 12 || Integer.parseInt(dateStr) > 31) {
                     Toast.makeText(getApplicationContext(), "유효하지 않은 날짜 입니다", Toast.LENGTH_SHORT).show();
-                    finish();
+                    stopFlag = 1;
                 }
                 if (Integer.parseInt(hourStr) > 24 || Integer.parseInt(minStr) > 59) {
                     Toast.makeText(getApplicationContext(), "유효하지 않은 시간 입니다", Toast.LENGTH_SHORT).show();
-                    finish();
+                    stopFlag = 1;
                 }
 
                 // 0 1 2 3
                 String resultDate = yearStr + "-" + monthStr + "-" + dayStr + " " + hourStr + ":" + minStr;
 
-                Log.d(">>>reusltdate", resultDate);
 
-                //상정명 확인 요청
-                ReceiptRequest test = new ReceiptRequest(store.getText().toString(), RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
-                test.StoreRequest(cId -> {
-                    Toast.makeText(getApplicationContext(), cId, Toast.LENGTH_LONG).show();
-                    if(!cId.equals("null")) {
+                Log.d(">>>reusltdate", resultDate);
+                if (stopFlag == 0) {
+                    //상정명 확인 요청
+                    ReceiptRequest test = new ReceiptRequest(store.getText().toString(), RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
+                    test.StoreRequest(cId -> {
+                        Toast.makeText(getApplicationContext(), cId, Toast.LENGTH_LONG).show();
+                        if (!cId.equals("null")) {
 //                        spinner.setSelection(Integer.parseInt(cId)-1);
-                        original = Integer.parseInt(cId);
-                    }
-                        if(original != -1) {
+                            original = Integer.parseInt(cId);
+                        }
+                        if (original != -1) {
                             if (original == spinner.getSelectedItemPosition() + 1) {
                                 //영수증 추가 요청시 cId가 있으며 cId를 바꾸지 않은 경우
-                                ReceiptRequest test2 = new ReceiptRequest(date.getText().toString(), cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition() + 1), RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
+                                ReceiptRequest test2 = new ReceiptRequest(resultDate, cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition() + 1), RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
                                 test2.AddReceipt(hId -> {
                                     myhId = hId;
                                     Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
@@ -232,7 +234,7 @@ public class AddReceiptActivity extends Activity {
                                 final String defaultcId = Integer.toString(original);
                                 final Context context = getApplicationContext();
                                 //영수증 추가 요청 - 사용자가 카테고리 변경했을 경우
-                                ReceiptRequest test4 = new ReceiptRequest(date.getText().toString(), cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition()+1), RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
+                                ReceiptRequest test4 = new ReceiptRequest(resultDate, cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition() + 1), RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
                                 test4.AddReceipt(hId -> {
                                     Toast.makeText(getApplicationContext(), hId, Toast.LENGTH_LONG).show();
 
@@ -242,7 +244,7 @@ public class AddReceiptActivity extends Activity {
                                             userID,                    //사용자 아이디
                                             Integer.parseInt(hId),          //hId
                                             Integer.parseInt(defaultcId),   //기존 카테고리 번호
-                                            2,                  //바꿀 카테고리 번호
+                                            spinner.getSelectedItemPosition() + 1,                  //바꿀 카테고리 번호
                                             context,                        //context 고정
                                             RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
 
@@ -270,7 +272,7 @@ public class AddReceiptActivity extends Activity {
                             }
                         } else {
                             //영수증 추가 요청시 기존 cId가 없는 경우
-                            ReceiptRequest test3 = new ReceiptRequest(date.getText().toString(), cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition()+1), RequestInfo.RequestType.ADD_NEW_RECEIPT, getApplicationContext());
+                            ReceiptRequest test3 = new ReceiptRequest(resultDate, cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition() + 1), RequestInfo.RequestType.ADD_NEW_RECEIPT, getApplicationContext());
                             test3.AddNewReceipt(hId -> {
                                 Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
                                 finish();
@@ -278,10 +280,10 @@ public class AddReceiptActivity extends Activity {
                         }
 
 
+                    });
+                }
+            }
                 });
-                    }
-                });
-
     }
 
     public void startGalleryChooser() {
@@ -466,6 +468,7 @@ public class AddReceiptActivity extends Activity {
                 String str[] = result.split("&");
                 EditText store = (EditText)activity.findViewById(R.id.storeEdit);
                 EditText date = (EditText)activity.findViewById(R.id.dateEdit);
+                EditText time = (EditText)activity.findViewById(R.id.dateTimeEdit);
                 EditText cost = (EditText)activity.findViewById(R.id.moneyEdit);
                 Spinner spinner =(Spinner)activity.findViewById(R.id.categorySpinner);
 
@@ -485,8 +488,12 @@ public class AddReceiptActivity extends Activity {
                         }
                         if(str.length>1)
                             date.setText(str[1]);
+
                         if(str.length>2)
-                            cost.setText(str[2]);
+                            time.setText(str[2]);
+                        if(str.length>3)
+                            cost.setText(str[3]);
+
                 });
 
 
@@ -533,7 +540,9 @@ public class AddReceiptActivity extends Activity {
 
     private static String convertResponseToString(BatchAnnotateImagesResponse response) {
         StringBuilder message = new StringBuilder();
-        String dateTime ="";
+        String date1 = "";
+        String dateTime="";
+        String time ="";
         String storeName ="";
         String totalCost ="";
 
@@ -543,71 +552,97 @@ public class AddReceiptActivity extends Activity {
             String data[] = str.split("\n");
             int dateFlag = 0;
             int moneyFlag = 0;
-            int storeFlag =0;
-            int count =0;
-            for(String d : data) {
-                Log.d("receipt : ", d+"\n");
+            int storeFlag = 0;
+            int count = 0;
 
-                if(count==0 && !d.contains("영수증"))
+            for (String d : data) {
+                Log.d("receipt : ", d + "\n");
+
+                if (count == 0 && !d.contains("영수증"))
                     storeName = d;
-                if(d.contains("매장명") || d.contains("매장 명")) {
+                if (d.contains("매장명") || d.contains("매장 명") || d.contains("상호") || d.contains("가맹점") || d.contains("상 호")) {
                     int index = d.indexOf(' ');
-                    storeFlag=-1;
-                    storeName = d.substring(index+1);
-                    if(storeName.contains("]")) {
+                    storeFlag = -1;
+                    storeName = d.substring(index + 1);
+                    if (storeName.contains("]")) {
                         index = storeName.indexOf(']');
-                        storeName = storeName.substring(index+1);
+                        storeName = storeName.substring(index + 1);
+                    } else if (storeName.contains(":")) {
+                        index = storeName.indexOf(":");
+                        storeName = storeName.substring(index + 1);
+                        Log.d("여기", storeName);
                     }
                 }
 
-                if(storeFlag==1) {
-                    storeName = d;
+                if (storeFlag == 1) {
+                    if (!d.contains("-"))
+                        storeName = d;
                     storeFlag = 0;
+                    Log.d("ddd", "여기오니,,?");
                 }
-                if(storeFlag!= -1 && d.contains("영수증") && !d.contains("소지")&& !d.contains("현금") && !d.contains("카드") &&!d.contains("결제")) {
-                    storeFlag=1;
+                if (storeFlag != -1 && d.contains("영수증") && !d.contains("소지") && !d.contains("현금") && !d.contains("카드") && !d.contains("결제")) {
+                    storeFlag = 1;
                 }
 
-                if(d.contains(",")) {
+                if (d.contains(",")) {
                     String confirm[] = d.split(" ");
-                    for(String c : confirm) {
+
+                    int n = 0;
+                    for (int h = 0; h < confirm.length; h++) {
+                        String c = confirm[h];
                         String ff = c.replace(",", "");
                         try {
                             int num = Integer.parseInt(ff);
-                            if(moneyFlag <num) {
+                            n++;
+                            Log.d("여기", Integer.toString(num));
+                            if (num < 1000) {
+                                if (h + 1 < confirm.length)
+                                    c = confirm[++h];
+                                else break;
+                                ff += c.replace(",", "");
+                                num = Integer.parseInt(ff);
+                                n++;
+                            }
+                            if (n < 3 && moneyFlag < num) {
                                 moneyFlag = num;
                                 totalCost = ff;
                             }
-                        } catch(Exception e) {}
+                        } catch (Exception e) {
+                        }
                     }
                 }
                 String date[] = d.split("]| |-|:|/|\\.|년|월|일|\\(");
+
                 int flag = 0;
 
                 for (String a : date) {
                     try {
-                        if(dateFlag==0 && flag==0 && (a.equals("2019")||a.equals("19")|| (a.length()==4 &&a.startsWith("20")))) {
+                        if (dateFlag == 0 && flag == 0 && (a.equals("2019") || a.equals("19") || (a.length() == 4 && a.startsWith("20")))) {
                             flag = 1;
-                            dateFlag=1;
-                            if((a.length()==4 &&a.startsWith("20")) || a.equals("19")) a="2019";
+                            dateFlag = 1;
+                            if ((a.length() == 4 && a.startsWith("20")) || a.equals("19"))
+                                a = "2019";
                         }
 
-                        if(flag > 0) {
-                            if(flag <3) dateTime+=a+"-";
+                        if (dateFlag == 0 && flag == 0 && d.contains("/") && !a.equals("19") && !a.equals("2019")) {
+                            dateFlag = 1;
+                            flag = 1;
+                            a = "2019";
+                        }
 
-                            if(flag==3)
-                                dateTime+=a+" ";
-                            if(flag==4)
-                                dateTime+=a+":";
-                            if(flag==5) {
-                                dateTime+=a;
+                        if (flag > 0) {
+                            if (flag < 6) dateTime += a;
+
+                            if (flag == 6) {
+                                dateTime += a;
                                 flag = -1;
                             }
+                            Log.d("date", dateTime);
                             flag++;
                         }
 
 
-                    } catch(Exception e){
+                    } catch (Exception e) {
                         Log.d("ERROR : ", e.toString());
                     }
                 }
@@ -617,7 +652,13 @@ public class AddReceiptActivity extends Activity {
             message.append("nothing");
         }
 
-        message.append(storeName+ "&" + dateTime+"&"+totalCost);
+
+        if(dateTime.length()>8) {
+            Log.d("date", dateTime);
+            time = dateTime.substring(8,12);
+            date1 = dateTime.substring(0, 8);
+        }
+        message.append(storeName+ "&" + date1 +"&"+time+"&"+totalCost);
         return message.toString();
     }
 }
