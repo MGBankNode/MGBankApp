@@ -10,21 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class menu1_fragment_tab0 extends Fragment {
 
     String userID;
     protected ListView accountListView;
-
+    protected TextView total_balance;
     public menu1_fragment_tab0() {    }
 
     @Nullable
     @Override //child fragment 구현
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.menu1_fragment_tab0,
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_menu1_search,
                 container, false);
 
         if(getArguments() != null){
@@ -57,11 +59,16 @@ public class menu1_fragment_tab0 extends Fragment {
             //계좌 이름 = accountInfo[i].getaType()
           
             ArrayList<AccountListData> listItem = new ArrayList<>();
-
+            int total = 0;
+            DecimalFormat decimalFormat = new DecimalFormat("###,###");
             for(int i = 0; i < accountNum; i++){
-                listItem.add(new AccountListData(accountInfo[i].getaType(), accountInfo[i].getaNum(), accountInfo[i].getaBalance()));
+                int cost = Integer.parseInt(accountInfo[i].getaBalance());
+                total+=cost;
+                listItem.add(new AccountListData(accountInfo[i].getaType(), accountInfo[i].getaNum(), decimalFormat.format(cost)+" 원"));
             }
-            accountListView = layout.findViewById(R.id.accountList);
+            accountListView = layout.findViewById(R.id.accountList2);
+            total_balance = (TextView)layout.findViewById(R.id.totalBalance);
+            total_balance.setText(decimalFormat.format(total)+" 원");
             accountListViewAdapter accountListViewAdapter = new accountListViewAdapter(getContext(), listItem, R.layout. accountlistitem);
             accountListView.setAdapter(accountListViewAdapter);
 

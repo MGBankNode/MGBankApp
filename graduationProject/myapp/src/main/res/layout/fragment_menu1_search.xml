@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#FFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#2BB0DD"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/welcomecharacter" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Node Bank"
+            android:textSize="30dp"
+            android:textColor="#FFF"
+            android:gravity="center"
+            android:fontFamily="@font/applegothicneo_b"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+        android:text="총 금액"
+        android:textSize="10pt"
+        android:textColor="#000"
+        android:gravity="left"
+        android:fontFamily="@font/applegothicneo_b"/>
+
+        <TextView
+            android:id="@+id/totalBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="0 원"
+            android:textSize="8pt"
+            android:textColor="#000"
+            android:gravity="right"
+            android:fontFamily="@font/applegothicneo_b"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000">
+
+    </View>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/accountList2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:footerDividersEnabled="false"
+        >
+    </ListView>
 </LinearLayout>
+
+
+
