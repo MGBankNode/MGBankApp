@@ -4,9 +4,10 @@ public class menu1_rvData {
     int year, month, date;
     String hour, minute, name, card;
     int price, balance;
-    String type, categori;
+    String type, categori, anum;
 
-    public menu1_rvData(int year, int month, int date, String hour, String minute, String name, String card, int price, String type, String categori, int balance) {
+    public menu1_rvData(int year, int month, int date, String hour, String minute, String name,
+                        String card, int price, String type, String categori, int balance, String anum) {
         this.year = year;
         this.month = month;
         this.date = date;
@@ -18,10 +19,15 @@ public class menu1_rvData {
         this.type = type;
         this.categori = categori;
         this.balance = balance;
+        this.anum = anum;
     }
 
     public int getDate() {
         return date;
+    }
+
+    public String getAnum() {
+        return anum;
     }
 
     public int getMonth() {

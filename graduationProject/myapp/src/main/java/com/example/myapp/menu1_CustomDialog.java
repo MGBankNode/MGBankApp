@@ -42,6 +42,8 @@ public class menu1_CustomDialog {
         arrayList.add("식비");
         arrayList.add("카페/간식");
         arrayList.add("미분류");
+        arrayList.add("계좌입금");
+        arrayList.add("계좌출금");
         this.context=context;
     }
 
@@ -151,13 +153,16 @@ public class menu1_CustomDialog {
 
                 hId_num=hId[position];
                 d_name.setText(hName[position]);
-                if(hType[position].equals("입금"))
-                    d_price.setText("+"+myFormatter.format(Integer.parseInt(hValue[position]))+" 원");
-                else
-                    d_price.setText("-"+myFormatter.format(Integer.parseInt(hValue[position]))+" 원");
+                if(hType[position].equals("입금")) {
+                    d_price.setText("+" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
+                    d_output.setText(hName[position]);  //출금처
+                    d_input.setText("내 계좌 "+"9003-2438-0651-2");   //입금처
+                }else {
+                    d_price.setText("-" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
+                    d_output.setText(cType[position]);  //출금처
+                    d_input.setText(hName[position]);   //입금처
+                }
                 d_categori.setText(cName[position]);
-                d_output.setText(cType[position]);
-                d_input.setText(hName[position]);
                 d_time.setText(hDate[position].substring(0,16));
 
                 categori=cName[position];
@@ -180,6 +185,12 @@ public class menu1_CustomDialog {
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         d_categori.setText(arrayList.get(i));
                         curCategory=i+1;
+                        if(i == 11) {//계좌입금으로 바꿀경우
+                            hType[position]="입금";
+                        }
+                        else {
+                            hType[position]="출금";
+                        }
                     }
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) { }

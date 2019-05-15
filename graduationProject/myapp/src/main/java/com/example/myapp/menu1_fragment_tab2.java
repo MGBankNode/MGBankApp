@@ -57,7 +57,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
             accountNum = getArguments().getString("accountNum");
             Log.i("nkw","menu1_tab2_userID="+userID + "accountNum="+accountNum);
 
-            Toast.makeText(getContext(), "accountNum="+accountNum,Toast.LENGTH_LONG).show();
+         //   Toast.makeText(getContext(), "accountNum="+accountNum,Toast.LENGTH_LONG).show();
         }
         return layout;
     }
@@ -172,6 +172,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 String[] aBalance = new String[arrLength];
                 String[] cType = new String[arrLength];
                 String[] cName = new String[arrLength];
+                String[] aNum = new String[arrLength];
 
                 for (int i = 0; i < arrLength; i++) {
 
@@ -200,7 +201,17 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 }
 
                 //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
-
+ /*               AccountInfo[] accountInfo = new AccountInfo[arrLength];
+                for(int i = 0; i < arrLength; ++i){
+                    accountInfo[i] = accountHistoryInfo[i].getAccountInfo();
+                }
+                //계좌 번호= accountInfo[i].getaNum()
+                //계좌 잔액 = accountInfo[i].getaBalance()
+                //계좌 이름 = accountInfo[i].getaType()
+                for(int i=0; i< arrLength; i++){
+                    aNum[i]= accountInfo[i].getaNum();
+                }
+*/
                 indexData = new menu1_rvData[arrLength];
 
                 for (int i = 0; i < arrLength; i++) {
@@ -214,7 +225,8 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                             Integer.parseInt(hValue[i]), //금액
                             hType[i],    //내역 타입
                             cName[i],    //카테고리 분류
-                            Integer.parseInt(aBalance[i])
+                            Integer.parseInt(aBalance[i]),
+                            "9003-2438-0651-2"//aNum[i]
                     );
                 }
 
@@ -255,6 +267,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 String[] aBalance = new String[arrLength];
                 String[] cType = new String[arrLength];
                 String[] cName = new String[arrLength];
+                String[] aNum = new String[arrLength];
 
                 for (int i = 0; i < arrLength; i++) {
 
@@ -284,9 +297,20 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
 
                 //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
 
-                indexData = new menu1_rvData[arrLength];
+/*                AccountInfo[] accountInfo = new AccountInfo[arrLength];
+                for(int i = 0; i < arrLength2; ++i){
+                    accountInfo[i] = accountHistoryInfo[i].getAccountInfo();
+                }
+                //계좌 번호= accountInfo[i].getaNum()
+                //계좌 잔액 = accountInfo[i].getaBalance()
+                //계좌 이름 = accountInfo[i].getaType()
+                for(int i=0; i< arrLength2; i++){
+                    aNum[i]= accountInfo[i].getaNum();
+                }*/
 
-                for (int i = 0; i < arrLength; i++) {
+                indexData = new menu1_rvData[arrLength2];
+
+                for (int i = 0; i < arrLength2; i++) {
                     indexData[i] = new menu1_rvData(Integer.parseInt(hDate[i].substring(0, 4)),  //연도
                             Integer.parseInt(hDate[i].substring(5, 7)),  //월
                             Integer.parseInt(hDate[i].substring(8, 10)), //일
@@ -297,7 +321,8 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                             Integer.parseInt(hValue[i]), //금액
                             hType[i],    //내역 타입
                             cName[i],    //카테고리 분류
-                            Integer.parseInt(aBalance[i])
+                            Integer.parseInt(aBalance[i]),   //잔액
+                            "9003-2438-0651-2"//aNum[i]
                     );
                 }
 
@@ -320,7 +345,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
     }
     @Override
     public void onItemClicked(int position) {
-        Toast.makeText(getContext(),position+"번 아이템 클릭",Toast.LENGTH_LONG).show();
+       // Toast.makeText(getContext(),position+"번 아이템 클릭",Toast.LENGTH_LONG).show();
         //커스텀 다이얼로그 생성
         menu1_CustomDialog customDialog = new menu1_CustomDialog(getActivity());
         customDialog.callFunction(indexData.length-1-position,year,month,userID);
