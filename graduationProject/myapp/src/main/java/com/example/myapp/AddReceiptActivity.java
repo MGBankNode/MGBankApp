@@ -202,7 +202,7 @@ public class AddReceiptActivity extends Activity {
                                             userID,                    //사용자 아이디
                                             Integer.parseInt(hId),          //hId
                                             Integer.parseInt(defaultcId),   //기존 카테고리 번호
-                                            2,                  //바꿀 카테고리 번호
+                                            spinner.getSelectedItemPosition()+1,                  //바꿀 카테고리 번호
                                             context,                        //context 고정
                                             RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
 
@@ -511,19 +511,25 @@ public class AddReceiptActivity extends Activity {
 
                 if(count==0 && !d.contains("영수증"))
                     storeName = d;
-                if(d.contains("매장명") || d.contains("매장 명")) {
+                if(d.contains("매장명") || d.contains("매장 명") ||d.contains("상호")||d.contains("가맹점") || d.contains("상 호")) {
                     int index = d.indexOf(' ');
                     storeFlag=-1;
                     storeName = d.substring(index+1);
                     if(storeName.contains("]")) {
                         index = storeName.indexOf(']');
                         storeName = storeName.substring(index+1);
+                    } else if(storeName.contains(":")) {
+                        index = storeName.indexOf(":");
+                        storeName = storeName.substring(index+1);
+                        Log.d("여기", storeName);
                     }
                 }
 
                 if(storeFlag==1) {
-                    storeName = d;
+                    if(!d.contains("-"))
+                        storeName = d;
                     storeFlag = 0;
+                    Log.d("ddd","여기오니,,?");
                 }
                 if(storeFlag!= -1 && d.contains("영수증") && !d.contains("소지")&& !d.contains("현금") && !d.contains("카드") &&!d.contains("결제")) {
                     storeFlag=1;
@@ -531,11 +537,24 @@ public class AddReceiptActivity extends Activity {
 
                 if(d.contains(",")) {
                     String confirm[] = d.split(" ");
-                    for(String c : confirm) {
+
+                    int n =0;
+                    for(int h=0; h< confirm.length; h++) {
+                        String c = confirm[h];
                         String ff = c.replace(",", "");
                         try {
                             int num = Integer.parseInt(ff);
-                            if(moneyFlag <num) {
+                            n++;
+                            Log.d("여기", Integer.toString(num));
+                            if(num<1000) {
+                                if(h+1<confirm.length)
+                                    c = confirm[++h];
+                                else break;
+                                ff += c.replace(",", "");
+                                num = Integer.parseInt(ff);
+                                n++;
+                            }
+                            if(n<3&&moneyFlag <num) {
                                 moneyFlag = num;
                                 totalCost = ff;
                             }

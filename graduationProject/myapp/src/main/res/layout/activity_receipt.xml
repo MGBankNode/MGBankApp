@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/dateEdit"
                     android:fontFamily="@font/applegothicneo_b"
-                    android:hint="직접 입력해주세요."
+                    android:hint="yyyy-mm-dd hh:mm"
                     android:background="@android:color/transparent"
                     />
             </LinearLayout>
