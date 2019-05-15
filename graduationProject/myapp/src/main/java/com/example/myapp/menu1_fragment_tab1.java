@@ -408,9 +408,11 @@ public class menu1_fragment_tab1 extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddReceiptActivity.class);
+                intent.putExtra("userID", userID);
                 startActivityForResult(intent, 1);
             }
         });
+
         super.onActivityCreated(savedInstanceState);
     }
 
