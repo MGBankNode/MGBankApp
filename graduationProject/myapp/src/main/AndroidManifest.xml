@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -19,25 +19,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/dialog_in" />
 
         <activity
-        android:name=".SettingDialogActivity"
-        android:label="Settings"
-        android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-
+            android:name=".SettingDialogActivity"
+            android:label="Settings"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".SetBudget"
             android:label=""
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"
-        />
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".AddReceiptActivity"
             android:label=""
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-
         <activity
             android:name=".menu1_calendar_popup"
             android:label=""
@@ -72,12 +70,10 @@
         </activity>
         <activity
             android:name=".MypageActivity"
-            android:screenOrientation="portrait"/>
-        <!-- 서비스 태그 추가 -->
-        <service
-            android:name=".MyFirebaseMessagingService">
+            android:screenOrientation="portrait" /> <!-- 서비스 태그 추가 -->
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -88,7 +84,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
     </application>
 

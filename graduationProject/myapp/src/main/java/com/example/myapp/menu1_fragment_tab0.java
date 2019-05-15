@@ -8,15 +8,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class menu1_fragment_tab0 extends Fragment {
 
+    ArrayList<String> account_number; //계좌번호
     String userID;
     protected ListView accountListView;
     protected TextView total_balance;
@@ -58,12 +61,15 @@ public class menu1_fragment_tab0 extends Fragment {
             //계좌 잔액 = accountInfo[i].getaBalance()
             //계좌 이름 = accountInfo[i].getaType()
 
+            account_number = new ArrayList<>();
             ArrayList<AccountListData> listItem = new ArrayList<>();
             int total = 0;
             DecimalFormat decimalFormat = new DecimalFormat("###,###");
             for(int i = 0; i < accountNum; i++){
+
                 int cost = Integer.parseInt(accountInfo[i].getaBalance());
                 total+=cost;
+                account_number.add(accountInfo[i].getaNum());
                 listItem.add(new AccountListData(accountInfo[i].getaType(), accountInfo[i].getaNum(), decimalFormat.format(cost)+" 원"));
             }
             accountListView = layout.findViewById(R.id.accountList2);
@@ -71,6 +77,7 @@ public class menu1_fragment_tab0 extends Fragment {
             total_balance.setText(decimalFormat.format(total)+" 원");
             accountListViewAdapter accountListViewAdapter = new accountListViewAdapter(getContext(), listItem, R.layout. accountlistitem);
             accountListView.setAdapter(accountListViewAdapter);
+            accountListView.setOnItemClickListener(itemClickListener);
 
         });
 
@@ -110,6 +117,14 @@ public class menu1_fragment_tab0 extends Fragment {
 
         return layout;
     }
+
+    private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Toast.makeText(getContext(),"position:"+position+"account_number:"+account_number.get(position),Toast.LENGTH_LONG).show();
+
+        }
+    };
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
