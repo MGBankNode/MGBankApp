@@ -206,8 +206,6 @@ public class AddReceiptActivity extends Activity {
                 // 0 1 2 3
                 String resultDate = yearStr + "-" + monthStr + "-" + dayStr + " " + hourStr + ":" + minStr;
 
-
-
                 Log.d(">>>reusltdate", resultDate);
 
                 //상정명 확인 요청
