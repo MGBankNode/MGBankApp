@@ -35,6 +35,7 @@
     <ImageView
         app:layout_anchorGravity="center|top"
         app:layout_anchor="@id/nestedScrollView"
+        android:id="@+id/faceImage"
         android:src="@drawable/smile"
         android:elevation="4dp"
         android:layout_width="70dp"

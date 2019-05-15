@@ -32,7 +32,6 @@ public class CreditCard implements Serializable {
     //사용자의 해쉬맵과 비교하여 할인된 값을 가져옴, 문자열 어레이에 저장
     public int getDiscountedPrice(Stat userStat, ArrayList<String> result) {
         userStat.dataSortByPrice();
-        Log.d("KJH", "getDiscountedPrice");
         ArrayList<PayInfomation> userKeys = new ArrayList<PayInfomation>();
         int discountedPrice = 0;
         userKeys.addAll(userStat.getList());
@@ -56,7 +55,6 @@ public class CreditCard implements Serializable {
     //사용자의 해쉬맵과 비교하여 할인된 값을 가져옴
     public int getDiscountedPrice(Stat userStat){
         userStat.dataSortByPrice();
-        Log.d("KJH", "getDiscountedPrice");
         ArrayList<PayInfomation> userKeys = new ArrayList<PayInfomation>();
         int discountedPrice = 0;
         userKeys.addAll(userStat.getList());
@@ -66,9 +64,6 @@ public class CreditCard implements Serializable {
                     if (benefits.get(benefitsPosition).getBenefitValue() < 100) {
                         discountedPrice += (userKeys.get(userPosition).getPrice()
                                 * benefits.get(benefitsPosition).getBenefitValue()) / 100;
-                        Log.d("KJH", "discountedPrice : " + discountedPrice + " : "
-                                + (userKeys.get(userPosition).getPrice() +
-                                " * " + benefits.get(benefitsPosition).getBenefitValue()) + " / 100");
                     } else {
                         discountedPrice += benefits.get(benefitsPosition).getBenefitValue();
                     }

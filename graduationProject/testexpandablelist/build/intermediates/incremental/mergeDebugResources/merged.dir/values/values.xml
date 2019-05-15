@@ -1896,11 +1896,11 @@
         <attr name="height"/>
         <!-- Specifies a layout to use for the "home" section of the action bar. -->
         <attr format="reference" name="homeLayout"/>
-        <!-- Specifies a style resource to use for an embedded progress bar. -->
+        <!-- Specifies a style resource to use for an embedded progress_layout bar. -->
         <attr format="reference" name="progressBarStyle"/>
-        <!-- Specifies a style resource to use for an indeterminate progress spinner. -->
+        <!-- Specifies a style resource to use for an indeterminate progress_layout spinner. -->
         <attr format="reference" name="indeterminateProgressStyle"/>
-        <!-- Specifies the horizontal padding on either end for an embedded progress bar. -->
+        <!-- Specifies the horizontal padding on either end for an embedded progress_layout bar. -->
         <attr format="dimension" name="progressBarPadding"/>
         <!-- Up navigation glyph -->
         <attr name="homeAsUpIndicator"/>
@@ -2054,7 +2054,7 @@
     </declare-styleable>
     <declare-styleable name="AppCompatSeekBar">
         <attr name="android:thumb"/>
-        <!-- Drawable displayed at each progress position on a seekbar. -->
+        <!-- Drawable displayed at each progress_layout position on a seekbar. -->
         <attr format="reference" name="tickMark"/>
         <!-- Tint to apply to the tick mark drawable. -->
         <attr format="color" name="tickMarkTint"/>

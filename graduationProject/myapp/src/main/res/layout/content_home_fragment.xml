@@ -19,7 +19,7 @@
             android:paddingHorizontal="10dp"
             android:fontFamily="@font/applegothicneo_b">
 
-            <Button
+            <TextView
                 android:id="@+id/setBudgetBtn"
                 android:layout_width="0dp"
                 android:layout_height="55dp"

@@ -59,8 +59,6 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         this.stat = stat;
         keys = new ArrayList<String>();
         keys.addAll(data.keySet());
-        Log.d("KJH", "keys size : " + keys.size());
-        Log.d("KJH", "keys value : " + keys.get(0));
         dataSort();
         getAllPrice();
     }
@@ -83,12 +81,8 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 (LinearLayout.LayoutParams) viewHolder.percentReverseTv.getLayoutParams();
         int percent = (int)(100 * data.get(keys.get(position))/ allPrice);
 
-        Log.d("KJH", "price : " + data.get(keys.get(position)));
-        Log.d("KJH", "allprice : " + allPrice);
-        Log.d("KJH", "price / allprice : " + data.get(keys.get(position))/ allPrice);
         btn_params.weight = percent;
         reverse_params.weight = 100 - percent;
-        Log.d("KJH", "percent : " + percent + ", weight : " + btn_params.weight);
         viewHolder.moneyTv.setText(util.comma(data.get(keys.get(position))) + "원");
         viewHolder.percentTv.setText(Integer.toString(percent) + "%");
         //아이템 리스너 설정
@@ -100,7 +94,6 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 //                ArrayList<String> temp = new ArrayList<String>();
 //                int tempInt = cardDataBase.PeachCard.getDiscountedPrice(data, temp);
                 /////////////////////////////////
-                Log.d("KJH", data.get(position) + "");
                 CustomDialog cd = new CustomDialog();
                 TextView tv = (TextView)v.findViewById(R.id.testTextView);
 
@@ -150,7 +143,6 @@ public class DetailedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     public class ClassificationComparator implements Comparator<Object> {
         @Override
         public int compare(Object first, Object second){
-            Log.d("KJH", "ClassificationSort");
             int firstValue = data.get(first);
             int secondValue = data.get(second);
 

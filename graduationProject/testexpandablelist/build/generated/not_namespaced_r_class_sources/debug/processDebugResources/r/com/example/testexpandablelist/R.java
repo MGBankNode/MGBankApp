@@ -1324,7 +1324,7 @@ public final class R {
      */
     public static final int imageButtonStyle=0x7f02008f;
     /**
-     * Specifies a style resource to use for an indeterminate progress spinner.
+     * Specifies a style resource to use for an indeterminate progress_layout spinner.
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
      * attribute in the form
@@ -2249,7 +2249,7 @@ public final class R {
      */
     public static final int preserveIconSpacing=0x7f0200ef;
     /**
-     * Specifies the horizontal padding on either end for an embedded progress bar.
+     * Specifies the horizontal padding on either end for an embedded progress_layout bar.
      * <p>May be a dimension value, which is a floating point number appended with a
      * unit such as "<code>14.5sp</code>".
      * Available units are: px (pixels), dp (density-independent pixels),
@@ -2258,7 +2258,7 @@ public final class R {
      */
     public static final int progressBarPadding=0x7f0200f0;
     /**
-     * Specifies a style resource to use for an embedded progress bar.
+     * Specifies a style resource to use for an embedded progress_layout bar.
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
      * attribute in the form
@@ -2711,7 +2711,7 @@ public final class R {
      */
     public static final int thumbTintMode=0x7f020124;
     /**
-     * Drawable displayed at each progress position on a seekbar.
+     * Drawable displayed at each progress_layout position on a seekbar.
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
      * attribute in the form
@@ -4024,15 +4024,15 @@ public final class R {
      * <tr><td><code>{@link #ActionBar_homeAsUpIndicator com.example.testexpandablelist:homeAsUpIndicator}</code></td><td>Specifies a drawable to use for the 'home as up' indicator.</td></tr>
      * <tr><td><code>{@link #ActionBar_homeLayout com.example.testexpandablelist:homeLayout}</code></td><td>Specifies a layout to use for the "home" section of the action bar.</td></tr>
      * <tr><td><code>{@link #ActionBar_icon com.example.testexpandablelist:icon}</code></td><td>Specifies the drawable used for the application icon.</td></tr>
-     * <tr><td><code>{@link #ActionBar_indeterminateProgressStyle com.example.testexpandablelist:indeterminateProgressStyle}</code></td><td>Specifies a style resource to use for an indeterminate progress spinner.</td></tr>
+     * <tr><td><code>{@link #ActionBar_indeterminateProgressStyle com.example.testexpandablelist:indeterminateProgressStyle}</code></td><td>Specifies a style resource to use for an indeterminate progress_layout spinner.</td></tr>
      * <tr><td><code>{@link #ActionBar_itemPadding com.example.testexpandablelist:itemPadding}</code></td><td>Specifies padding that should be applied to the left and right sides of
      * system-provided items in the bar.</td></tr>
      * <tr><td><code>{@link #ActionBar_logo com.example.testexpandablelist:logo}</code></td><td>Specifies the drawable used for the application logo.</td></tr>
      * <tr><td><code>{@link #ActionBar_navigationMode com.example.testexpandablelist:navigationMode}</code></td><td>The type of navigation to use.</td></tr>
      * <tr><td><code>{@link #ActionBar_popupTheme com.example.testexpandablelist:popupTheme}</code></td><td>Reference to a theme that should be used to inflate popups
      * shown by widgets in the action bar.</td></tr>
-     * <tr><td><code>{@link #ActionBar_progressBarPadding com.example.testexpandablelist:progressBarPadding}</code></td><td>Specifies the horizontal padding on either end for an embedded progress bar.</td></tr>
-     * <tr><td><code>{@link #ActionBar_progressBarStyle com.example.testexpandablelist:progressBarStyle}</code></td><td>Specifies a style resource to use for an embedded progress bar.</td></tr>
+     * <tr><td><code>{@link #ActionBar_progressBarPadding com.example.testexpandablelist:progressBarPadding}</code></td><td>Specifies the horizontal padding on either end for an embedded progress_layout bar.</td></tr>
+     * <tr><td><code>{@link #ActionBar_progressBarStyle com.example.testexpandablelist:progressBarStyle}</code></td><td>Specifies a style resource to use for an embedded progress_layout bar.</td></tr>
      * <tr><td><code>{@link #ActionBar_subtitle com.example.testexpandablelist:subtitle}</code></td><td>Specifies subtitle text used for navigationMode="normal"</td></tr>
      * <tr><td><code>{@link #ActionBar_subtitleTextStyle com.example.testexpandablelist:subtitleTextStyle}</code></td><td>Specifies a style to use for subtitle text.</td></tr>
      * <tr><td><code>{@link #ActionBar_title com.example.testexpandablelist:title}</code></td><td></td></tr>
@@ -4343,7 +4343,7 @@ public final class R {
     /**
      * <p>
      * @attr description
-     * Specifies a style resource to use for an indeterminate progress spinner.
+     * Specifies a style resource to use for an indeterminate progress_layout spinner.
      *
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
@@ -4417,7 +4417,7 @@ public final class R {
     /**
      * <p>
      * @attr description
-     * Specifies the horizontal padding on either end for an embedded progress bar.
+     * Specifies the horizontal padding on either end for an embedded progress_layout bar.
      *
      * <p>May be a dimension value, which is a floating point number appended with a
      * unit such as "<code>14.5sp</code>".
@@ -4431,7 +4431,7 @@ public final class R {
     /**
      * <p>
      * @attr description
-     * Specifies a style resource to use for an embedded progress bar.
+     * Specifies a style resource to use for an embedded progress_layout bar.
      *
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme
@@ -5145,7 +5145,7 @@ public final class R {
      * <colgroup align="left" />
      * <tr><th>Attribute</th><th>Description</th></tr>
      * <tr><td><code>{@link #AppCompatSeekBar_android_thumb android:thumb}</code></td><td></td></tr>
-     * <tr><td><code>{@link #AppCompatSeekBar_tickMark com.example.testexpandablelist:tickMark}</code></td><td>Drawable displayed at each progress position on a seekbar.</td></tr>
+     * <tr><td><code>{@link #AppCompatSeekBar_tickMark com.example.testexpandablelist:tickMark}</code></td><td>Drawable displayed at each progress_layout position on a seekbar.</td></tr>
      * <tr><td><code>{@link #AppCompatSeekBar_tickMarkTint com.example.testexpandablelist:tickMarkTint}</code></td><td>Tint to apply to the tick mark drawable.</td></tr>
      * <tr><td><code>{@link #AppCompatSeekBar_tickMarkTintMode com.example.testexpandablelist:tickMarkTintMode}</code></td><td>Blending mode used to apply the tick mark tint.</td></tr>
      * </table>
@@ -5172,7 +5172,7 @@ public final class R {
     /**
      * <p>
      * @attr description
-     * Drawable displayed at each progress position on a seekbar.
+     * Drawable displayed at each progress_layout position on a seekbar.
      *
      * <p>May be a reference to another resource, in the form
      * "<code>@[+][<i>package</i>:]<i>type</i>/<i>name</i></code>" or a theme

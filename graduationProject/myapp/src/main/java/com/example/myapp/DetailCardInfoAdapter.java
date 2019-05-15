@@ -40,19 +40,10 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     DetailCardInfoAdapter(HashMap<CreditCard, HashMap<Stat,Integer>> d, CreditCard sc){
         discountData = d;
-        Log.d("KJH", "discountData Size() : " + discountData.size());
         this.selectedCard = sc;
         keys = new ArrayList<Stat>();
         keys.addAll(discountData.get(selectedCard).keySet());
 
-//        this.sData = d;
-//        Log.d("DetailCardInfiAdapter", "sData Size : " + sData.size());
-//        this.selectedCard = sc;
-//        this.stats = sd;
-//        datas = new HashMap<String, Integer>();
-//        for(int sPosition = 0; sPosition < stats.size(); sPosition++){
-//            stats.get(sPosition).getSelectedHashMap(sData, datas);
-//        }
     }
 
     @Override
@@ -64,7 +55,6 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Log.d("KJH", "detailAdapter loop : " + position);
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.detailStatTv.setText(keys.get(position).toString());
         viewHolder.detailPriceTv.setText(util.comma(discountData.get(selectedCard).get(keys.get(position))));
@@ -73,7 +63,6 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("KJH", keys.get(position) + "");
 
                 Bundle args = new Bundle();
 
@@ -86,7 +75,6 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 FragmentManager fm = f.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
-                fragmentTransaction.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -110,13 +98,7 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public class ClassificationComparator implements Comparator<Object> {
         @Override
         public int compare(Object first, Object second){
-//            Log.d("KJH", "ClassificationSort");
-//            int firstValue = sData.get(first);
-//            int secondValue = sData.get(second);
-//
-//            if(firstValue > secondValue) return -1;
-//            else if(firstValue < secondValue) return 1;
-//            else return 0;
+
             return 1;
         }
     }

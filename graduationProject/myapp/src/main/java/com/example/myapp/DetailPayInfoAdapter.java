@@ -66,7 +66,6 @@ public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Log.d("KJH", "detailAdapter loop : " + position + ", " + data.get(position).getAccountName());
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.detailDateTv.setText(util.dateForm(data.get(position).getDate()));
         viewHolder.detailAccountTv.setText(data.get(position).getAccountName());
@@ -75,7 +74,6 @@ public class DetailPayInfoAdapter extends RecyclerView.Adapter<RecyclerView.View
         temp = selectedCard.getDiscountedPrice(selectedStat, data.get(position).getAccountName(),
                 data.get(position).getPrice());
         if(temp > 0) {
-            Log.d("KJH", "test Log : " + data.get(position).getPrice() + ", temp : " + temp);
             viewHolder.detailOriginPriceTv.setPaintFlags(viewHolder.detailOriginPriceTv.getPaintFlags()
                             | Paint.STRIKE_THRU_TEXT_FLAG);
             viewHolder.detailDiscountPriceTv.setText(data.get(position).getPrice() - temp + "");

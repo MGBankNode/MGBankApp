@@ -1,8 +1,11 @@
 package com.example.myapp;
 
 
-import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,11 +18,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
-import java.util.Stack;
 //그래프
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -38,8 +42,14 @@ public class fragment_home extends Fragment {
     RecyclerViewAdapter adapter = null;
     LinearLayoutManager layoutManager = null;
     private PieChart pieChart = null;
+    String budget;
+    Util util = new Util();
+    int allPriceValue;
 
-    protected Button setBudget;
+    protected TextView budgetBtn;
+
+
+    BroadcastReceiver receiver = null;
 
 
     public fragment_home() {
@@ -53,17 +63,35 @@ public class fragment_home extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Intent intent = new Intent();
-        intent.setAction("HomeFragment");
-        //getActivity().sendBroadcast(intent);
-
         sData = new ArrayList<Stat>();
         sData = (ArrayList<Stat>)getArguments().get("DATA");
+        budget = (String)getArguments().getString("BUDGET");
         Log.d("homeFragment", sData.toString());
 
-        setBudget = view.findViewById(R.id.setBudgetBtn);
+        budgetBtn = (TextView)view.findViewById(R.id.setBudgetBtn);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("sendbudget");
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                budgetBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), SetBudget.class);
+                        getActivity().startActivityForResult(intent, 2);
+                    }
+                });
+                String budgetString = intent.getStringExtra("BUDGET");
+                Log.d("KJH", "budgetString : " + budgetString);
+                if(!budgetString.isEmpty()){
+                    Log.d("KJH", "예산 텍스트 설정");
+                    budgetBtn.setText("예산 : " + util.comma(Integer.parseInt(budgetString)) + "원");
+                }
+                setBudget(view, budgetString);
+            }
+        };
+        getContext().registerReceiver(receiver, intentFilter);
 
-        String budget = "";
 
         // Inflate the layout for this fragment
         return view;
@@ -80,14 +108,10 @@ public class fragment_home extends Fragment {
         //잔고 콤마 셋팅
         setHomeText();
 
-        setBudget.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), SetBudget.class);
-                getActivity().startActivityForResult(intent, 2);
-            }
-        });
+        Intent intent = new Intent();
+        intent.setAction("budget");
+        getActivity().sendBroadcast(intent);
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -129,8 +153,9 @@ public class fragment_home extends Fragment {
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         //텍스트를 바깥으로
-        dataSet.setValueLinePart1Length(0.6f);
-        dataSet.setValueLinePart2Length(.2f);
+        dataSet.setValueLinePart1Length(0.5f);
+        dataSet.setValueLinePart2Length(.6f);
+        dataSet.setValueTextSize(7);
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
         //색 지정
@@ -160,6 +185,32 @@ public class fragment_home extends Fragment {
         for(int position = 0; position < sData.size(); position++){
             allPrice += sData.get(position).getPrice();
         }
+        allPriceValue = allPrice;
         tv.setText(util.comma(allPrice) + "원");
+    }
+    public void setBudget(View v, String budgetString){
+        Log.d("KJH", "setBudget budgetString : " + budgetString);
+        int budget = Integer.parseInt(budgetString);
+        int remainbudget = budget - allPriceValue;
+        TextView tv = (TextView)v.findViewById(R.id.remainBudget);
+        double todayValue = new Date().getDate() / 30.00;
+        Log.d("KJH", "today value : " + todayValue + "date : " + new Date().getDate());
+        ImageView imageView = (ImageView)v.findViewById(R.id.faceImage);
+        if(remainbudget > (budget - (budget * todayValue))){
+            imageView.setImageResource(R.drawable.smile);
+            tv.setText(util.comma(remainbudget) + "원 남음");
+            tv.setTextColor(Color.parseColor("#2BB0DD"));
+        }else{
+            if(remainbudget <= 0) {
+                tv.setText(util.comma(remainbudget * -1) + "원 초과");
+                tv.setTextColor(Color.parseColor("#FF2222"));
+                imageView.setImageResource(R.drawable.crying);
+            }
+            else {
+                tv.setText(util.comma(remainbudget) + "원 남음");
+                tv.setTextColor(Color.parseColor("#995555"));
+                imageView.setImageResource(R.drawable.sad);
+            }
+        }
     }
 }
