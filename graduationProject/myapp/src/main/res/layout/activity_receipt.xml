@@ -94,7 +94,7 @@
         android:visibility="gone"
         android:id="@+id/layout_result"
         android:layout_width="300dp"
-        android:layout_height="350dp">
+        android:layout_height="400dp">
         <LinearLayout
             android:layout_marginLeft ="10pt"
             android:layout_width="match_parent"
@@ -110,7 +110,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="상호명 : "
+                    android:text="상 호 명 : "
                     android:fontFamily="@font/applegothicneo_b"
                     android:background="@android:color/transparent"
                     />
@@ -157,8 +157,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/dateEdit"
+                    android:inputType="date"
                     android:fontFamily="@font/applegothicneo_b"
-                    android:hint="직접 입력해주세요."
+                    android:hint="YYYYMMDD"
+                    android:background="@android:color/transparent"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft ="10pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginRight="5pt"
+            android:layout_marginTop="5pt"
+            android:gravity="left"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="시     간 : "
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:background="@android:color/transparent"
+                    /></LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dateTimeEdit"
+                    android:inputType="date"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:hint="hhMM"
                     android:background="@android:color/transparent"
                     />
             </LinearLayout>
@@ -190,6 +226,7 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:hint="직접 입력해주세요."
+                    android:inputType="number"
                     android:fontFamily="@font/applegothicneo_b"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
