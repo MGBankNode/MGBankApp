@@ -37,15 +37,16 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+            android:paddingTop="5dp"
             android:layout_marginLeft="10dp"
-            android:text="총 금액"
-            android:textSize="10pt"
-            android:textColor="#000"
-            android:gravity="left"
-            android:fontFamily="@font/applegothicneo_b"/>
+        android:text="총 금액"
+        android:textSize="10pt"
+        android:textColor="#000"
+        android:gravity="left"
+        android:fontFamily="@font/applegothicneo_b"/>
 
         <TextView
             android:id="@+id/totalBalance"
@@ -65,12 +66,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000">
 
-        </View>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000">
+
+    </View>
+
     </LinearLayout>
 
     <ListView
@@ -82,5 +85,3 @@
         >
     </ListView>
 </LinearLayout>
-
-

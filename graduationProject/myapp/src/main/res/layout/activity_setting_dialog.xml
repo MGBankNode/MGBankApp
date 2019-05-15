@@ -5,13 +5,17 @@
     android:layout_height="280dp"
     android:gravity="center"
     android:orientation="vertical"
+    android:fontFamily="@font/applegothicneo_b"
     tools:context=".SettingDialogActivity">
 
         <Switch
             android:id="@+id/pushSwitch"
-            android:text="단말 등록 ON/OFF  "
+
+            android:text="단말 추가  "
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/applegothicneo_b"
             android:layout_marginTop="20dp"/>
 
         <Switch
@@ -19,6 +23,7 @@
             android:text="계좌등록  "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/applegothicneo_b"
             android:layout_marginTop="50dp"/>
 
 
@@ -27,6 +32,7 @@
             android:text="완료"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/applegothicneo_b"
             android:layout_marginTop="50dp"/>
 
 </LinearLayout>

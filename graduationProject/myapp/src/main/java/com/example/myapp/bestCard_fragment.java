@@ -143,28 +143,12 @@ public class bestCard_fragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
     }
-    public void alertDialog() {
 
-        final String url = "https://mgcheck.kfcc.co.kr/pers/appl/persPeachGuid.do";
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("링크연결");
-        builder.setMessage("더 자세한 혜택을 보시겠습니까?");
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(myIntent);
-            }
-        });
-
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(getContext(), "아니오를 선택했습니다", Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.show();
+    @Override
+    public void onDestroy() {
+        Intent intent = new Intent();
+        intent.setAction("HomeFragment");
+        getActivity().sendBroadcast(intent);
+        super.onDestroy();
     }
-
 }

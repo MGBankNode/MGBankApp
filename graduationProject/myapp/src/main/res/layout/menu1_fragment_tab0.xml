@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:padding="4dp"
+        android:fontFamily="@font/applegothicneo_b"
         android:footerDividersEnabled="false"
         >
     </ListView>

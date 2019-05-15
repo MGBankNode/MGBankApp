@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/applegothicneo_m"
+                android:fontFamily="@font/applegothicneo_b"
                 android:text="PayAccountName"
                 android:textColor="#2BB0DD"
                 android:textSize="18dp" />
@@ -44,7 +44,7 @@
                 android:gravity="center"
                 android:layout_height="30dp"
                 android:layout_marginTop="15dp"
-                android:fontFamily="@font/applegothicneo_m"
+                android:fontFamily="@font/applegothicneo_b"
                 android:text="PayAccountStatName"
                 android:textSize="19dp"
                 android:textStyle="bold" />
@@ -54,6 +54,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
+                android:fontFamily="@font/applegothicneo_b"
                 android:layout_marginTop="15dp">
 
             </Spinner>

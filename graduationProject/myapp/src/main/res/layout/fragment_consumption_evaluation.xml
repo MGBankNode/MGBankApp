@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fontFamily="@font/applegothicneo_b"
     android:background="#FFF">
 
     <LinearLayout
@@ -35,12 +36,14 @@
                 android:text="3월"
                 android:textSize="22dp"
                 android:textColor="#000"
+                android:fontFamily="@font/applegothicneo_b"
                 android:textAlignment="center"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2019년"
                 android:textSize="12dp"
+                android:fontFamily="@font/applegothicneo_b"
                 android:id="@+id/present_year_"/>
         </LinearLayout>
         <ImageButton
@@ -60,6 +63,7 @@
             android:divider="#C6C6C6"
             android:footerDividersEnabled="false"
             android:dividerHeight="8dp"
+            android:fontFamily="@font/applegothicneo_b"
             >
         </ListView>
 

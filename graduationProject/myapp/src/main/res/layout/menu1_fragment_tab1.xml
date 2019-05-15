@@ -35,12 +35,14 @@
                 android:id="@+id/present_month"
                 android:text="3월"
                 android:textSize="22dp"
+                android:fontFamily="@font/applegothicneo_b"
                 android:textColor="#000"
                 android:textAlignment="center"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2019년"
+                android:fontFamily="@font/applegothicneo_b"
                 android:textSize="12dp"
                 android:id="@+id/present_year"/>
         </LinearLayout>
@@ -66,6 +68,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="일"/>
         <TextView android:textColor="#000"
             android:textSize="17dp"
@@ -73,6 +76,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="월"/>
         <TextView android:textColor="#000"
             android:textSize="17dp"
@@ -80,6 +84,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="화"/>
         <TextView android:textColor="#000"
             android:textSize="17dp"
@@ -87,6 +92,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="수"/>
         <TextView android:textColor="#000"
             android:textSize="17dp"
@@ -94,6 +100,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="목"/>
         <TextView android:textColor="#000"
             android:textSize="17dp"
@@ -101,6 +108,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="금"/>
         <TextView android:textColor="#55F"
             android:textSize="17dp"
@@ -108,12 +116,14 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="토"/>
     </LinearLayout>
     <TextView
         android:layout_below="@+id/dw"
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:fontFamily="@font/applegothicneo_b"
         android:background="#e8e8e8"/>
 
     <GridView
@@ -124,6 +134,7 @@
         android:layout_marginTop="5dp"
         android:listSelector="@drawable/gridview_selector"
         android:numColumns="7"
+        android:fontFamily="@font/applegothicneo_b"
         android:stretchMode="columnWidth"></GridView>
 
     <LinearLayout
@@ -169,6 +180,7 @@
             android:background="@drawable/benefit_label"
             android:gravity="center"
             android:text="Benefit"
+            android:fontFamily="@font/applegothicneo_b"
             android:textColor="#3cc1ee"
             android:textSize="15dp" />
 
@@ -182,6 +194,7 @@
             android:background="@drawable/loss_label"
             android:gravity="center"
             android:text="Loss"
+            android:fontFamily="@font/applegothicneo_b"
             android:textColor="#F22"
             android:textSize="15dp" />
     </LinearLayout>

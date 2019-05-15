@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/consola"
+            android:fontFamily="@font/applegothicneo_b"
             android:padding="8dp"
             android:text="아이디"
             android:textColor="#000"
@@ -47,6 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/signupedit"
+                android:fontFamily="@font/applegothicneo_b"
                 android:padding="12dp"
                 android:layout_weight="3"
                 android:textSize="13dp" />
@@ -59,8 +60,8 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="중복체크"
+                android:fontFamily="@font/applegothicneo_b"
                 android:textColor="#FFF"
-                android:fontFamily="@font/consola"
                 android:background="#2BB0DD"
                 />
 
@@ -72,9 +73,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/consola"
             android:padding="8dp"
             android:text="비밀번호"
+            android:fontFamily="@font/applegothicneo_b"
             android:textColor="#000"
             android:textSize="14dp" />
 
@@ -85,13 +86,14 @@
             android:background="@drawable/signupedit"
             android:padding="12dp"
             android:textSize="13dp"
+            android:fontFamily="@font/applegothicneo_b"
             android:inputType="textPassword"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/consola"
+            android:fontFamily="@font/applegothicneo_b"
             android:padding="8dp"
             android:text="이름"
             android:textColor="#000"
@@ -103,13 +105,14 @@
             android:layout_height="45dp"
             android:background="@drawable/signupedit"
             android:padding="12dp"
+            android:fontFamily="@font/applegothicneo_b"
             android:textSize="13dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/consola"
+            android:fontFamily="@font/applegothicneo_b"
             android:padding="8dp"
             android:text="전화번호"
             android:textColor="#000"
@@ -124,6 +127,7 @@
                 android:id="@+id/etPhoneNum"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/applegothicneo_b"
                 android:background="@drawable/signupedit"
                 android:layout_weight="3"
                 android:inputType="phone"
@@ -138,8 +142,8 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="인증번호 받기"
+                android:fontFamily="@font/applegothicneo_b"
                 android:textColor="#FFF"
-                android:fontFamily="@font/consola"
                 android:background="#2BB0DD"
                 />
 
@@ -160,7 +164,7 @@
                 android:layout_marginRight="30dp"
                 android:padding="8dp"
                 android:background="#2BB0DD"
-                android:fontFamily="@font/consola"
+                android:fontFamily="@font/applegothicneo_b"
                 android:onClick="onJoinBtnClicked"
                 android:text="완료"
                 android:textColor="#FFF"
@@ -172,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:background="#2BB0DD"
-                android:fontFamily="@font/consola"
+                android:fontFamily="@font/applegothicneo_b"
                 android:text="취소"
                 android:textColor="#FFF"
                 android:textSize="20dp" />

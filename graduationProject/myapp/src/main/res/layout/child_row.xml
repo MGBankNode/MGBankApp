@@ -12,6 +12,7 @@
         android:paddingBottom="14dp"
         android:paddingLeft="30dp"
         android:paddingRight="14dp"
+        android:fontFamily="@font/applegothicneo_b"
         />
 
 </LinearLayout>

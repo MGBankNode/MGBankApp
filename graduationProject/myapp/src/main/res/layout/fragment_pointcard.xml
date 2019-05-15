@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FC6498AA"
-            android:fontFamily="@font/nanumbarunpenb"/>
+            android:fontFamily="@font/applegothicneo_b"/>
 
 
     </LinearLayout>
@@ -35,6 +35,7 @@
         android:id="@+id/pointCard_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/applegothicneo_b"
         card_view:cardBackgroundColor="@color/colorAccent"
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="3dp"
@@ -56,6 +57,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/applegothicneo_b"
                 android:layout_marginTop="12dp"
                 android:layout_weight="2"
                 android:orientation="vertical">
@@ -67,6 +69,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:text="Point Name"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textStyle="bold"
                     android:textColor="#fff"
                     android:textAppearance="?android:attr/textAppearanceLarge"/>
@@ -79,6 +82,7 @@
                     android:layout_marginTop="5dp"
                     android:textColor="#fff"
                     android:text="Point Score"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             </LinearLayout>
@@ -86,118 +90,141 @@
 
     </android.support.v7.widget.CardView>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
-        <TextView
-            android:text="멤버십 혜택"
-            android:textSize="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"  
-            android:layout_marginBottom="10dp"/>
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="적립"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/hyetack1"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="hyetack1"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="사용"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/hyetack2"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="hyetack2"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="소멸"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/hyetack3"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="hyetack3"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="기타"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/hyetack4"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="hyetack4"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="고객\n센터"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/hyetack5"
-                android:layout_marginLeft="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="hyetack5"/>
-        </LinearLayout>
-
-        <TextView
-            android:text="포인트 내역"
-            android:textSize="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"/>
-        <TextView
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/point_naeyeock"
-            android:text="광운대역 파리바게뜨  \t\t\t\t\t\t              +130\n\n베스킨라빈스 광운대점  \t\t\t\t\t            +180\n\n광운대역 파리바게뜨  \t\t\t\t\t\t              +130\n\n광운대역 파리바게뜨  \t\t\t\t\t\t              +130\n\n베스킨라빈스 광운대점  \t\t\t\t\t            +1180\n\"/>
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:text="멤버십 혜택"
+                android:textSize="20dp"
+                android:fontFamily="@font/applegothicneo_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"/>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:fontFamily="@font/applegothicneo_b"
+                android:layout_margin="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="적립"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/hyetack1"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="hyetack1"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/applegothicneo_b"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="사용"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/hyetack2"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="hyetack2"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/applegothicneo_b"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="소멸"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/hyetack3"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="hyetack3"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/applegothicneo_b"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="기타"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/hyetack4"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="hyetack4"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/applegothicneo_b"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="고객\n센터"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/hyetack5"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="hyetack5"/>
+            </LinearLayout>
+
+            <TextView
+                android:text="포인트 내역"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/applegothicneo_b"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/applegothicneo_b"
+                android:id="@+id/point_naeyeock"
+                android:text="광운대역 파리바게뜨  \t\t\t\t\t\t              +130\n\n베스킨라빈스 광운대점  \t\t\t\t\t            +180\n\n광운대역 파리바게뜨  \t\t\t\t\t\t              +130\n\n광운대역 파리바게뜨  \t\t\t\t\t\t              +130\n\n베스킨라빈스 광운대점  \t\t\t\t\t            +1180\n\"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

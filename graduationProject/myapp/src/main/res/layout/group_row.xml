@@ -10,7 +10,7 @@
         android:textSize="18dp"
         android:padding="16dp"
         android:textColor="#000"
-        android:fontFamily="@font/applegothicneo_m"
+        android:fontFamily="@font/applegothicneo_b"
         />
 </LinearLayout>
 

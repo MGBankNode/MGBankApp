@@ -337,8 +337,8 @@ public class menu1_fragment_tab1 extends Fragment {
                 if(startNum == -1)
                     Toast.makeText(getActivity(),"해당 날짜는 거래내역이 없습니다.",Toast.LENGTH_LONG).show();
                 else {
-                    String benefit = "Benefit : " + benefitList.get(position);
-                    String loss = "Loss : "+lossList.get(position);
+                    String benefit = benefitList.get(position);
+                    String loss = lossList.get(position);
                     Intent intent = new Intent(getActivity(), menu1_calendar_popup.class);
                     intent.putExtra("hDate", hDate);
                     intent.putExtra("hName", hName);
@@ -409,10 +409,10 @@ public class menu1_fragment_tab1 extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddReceiptActivity.class);
+                intent.putExtra("userID", userID);
                 startActivityForResult(intent, 1);
             }
         });
-
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -495,9 +495,10 @@ public class menu1_fragment_tab1 extends Fragment {
             holder.tvItemGridView.setText("" + getItem(position));
 
             if(!getItem(position).equals("")) {
-                holder.tvPlus.setText(""+myFormatter.format(Integer.parseInt(benefitList.get(position))) );
-                holder.tvMinus.setText(""+myFormatter.format(Integer.parseInt(lossList.get(position))) );
-
+                if((Integer.parseInt(benefitList.get(position))!=0) || (Integer.parseInt(lossList.get(position))!=0)){
+                    holder.tvPlus.setText(""+myFormatter.format(Integer.parseInt(benefitList.get(position))) );
+                    holder.tvMinus.setText(""+myFormatter.format(Integer.parseInt(lossList.get(position))) );
+                }
                 //버튼 눌럿을때 수입 지출 보이게 하는 조건
                 if(!btn_benefit.getText().equals("benefit")){
                     holder.tvPlus.setVisibility(View.VISIBLE);

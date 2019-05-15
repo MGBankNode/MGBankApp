@@ -1,12 +1,12 @@
 package com.example.myapp;
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -27,20 +27,15 @@ import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import android.app.AlertDialog;
@@ -53,12 +48,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -106,17 +98,33 @@ public class MainActivity extends AppCompatActivity
 
     public int userAccountCheck;
     public String userID;
+    BroadcastReceiver receiver = null;
 
     @Override
     public void onBackPressed() {
         Log.i("nkw","onBackpressed()");
         textTitle.setText("");
-        super.onBackPressed();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("HomeFragment");
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+            }
+        };
+        registerReceiver(receiver, intentFilter);
         toolbar = findViewById(R.id.toolbar);
         textTitle = (TextView)findViewById(R.id.text_title);
         textTitle.setText("");
@@ -149,8 +157,8 @@ public class MainActivity extends AppCompatActivity
         temp.child.add("카드추천");
 
         DataList.add(temp);
-        temp = new myGroup("통합맴버쉽");
-        temp.child.add("통합맴버쉽");
+        temp = new myGroup("통합멤버십");
+        temp.child.add("통합멤버십");
 
         DataList.add(temp);
 
@@ -159,86 +167,82 @@ public class MainActivity extends AppCompatActivity
         listView.setAdapter(adapter);
         st = new Stack<String>();
         st.push("home");
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        listView.setOnChildClickListener((ExpandableListView parent, View v, int groupPosition, int childPosition, long id) -> {
                 // 0 0 계좌조회  0 1 달력   0 2 내역
                 // 1 0 소비평가  1 1 카드추천
                 // 2 0 통합맴버쉽
+              switch (groupPosition) {
+                  case 0: {
+                      textTitle.setText("가계부");
+                      Bundle bundle1 = new Bundle(1);
+                      switch (childPosition) {
+                          case 0:
+                              fr = new fragment_menu1();
+                              bundle1.putString("ID", userID);
+                              bundle1.putInt("apage", 0);
+                              st.push("a");
+                              break;
 
 
-                switch (groupPosition) {
-                    case 0: {
-                        textTitle.setText("가계부");
-                        Bundle bundle1 = new Bundle(1);
-                        switch (childPosition) {
-                            case 0:
-                                fr = new fragment_menu1();
-                                bundle1.putString("ID", userID);
-                                bundle1.putInt("apage", 0);
-                                st.push("a");
-                                break;
+                          case 1:
+                              fr = new fragment_menu1();
+                              bundle1.putString("ID", userID);
+                              bundle1.putInt("apage", 1);
+                              st.push("b");
+                              break;
 
+                          case 2:
+                              fr = new fragment_menu1();
+                              bundle1.putString("ID", userID);
+                              bundle1.putInt("apage", 2);
 
-                            case 1:
-                                fr = new fragment_menu1();
-                                bundle1.putString("ID", userID);
-                                bundle1.putInt("apage", 1);
-                                st.push("b");
-                                break;
+                              st.push("c");
 
-                            case 2:
-                                fr = new fragment_menu1();
-                                bundle1.putString("ID", userID);
-                                bundle1.putInt("apage", 2);
+                              break;
+                      }
+                      changeFragment(fr, bundle1);
+                      break;
+                  }
+                  case 1: {
+                      textTitle.setText("금융비서");
+                      Bundle bundle1 = new Bundle(1);
+                      switch (childPosition) {
+                          case 0:
+                              fr = new consumptionEvaluation_viewPager();
+                              bundle1.putInt("cpage", 0);
+                              st.push("d");
+                              changeFragment(fr, bundle1);
 
-                                st.push("c");
+                              break;
 
-                                break;
-                        }
-                        changeFragment(fr, bundle1);
-                        break;
-                    }
-                    case 1: {
-                        textTitle.setText("금융비서");
-                        Bundle bundle1 = new Bundle(1);
-                        switch (childPosition) {
-                            case 0:
-                                fr = new consumptionEvaluation_viewPager();
-                                bundle1.putInt("cpage", 0);
-                                st.push("d");
-                                changeFragment(fr, bundle1);
-
-                                break;
-
-                            case 1:
-                                fr = new bestCard_fragment();
-                                bundle1.putInt("cpage", 1);
-                                st.push("e");
-                                startFlagFragment("2019-01-01", "2019-06-01", BESTCARDFRAGMENT);
-                                break;
-                        }
-                        break;
-                    }
-
-                    case 2: {
-                        textTitle.setText("통합멤버쉽");
-                        Bundle bundle1 = new Bundle(1);
-                        switch (childPosition) {
-                            case 0:
-                                fr = new fragment_menu3();
-                                bundle1.putString("ID", userID);
-                                bundle1.putInt("apage", 0);
-                                st.push("f");
-                                break;
-                        }
-                        changeFragment(fr, bundle1);
-                        break;
-                    }
+                          case 1:
+                              fr = new bestCard_fragment();
+                              bundle1.putInt("cpage", 1);
+                              st.push("e");
+                              startFlagFragment("2019-01-01", "2019-06-01", BESTCARDFRAGMENT);
+                              break;
+                      }
+                      changeFragment(fr, bundle1);
+                      break;
+                  }
+                  case 2: {
+                      textTitle.setText("통합멤버쉽");
+                      Bundle bundle1 = new Bundle(1);
+                      switch (childPosition) {
+                          case 0:
+                              fr = new fragment_menu3();
+                              bundle1.putString("ID", userID);
+                              bundle1.putInt("apage", 0);
+                              st.push("f");
+                              break;
+                      }
+                      changeFragment(fr, bundle1);
+                      break;
                 }
-                return false;
-
             }
+            
+            return false;
+
         });
 //            setBudget = findViewById(R.id.setBudgetBtn);
 //            setBudget.setOnClickListener(new View.OnClickListener() {
@@ -265,6 +269,7 @@ public class MainActivity extends AppCompatActivity
 
 
      void MainStart(){
+
         startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
 
      }
@@ -299,32 +304,16 @@ public class MainActivity extends AppCompatActivity
         }
         getMenuInflater().inflate(R.menu.main, menu);
 
-        welcomeTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                StartActivity(MypageActivity.class);
-
-            }
-        });
+        welcomeTextView.setOnClickListener(v -> StartActivity(MypageActivity.class));
 
         //사용자 마지막 접속시간 변경
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
-
 
         userLastAtTxt.setText(changeText);
 
         userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
         if (userAccountCheck == 1) {
-            //계좌 등록이 되어있는 경우
-            //잔액은 로그인 시에 myUserInfo의 userABalance에 담겨 넘겨옴
-            //getUserABalance() 함수를 호출해서 값을 가져오기만 하면됨
-//            TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
-//
-//            String userABalance = myUserInfo.getUserABalance() + "원";
-//            Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
-//            userABalanceTxtView.setText(userABalance);
 
             MainStart();
 
@@ -333,9 +322,7 @@ public class MainActivity extends AppCompatActivity
             builder.setTitle("");
             builder.setMessage("앱을 사용하려면 계좌등록을 하셔야 합니다. 계좌 등록을 하시겠습니까?");
             builder.setCancelable(false);
-            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            builder.setPositiveButton("예", (DialogInterface dialog, int which) -> {
                     if (deviceCheckResult.equals("")) {
 
                         DeviceCheckHandler();
@@ -345,53 +332,36 @@ public class MainActivity extends AppCompatActivity
                         StartActivity(SettingDialogActivity.class);
 
                     }
-                }
             });
-            builder.setNegativeButton("아니오(로그아웃)", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            builder.setNegativeButton("아니오(로그아웃)", (DialogInterface dialog, int which) -> {
                     finish();
                     Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                     startActivity(returnLogin);
-                }
             });
             builder.show();
         }
 
 
         closeMenu = findViewById(R.id.closeMenu);
-        closeMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        closeMenu.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("");
                 builder.setMessage("정말로 로그아웃 하시겠습니까? ");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                builder.setPositiveButton("예", (DialogInterface dialog, int which) -> {
                         finish();
                         Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                         startActivity(returnLogin);
-                    }
                 });
-                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
+                builder.setNegativeButton("아니오", (DialogInterface dialog, int which) -> {});
                 builder.show();
-            }
         });
 
         homeMenu = findViewById(R.id.homeMenu);
-        homeMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textTitle = (TextView)findViewById(R.id.text_title);
+        homeMenu.setOnClickListener(v -> {
+                textTitle = findViewById(R.id.text_title);
                 textTitle.setText("");
+
                 startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
-            }
         });
 
         userMenu = findViewById(R.id.userMenu);
@@ -420,7 +390,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
         return true;
     }
 
@@ -442,6 +411,11 @@ public class MainActivity extends AppCompatActivity
                 }
 
             return true;
+        } else if (id == R.id.refresh_btn){
+
+            AccountRequest accountRequest = new AccountRequest(userID, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
+            accountRequest.AccountRefreshHandler(() ->  Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show());
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -503,7 +477,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
     public void changeFragment(Fragment fr, Bundle bundle) {
 
         if(bundle == null){
@@ -543,17 +516,10 @@ public class MainActivity extends AppCompatActivity
         RequestInfo requestInfo = new RequestInfo(RequestInfo.RequestType.DEVICE_CHECK);
         String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
         StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        DeviceCheckResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
+            (response) -> DeviceCheckResponse(response),
+                (error) -> {
+                    error.getMessage();
+                    error.printStackTrace();
                 }
         ) {
             @Override
@@ -924,11 +890,22 @@ public class MainActivity extends AppCompatActivity
                         FragmentManager fm2 = getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction2 = fm2.beginTransaction();
                         fragmentTransaction2.replace(R.id.dynamic_mainFragment, fr);
+                        fragmentTransaction2.addToBackStack(null);
                         fragmentTransaction2.commit();
+
+                        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        if (drawer.isDrawerOpen(GravityCompat.START)) {
+                            drawer.closeDrawer(GravityCompat.START);
+                        }
                         break;
                 }
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
 }
