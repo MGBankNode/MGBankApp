@@ -411,18 +411,9 @@ public class SettingDialogActivity extends Activity {
         String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
 
         StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        AddAccountResponse(response);
-                    }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error){
-                        error.printStackTrace();
-                    }
-                }
+                response -> AddAccountResponse(response),
+                (error) -> { error.getMessage(); error.printStackTrace();}
+
         ){
             @Override
             protected Map<String, String> getParams(){
