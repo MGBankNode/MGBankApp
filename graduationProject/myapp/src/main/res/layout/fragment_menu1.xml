@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/applegothicneo_b"
-        android:theme="@style/TabTheme">
+        android:theme="@style/TabTheme"
+        >
 
         <android.support.design.widget.TabLayout
             android:id="@+id/layout_tab"
             android:layout_width="match_parent"
             android:fontFamily="@font/applegothicneo_b"
-            app:tabTextColor="#000"
             android:layout_height="45dp"
             app:tabGravity="fill"
             app:tabMode="fixed" />

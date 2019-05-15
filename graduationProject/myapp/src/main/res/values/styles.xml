@@ -25,14 +25,14 @@
 
     <style name="TabTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#2BB0DD</item>                    <!-- 배경 -->
-        <item name="android:textColorPrimary">#FDFDFD</item>       <!-- 탭바 선택된 텍스트 -->
-        <item name="android:textColorSecondary">#888484</item>     <!-- 탭바 텍스트 -->
+        <item name="android:textColorPrimary">#FFFFFF</item>       <!-- 탭바 선택된 텍스트 -->
+        <item name="android:textColorSecondary">#242424</item>     <!-- 탭바 텍스트 -->
 
         <item name="colorAccent">#FDFDFD</item>                    <!-- 하단 움직이는 바 색-->
     </style>
     <style name="HomeContentsTabTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#FFF</item>                    <!-- 배경 -->
-        <item name="android:textColorPrimary">#000</item>       <!-- 탭바 선택된 텍스트 -->
+        <item name="android:textColorPrimary">#FFF</item>       <!-- 탭바 선택된 텍스트 -->
         <item name="android:textColorSecondary">#848484</item>     <!-- 탭바 텍스트 -->
 
         <item name="colorAccent">#2BB0DD</item>                    <!-- 하단 움직이는 바 색-->
