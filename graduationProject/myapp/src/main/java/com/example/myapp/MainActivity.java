@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity
                 BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
 
                 budgetRequest1.GetBudgetHandler(budget -> {
-                    Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
 
                     Log.d("KJH", "send budget : " + budget);
                     intent2.putExtra("BUDGET", budget);
@@ -465,7 +465,7 @@ public class MainActivity extends AppCompatActivity
                     BudgetRequest budgetRequest2 = new BudgetRequest(userID, budgetValue, RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
 
                     budgetRequest2.ChangeBudgetHandler(budget -> {
-                        Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
                         Log.d("KJH", "MainActivity correct budget : " + budgetValue);
                         Intent intent = new Intent();
                         intent.putExtra("BUDGET", budgetValue);
@@ -870,14 +870,13 @@ public class MainActivity extends AppCompatActivity
                             if (!temp.get(i).isEmpty())
                                 sData.add(temp.get(i));
                         }
-
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         switch (flag) {
                             case MAINFRAGMENT:
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
                                 Bundle args = new Bundle();
                                 fr = new fragment_home();
 
@@ -892,7 +891,12 @@ public class MainActivity extends AppCompatActivity
                                 fragmentTransaction.commit();
 
                                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                                drawer.closeDrawer(GravityCompat.START);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        drawer.closeDrawer(GravityCompat.START);
+                                    }
+                                });
                                 break;
                             case BESTCARDFRAGMENT:
                                 fr = new bestCard_fragment();
@@ -908,7 +912,12 @@ public class MainActivity extends AppCompatActivity
 
                                 drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                                 if (drawer.isDrawerOpen(GravityCompat.START)) {
-                                    drawer.closeDrawer(GravityCompat.START);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            drawer.closeDrawer(GravityCompat.START);
+                                        }
+                                    });
                                 }
                                 break;
                         }
