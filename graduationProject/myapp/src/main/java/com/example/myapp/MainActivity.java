@@ -1,12 +1,12 @@
 package com.example.myapp;
 
 import android.Manifest;
-import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -27,20 +27,15 @@ import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import android.app.AlertDialog;
@@ -53,12 +48,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -108,17 +100,33 @@ public class MainActivity extends AppCompatActivity
 
     public int userAccountCheck;
     public String userID;
+    BroadcastReceiver receiver = null;
 
     @Override
     public void onBackPressed() {
         Log.i("nkw","onBackpressed()");
         textTitle.setText("");
-        super.onBackPressed();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("HomeFragment");
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+            }
+        };
+        registerReceiver(receiver, intentFilter);
         toolbar = findViewById(R.id.toolbar);
         textTitle = (TextView)findViewById(R.id.text_title);
         textTitle.setText("");
@@ -488,7 +496,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         return true;
     }
-
 
     public void changeFragment(Fragment fr, Bundle bundle) {
 
@@ -908,11 +915,22 @@ public class MainActivity extends AppCompatActivity
                         FragmentManager fm2 = getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction2 = fm2.beginTransaction();
                         fragmentTransaction2.replace(R.id.dynamic_mainFragment, fr);
+                        fragmentTransaction2.addToBackStack(null);
                         fragmentTransaction2.commit();
+
+                        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        if (drawer.isDrawerOpen(GravityCompat.START)) {
+                            drawer.closeDrawer(GravityCompat.START);
+                        }
                         break;
                 }
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
 }

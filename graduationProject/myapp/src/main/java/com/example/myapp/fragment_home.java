@@ -51,9 +51,11 @@ public class fragment_home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //임시 데이터 셋팅
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Intent intent = new Intent();
+        intent.setAction("HomeFragment");
+        //getActivity().sendBroadcast(intent);
 
         sData = new ArrayList<Stat>();
         sData = (ArrayList<Stat>)getArguments().get("DATA");
