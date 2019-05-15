@@ -3,11 +3,15 @@ package com.example.myapp;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -57,6 +61,7 @@ public class consumptionReportFragment extends Fragment {
     View view;
 
     AnalysisInfo analysisWeekData;
+    ImageButton imgbutton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -373,6 +378,20 @@ public class consumptionReportFragment extends Fragment {
         chart.setDrawBorders(false);
         chart.setDescription(desc);
         chart.setDrawValueAboveBar(true);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        imgbutton = (ImageButton)getActivity().findViewById(R.id.close_fr_btn);
+
+        //뒤로가기 버튼 누르면 프래그먼트 안보이게 하기
+        imgbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getView().setVisibility(View.GONE);
+            }
+        });
+        super.onActivityCreated(savedInstanceState);
     }
 }
 

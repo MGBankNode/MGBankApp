@@ -27,11 +27,25 @@
         android:gravity="center"
         android:padding="4dp"
      >
-        <ImageView
-            android:layout_width="55dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:src="@drawable/reportcharacter"/>
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/close_fr_btn"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="#00ff0000"
+                android:foregroundGravity="left"
+                android:src="@drawable/ic_previous" />
+            <ImageView
+                android:foregroundGravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/reportcharacter"/>
 
+        </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

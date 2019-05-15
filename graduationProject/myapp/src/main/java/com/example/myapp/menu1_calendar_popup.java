@@ -44,9 +44,8 @@ public class menu1_calendar_popup extends Activity {
         int startNum = intent.getIntExtra("startNum", 0);
         int endNum = intent.getIntExtra("endNum", 0);
 
-        DecimalFormat myFormat = new DecimalFormat("###,###");
-        use_money.setText(myFormat.format(loss));
-        earn_money.setText(myFormat.format(benefit));
+        use_money.setText(loss);
+        earn_money.setText(benefit);
 
         Log.i("err", Integer.toString(startNum)+" "+Integer.toString(endNum));
         indexData = new menu1_rvData[endNum-startNum];
