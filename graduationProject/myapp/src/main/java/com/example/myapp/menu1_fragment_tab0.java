@@ -57,7 +57,7 @@ public class menu1_fragment_tab0 extends Fragment {
             //계좌 번호= accountInfo[i].getaNum()
             //계좌 잔액 = accountInfo[i].getaBalance()
             //계좌 이름 = accountInfo[i].getaType()
-          
+
             ArrayList<AccountListData> listItem = new ArrayList<>();
             int total = 0;
             DecimalFormat decimalFormat = new DecimalFormat("###,###");

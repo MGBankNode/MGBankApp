@@ -52,7 +52,8 @@ public class PayInfoList extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
 
-        adapter = new DetailedRecyclerViewAdapter(stat.getClassificationData(), stat.toString());
+        adapter = new DetailedRecyclerViewAdapter(stat.getClassificationData(), stat);
         recyclerView.setAdapter(adapter);
     }
+
 }

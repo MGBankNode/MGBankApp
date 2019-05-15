@@ -28,11 +28,13 @@ public class Stat implements Serializable {
     static final String[] statNames = {CULTURE, LIFE, FOOD, TRAFFIC, NONE
             , COFFEE, FINANCE, TRAVEL, DRINK, DWELLING, HOSPITAL};
     private String s_name;
+    private String userId;
     private int s_price;
     private ArrayList<PayInfomation> list;
     private HashMap <String, Integer> classificationData = new HashMap<String, Integer>();
-    public Stat(String n){
+    public Stat(String n, String userId){
         s_name = n; s_price = 0;
+        this.userId = userId;
         list = new ArrayList<PayInfomation>();
     }
 
@@ -41,6 +43,7 @@ public class Stat implements Serializable {
         s_price += info.getPrice();
         Log.d("KJH", "p name : " + info.getAccountName() + ", price : " + info.getPrice());
     }
+    public String getUserId(){return userId;}
     public int getPrice(){
         return s_price;
     }

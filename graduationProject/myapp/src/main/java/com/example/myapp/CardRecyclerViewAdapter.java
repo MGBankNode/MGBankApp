@@ -96,6 +96,7 @@ public class CardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 FragmentManager fm = f.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });

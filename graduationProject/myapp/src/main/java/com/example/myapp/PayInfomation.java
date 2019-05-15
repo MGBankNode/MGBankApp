@@ -12,14 +12,16 @@ public class PayInfomation implements Serializable {
     private int p_price;
     private Date p_date;
     private Stat stat;
+    private int hId;
 
-    public PayInfomation(String n, int p, Stat s, Date date){
+    public PayInfomation(String n, int p, Stat s, Date date, int hId){
         accountName = n; p_price = p;
         p_date = date;
         stat = s;
         stat.addInfo(this);
+        this.hId = hId;
     }
-
+    public int gethId(){return hId;}
     public int getPrice(){
         return p_price;
     }

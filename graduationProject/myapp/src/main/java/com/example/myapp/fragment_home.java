@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 //그래프
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -37,7 +38,9 @@ public class fragment_home extends Fragment {
     RecyclerViewAdapter adapter = null;
     LinearLayoutManager layoutManager = null;
     private PieChart pieChart = null;
+
     protected Button setBudget;
+
 
     public fragment_home() {
         // Required empty public constructor
@@ -64,11 +67,6 @@ public class fragment_home extends Fragment {
         return view;
     }
 
-//    public void startBudgetActivity() {
-//        Intent intent = new Intent(getActivity(), SetBudget.class);
-//        getActivity().startActivityForResult(intent, 2);
-//    }
-
 
 
     @Override
@@ -83,7 +81,7 @@ public class fragment_home extends Fragment {
         setBudget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(">>>", "Btn clicked");
+
                 Intent intent = new Intent(getActivity(), SetBudget.class);
                 getActivity().startActivityForResult(intent, 2);
             }

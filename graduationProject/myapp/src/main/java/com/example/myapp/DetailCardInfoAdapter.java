@@ -40,6 +40,7 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     DetailCardInfoAdapter(HashMap<CreditCard, HashMap<Stat,Integer>> d, CreditCard sc){
         discountData = d;
+        Log.d("KJH", "discountData Size() : " + discountData.size());
         this.selectedCard = sc;
         keys = new ArrayList<Stat>();
         keys.addAll(discountData.get(selectedCard).keySet());
@@ -85,6 +86,8 @@ public class DetailCardInfoAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 FragmentManager fm = f.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+                fragmentTransaction.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
 
