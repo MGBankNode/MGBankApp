@@ -121,6 +121,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
             @Override
             public void onClick(View v) { 
                 Intent intent = new Intent(getActivity(), AddReceiptActivity.class);
+                intent.putExtra("userID", userID);
                 startActivityForResult(intent, 1);
 
             }

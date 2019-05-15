@@ -73,6 +73,10 @@ public class AddReceiptActivity extends Activity {
     TextView btn_cancel2;
     Spinner spinner;
 
+    String userID;
+    String myhId = null;
+    int original = -1;
+
     LinearLayout parentLayout;
 
     ArrayList<String> arrayList;
@@ -82,6 +86,8 @@ public class AddReceiptActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_receipt);
+        Intent intent = getIntent();
+        userID = intent.getStringExtra("userID");
         btn_camera =(ImageButton)findViewById(R.id.cameraBtn);
         btn_photo = (ImageButton)findViewById(R.id.photoBtn);
         btn_cancel = (ImageButton)findViewById(R.id.cancelBtn);
@@ -144,77 +150,100 @@ public class AddReceiptActivity extends Activity {
         btn_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LinearLayout initialLayout = (LinearLayout) findViewById(R.id.layout_initial);
+                LinearLayout resultLayout = (LinearLayout) findViewById(R.id.layout_result);
+                initialLayout.setVisibility(View.GONE);
+                resultLayout.setVisibility(View.VISIBLE);
+            }
+        });
+        btn_change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 LinearLayout initialLayout = (LinearLayout)findViewById(R.id.layout_initial);
                 LinearLayout resultLayout = (LinearLayout)findViewById(R.id.layout_result);
                 initialLayout.setVisibility(View.GONE);
                 resultLayout.setVisibility(View.VISIBLE);
 
 
+                EditText store = (EditText)findViewById(R.id.storeEdit);
+                EditText date = (EditText)findViewById(R.id.dateEdit);
+                EditText cost = (EditText)findViewById(R.id.moneyEdit);
+                Spinner spinner =(Spinner)findViewById(R.id.categorySpinner);
 
-/*
                 //상정명 확인 요청
-                ReceiptRequest test = new ReceiptRequest("후문식당", RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
+                ReceiptRequest test = new ReceiptRequest(store.getText().toString(), RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
                 test.StoreRequest(cId -> {
                     Toast.makeText(getApplicationContext(), cId, Toast.LENGTH_LONG).show();
-                });
+                    if(!cId.equals("null")) {
+//                        spinner.setSelection(Integer.parseInt(cId)-1);
+                        original = Integer.parseInt(cId);
+                    }
+                        if(original != -1) {
+                            if (original == spinner.getSelectedItemPosition() + 1) {
+                                //영수증 추가 요청시 cId가 있으며 cId를 바꾸지 않은 경우
+                                ReceiptRequest test2 = new ReceiptRequest(date.getText().toString(), cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition() + 1), RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
+                                test2.AddReceipt(hId -> {
+                                    myhId = hId;
+                                    Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                                    finish();
+                                });
+                            } else {
+                                //영수증 추가 요청시 cId가 있으며 cId를 바꾼 경우에만 카테고리 변경을 요청
+                                final String defaultcId = Integer.toString(original);
+                                final Context context = getApplicationContext();
+                                //영수증 추가 요청 - 사용자가 카테고리 변경했을 경우
+                                ReceiptRequest test4 = new ReceiptRequest(date.getText().toString(), cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition()+1), RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
+                                test4.AddReceipt(hId -> {
+                                    Toast.makeText(getApplicationContext(), hId, Toast.LENGTH_LONG).show();
 
-                //영수증 추가 요청시 cId가 있으며 cId를 바꾸지 않은 경우
-                ReceiptRequest test2 = new ReceiptRequest("2019-05-09 11:02:11", "30000" ,"후문식당", "b", "9", RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
-                test2.AddReceipt(hId -> {
-                    String myhId  = hId;
-                    Toast.makeText(getApplicationContext(), myhId, Toast.LENGTH_LONG).show();
-                });
+                                    // /////////////////////카테고리 변경 요청////////////////////////////
+                                    ///////////////////////////////////////////////////////////////////
+                                    CategoryRequest categoryRequest = new CategoryRequest(
+                                            userID,                    //사용자 아이디
+                                            Integer.parseInt(hId),          //hId
+                                            Integer.parseInt(defaultcId),   //기존 카테고리 번호
+                                            2,                  //바꿀 카테고리 번호
+                                            context,                        //context 고정
+                                            RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
 
+                                    categoryRequest.UpdateCategoryHandler(new CategoryRequest.VolleyCallback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                                            finish();
+                                        }
 
-                //영수증 추가 요청시 cId가 있으며 cId를 바꾼 경우에만 카테고리 변경을 요청
-                final String defaultcId = "9";
-                final Context context = getApplicationContext();
-                //영수증 추가 요청 - 사용자가 카테고리 변경했을 경우
-                ReceiptRequest test4 = new ReceiptRequest("2019-05-09 11:02:11", "30000" ,"후문식당", "b", "9", RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
-                test2.AddReceipt(hId -> {
-                    Toast.makeText(getApplicationContext(), hId, Toast.LENGTH_LONG).show();
+                                        @Override
+                                        public void onFail() {
 
-                    // /////////////////////카테고리 변경 요청////////////////////////////
-                    ///////////////////////////////////////////////////////////////////
-                    CategoryRequest categoryRequest = new CategoryRequest(
-                            "b",                    //사용자 아이디
-                            Integer.parseInt(hId),          //hId
-                            Integer.parseInt(defaultcId),   //기존 카테고리 번호
-                            2,                  //바꿀 카테고리 번호
-                            context,                        //context 고정
-                            RequestInfo.RequestType.UPDATE_CATEGORY);   //고정
+                                        }
 
-                    categoryRequest.UpdateCategoryHandler(new CategoryRequest.VolleyCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                                        @Override
+                                        public void onError() {
+
+                                        }
+                                    });
+                                    ///////////////////////////////////////////////////////////////////
+                                    ///////////////////////////////////////////////////////////////////
+
+                                });
+                            }
+                        } else {
+                            //영수증 추가 요청시 기존 cId가 없는 경우
+                            ReceiptRequest test3 = new ReceiptRequest(date.getText().toString(), cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition()+1), RequestInfo.RequestType.ADD_NEW_RECEIPT, getApplicationContext());
+                            test3.AddNewReceipt(hId -> {
+                                Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                                finish();
+                            });
                         }
 
-                        @Override
-                        public void onFail() {
 
-                        }
-
-                        @Override
-                        public void onError() {
-
-                        }
-                    });
-                    ///////////////////////////////////////////////////////////////////
-                    ///////////////////////////////////////////////////////////////////
-
+                });
+                    }
                 });
 
 
-                //영수증 추가 요청시 기존 cId가 없는 경우
-                ReceiptRequest test3 = new ReceiptRequest("2019-05-09 11:02:11", "30000" ,"가", "b", "9", RequestInfo.RequestType.ADD_NEW_RECEIPT, getApplicationContext());
-                test3.AddNewReceipt(hId -> {
-                    Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
-                });
 
-                */
-            }
-        });
     }
 
     public void startGalleryChooser() {
@@ -401,15 +430,28 @@ public class AddReceiptActivity extends Activity {
                 EditText date = (EditText)activity.findViewById(R.id.dateEdit);
                 EditText cost = (EditText)activity.findViewById(R.id.moneyEdit);
                 Spinner spinner =(Spinner)activity.findViewById(R.id.categorySpinner);
-                if(str.length>0) {
-                    store.setText(str[0]);
-                    if(str[0].contains("카페")||str[0].contains("커피")||str[0].contains("까페"))
-                        spinner.setSelection(9);
-                }
-                if(str.length>1)
-                    date.setText(str[1]);
-                if(str.length>2)
-                cost.setText(str[2]);
+
+                //상정명 확인 요청
+                ReceiptRequest test = new ReceiptRequest(str[0], RequestInfo.RequestType.STORE_CHECK, activity.getApplicationContext());
+                test.StoreRequest(cId -> {
+                    Toast.makeText(activity.getApplicationContext(), cId, Toast.LENGTH_LONG).show();
+                    if(!cId.equals("null")) {
+
+                        Log.i("cID", cId);
+
+                        spinner.setSelection(Integer.parseInt(cId) - 1);
+                    }
+                        if(str.length>0) {
+                            store.setText(str[0]);
+                        }
+                        if(str.length>1)
+                            date.setText(str[1]);
+                        if(str.length>2)
+                            cost.setText(str[2]);
+                });
+
+
+
 
             }
         }

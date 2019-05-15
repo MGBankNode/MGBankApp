@@ -97,7 +97,13 @@ public class ReceiptRequest {
 
             switch (resultString) {
                 case "success":
-                    String cId = (String) json.get("data");
+
+                    String cId = "null";
+                    if( (json.getString("data")) != "null") {
+
+                        cId = (String) json.get("data");
+
+                    }
                     callback.onSuccess(cId);
                     break;
 

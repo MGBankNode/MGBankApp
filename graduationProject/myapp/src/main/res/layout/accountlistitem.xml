@@ -13,15 +13,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="left"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/accountListName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#000"
             android:textSize="20dp"
             android:textStyle="bold"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="name"/>
 
         <TextView
@@ -29,7 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="#000"
             android:textSize="12dp"
+            android:fontFamily="@font/applegothicneo_b"
             android:text="number"/>
 
     </LinearLayout>
@@ -39,7 +44,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="right"
+        android:textColor="#000"
+        android:layout_marginRight="10dp"
+        android:fontFamily="@font/applegothicneo_b"
         android:textSize="16dp"
         android:text="Hello"/>
 

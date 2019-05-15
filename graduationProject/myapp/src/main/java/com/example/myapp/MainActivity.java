@@ -151,8 +151,8 @@ public class MainActivity extends AppCompatActivity
         temp.child.add("카드추천");
 
         DataList.add(temp);
-        temp = new myGroup("통합맴버쉽");
-        temp.child.add("통합맴버쉽");
+        temp = new myGroup("통합멤버십");
+        temp.child.add("통합멤버십");
 
         DataList.add(temp);
 
@@ -233,7 +233,6 @@ public class MainActivity extends AppCompatActivity
                       changeFragment(fr, bundle1);
                       break;
                 }
-
             }
             
             return false;
