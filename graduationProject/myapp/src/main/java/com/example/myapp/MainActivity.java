@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
     protected ImageView closeMenu;
     protected LinearLayout homeMenu;
     protected LinearLayout userMenu;
-    protected LinearLayout noticeMenu;
+    protected LinearLayout settingMenu;
     protected LinearLayout navChild;
     protected Button budgetBtn;
     protected Button setBudget;
@@ -76,8 +76,6 @@ public class MainActivity extends AppCompatActivity
 
 
     public String mainUserId;
-
-
 
     //데이터베이스로 부터 받은 정보를 저장함
     ArrayList<Stat> sData = null;
@@ -367,7 +365,30 @@ public class MainActivity extends AppCompatActivity
         });
 
         userMenu = findViewById(R.id.userMenu);
-        userMenu.setOnClickListener(v -> StartActivity(MypageActivity.class));
+        userMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                StartActivity(MypageActivity.class);
+
+            }
+        });
+
+        settingMenu = findViewById(R.id.settingMenu);
+        settingMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deviceCheckResult.equals("")) {
+
+                    DeviceCheckHandler();
+
+                } else {
+
+                    StartActivity(SettingDialogActivity.class);
+
+                }
+            }
+        });
 
         return true;
     }
@@ -375,19 +396,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+                   int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+            if (id == R.id.action_settings) {
 
-            if (deviceCheckResult.equals("")) {
+                if (deviceCheckResult.equals("")) {
 
-                DeviceCheckHandler();
+                    DeviceCheckHandler();
 
-            } else {
+                } else {
 
-                StartActivity(SettingDialogActivity.class);
+                    StartActivity(SettingDialogActivity.class);
 
-            }
+                }
 
             return true;
         } else if (id == R.id.refresh_btn){
@@ -481,6 +502,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         drawer.closeDrawer(GravityCompat.START);
+
+
 
     }
 

@@ -10,7 +10,9 @@
 
         <Switch
             android:id="@+id/pushSwitch"
+
             android:text="단말 추가  "
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/applegothicneo_b"

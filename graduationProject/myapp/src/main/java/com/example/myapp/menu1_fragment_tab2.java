@@ -122,10 +122,22 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
 
         btn_receipt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { 
-                Intent intent = new Intent(getActivity(), AddReceiptActivity.class);
-                intent.putExtra("userID", userID);
-                startActivityForResult(intent, 1);
+            public void onClick(View v) {
+                Intent intent;
+                if(android.os.Build.VERSION.SDK_INT >= 26) {
+                    intent = new Intent(getActivity(), AddReceiptActivity.class);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("receiptFlag", "T");
+                    startActivityForResult(intent, 1);
+                }
+
+                else {
+                    intent = new Intent(getActivity(), AddReceiptActivity.class);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("receiptFlag", "F");
+                    Toast.makeText(getContext(), "해당 기능을 사용할 수 없는 기기 입니다.\n수기로 입력해주세요", Toast.LENGTH_SHORT).show();
+                    startActivityForResult(intent, 1);
+                }
 
             }
         });
