@@ -183,6 +183,7 @@ public class CustomDialog extends DialogFragment {
             case Stat.FOOD: return 9;
             case Stat.COFFEE: return 10;
             case Stat.NONE: return 11;
+            case Stat.ACCOUNTSLOSS: return 13;
             default: return 0;
         }
     }

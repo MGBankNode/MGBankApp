@@ -25,8 +25,9 @@ public class Stat implements Serializable {
     static final String DWELLING = "주거/통신";
     static final String HOSPITAL = "의료/건강";
     static final String COFFEE = "카페/간식";
+    static final String ACCOUNTSLOSS = "계좌출금";
     static final String[] statNames = {CULTURE, LIFE, FOOD, TRAFFIC, NONE
-            , COFFEE, FINANCE, TRAVEL, DRINK, DWELLING, HOSPITAL};
+            , COFFEE, FINANCE, TRAVEL, DRINK, DWELLING, HOSPITAL, ACCOUNTSLOSS};
     private String s_name;
     private String userId;
     private int s_price;
@@ -41,7 +42,6 @@ public class Stat implements Serializable {
     public void addInfo(PayInfomation info){
         list.add(info);
         s_price += info.getPrice();
-        Log.d("KJH", "p name : " + info.getAccountName() + ", price : " + info.getPrice());
     }
     public String getUserId(){return userId;}
     public int getPrice(){

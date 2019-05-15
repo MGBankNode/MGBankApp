@@ -19,6 +19,7 @@
         android:roundIcon="@drawable/character1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CustomProgressDialog"></activity>
 
         <meta-data
             android:name="com.google.android.actions"

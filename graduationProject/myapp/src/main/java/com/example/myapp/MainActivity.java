@@ -1,6 +1,7 @@
 package com.example.myapp;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -30,6 +32,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     protected LinearLayout userMenu;
     protected LinearLayout settingMenu;
     protected LinearLayout navChild;
-    protected Button budgetBtn;
+    protected TextView budgetBtn;
     protected Button setBudget;
     private ExpandableListView listView;
     private static final int MAINFRAGMENT = 1001;
@@ -99,7 +102,10 @@ public class MainActivity extends AppCompatActivity
     public int userAccountCheck;
     public String userID;
     BroadcastReceiver receiver = null;
+    BroadcastReceiver receiver2 = null;
 
+
+    Util util = new Util();
     @Override
     public void onBackPressed() {
         Log.i("nkw","onBackpressed()");
@@ -116,6 +122,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //홈프래그먼트 브로드캐스트
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("HomeFragment");
         receiver = new BroadcastReceiver() {
@@ -125,6 +132,31 @@ public class MainActivity extends AppCompatActivity
             }
         };
         registerReceiver(receiver, intentFilter);
+
+        //예산설정 브로드캐스트
+        IntentFilter intentFilter2 = new IntentFilter();
+        intentFilter2.addAction("budget");
+        receiver2 = new BroadcastReceiver() {
+            Intent intent2 = new Intent();
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //////////////////////////////////설정된 예산 요청///////////////////////
+
+                BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
+
+                budgetRequest1.GetBudgetHandler(budget -> {
+                    Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
+
+                    Log.d("KJH", "send budget : " + budget);
+                    intent2.putExtra("BUDGET", budget);
+                    intent2.setAction("sendbudget");
+                    context.sendBroadcast(intent2);
+                });
+                //////////////////////////////////////////////////////////////////
+            }
+        };
+        registerReceiver(receiver2, intentFilter2);
+
         toolbar = findViewById(R.id.toolbar);
         textTitle = (TextView)findViewById(R.id.text_title);
         textTitle.setText("");
@@ -226,7 +258,7 @@ public class MainActivity extends AppCompatActivity
                       break;
                   }
                   case 2: {
-                      textTitle.setText("통합멤버쉽");
+                      textTitle.setText("통합멤버십");
                       Bundle bundle1 = new Bundle(1);
                       switch (childPosition) {
                           case 0:
@@ -244,21 +276,6 @@ public class MainActivity extends AppCompatActivity
             return false;
 
         });
-//            setBudget = findViewById(R.id.setBudgetBtn);
-//            setBudget.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(MainActivity.this, SetBudget.class);
-//                startActivityForResult(intent, 2);
-////                BudgetRequest budgetRequest2 = new BudgetRequest(b, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
-////
-////                budgetRequest2.ChangeBudgetHandler(budget -> {
-////                    Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
-////                });
-//            }
-//        });
-
     }
 
     public Bundle makeBundle(String str, int num) {
@@ -441,18 +458,21 @@ public class MainActivity extends AppCompatActivity
         else if(requestCode == 2) {
 
                 if(resultCode == RESULT_OK) {
-                    budgetBtn = findViewById(R.id.setBudgetBtn);
+                    budgetBtn = (TextView) findViewById(R.id.setBudgetBtn);
                     String budgetValue = data.getStringExtra("Budget");
                     Log.d(">>>bud", budgetValue);
 
-                  BudgetRequest budgetRequest2 = new BudgetRequest(userID, budgetValue,RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
+                    BudgetRequest budgetRequest2 = new BudgetRequest(userID, budgetValue, RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
 
-                  budgetRequest2.ChangeBudgetHandler(budget -> {
-                     Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
-                 });
+                    budgetRequest2.ChangeBudgetHandler(budget -> {
+                        Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+                        Log.d("KJH", "MainActivity correct budget : " + budgetValue);
+                        Intent intent = new Intent();
+                        intent.putExtra("BUDGET", budgetValue);
+                        intent.setAction("sendbudget");
+                        sendBroadcast(intent);
+                    });
 
-                    budgetValue += "원";
-                    budgetBtn.setText(budgetValue);
                 }
             }
     }
@@ -492,7 +512,6 @@ public class MainActivity extends AppCompatActivity
 
         fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
 
-        fragmentTransaction.setCustomAnimations(R.anim.fragment_in, R.anim.fragment_out);
 
         fragmentTransaction.addToBackStack(null);
 
@@ -730,7 +749,7 @@ public class MainActivity extends AppCompatActivity
         }
         return result;
     }
-    public void startFlagFragment(String startDate, String endDate, int flag){
+    public void startFlagFragment(String startDate, String endDate, int flag) {
         //내역을 얻어와야함
         //먼저 HistoryRequest 각각 정보 입력하여 객체생성
         HistoryRequest testRequest = new HistoryRequest(
@@ -747,140 +766,162 @@ public class MainActivity extends AppCompatActivity
         testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
             @Override
             public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
-                int arrLength = historyInfo.length;
+                AsyncTask<Void, Void, Void> MyTask = new AsyncTask<Void, Void, Void>() {
+                    CustomProgressDialog dialog = new CustomProgressDialog(MainActivity.this);
 
-                ArrayList<Stat> temp = new ArrayList<Stat>();
-                Stat Culture = new Stat(Stat.CULTURE, userID);
-                Stat Food = new Stat(Stat.FOOD, userID);
-                Stat Finance = new Stat(Stat.FINANCE, userID);
-                Stat Traffic = new Stat(Stat.TRAFFIC, userID);
-                Stat None = new Stat(Stat.NONE, userID);
-                Stat Life = new Stat(Stat.LIFE, userID);
-                Stat Coffee = new Stat(Stat.COFFEE, userID);
-                Stat Dwelling = new Stat(Stat.DWELLING, userID);
-                Stat Drink = new Stat(Stat.DRINK, userID);
-                Stat Travel = new Stat(Stat.TRAVEL, userID);
-                Stat Hospital = new Stat(Stat.HOSPITAL, userID);
-
-                String[] hValue = new String[arrLength];
-                String[] hName = new String[arrLength];
-                String[] cName = new String[arrLength];
-                PayInfomation p;
-                for (int i = 0; i < arrLength; i++) {
-                    cName[i] = historyInfo[i].getcName();        //카테고릐 분류
-                    Date date = new Date(historyInfo[i].gethDate());
-                    Log.d("KJh", "Date : " + date);
-                    Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
-                    switch (cName[i]) {
-                        case "술/유흥":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Drink, date, historyInfo[i].gethId());
-                            break;
-                        case "생활(쇼핑)":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Life, date, historyInfo[i].gethId());
-                            break;
-                        case "교통":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Traffic, date, historyInfo[i].gethId());
-                            break;
-                        case "주거/통신":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date, historyInfo[i].gethId());
-                            break;
-                        case "의료/건강":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Hospital, date, historyInfo[i].gethId());
-                            break;
-                        case "금융":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Finance, date, historyInfo[i].gethId());
-                            break;
-                        case "문화/여가":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Culture, date, historyInfo[i].gethId());
-                            break;
-                        case "여행/숙박":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Travel, date, historyInfo[i].gethId());
-                            break;
-                        case "식비":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Food, date, historyInfo[i].gethId());
-                            break;
-                        case "카페/간식":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), Coffee, date, historyInfo[i].gethId());
-                            break;
-                        case "미분류":
-                            p = new PayInfomation(historyInfo[i].gethName(),
-                                    Integer.parseInt(historyInfo[i].gethValue()), None, date, historyInfo[i].gethId());
-                            break;
-                        default:
-                            break;
+                    @Override
+                    protected void onPreExecute() {
+                        dialog.show();
+                        super.onPreExecute();
                     }
-                }
 
-                temp.add(Drink);
-                temp.add(Life);
-                temp.add(Traffic);
-                temp.add(Dwelling);
-                temp.add(Hospital);
-                temp.add(Finance);
-                temp.add(Culture);
-                temp.add(Travel);
-                temp.add(Food);
-                temp.add(Coffee);
-                temp.add(None);
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        int arrLength = historyInfo.length;
 
-                sData.clear();
-                for (int i = 0; i < temp.size(); i++) {
-                    if (!temp.get(i).isEmpty())
-                        sData.add(temp.get(i));
-                }
+                        ArrayList<Stat> temp = new ArrayList<Stat>();
+                        Stat Culture = new Stat(Stat.CULTURE, userID);
+                        Stat Food = new Stat(Stat.FOOD, userID);
+                        Stat Finance = new Stat(Stat.FINANCE, userID);
+                        Stat Traffic = new Stat(Stat.TRAFFIC, userID);
+                        Stat None = new Stat(Stat.NONE, userID);
+                        Stat Life = new Stat(Stat.LIFE, userID);
+                        Stat Coffee = new Stat(Stat.COFFEE, userID);
+                        Stat Dwelling = new Stat(Stat.DWELLING, userID);
+                        Stat Drink = new Stat(Stat.DRINK, userID);
+                        Stat Travel = new Stat(Stat.TRAVEL, userID);
+                        Stat Hospital = new Stat(Stat.HOSPITAL, userID);
+                        Stat AccountsLoss = new Stat(Stat.ACCOUNTSLOSS, userID);
 
-                switch (flag){
-                    case MAINFRAGMENT:
-                        //////////////////////////////////설정된 예산 요청///////////////////////
-                        BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
-
-                        budgetRequest1.GetBudgetHandler(budget -> {
-                            Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
-                        });
-                        //////////////////////////////////////////////////////////////////
-
-                        Log.d("KJH", "startMainFragment()");
-                        fr = new fragment_home();
-
-                        Bundle args = new Bundle();
-                        args.putSerializable("DATA", sData);
-                        fr.setArguments(args);
-                        FragmentManager fm = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
-                        fragmentTransaction.commit();
-
-                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                        drawer.closeDrawer(GravityCompat.START);
-                        break;
-                    case BESTCARDFRAGMENT:
-                        fr = new bestCard_fragment();
-
-                        Bundle args2 = new Bundle();
-                        args2.putSerializable("DATA", sData);
-                        fr.setArguments(args2);
-                        FragmentManager fm2 = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction2 = fm2.beginTransaction();
-                        fragmentTransaction2.replace(R.id.dynamic_mainFragment, fr);
-                        fragmentTransaction2.addToBackStack(null);
-                        fragmentTransaction2.commit();
-
-                        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                        if (drawer.isDrawerOpen(GravityCompat.START)) {
-                            drawer.closeDrawer(GravityCompat.START);
+                        String[] cName = new String[arrLength];
+                        PayInfomation p;
+                        for (int i = 0; i < arrLength; i++) {
+                            cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+                            Date date = new Date(historyInfo[i].gethDate());
+                            switch (cName[i]) {
+                                case "술/유흥":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Drink, date, historyInfo[i].gethId());
+                                    break;
+                                case "생활(쇼핑)":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Life, date, historyInfo[i].gethId());
+                                    break;
+                                case "교통":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Traffic, date, historyInfo[i].gethId());
+                                    break;
+                                case "주거/통신":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date, historyInfo[i].gethId());
+                                    break;
+                                case "의료/건강":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Hospital, date, historyInfo[i].gethId());
+                                    break;
+                                case "금융":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Finance, date, historyInfo[i].gethId());
+                                    break;
+                                case "문화/여가":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Culture, date, historyInfo[i].gethId());
+                                    break;
+                                case "여행/숙박":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Travel, date, historyInfo[i].gethId());
+                                    break;
+                                case "식비":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Food, date, historyInfo[i].gethId());
+                                    break;
+                                case "카페/간식":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), Coffee, date, historyInfo[i].gethId());
+                                    break;
+                                case "미분류":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), None, date, historyInfo[i].gethId());
+                                    break;
+                                case "계좌출금":
+                                    p = new PayInfomation(historyInfo[i].gethName(),
+                                            Integer.parseInt(historyInfo[i].gethValue()), AccountsLoss, date, historyInfo[i].gethId());
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                        break;
-                }
+
+                        temp.add(Drink);
+                        temp.add(Life);
+                        temp.add(Traffic);
+                        temp.add(Dwelling);
+                        temp.add(Hospital);
+                        temp.add(Finance);
+                        temp.add(Culture);
+                        temp.add(Travel);
+                        temp.add(Food);
+                        temp.add(Coffee);
+                        temp.add(None);
+                        temp.add(AccountsLoss);
+
+                        sData.clear();
+                        for (int i = 0; i < temp.size(); i++) {
+                            if (!temp.get(i).isEmpty())
+                                sData.add(temp.get(i));
+                        }
+
+                        switch (flag) {
+                            case MAINFRAGMENT:
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                Bundle args = new Bundle();
+                                fr = new fragment_home();
+
+                                Log.d("KJH", "startMainFragment()");
+
+                                args.putSerializable("DATA", sData);
+
+                                fr.setArguments(args);
+                                FragmentManager fm = getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                                fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+                                fragmentTransaction.commit();
+
+                                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                                drawer.closeDrawer(GravityCompat.START);
+                                break;
+                            case BESTCARDFRAGMENT:
+                                fr = new bestCard_fragment();
+
+                                Bundle args2 = new Bundle();
+                                args2.putSerializable("DATA", sData);
+                                fr.setArguments(args2);
+                                FragmentManager fm2 = getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction2 = fm2.beginTransaction();
+                                fragmentTransaction2.replace(R.id.dynamic_mainFragment, fr);
+                                fragmentTransaction2.addToBackStack(null);
+                                fragmentTransaction2.commit();
+
+                                drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                                    drawer.closeDrawer(GravityCompat.START);
+                                }
+                                break;
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        dialog.dismiss();
+                        super.onPostExecute(aVoid);
+                    }
+                };
+                MyTask.execute();
             }
         });
     }
