@@ -17,7 +17,6 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:title="당신을 위한 통합 멤버십"
-            android:fontFamily="@font/applegothicneo_b"
             app:expandedTitleTextAppearance="@style/ExpandedTitle"
             app:collapsedTitleTextAppearance="@style/CollapsedTitle"
             app:expandedTitleGravity="top"
