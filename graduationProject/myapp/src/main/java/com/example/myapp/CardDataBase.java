@@ -33,6 +33,12 @@ public class CardDataBase {
         ArrayList<Benefits> MintCardBenefits = new ArrayList<Benefits>();
         ArrayList<Benefits> WithCardBenefits = new ArrayList<Benefits>();
         ArrayList<Benefits> LimeCardBenefits = new ArrayList<Benefits>();
+        ArrayList<Benefits> KakaoCardBenefits = new ArrayList<>();
+        ArrayList<Benefits> INCardBenefits = new ArrayList<>();
+        ArrayList<Benefits> MarketBenefits = new ArrayList<>();
+        ArrayList<Benefits> HomeShoppingBenefits = new ArrayList<>();
+        ArrayList<Benefits> ForUCardBenefits = new ArrayList<>();
+        ArrayList<Benefits> MgLifeBenefits = new ArrayList<>();
 
         //지현 WITH체크카드
 
@@ -110,18 +116,6 @@ public class CardDataBase {
 
 
         //KakaoCard
-        ArrayList<Benefits> CreamCardBenefits = new ArrayList<>();
-        ArrayList<Benefits> KakaoCardBenefits = new ArrayList<>();
-        ArrayList<Benefits> INCardBenefits = new ArrayList<>();
-        ArrayList<Benefits> MarketBenefits = new ArrayList<>();
-        ArrayList<Benefits> HomeShoppingBenefits = new ArrayList<>();
-
-        ArrayList<Benefits> ForUCardBenefits = new ArrayList<>();
-        ArrayList<Benefits> MgLifeBenefits = new ArrayList<>();
-        ;
-        //6. CreamCard//
-        //CreamCard//
-
         //7. KakaoCard//
         KakaoCardBenefits.add(new Benefits("KakaoConvenience",
                 new String[]{"GS25", "지에스25", "쥐에스25", "세븐일레븐", "CU", "씨유", "미니스톱"}, 5, -1, 2, -1, -1));
@@ -236,17 +230,17 @@ public class CardDataBase {
 
 
        
-        CardList.add(new CreditCard("MINT체크카드", R.drawable.card_mint, MintCardBenefits));
-        CardList.add(new CreditCard("PEACH체크카드", R.drawable.card_peach, PeachCardBenefits));
-        CardList.add(new CreditCard("LIME체크카드", R.drawable.card_lime, LimeCardBenefits));
-        CardList.add(new CreditCard( "WITH체크카드", R.drawable.card_with, WithCardBenefits));
-        CardList.add(new CreditCard("ON체크카드", R.drawable.card_on, OnCardBenefits));
-        CardList.add(new CreditCard("KakaoCard", R.drawable.card_kakao, KakaoCardBenefits));
-        CardList.add(new CreditCard("INCard", R.drawable.card_in,INCardBenefits));
-        CardList.add(new CreditCard("MarketCard",R.drawable.card_market,MarketBenefits));
-        CardList.add(new CreditCard("HomShoppingCard",R.drawable.card_homeshopping, HomeShoppingBenefits));
-        CardList.add(new CreditCard("ForUCard",R.drawable.card_foru, ForUCardBenefits));
-        CardList.add(new CreditCard("MgLifeBenefits", R.drawable.card_mglife, MgLifeBenefits));
+        CardList.add(new CreditCard("MINT 체크카드", R.drawable.card_mint, MintCardBenefits));
+        CardList.add(new CreditCard("PEACH 체크카드", R.drawable.card_peach, PeachCardBenefits));
+        CardList.add(new CreditCard("LIME 체크카드", R.drawable.card_lime, LimeCardBenefits));
+        CardList.add(new CreditCard( "WITH 체크카드", R.drawable.card_with, WithCardBenefits));
+        CardList.add(new CreditCard("ON 체크카드", R.drawable.card_on, OnCardBenefits));
+        CardList.add(new CreditCard("카카오페이 체크카드", R.drawable.card_kakao, KakaoCardBenefits));
+        CardList.add(new CreditCard("IN 체크카드", R.drawable.card_in,INCardBenefits));
+        CardList.add(new CreditCard("시장 체크카드",R.drawable.card_market,MarketBenefits));
+        CardList.add(new CreditCard("부자되세요 체크카드",R.drawable.card_homeshopping, HomeShoppingBenefits));
+        CardList.add(new CreditCard("ForU 체크카드",R.drawable.card_foru, ForUCardBenefits));
+        CardList.add(new CreditCard("MgLife 체크카드", R.drawable.card_mglife, MgLifeBenefits));
 
     } 
 

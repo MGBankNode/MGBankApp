@@ -2,11 +2,12 @@ package com.example.myapp;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-public class Benefits implements CardDiscount{
+public class Benefits implements CardDiscount, Serializable {
     private String b_name;
     private ArrayList<String> benefitsNames;
     private int benefitValue;

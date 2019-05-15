@@ -85,7 +85,8 @@ public class DetailCardInfo extends Fragment {
         detailTextViewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog();
+                Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://mgcheck.kfcc.co.kr/pers/appl/persCdGuidView.do"));
+                startActivity(myIntent);
             }
         });
 
@@ -106,7 +107,6 @@ public class DetailCardInfo extends Fragment {
         recyclerView.setAdapter(adapter);
     }
     public void alertDialog() {
-
         final String url = "https://mgcheck.kfcc.co.kr/pers/appl/persCdGuidView.do";
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -115,7 +115,7 @@ public class DetailCardInfo extends Fragment {
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://mgcheck.kfcc.co.kr/pers/appl/persCdGuidView.do"));
                 startActivity(myIntent);
             }
         });
@@ -127,5 +127,6 @@ public class DetailCardInfo extends Fragment {
             }
         });
         builder.show();
+
     }
 }
