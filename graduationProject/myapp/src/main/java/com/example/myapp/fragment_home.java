@@ -196,27 +196,35 @@ public class fragment_home extends Fragment {
         int remainbudget = budget - allPriceValue;
         TextView tv = (TextView)v.findViewById(R.id.remainBudget);
         TextView tv2 = (TextView)v.findViewById(R.id.statusText);
-        double todayValue = new Date().getDate() / 30.00;
+        double todayValue = new Date().getDate() / 31.00;
         Log.d("KJH", "today value : " + todayValue + "date : " + new Date().getDate());
         ImageView imageView = (ImageView)v.findViewById(R.id.faceImage);
+        TextView tv3 = (TextView)v.findViewById(R.id.notice_text);
         if(remainbudget > (budget - (budget * todayValue))){
             imageView.setImageResource(R.drawable.smile);
             tv2.setText("아주 좋아요!");
             tv.setText(util.comma(remainbudget) + "원 남음");
             tv.setTextColor(Color.parseColor("#2BB0DD"));
+            tv3.setText("고객님의 일 평균 사용 금액은 " + util.comma(allPriceValue / new Date().getDate()) + "원 입니다.\n" +
+                    "이대로만 사용하시면 문제없어요!");
         }else{
             if(remainbudget <= 0) {
                 tv2.setText("눈물이 흘러요ㅜ_ㅜ");
                 tv.setText(util.comma(remainbudget * -1) + "원 초과");
                 tv.setTextColor(Color.parseColor("#FF2222"));
                 imageView.setImageResource(R.drawable.crying);
+                tv3.setText("고객님의 일 평균 사용 금액은 " + util.comma(allPriceValue / new Date().getDate()) + "원 입니다.\n" +
+                        "검소한 삶을 사십시오 ...");
             }
             else {
                 tv2.setText("좋진 않아요..");
                 tv.setText(util.comma(remainbudget) + "원 남음");
                 tv.setTextColor(Color.parseColor("#995555"));
                 imageView.setImageResource(R.drawable.sad);
+                tv3.setText("고객님의 일 평균 사용 금액은 " + util.comma(allPriceValue / new Date().getDate()) + "원 입니다.\n" +
+                        "약간의 낭비를 줄여보는 것은 어떨까요?");
             }
         }
+
     }
 }
