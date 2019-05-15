@@ -32,6 +32,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
+import org.w3c.dom.Text;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -193,20 +195,24 @@ public class fragment_home extends Fragment {
         int budget = Integer.parseInt(budgetString);
         int remainbudget = budget - allPriceValue;
         TextView tv = (TextView)v.findViewById(R.id.remainBudget);
+        TextView tv2 = (TextView)v.findViewById(R.id.statusText);
         double todayValue = new Date().getDate() / 30.00;
         Log.d("KJH", "today value : " + todayValue + "date : " + new Date().getDate());
         ImageView imageView = (ImageView)v.findViewById(R.id.faceImage);
         if(remainbudget > (budget - (budget * todayValue))){
             imageView.setImageResource(R.drawable.smile);
+            tv2.setText("아주 좋아요!");
             tv.setText(util.comma(remainbudget) + "원 남음");
             tv.setTextColor(Color.parseColor("#2BB0DD"));
         }else{
             if(remainbudget <= 0) {
+                tv2.setText("눈물이 흘러요ㅜ_ㅜ");
                 tv.setText(util.comma(remainbudget * -1) + "원 초과");
                 tv.setTextColor(Color.parseColor("#FF2222"));
                 imageView.setImageResource(R.drawable.crying);
             }
             else {
+                tv2.setText("좋진 않아요..");
                 tv.setText(util.comma(remainbudget) + "원 남음");
                 tv.setTextColor(Color.parseColor("#995555"));
                 imageView.setImageResource(R.drawable.sad);

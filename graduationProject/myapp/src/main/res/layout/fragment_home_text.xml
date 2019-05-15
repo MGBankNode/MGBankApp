@@ -52,35 +52,43 @@
         android:textSize="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <TextView
-        android:fontFamily="@font/applegothicneo_b"
-        android:textColor="#fff"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="25dp"
-        android:text="고객님의 소비상태는"
-        android:shadowColor="#00709D"
-        android:shadowDx="5.0"
-        android:shadowDy="5.0"
-        android:shadowRadius="2.0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+    <LinearLayout
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="3dp"
-        android:layout_marginRight="45dp"
-        android:layout_weight="2"
-        android:shadowColor="#00709D"
-        android:shadowDx="5.0"
-        android:shadowDy="5.0"
-        android:shadowRadius="2.0"
-        android:fontFamily="@font/applegothicneo_b"
-        android:gravity="center"
-        android:text="아주 좋아요!"
-        android:textColor="#FFF"
-        android:textSize="17dp" />
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:fontFamily="@font/applegothicneo_b"
+            android:textColor="#fff"
+            android:layout_marginBottom="3dp"
+            android:textSize="15dp"
+            android:text="고객님의 소비상태는"
+            android:gravity="center"
+            android:shadowColor="#00709D"
+            android:shadowDx="5.0"
+            android:shadowDy="5.0"
+            android:shadowRadius="2.0"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"/>
+        <TextView android:id="@+id/statusText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="1"
+            android:shadowColor="#00709D"
+            android:shadowDx="5.0"
+            android:shadowDy="5.0"
+            android:shadowRadius="2.0"
+            android:fontFamily="@font/applegothicneo_b"
+            android:gravity="center"
+            android:text="아주 좋아요!"
+            android:textColor="#FFF"
+            android:textSize="16dp" />
+    </LinearLayout>
+
 </RelativeLayout>
