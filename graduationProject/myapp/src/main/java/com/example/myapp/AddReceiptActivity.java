@@ -108,6 +108,8 @@ public class AddReceiptActivity extends Activity {
         arrayList.add("식비");
         arrayList.add("카페/간식");
         arrayList.add("미분류");
+        arrayList.add("계좌입금");
+        arrayList.add("계좌출금");
 
         SpinnerAdapter adapter = new SpinnerAdapter(getApplicationContext(), arrayList);
         spinner.setAdapter(adapter);
