@@ -75,7 +75,9 @@ public class AddReceiptActivity extends Activity {
 
     String userID;
     String myhId = null;
+    String recepitFlag = "";
     int original = -1;
+
 
     LinearLayout parentLayout;
 
@@ -88,6 +90,15 @@ public class AddReceiptActivity extends Activity {
         setContentView(R.layout.activity_receipt);
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
+        recepitFlag = intent.getStringExtra("receiptFlag");
+
+        if(recepitFlag.equals("F")) {
+            LinearLayout initialLayout = (LinearLayout) findViewById(R.id.layout_initial);
+            LinearLayout resultLayout = (LinearLayout) findViewById(R.id.layout_result);
+            initialLayout.setVisibility(View.GONE);
+            resultLayout.setVisibility(View.VISIBLE);
+        }
+
         btn_camera =(ImageButton)findViewById(R.id.cameraBtn);
         btn_photo = (ImageButton)findViewById(R.id.photoBtn);
         btn_cancel = (ImageButton)findViewById(R.id.cancelBtn);
@@ -167,8 +178,37 @@ public class AddReceiptActivity extends Activity {
 
                 EditText store = (EditText)findViewById(R.id.storeEdit);
                 EditText date = (EditText)findViewById(R.id.dateEdit);
+                EditText dateTime = findViewById(R.id.dateTimeEdit);
                 EditText cost = (EditText)findViewById(R.id.moneyEdit);
                 Spinner spinner =(Spinner)findViewById(R.id.categorySpinner);
+
+                // 시간 분 0 없어도댐
+                // 날짜 시간 사이 공백
+                //yyyy-mm-dd hh:mm
+                String dateStr = date.getText().toString();
+                String dateTimeStr = dateTime.getText().toString();
+
+                String yearStr = dateStr.substring(0,4);
+                String monthStr = dateStr.substring(4,6);
+                String dayStr = dateStr.substring(6);
+                String hourStr = dateTimeStr.substring(0,2);
+                String minStr = dateStr.substring(2);
+
+                if(Integer.parseInt(monthStr) > 12 || Integer.parseInt(dateStr) > 31) {
+                    Toast.makeText(getApplicationContext(), "유효하지 않은 날짜 입니다", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                if (Integer.parseInt(hourStr) > 24 || Integer.parseInt(minStr) > 59) {
+                    Toast.makeText(getApplicationContext(), "유효하지 않은 시간 입니다", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+                // 0 1 2 3
+                String resultDate = yearStr + "-" + monthStr + "-" + dayStr + " " + hourStr + ":" + minStr;
+
+
+
+                Log.d(">>>reusltdate", resultDate);
 
                 //상정명 확인 요청
                 ReceiptRequest test = new ReceiptRequest(store.getText().toString(), RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
@@ -241,8 +281,6 @@ public class AddReceiptActivity extends Activity {
                 });
                     }
                 });
-
-
 
     }
 
@@ -441,6 +479,7 @@ public class AddReceiptActivity extends Activity {
 
                         spinner.setSelection(Integer.parseInt(cId) - 1);
                     }
+
                         if(str.length>0) {
                             store.setText(str[0]);
                         }

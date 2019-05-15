@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
     protected ImageView closeMenu;
     protected LinearLayout homeMenu;
     protected LinearLayout userMenu;
-    protected LinearLayout noticeMenu;
+    protected LinearLayout settingMenu;
     protected LinearLayout navChild;
     protected Button budgetBtn;
     protected Button setBudget;
@@ -76,8 +76,6 @@ public class MainActivity extends AppCompatActivity
 
 
     public String mainUserId;
-
-
 
     //데이터베이스로 부터 받은 정보를 저장함
     ArrayList<Stat> sData = null;
@@ -123,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+                startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
             }
         };
         registerReceiver(receiver, intentFilter);
@@ -272,7 +270,7 @@ public class MainActivity extends AppCompatActivity
 
      void MainStart(){
 
-        startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+        startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
 
      }
 
@@ -363,11 +361,34 @@ public class MainActivity extends AppCompatActivity
                 textTitle = findViewById(R.id.text_title);
                 textTitle.setText("");
 
-                startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+                startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
         });
 
         userMenu = findViewById(R.id.userMenu);
-        userMenu.setOnClickListener(v -> StartActivity(MypageActivity.class));
+        userMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                StartActivity(MypageActivity.class);
+
+            }
+        });
+
+        settingMenu = findViewById(R.id.settingMenu);
+        settingMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deviceCheckResult.equals("")) {
+
+                    DeviceCheckHandler();
+
+                } else {
+
+                    StartActivity(SettingDialogActivity.class);
+
+                }
+            }
+        });
 
         return true;
     }
@@ -375,19 +396,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+                   int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+            if (id == R.id.action_settings) {
 
-            if (deviceCheckResult.equals("")) {
+                if (deviceCheckResult.equals("")) {
 
-                DeviceCheckHandler();
+                    DeviceCheckHandler();
 
-            } else {
+                } else {
 
-                StartActivity(SettingDialogActivity.class);
+                    StartActivity(SettingDialogActivity.class);
 
-            }
+                }
 
             return true;
         } else if (id == R.id.refresh_btn){
@@ -481,6 +502,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         drawer.closeDrawer(GravityCompat.START);
+
+
 
     }
 
@@ -693,24 +716,6 @@ public class MainActivity extends AppCompatActivity
         WifiInfo info = wifiManager.getConnectionInfo();
         return info.getMacAddress();
     }
-
-//    public void startMainFragment() {
-//        Log.d("KJH", "startMainFragment()");
-//        fr = new fragment_home();
-//
-//        Bundle args = new Bundle();
-//        args.putSerializable("DATA", sData);
-//        fr.setArguments(args);
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
-//        fragmentTransaction.commit();
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//
-//    }
-
 
     public static int getStatusBarHeight(Context context) {
 
