@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+                startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
             }
         };
         registerReceiver(receiver, intentFilter);
@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity
 
      void MainStart(){
 
-        startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+        startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
 
      }
 
@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity
                 textTitle = findViewById(R.id.text_title);
                 textTitle.setText("");
 
-                startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
+                startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
         });
 
         userMenu = findViewById(R.id.userMenu);
@@ -716,24 +716,6 @@ public class MainActivity extends AppCompatActivity
         WifiInfo info = wifiManager.getConnectionInfo();
         return info.getMacAddress();
     }
-
-//    public void startMainFragment() {
-//        Log.d("KJH", "startMainFragment()");
-//        fr = new fragment_home();
-//
-//        Bundle args = new Bundle();
-//        args.putSerializable("DATA", sData);
-//        fr.setArguments(args);
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
-//        fragmentTransaction.commit();
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//
-//    }
-
 
     public static int getStatusBarHeight(Context context) {
 
