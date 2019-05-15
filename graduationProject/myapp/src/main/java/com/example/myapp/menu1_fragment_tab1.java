@@ -405,12 +405,15 @@ public class menu1_fragment_tab1 extends Fragment {
         });
 
         btn_receipt.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddReceiptActivity.class);
                 startActivityForResult(intent, 1);
             }
         });
+
+
         super.onActivityCreated(savedInstanceState);
     }
 

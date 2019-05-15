@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity
 
     public String mainUserId;
 
-
-
     //데이터베이스로 부터 받은 정보를 저장함
     ArrayList<Stat> sData = null;
 
@@ -531,6 +529,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         drawer.closeDrawer(GravityCompat.START);
+
+
 
     }
 
