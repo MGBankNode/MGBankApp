@@ -337,8 +337,8 @@ public class menu1_fragment_tab1 extends Fragment {
                 if(startNum == -1)
                     Toast.makeText(getActivity(),"해당 날짜는 거래내역이 없습니다.",Toast.LENGTH_LONG).show();
                 else {
-                    String benefit = "Benefit : " + benefitList.get(position);
-                    String loss = "Loss : "+lossList.get(position);
+                    String benefit = benefitList.get(position);
+                    String loss = lossList.get(position);
                     Intent intent = new Intent(getActivity(), menu1_calendar_popup.class);
                     intent.putExtra("hDate", hDate);
                     intent.putExtra("hName", hName);
