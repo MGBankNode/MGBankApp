@@ -76,7 +76,8 @@ public class menu1_calendar_popup extends Activity {
                     Integer.parseInt(hValue[i]), //금액
                     hType[i],    //내역 타입
                     cName[i],    //카테고리 분류
-                    Integer.parseInt(aBalance[i])
+                    Integer.parseInt(aBalance[i]),
+                    "9003-2438-0651-2"
             );
         }
 

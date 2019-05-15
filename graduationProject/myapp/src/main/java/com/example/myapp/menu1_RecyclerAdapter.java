@@ -61,21 +61,23 @@ public class menu1_RecyclerAdapter extends RecyclerView.Adapter<menu1_RecyclerAd
 
         viewHolder.hour.setText(item.getHour());
         viewHolder.minute.setText(item.getMinute());
-        viewHolder.name.setText(item.getName());
-        viewHolder.card.setText(item.getCard());
-        if (!item.getType().equals("입금")) {
+        if (!item.getType().equals("입금")) { //지출일때
+            viewHolder.name.setText(item.getName());    //입금처
+            viewHolder.card.setText(item.getCard());    //출금처
             viewHolder.ingredient.setText(item.getCategori());
             viewHolder.ingredient.setBackgroundResource(R.drawable.loss_label);
             viewHolder.ingredient.setTextColor(Color.RED);
             viewHolder.price.setTextColor(Color.RED);
-        } else {
+        } else {    //입금일때
+            viewHolder.name.setText(item.getName());    //입금처
+            viewHolder.card.setText("내 계좌 "+item.getAnum());    //출금처
             viewHolder.ingredient.setText(item.getCategori());
             viewHolder.ingredient.setBackgroundResource(R.drawable.benefit_label);
             viewHolder.ingredient.setTextColor(Color.rgb(60, 193, 238));
             viewHolder.price.setTextColor(Color.rgb(60, 193, 238));
         }
-        viewHolder.price.setText(myFormatter.format(item.getPrice()) + "원");
-        viewHolder.balance_price.setText(myFormatter.format(item.getBalance()) + "원");
+        viewHolder.price.setText(myFormatter.format(item.getPrice()) + "원");            //금액
+        viewHolder.balance_price.setText(myFormatter.format(item.getBalance()) + "원");  //잔액
 
         //클릭 이벤트
         if(mListener != null){
