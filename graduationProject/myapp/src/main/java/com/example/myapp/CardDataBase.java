@@ -242,6 +242,12 @@ public class CardDataBase {
         CardList.add(new CreditCard( "WITH체크카드", R.drawable.card_with, WithCardBenefits));
         CardList.add(new CreditCard("ON체크카드", R.drawable.card_on, OnCardBenefits));
         CardList.add(new CreditCard("KakaoCard", R.drawable.card_kakao, KakaoCardBenefits));
+        CardList.add(new CreditCard("INCard", R.drawable.card_in,INCardBenefits));
+        CardList.add(new CreditCard("MarketCard",R.drawable.card_market,MarketBenefits));
+        CardList.add(new CreditCard("HomShoppingCard",R.drawable.card_homeshopping, HomeShoppingBenefits));
+        CardList.add(new CreditCard("ForUCard",R.drawable.card_foru, ForUCardBenefits));
+        CardList.add(new CreditCard("MgLifeBenefits", R.drawable.card_mglife, MgLifeBenefits));
+
     } 
 
 }
