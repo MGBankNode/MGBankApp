@@ -4,6 +4,12 @@
     android:gravity="center_vertical">
 
     <item
+        android:id="@+id/refresh_btn"
+        android:icon="@drawable/refresh"
+        android:title="새로고침"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_settings"
         android:icon="@drawable/settings"
         android:title="@string/action_settings"

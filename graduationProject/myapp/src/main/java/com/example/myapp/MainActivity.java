@@ -161,83 +161,77 @@ public class MainActivity extends AppCompatActivity
         listView.setAdapter(adapter);
         st = new Stack<String>();
         st.push("home");
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        listView.setOnChildClickListener((ExpandableListView parent, View v, int groupPosition, int childPosition, long id) -> {
                 // 0 0 계좌조회  0 1 달력   0 2 내역
                 // 1 0 소비평가  1 1 카드추천
                 // 2 0 통합맴버쉽
+            switch (groupPosition) {
+                case 0: {
+                    Bundle bundle1 = new Bundle(1);
+                    switch (childPosition) {
+                        case 0:
+                            fr = new fragment_menu1();
+                            bundle1.putString("ID", userID);
+                            bundle1.putInt("apage", 0);
+
+                            st.push("a");
+                            break;
 
 
-                switch (groupPosition) {
-                    case 0: {
-                        Bundle bundle1 = new Bundle(1);
-                        switch (childPosition) {
-                            case 0:
-                                fr = new fragment_menu1();
-                                bundle1.putString("ID", userID);
-                                bundle1.putInt("apage", 0);
+                        case 1:
+                            fr = new fragment_menu1();
+                            bundle1.putString("ID", userID);
+                            bundle1.putInt("apage", 1);
+                            st.push("b");
+                            break;
 
-                                st.push("a");
-                                break;
+                        case 2:
+                            fr = new fragment_menu1();
+                            bundle1.putString("ID", userID);
+                            bundle1.putInt("apage", 2);
 
+                            st.push("c");
 
-                            case 1:
-                                fr = new fragment_menu1();
-                                bundle1.putString("ID", userID);
-                                bundle1.putInt("apage", 1);
-                                st.push("b");
-                                break;
-
-                            case 2:
-                                fr = new fragment_menu1();
-                                bundle1.putString("ID", userID);
-                                bundle1.putInt("apage", 2);
-
-                                st.push("c");
-
-                                break;
-                        }
-                        changeFragment(fr, bundle1);
-                        break;
+                            break;
                     }
-                    case 1: {
-                        Bundle bundle1 = new Bundle(1);
-                        switch (childPosition) {
-                            case 0:
-                                fr = new consumptionEvaluation_viewPager();
-                                bundle1.putInt("cpage", 0);
-                                st.push("d");
-                                break;
+                    changeFragment(fr, bundle1);
+                    break;
+                }
+                case 1: {
+                    Bundle bundle1 = new Bundle(1);
+                    switch (childPosition) {
+                        case 0:
+                            fr = new consumptionEvaluation_viewPager();
+                            bundle1.putInt("cpage", 0);
+                            st.push("d");
+                            break;
 
-                            case 1:
-                                fr = new bestCard_fragment();
-                                bundle1.putInt("cpage", 1);
-                                st.push("e");
-                                break;
-                        }
-                        changeFragment(fr, bundle1);
-                        break;
+                        case 1:
+                            fr = new bestCard_fragment();
+                            bundle1.putInt("cpage", 1);
+                            st.push("e");
+                            break;
                     }
-
-                    case 2: {
-
-                        switch (childPosition) {
-                            case 0:
-                                fr = new fragment_menu3();
-                                st.push("f");
-                                break;
-                        }
-                        changeFragment(fr, null);
-                        break;
-                    }
+                    changeFragment(fr, bundle1);
+                    break;
                 }
 
+                case 2: {
 
-
-                return false;
-
+                    switch (childPosition) {
+                        case 0:
+                            fr = new fragment_menu3();
+                            st.push("f");
+                            break;
+                    }
+                    changeFragment(fr, null);
+                    break;
+                }
             }
+
+
+
+            return false;
         });
     }
 
@@ -262,123 +256,120 @@ public class MainActivity extends AppCompatActivity
 
 
          //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
-         testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
-             @Override
-             public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
-                 int arrLength = historyInfo.length;
+         testRequest.HomeRequest((HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) -> {
+             int arrLength = historyInfo.length;
 
-                 ArrayList<Stat> temp = new ArrayList<Stat>();
-                 Stat Culture = new Stat(Stat.CULTURE);
-                 Stat Food = new Stat(Stat.FOOD);
-                 Stat Finance = new Stat(Stat.FINANCE);
-                 Stat Traffic = new Stat(Stat.TRAFFIC);
-                 Stat None = new Stat(Stat.NONE);
-                 Stat Life = new Stat(Stat.LIFE);
-                 Stat Coffee = new Stat(Stat.COFFEE);
-                 Stat Dwelling = new Stat(Stat.DWELLING);
-                 Stat Drink = new Stat(Stat.DRINK);
-                 Stat Travel = new Stat(Stat.TRAVEL);
-                 Stat Hospital = new Stat(Stat.HOSPITAL);
+             ArrayList<Stat> temp = new ArrayList<Stat>();
+             Stat Culture = new Stat(Stat.CULTURE);
+             Stat Food = new Stat(Stat.FOOD);
+             Stat Finance = new Stat(Stat.FINANCE);
+             Stat Traffic = new Stat(Stat.TRAFFIC);
+             Stat None = new Stat(Stat.NONE);
+             Stat Life = new Stat(Stat.LIFE);
+             Stat Coffee = new Stat(Stat.COFFEE);
+             Stat Dwelling = new Stat(Stat.DWELLING);
+             Stat Drink = new Stat(Stat.DRINK);
+             Stat Travel = new Stat(Stat.TRAVEL);
+             Stat Hospital = new Stat(Stat.HOSPITAL);
 
-                 String[] hValue = new String[arrLength];
-                 String[] hName = new String[arrLength];
-                 String[] cName = new String[arrLength];
-                 PayInfomation p;
-                 for (int i = 0; i < arrLength; i++) {
-                     cName[i] = historyInfo[i].getcName();        //카테고릐 분류
-                     Date date = new Date(historyInfo[i].gethDate());
-                     Log.d("KJh", "Date : " + date);
-                     Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
-                     switch (cName[i]) {
-                         case "술/유흥":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
-                             break;
-                         case "생활(쇼핑)":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Life, date);
-                             break;
-                         case "교통":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Traffic, date);
-                             break;
-                         case "주거/통신":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date);
-                             break;
-                         case "의료/건강":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Hospital, date);
-                             break;
-                         case "금융":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Finance, date);
-                             break;
-                         case "문화/여가":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Culture, date);
-                             break;
-                         case "여행/숙박":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Travel, date);
-                             break;
-                         case "식비":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Food, date);
-                             break;
-                         case "카페/간식":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), Coffee, date);
-                             break;
-                         case "미분류":
-                             p = new PayInfomation(historyInfo[i].gethName(),
-                                     Integer.parseInt(historyInfo[i].gethValue()), None, date);
-                             break;
-                         default:
-                             break;
+             String[] hValue = new String[arrLength];
+             String[] hName = new String[arrLength];
+             String[] cName = new String[arrLength];
+             PayInfomation p;
+             for (int i = 0; i < arrLength; i++) {
+                 cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+                 Date date = new Date(historyInfo[i].gethDate());
+                 Log.d("KJh", "Date : " + date);
+                 Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
+                 switch (cName[i]) {
+                     case "술/유흥":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
+                         break;
+                     case "생활(쇼핑)":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Life, date);
+                         break;
+                     case "교통":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Traffic, date);
+                         break;
+                     case "주거/통신":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date);
+                         break;
+                     case "의료/건강":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Hospital, date);
+                         break;
+                     case "금융":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Finance, date);
+                         break;
+                     case "문화/여가":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Culture, date);
+                         break;
+                     case "여행/숙박":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Travel, date);
+                         break;
+                     case "식비":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Food, date);
+                         break;
+                     case "카페/간식":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), Coffee, date);
+                         break;
+                     case "미분류":
+                         p = new PayInfomation(historyInfo[i].gethName(),
+                                 Integer.parseInt(historyInfo[i].gethValue()), None, date);
+                         break;
+                     default:
+                         break;
 
-                     }
                  }
-
-                 temp.add(Drink);
-                 temp.add(Life);
-                 temp.add(Traffic);
-                 temp.add(Dwelling);
-                 temp.add(Hospital);
-                 temp.add(Finance);
-                 temp.add(Culture);
-                 temp.add(Travel);
-                 temp.add(Food);
-                 temp.add(Coffee);
-                 temp.add(None);
-
-                 sData.clear();
-                 for (int i = 0; i < temp.size(); i++) {
-                     if (!temp.get(i).isEmpty())
-                         sData.add(temp.get(i));
-                 }
-
-                //////////////////////////////////설정된 예산 요청///////////////////////
-                 BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
-
-                 budgetRequest1.GetBudgetHandler(budget -> {
-                     Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
-                 });
-                //////////////////////////////////////////////////////////////////
-
-
-
-                 //////////////////////////////////설정된 예산 요청///////////////////////
-                 BudgetRequest budgetRequest2 = new BudgetRequest(userID, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
-
-                 budgetRequest2.ChangeBudgetHandler(budget -> {
-                     Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
-                 });
-                 //////////////////////////////////////////////////////////////////
-
-                 startMainFragment();
-                 //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
              }
+
+             temp.add(Drink);
+             temp.add(Life);
+             temp.add(Traffic);
+             temp.add(Dwelling);
+             temp.add(Hospital);
+             temp.add(Finance);
+             temp.add(Culture);
+             temp.add(Travel);
+             temp.add(Food);
+             temp.add(Coffee);
+             temp.add(None);
+
+             sData.clear();
+             for (int i = 0; i < temp.size(); i++) {
+                 if (!temp.get(i).isEmpty())
+                     sData.add(temp.get(i));
+             }
+
+            //////////////////////////////////설정된 예산 요청///////////////////////
+             BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
+
+             budgetRequest1.GetBudgetHandler(budget -> {
+                 Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
+             });
+            //////////////////////////////////////////////////////////////////
+
+
+
+             //////////////////////////////////설정된 예산 요청///////////////////////
+             BudgetRequest budgetRequest2 = new BudgetRequest(userID, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
+
+             budgetRequest2.ChangeBudgetHandler(budget -> {
+                 Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+             });
+             //////////////////////////////////////////////////////////////////
+
+             startMainFragment();
+             //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
          });
      }
 
@@ -412,32 +403,16 @@ public class MainActivity extends AppCompatActivity
         }
         getMenuInflater().inflate(R.menu.main, menu);
 
-        welcomeTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                StartActivity(MypageActivity.class);
-
-            }
-        });
+        welcomeTextView.setOnClickListener(v -> StartActivity(MypageActivity.class));
 
         //사용자 마지막 접속시간 변경
         String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
-
 
         userLastAtTxt.setText(changeText);
 
         userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
         if (userAccountCheck == 1) {
-            //계좌 등록이 되어있는 경우
-            //잔액은 로그인 시에 myUserInfo의 userABalance에 담겨 넘겨옴
-            //getUserABalance() 함수를 호출해서 값을 가져오기만 하면됨
-//            TextView userABalanceTxtView = findViewById(R.id.mainFragment_textView);
-//
-//            String userABalance = myUserInfo.getUserABalance() + "원";
-//            Toast.makeText(getApplicationContext(), userABalance, Toast.LENGTH_SHORT).show();
-//            userABalanceTxtView.setText(userABalance);
 
             MainStart();
 
@@ -446,9 +421,7 @@ public class MainActivity extends AppCompatActivity
             builder.setTitle("");
             builder.setMessage("앱을 사용하려면 계좌등록을 하셔야 합니다. 계좌 등록을 하시겠습니까?");
             builder.setCancelable(false);
-            builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            builder.setPositiveButton("예", (DialogInterface dialog, int which) -> {
                     if (deviceCheckResult.equals("")) {
 
                         DeviceCheckHandler();
@@ -458,65 +431,39 @@ public class MainActivity extends AppCompatActivity
                         StartActivity(SettingDialogActivity.class);
 
                     }
-                }
             });
-            builder.setNegativeButton("아니오(로그아웃)", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            builder.setNegativeButton("아니오(로그아웃)", (DialogInterface dialog, int which) -> {
                     finish();
                     Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                     startActivity(returnLogin);
-                }
             });
             builder.show();
         }
 
 
         closeMenu = findViewById(R.id.closeMenu);
-        closeMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        closeMenu.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("");
                 builder.setMessage("정말로 로그아웃 하시겠습니까? ");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                builder.setPositiveButton("예", (DialogInterface dialog, int which) -> {
                         finish();
                         Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                         startActivity(returnLogin);
-                    }
                 });
-                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
+                builder.setNegativeButton("아니오", (DialogInterface dialog, int which) -> {});
                 builder.show();
-            }
         });
 
         homeMenu = findViewById(R.id.homeMenu);
-        homeMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textTitle = (TextView)findViewById(R.id.text_title);
+        homeMenu.setOnClickListener(v -> {
+                textTitle = findViewById(R.id.text_title);
                 textTitle.setText("");
                 startMainFragment();
-            }
         });
 
         userMenu = findViewById(R.id.userMenu);
-        userMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                StartActivity(MypageActivity.class);
-
-            }
-        });
-
+        userMenu.setOnClickListener(v -> StartActivity(MypageActivity.class));
 
         return true;
     }
@@ -539,6 +486,11 @@ public class MainActivity extends AppCompatActivity
             }
 
             return true;
+        } else if (id == R.id.refresh_btn){
+
+            AccountRequest accountRequest = new AccountRequest(userID, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
+            accountRequest.AccountRefreshHandler(() ->  Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show());
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -629,17 +581,10 @@ public class MainActivity extends AppCompatActivity
         RequestInfo requestInfo = new RequestInfo(RequestInfo.RequestType.DEVICE_CHECK);
         String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
         StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        DeviceCheckResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
+            (response) -> DeviceCheckResponse(response),
+                (error) -> {
+                    error.getMessage();
+                    error.printStackTrace();
                 }
         ) {
             @Override

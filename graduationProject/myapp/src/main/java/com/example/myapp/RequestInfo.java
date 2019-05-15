@@ -23,7 +23,8 @@ public class RequestInfo {
         ADD_RECEIPT,
         ADD_NEW_RECEIPT,
         DEFAULT_BUDGET,
-        CHANGE_BUDGET
+        CHANGE_BUDGET,
+        ACCOUNT_REFRESH
     }
 
     private final static String myIP = "ec2-13-124-68-124.ap-northeast-2.compute.amazonaws.com";
@@ -129,6 +130,10 @@ public class RequestInfo {
 
             case CHANGE_BUDGET:
                 processURL = "/nodeapi/budget/changebudget";
+                break;
+
+            case ACCOUNT_REFRESH:
+                processURL = "/nodeapi/account/accountrefresh";
                 break;
         }
         return processURL;
