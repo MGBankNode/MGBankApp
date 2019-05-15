@@ -77,7 +77,11 @@ public class MainActivity extends AppCompatActivity
     protected LinearLayout noticeMenu;
     protected LinearLayout navChild;
     protected Button budgetBtn;
+    protected Button setBudget;
     private ExpandableListView listView;
+    private static final int MAINFRAGMENT = 1001;
+    private static final int BESTCARDFRAGMENT = 1002;
+
 
     public String mainUserId;
 
@@ -105,7 +109,12 @@ public class MainActivity extends AppCompatActivity
     public int userAccountCheck;
     public String userID;
 
-
+    @Override
+    public void onBackPressed() {
+        Log.i("nkw","onBackpressed()");
+        textTitle.setText("");
+        super.onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,15 +138,6 @@ public class MainActivity extends AppCompatActivity
         sData = new ArrayList<Stat>();
 
         remainBudget = findViewById(R.id.remainBudget);
-
-//        setBudget = findViewById(R.id.setBudget);
-//        setBudget.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, SetBudget.class);
-//                startActivityForResult(intent, 2);
-//            }
-//        });
 
         ArrayList<myGroup> DataList = new ArrayList<myGroup>();
         listView = (ExpandableListView)findViewById(R.id.mylist);
@@ -165,74 +165,95 @@ public class MainActivity extends AppCompatActivity
                 // 0 0 계좌조회  0 1 달력   0 2 내역
                 // 1 0 소비평가  1 1 카드추천
                 // 2 0 통합맴버쉽
-            switch (groupPosition) {
-                case 0: {
-                    Bundle bundle1 = new Bundle(1);
-                    switch (childPosition) {
-                        case 0:
-                            fr = new fragment_menu1();
-                            bundle1.putString("ID", userID);
-                            bundle1.putInt("apage", 0);
+              switch (groupPosition) {
+                  case 0: {
+                      textTitle.setText("가계부");
+                      Bundle bundle1 = new Bundle(1);
+                      switch (childPosition) {
+                          case 0:
+                              fr = new fragment_menu1();
+                              bundle1.putString("ID", userID);
+                              bundle1.putInt("apage", 0);
+                              st.push("a");
+                              break;
 
-                            st.push("a");
-                            break;
 
+                          case 1:
+                              fr = new fragment_menu1();
+                              bundle1.putString("ID", userID);
+                              bundle1.putInt("apage", 1);
+                              st.push("b");
+                              break;
 
-                        case 1:
-                            fr = new fragment_menu1();
-                            bundle1.putString("ID", userID);
-                            bundle1.putInt("apage", 1);
-                            st.push("b");
-                            break;
+                          case 2:
+                              fr = new fragment_menu1();
+                              bundle1.putString("ID", userID);
+                              bundle1.putInt("apage", 2);
 
-                        case 2:
-                            fr = new fragment_menu1();
-                            bundle1.putString("ID", userID);
-                            bundle1.putInt("apage", 2);
+                              st.push("c");
 
-                            st.push("c");
+                              break;
+                      }
+                      changeFragment(fr, bundle1);
+                      break;
+                  }
+                  case 1: {
+                      textTitle.setText("금융비서");
+                      Bundle bundle1 = new Bundle(1);
+                      switch (childPosition) {
+                          case 0:
+                              fr = new consumptionEvaluation_viewPager();
+                              bundle1.putInt("cpage", 0);
+                              st.push("d");
+                              changeFragment(fr, bundle1);
 
-                            break;
-                    }
-                    changeFragment(fr, bundle1);
-                    break;
+                              break;
+
+                          case 1:
+                              fr = new bestCard_fragment();
+                              bundle1.putInt("cpage", 1);
+                              st.push("e");
+                              startFlagFragment("2019-01-01", "2019-06-01", BESTCARDFRAGMENT);
+                              break;
+                      }
+                      changeFragment(fr, bundle1);
+                      break;
+                  }
+                  case 2: {
+                      textTitle.setText("통합멤버쉽");
+                      Bundle bundle1 = new Bundle(1);
+                      switch (childPosition) {
+                          case 0:
+                              fr = new fragment_menu3();
+                              bundle1.putString("ID", userID);
+                              bundle1.putInt("apage", 0);
+                              st.push("f");
+                              break;
+                      }
+                      changeFragment(fr, bundle1);
+                      break;
                 }
-                case 1: {
-                    Bundle bundle1 = new Bundle(1);
-                    switch (childPosition) {
-                        case 0:
-                            fr = new consumptionEvaluation_viewPager();
-                            bundle1.putInt("cpage", 0);
-                            st.push("d");
-                            break;
 
-                        case 1:
-                            fr = new bestCard_fragment();
-                            bundle1.putInt("cpage", 1);
-                            st.push("e");
-                            break;
-                    }
-                    changeFragment(fr, bundle1);
-                    break;
-                }
-
-                case 2: {
-
-                    switch (childPosition) {
-                        case 0:
-                            fr = new fragment_menu3();
-                            st.push("f");
-                            break;
-                    }
-                    changeFragment(fr, null);
-                    break;
-                }
             }
-
-
-
+            
             return false;
+
         });
+//            setBudget = findViewById(R.id.setBudgetBtn);
+//            setBudget.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(MainActivity.this, SetBudget.class);
+//                startActivityForResult(intent, 2);
+////                BudgetRequest budgetRequest2 = new BudgetRequest(b, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
+////
+////                budgetRequest2.ChangeBudgetHandler(budget -> {
+////                    Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+////                });
+//            }
+//        });
+
     }
 
     public Bundle makeBundle(String str, int num) {
@@ -243,134 +264,9 @@ public class MainActivity extends AppCompatActivity
 
 
      void MainStart(){
-         //내역을 얻어와야함
-         //먼저 HistoryRequest 각각 정보 입력하여 객체생성
-         HistoryRequest testRequest = new HistoryRequest(
-                 myUserInfo.getUserID(),                            //사용자 아이디 myUserInfo 객체에서 getUserID()받아와 사용하시면되요
-                 "2019-02-01",                               //전달의 시작 날짜 - 일은 01로 고정시키고 년도랑 월만 계산해서 가져오시면되요(시작일은 무조건 01이므로)
-                 "2019-05-31",                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
-                 RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
-                 getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
 
-         //fragment 쪽에서는 getContext()하시면 될 것 같아요
+        startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
 
-
-         //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
-         testRequest.HomeRequest((HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) -> {
-             int arrLength = historyInfo.length;
-
-             ArrayList<Stat> temp = new ArrayList<Stat>();
-             Stat Culture = new Stat(Stat.CULTURE);
-             Stat Food = new Stat(Stat.FOOD);
-             Stat Finance = new Stat(Stat.FINANCE);
-             Stat Traffic = new Stat(Stat.TRAFFIC);
-             Stat None = new Stat(Stat.NONE);
-             Stat Life = new Stat(Stat.LIFE);
-             Stat Coffee = new Stat(Stat.COFFEE);
-             Stat Dwelling = new Stat(Stat.DWELLING);
-             Stat Drink = new Stat(Stat.DRINK);
-             Stat Travel = new Stat(Stat.TRAVEL);
-             Stat Hospital = new Stat(Stat.HOSPITAL);
-
-             String[] hValue = new String[arrLength];
-             String[] hName = new String[arrLength];
-             String[] cName = new String[arrLength];
-             PayInfomation p;
-             for (int i = 0; i < arrLength; i++) {
-                 cName[i] = historyInfo[i].getcName();        //카테고릐 분류
-                 Date date = new Date(historyInfo[i].gethDate());
-                 Log.d("KJh", "Date : " + date);
-                 Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
-                 switch (cName[i]) {
-                     case "술/유흥":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Drink, date);
-                         break;
-                     case "생활(쇼핑)":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Life, date);
-                         break;
-                     case "교통":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Traffic, date);
-                         break;
-                     case "주거/통신":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date);
-                         break;
-                     case "의료/건강":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Hospital, date);
-                         break;
-                     case "금융":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Finance, date);
-                         break;
-                     case "문화/여가":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Culture, date);
-                         break;
-                     case "여행/숙박":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Travel, date);
-                         break;
-                     case "식비":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Food, date);
-                         break;
-                     case "카페/간식":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), Coffee, date);
-                         break;
-                     case "미분류":
-                         p = new PayInfomation(historyInfo[i].gethName(),
-                                 Integer.parseInt(historyInfo[i].gethValue()), None, date);
-                         break;
-                     default:
-                         break;
-
-                 }
-             }
-
-             temp.add(Drink);
-             temp.add(Life);
-             temp.add(Traffic);
-             temp.add(Dwelling);
-             temp.add(Hospital);
-             temp.add(Finance);
-             temp.add(Culture);
-             temp.add(Travel);
-             temp.add(Food);
-             temp.add(Coffee);
-             temp.add(None);
-
-             sData.clear();
-             for (int i = 0; i < temp.size(); i++) {
-                 if (!temp.get(i).isEmpty())
-                     sData.add(temp.get(i));
-             }
-
-            //////////////////////////////////설정된 예산 요청///////////////////////
-             BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
-
-             budgetRequest1.GetBudgetHandler(budget -> {
-                 Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
-             });
-            //////////////////////////////////////////////////////////////////
-
-
-
-             //////////////////////////////////설정된 예산 요청///////////////////////
-             BudgetRequest budgetRequest2 = new BudgetRequest(userID, "1000000",RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
-
-             budgetRequest2.ChangeBudgetHandler(budget -> {
-                 Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
-             });
-             //////////////////////////////////////////////////////////////////
-
-             startMainFragment();
-             //위에 처럼 각각 HistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
-         });
      }
 
     @Override
@@ -459,7 +355,8 @@ public class MainActivity extends AppCompatActivity
         homeMenu.setOnClickListener(v -> {
                 textTitle = findViewById(R.id.text_title);
                 textTitle.setText("");
-                startMainFragment();
+
+                startFlagFragment("2019-05-01", "2019-06-01", MAINFRAGMENT);
         });
 
         userMenu = findViewById(R.id.userMenu);
@@ -516,9 +413,18 @@ public class MainActivity extends AppCompatActivity
         else if(requestCode == 2) {
 
                 if(resultCode == RESULT_OK) {
+                    budgetBtn = findViewById(R.id.setBudgetBtn);
+                    String budgetValue = data.getStringExtra("Budget");
+                    Log.d(">>>bud", budgetValue);
 
-                    String budget = data.getStringExtra("Budget");
-                    
+                  BudgetRequest budgetRequest2 = new BudgetRequest(userID, budgetValue,RequestInfo.RequestType.CHANGE_BUDGET, getApplicationContext());
+
+                  budgetRequest2.ChangeBudgetHandler(budget -> {
+                     Toast.makeText(getApplicationContext(), "예산 설정 성공", Toast.LENGTH_LONG).show();
+                 });
+
+                    budgetValue += "원";
+                    budgetBtn.setText(budgetValue);
                 }
             }
     }
@@ -782,22 +688,23 @@ public class MainActivity extends AppCompatActivity
         return info.getMacAddress();
     }
 
-    public void startMainFragment() {
-        Log.d("KJH", "startMainFragment()");
-        fr = new fragment_home();
+//    public void startMainFragment() {
+//        Log.d("KJH", "startMainFragment()");
+//        fr = new fragment_home();
+//
+//        Bundle args = new Bundle();
+//        args.putSerializable("DATA", sData);
+//        fr.setArguments(args);
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+//        fragmentTransaction.commit();
+//
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
+//
+//    }
 
-        Bundle args = new Bundle();
-        args.putSerializable("DATA", sData);
-        fr.setArguments(args);
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
-        fragmentTransaction.commit();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-
-    }
 
     public static int getStatusBarHeight(Context context) {
 
@@ -812,7 +719,153 @@ public class MainActivity extends AppCompatActivity
         }
         return result;
     }
+    public void startFlagFragment(String startDate, String endDate, int flag){
+        //내역을 얻어와야함
+        //먼저 HistoryRequest 각각 정보 입력하여 객체생성
+        HistoryRequest testRequest = new HistoryRequest(
+                myUserInfo.getUserID(),                            //사용자 아이디 myUserInfo 객체에서 getUserID()받아와 사용하시면되요
+                startDate,                               //전달의 시작 날짜 - 일은 01로 고정시키고 년도랑 월만 계산해서 가져오시면되요(시작일은 무조건 01이므로)
+                endDate,                               //전달의 마지막 날짜 - 일은 31로 고정시키고 년도랑 월만 게산해서 가져오시면되요 (최대 31일이므로)
+                RequestInfo.RequestType.ACCOUNT_HOME_HISTORY,      //이거는 고정
+                getApplicationContext());                          //이거는 context 얻어오는 건데 여기는 액티비티라서 getApplicationContext()해서 받아오는데
+
+        //fragment 쪽에서는 getContext()하시면 될 것 같아요
 
 
+        //HomeRequest(callback - onSuccess Override)를해서 정보 받아옴
+        testRequest.HomeRequest(new HistoryRequest.VolleyCallback() {
+            @Override
+            public void onSuccess(HistoryInfo[] historyInfo, DailyHistoryInfo[] dailyHistoryInfo) {
+                int arrLength = historyInfo.length;
+
+                ArrayList<Stat> temp = new ArrayList<Stat>();
+                Stat Culture = new Stat(Stat.CULTURE, userID);
+                Stat Food = new Stat(Stat.FOOD, userID);
+                Stat Finance = new Stat(Stat.FINANCE, userID);
+                Stat Traffic = new Stat(Stat.TRAFFIC, userID);
+                Stat None = new Stat(Stat.NONE, userID);
+                Stat Life = new Stat(Stat.LIFE, userID);
+                Stat Coffee = new Stat(Stat.COFFEE, userID);
+                Stat Dwelling = new Stat(Stat.DWELLING, userID);
+                Stat Drink = new Stat(Stat.DRINK, userID);
+                Stat Travel = new Stat(Stat.TRAVEL, userID);
+                Stat Hospital = new Stat(Stat.HOSPITAL, userID);
+
+                String[] hValue = new String[arrLength];
+                String[] hName = new String[arrLength];
+                String[] cName = new String[arrLength];
+                PayInfomation p;
+                for (int i = 0; i < arrLength; i++) {
+                    cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+                    Date date = new Date(historyInfo[i].gethDate());
+                    Log.d("KJh", "Date : " + date);
+                    Log.d("KJH", "origin Date : " + historyInfo[i].gethDate());
+                    switch (cName[i]) {
+                        case "술/유흥":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Drink, date, historyInfo[i].gethId());
+                            break;
+                        case "생활(쇼핑)":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Life, date, historyInfo[i].gethId());
+                            break;
+                        case "교통":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Traffic, date, historyInfo[i].gethId());
+                            break;
+                        case "주거/통신":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Dwelling, date, historyInfo[i].gethId());
+                            break;
+                        case "의료/건강":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Hospital, date, historyInfo[i].gethId());
+                            break;
+                        case "금융":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Finance, date, historyInfo[i].gethId());
+                            break;
+                        case "문화/여가":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Culture, date, historyInfo[i].gethId());
+                            break;
+                        case "여행/숙박":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Travel, date, historyInfo[i].gethId());
+                            break;
+                        case "식비":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Food, date, historyInfo[i].gethId());
+                            break;
+                        case "카페/간식":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), Coffee, date, historyInfo[i].gethId());
+                            break;
+                        case "미분류":
+                            p = new PayInfomation(historyInfo[i].gethName(),
+                                    Integer.parseInt(historyInfo[i].gethValue()), None, date, historyInfo[i].gethId());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                temp.add(Drink);
+                temp.add(Life);
+                temp.add(Traffic);
+                temp.add(Dwelling);
+                temp.add(Hospital);
+                temp.add(Finance);
+                temp.add(Culture);
+                temp.add(Travel);
+                temp.add(Food);
+                temp.add(Coffee);
+                temp.add(None);
+
+                sData.clear();
+                for (int i = 0; i < temp.size(); i++) {
+                    if (!temp.get(i).isEmpty())
+                        sData.add(temp.get(i));
+                }
+
+                switch (flag){
+                    case MAINFRAGMENT:
+                        //////////////////////////////////설정된 예산 요청///////////////////////
+                        BudgetRequest budgetRequest1 = new BudgetRequest(userID, RequestInfo.RequestType.DEFAULT_BUDGET, getApplicationContext());
+
+                        budgetRequest1.GetBudgetHandler(budget -> {
+                            Toast.makeText(getApplicationContext(), budget, Toast.LENGTH_LONG).show();
+                        });
+                        //////////////////////////////////////////////////////////////////
+
+                        Log.d("KJH", "startMainFragment()");
+                        fr = new fragment_home();
+
+                        Bundle args = new Bundle();
+                        args.putSerializable("DATA", sData);
+                        fr.setArguments(args);
+                        FragmentManager fm = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        fragmentTransaction.replace(R.id.dynamic_mainFragment, fr);
+                        fragmentTransaction.commit();
+
+                        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                        drawer.closeDrawer(GravityCompat.START);
+                        break;
+                    case BESTCARDFRAGMENT:
+                        fr = new bestCard_fragment();
+
+                        Bundle args2 = new Bundle();
+                        args2.putSerializable("DATA", sData);
+                        fr.setArguments(args2);
+                        FragmentManager fm2 = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction2 = fm2.beginTransaction();
+                        fragmentTransaction2.replace(R.id.dynamic_mainFragment, fr);
+                        fragmentTransaction2.commit();
+                        break;
+                }
+            }
+        });
+    }
 
 }

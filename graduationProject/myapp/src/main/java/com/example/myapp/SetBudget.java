@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SetBudget extends Activity{
 
@@ -40,10 +41,10 @@ public class SetBudget extends Activity{
             @Override
             public void onClick(View v) {
                 String budgetStr = String.valueOf(setBudgetEdit.getText());
-                Log.d(">>>",budgetStr);
                 Intent intent = new Intent();
                 intent.putExtra("Budget", budgetStr);
                 setResult(RESULT_OK, intent);
+
                 finish();
             }
         });
