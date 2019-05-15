@@ -10,6 +10,7 @@
     <android.support.design.widget.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+        android:fontFamily="@font/applegothicneo_b"
     android:theme="@style/TabTheme">
 
 
@@ -19,11 +20,13 @@
     android:layout_width="match_parent"
     android:layout_height="45dp"
     app:tabGravity="fill"
+        android:fontFamily="@font/applegothicneo_b"
     app:tabMode="fixed" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_content"
+        android:fontFamily="@font/applegothicneo_b"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

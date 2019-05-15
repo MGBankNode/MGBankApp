@@ -20,6 +20,7 @@
             app:collapsedTitleTextAppearance="@style/CollapsedTitle"
             app:expandedTitleTextAppearance="@style/ExpandedTitle"
             android:fitsSystemWindows="true"
+            android:fontFamily="@font/applegothicneo_b"
             app:contentScrim="#FFF"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -82,6 +83,7 @@
                         android:background="@drawable/correct_button_bg"
                         android:gravity="center"
                         android:text="자세히 보기"
+                        android:fontFamily="@font/applegothicneo_b"
                         android:textSize="23dp"
                         android:layout_width="220dp"
                         android:layout_height="50dp" />

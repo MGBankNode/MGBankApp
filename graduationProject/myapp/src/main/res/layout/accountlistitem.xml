@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="24dp"
     android:gravity="center"
+    android:fontFamily="@font/applegothicneo_b"
     android:orientation="horizontal">
 
 
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="left"
+        android:fontFamily="@font/applegothicneo_b"
         android:layout_marginLeft="10dp"
         android:orientation="vertical">
 

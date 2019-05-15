@@ -7,7 +7,7 @@
     android:textColor="#333"
     android:gravity="center"
     android:textSize="18dp"
-    android:fontFamily="@font/applegothicneo_m"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fontFamily="@font/applegothicneo_b"
     android:ellipsize="marquee"/>

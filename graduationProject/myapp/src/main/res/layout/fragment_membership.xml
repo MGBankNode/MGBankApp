@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:title="당신을 위한 통합 멤버십"
+            android:fontFamily="@font/applegothicneo_b"
             app:expandedTitleTextAppearance="@style/ExpandedTitle"
             app:collapsedTitleTextAppearance="@style/CollapsedTitle"
             app:expandedTitleGravity="top"
@@ -39,6 +40,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:id="@+id/bcd_txt"
                     android:text=""
                     android:textAlignment="center"
@@ -51,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 app:layout_collapseMode="pin"
+                android:fontFamily="@font/applegothicneo_b"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -63,19 +66,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FC6498AA"
-            android:fontFamily="@font/nanumbarunpenb"/>
+            android:fontFamily="@font/applegothicneo_b"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/point_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
+            android:fontFamily="@font/applegothicneo_b"
             android:padding="10dp"/>
     </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:elevation="4dp"
         android:layout_width="match_parent"
+        android:fontFamily="@font/applegothicneo_b"
         android:layout_height="0dp" />
 
 </android.support.design.widget.CoordinatorLayout>

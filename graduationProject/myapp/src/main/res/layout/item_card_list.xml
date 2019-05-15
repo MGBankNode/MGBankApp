@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="카드이름"
                 android:textSize="15dp"
-                android:fontFamily="@font/consolab"/>
+                android:fontFamily="@font/applegothicneo_b"/>
 
             <LinearLayout
                 android:orientation="horizontal"

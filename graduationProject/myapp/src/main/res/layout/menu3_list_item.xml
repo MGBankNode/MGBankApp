@@ -43,6 +43,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:text="Point Name"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textStyle="bold"
                     android:textColor="#fff"
                     android:textAppearance="?android:attr/textAppearanceLarge"/>
@@ -55,6 +56,7 @@
                     android:layout_marginTop="5dp"
                     android:textColor="#fff"
                     android:text="Point Score"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textAppearance="?android:attr/textAppearanceMedium"/>
 
             </LinearLayout>

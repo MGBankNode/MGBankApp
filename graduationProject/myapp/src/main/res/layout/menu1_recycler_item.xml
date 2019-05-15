@@ -21,6 +21,7 @@
             android:layout_height="25dp"
             android:id="@+id/list_date"
             android:text="20"
+            android:fontFamily="@font/applegothicneo_b"
             android:textSize="15sp"
             android:textColor="#fff"
             android:textAlignment="center"
@@ -36,6 +37,7 @@
             android:textColor="#3cc1ee"
             android:id="@+id/day_benefit"
             android:gravity="right"
+            android:fontFamily="@font/applegothicneo_b"
             android:layout_weight="50"
             />
 
@@ -48,6 +50,7 @@
             android:textColor="#F00"
             android:gravity="right"
             android:layout_weight="15"
+            android:fontFamily="@font/applegothicneo_b"
             android:paddingRight="25dp" />
 
     </LinearLayout>
@@ -57,16 +60,19 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:id="@+id/list_layout2"
+        android:fontFamily="@font/applegothicneo_b"
         android:descendantFocusability="blocksDescendants">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="55dp"
             android:orientation="vertical"
+            android:fontFamily="@font/applegothicneo_b"
             android:gravity="center">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="27dp"
+                android:fontFamily="@font/applegothicneo_b"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="27dp"
@@ -76,11 +82,13 @@
                     android:textSize="13sp"
                     android:textColor="#000"
                     android:gravity="center"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:padding="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="27dp"
                     android:text=":"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textColor="#000"
                     android:textSize="13sp"
                     android:gravity="center" />
@@ -89,6 +97,7 @@
                     android:layout_height="27dp"
                     android:id="@+id/mm"
                     android:text="00"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textColor="#000"
                     android:textSize="13sp"
                     android:gravity="center"
@@ -102,6 +111,7 @@
                 android:layout_height="23dp"
                 android:background="#00000000"
                 android:text="분류"
+                android:fontFamily="@font/applegothicneo_b"
                 android:textSize="10dp"/>
 
         </LinearLayout>
@@ -114,12 +124,14 @@
             android:orientation="horizontal"
             android:layout_marginLeft="10dp"
             android:padding="10dp"
+            android:fontFamily="@font/applegothicneo_b"
             android:background="@drawable/list_label">
             <LinearLayout
                 android:layout_weight="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:fontFamily="@font/applegothicneo_b"
                 android:paddingLeft="10dp"
                 >
                 <TextView
@@ -127,6 +139,7 @@
                     android:layout_height="25dp"
                     android:id="@+id/name"
                     android:text="CU 광운대점"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textColor="#000"
                     android:textSize="17dp"
                     android:gravity="center"/>
@@ -135,6 +148,7 @@
                     android:layout_height="17dp"
                     android:id="@+id/user_card"
                     android:text="MG MINT Check 카드"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textSize="13sp"
                     android:gravity="center"/>
             </LinearLayout>
@@ -143,6 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/applegothicneo_b"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/price"
@@ -152,12 +167,14 @@
                     android:gravity="right"
                     android:text="-2,900원"
                     android:textSize="17dp"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:paddingRight="20dp" />
                 <TextView
                     android:id="@+id/balance_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="20원"
+                    android:fontFamily="@font/applegothicneo_b"
                     android:textSize="13sp"
                     android:gravity="right"
                     android:paddingRight="20dp" />
