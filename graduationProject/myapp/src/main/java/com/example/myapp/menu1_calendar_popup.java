@@ -10,6 +10,7 @@ import android.view.Window;
 import android.content.Intent;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,9 @@ public class menu1_calendar_popup extends Activity {
         int startNum = intent.getIntExtra("startNum", 0);
         int endNum = intent.getIntExtra("endNum", 0);
 
-        use_money.setText(loss);
-        earn_money.setText(benefit);
+        DecimalFormat myFormat = new DecimalFormat("###,###");
+        use_money.setText(myFormat.format(loss));
+        earn_money.setText(myFormat.format(benefit));
 
         Log.i("err", Integer.toString(startNum)+" "+Integer.toString(endNum));
         indexData = new menu1_rvData[endNum-startNum];
