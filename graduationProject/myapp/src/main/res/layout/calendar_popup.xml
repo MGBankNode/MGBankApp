@@ -5,12 +5,14 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
+    android:fontFamily="@font/applegothicneo_b"
 >
 
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/applegothicneo_b"
         android:gravity="center">
 
         <TextView
