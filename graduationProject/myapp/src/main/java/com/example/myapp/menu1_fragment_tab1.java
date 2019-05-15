@@ -494,7 +494,7 @@ public class menu1_fragment_tab1 extends Fragment {
             holder.tvItemGridView.setText("" + getItem(position));
 
             if(!getItem(position).equals("")) {
-                if((Integer.parseInt(benefitList.get(position))!=0) && (Integer.parseInt(lossList.get(position))!=0)){
+                if((Integer.parseInt(benefitList.get(position))!=0) || (Integer.parseInt(lossList.get(position))!=0)){
                     holder.tvPlus.setText(""+myFormatter.format(Integer.parseInt(benefitList.get(position))) );
                     holder.tvMinus.setText(""+myFormatter.format(Integer.parseInt(lossList.get(position))) );
                 }
