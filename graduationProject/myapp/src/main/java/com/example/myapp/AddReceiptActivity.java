@@ -201,7 +201,7 @@ public class AddReceiptActivity extends Activity {
                 Log.d(">>>min", minStr);
 
                 int stopFlag = 0;
-                if (Integer.parseInt(monthStr) > 12 || Integer.parseInt(dateStr) > 31) {
+                if (Integer.parseInt(monthStr) > 12 || Integer.parseInt(dayStr) > 31) {
                     Toast.makeText(getApplicationContext(), "유효하지 않은 날짜 입니다", Toast.LENGTH_SHORT).show();
                     stopFlag = 1;
                 }
