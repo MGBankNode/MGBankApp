@@ -340,15 +340,10 @@ public class MainActivity extends AppCompatActivity
             builder.setMessage("앱을 사용하려면 계좌등록을 하셔야 합니다. 계좌 등록을 하시겠습니까?");
             builder.setCancelable(false);
             builder.setPositiveButton("예", (DialogInterface dialog, int which) -> {
-                    if (deviceCheckResult.equals("")) {
 
-                        DeviceCheckHandler();
-
-                    } else {
 
                         StartActivity(SettingDialogActivity.class);
 
-                    }
             });
             builder.setNegativeButton("아니오(로그아웃)", (DialogInterface dialog, int which) -> {
                     finish();
