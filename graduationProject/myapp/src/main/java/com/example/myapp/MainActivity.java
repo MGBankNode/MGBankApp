@@ -238,10 +238,13 @@ public class MainActivity extends AppCompatActivity
                   case 1: {
                       textTitle.setText("금융비서");
                       Bundle bundle1 = new Bundle(1);
+
                       switch (childPosition) {
                           case 0:
                               fr = new consumptionEvaluation_viewPager();
                               bundle1.putInt("cpage", 0);
+                              bundle1.putString("userID", userID);
+                              Log.d("KJH", "소비평가 전달 데이터 : " + userID);
                               st.push("d");
                               changeFragment(fr, bundle1);
 

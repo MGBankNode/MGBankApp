@@ -49,6 +49,7 @@ public class consumptionEvaluationFragment extends Fragment {
     public int curMonth;
 
     private FragmentActivity myContext;
+    public String userID;
 
     private String getMonthDay(int year, int month, String startLastCheck){
         Calendar cal = Calendar.getInstance();
@@ -159,6 +160,8 @@ public class consumptionEvaluationFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
         context = getContext();
+        userID= new MainActivity().userID;
+        Log.d("KJH", "소비평가 받은 데이터 : " + getArguments().getString("userID"));
 
 //        detailButton = view.findViewById(R.id.detailBtn);
 //        reportListView = view.findViewById(R.id.reportList);
@@ -293,7 +296,7 @@ public class consumptionEvaluationFragment extends Fragment {
 
         //요청 정보 입력!!!!!!!test
         AnalysisRequest test = new AnalysisRequest(
-                "b",                               //현재 로그인 아이디
+                userID,                               //현재 로그인 아이디
                 dates,            //날짜들 list
                 RequestInfo.RequestType.ANALYSIS_WEEK,    //고정
                 context);                                 //고정

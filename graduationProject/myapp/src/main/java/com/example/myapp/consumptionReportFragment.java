@@ -49,6 +49,7 @@ public class consumptionReportFragment extends Fragment {
     public int cYear;
     public int cMonth;
     public int cDay;
+    public String userID;
 
     public String[] labelArray;
 
@@ -67,7 +68,8 @@ public class consumptionReportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
-
+//        userID = getArguments().getString("userID");
+        userID= new MainActivity().userID;
         TextView mainDate = view.findViewById(R.id.reportMainDate);
 
         Bundle bundle = getArguments();
@@ -102,7 +104,7 @@ public class consumptionReportFragment extends Fragment {
 
         //요청 정보 입력!!!!!!!test
         AnalysisRequest test = new AnalysisRequest(
-                "b",                               //현재 로그인 아이디
+                userID,                               //현재 로그인 아이디
                 analysisWeekInfo.getsDate(),                      //시작 날짜
                 analysisWeekInfo.getlDate(),                       //마지막 날짜
                 RequestInfo.RequestType.ANALYSIS_DAILY,    //고정
