@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 public class ContentsPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -14,6 +15,7 @@ public class ContentsPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         this.mPageCount = mPageCount;
         this.userID=userID;
+        Log.d("KJH", "ContentsPagerAdapter userID : " + userID);
     }
 
     @Override

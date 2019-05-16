@@ -66,10 +66,10 @@ public class consumptionReportFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         final View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
-//        userID = getArguments().getString("userID");
-        userID= new MainActivity().userID;
+
+        userID = getArguments().getString("userID");
+        Log.d("KJH", "Report UserID : " + userID);
         TextView mainDate = view.findViewById(R.id.reportMainDate);
 
         Bundle bundle = getArguments();
