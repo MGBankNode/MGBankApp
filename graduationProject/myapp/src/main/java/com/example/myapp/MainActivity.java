@@ -428,20 +428,21 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
                    int id = item.getItemId();
 
-            if (id == R.id.action_settings) {
-
-                if (deviceCheckResult.equals("")) {
-
-                    DeviceCheckHandler();
-
-                } else {
-
-                    StartActivity(SettingDialogActivity.class);
-
-                }
-
-            return true;
-        } else if (id == R.id.refresh_btn){
+//            if (id == R.id.action_settings) {
+//
+//                if (deviceCheckResult.equals("")) {
+//
+//                    DeviceCheckHandler();
+//
+//                } else {
+//
+//                    StartActivity(SettingDialogActivity.class);
+//
+//                }
+//
+//            return true;
+//        } else
+        if (id == R.id.refresh_btn){
 
             AccountRequest accountRequest = new AccountRequest(userID, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
             accountRequest.AccountRefreshHandler(() ->  Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show());

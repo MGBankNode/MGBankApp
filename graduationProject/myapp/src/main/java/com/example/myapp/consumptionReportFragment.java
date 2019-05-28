@@ -144,9 +144,11 @@ public class consumptionReportFragment extends Fragment {
                     }
                 }
 
-                for(int i=1; i<sumArray.length; i++)
+                for(int i=1; i<=7; i++) {
+                    Log.d(">>>ara", String.valueOf(sumArray[i]));
                     entries.add(new BarEntry(i, sumArray[i]));
 
+                }
                 String[] labels = new String[] {"", "월", "화", "수", "목", "금", "토", "일"};
 
                 YAxis leftAxis = dayChart.getAxisLeft();
