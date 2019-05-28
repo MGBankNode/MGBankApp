@@ -82,10 +82,6 @@ public class consumptionReportFragment extends Fragment {
         String mainDateStr = String.valueOf(reportMainMonth) + "월 " + String.valueOf(reportMainWeek) + "주차";
         mainDate.setText(mainDateStr);
 
-       // String result = lDay;
-
-
-
 
         DrawWeekChart(view, lDay);
         DrawDayChart(view, analysisWeekData);
@@ -145,9 +141,7 @@ public class consumptionReportFragment extends Fragment {
                 }
 
                 for(int i=1; i<=7; i++) {
-                    Log.d(">>>ara", String.valueOf(sumArray[i]));
                     entries.add(new BarEntry(i, sumArray[i]));
-
                 }
                 String[] labels = new String[] {"", "월", "화", "수", "목", "금", "토", "일"};
 
@@ -165,9 +159,9 @@ public class consumptionReportFragment extends Fragment {
                 xAxis.setDrawGridLines(false);
 
                 leftAxis.setDrawLabels(true);
-                leftAxis.setAxisMinimum(9000);
-                leftAxis.setGranularity(6000);
-                leftAxis.setYOffset(-30f);
+                leftAxis.setAxisMinimum(0);
+                leftAxis.setGranularity(7000);
+//                leftAxis.setYOffset(0);
                 leftAxis.setTextColor(Color.rgb(155,155,155));
                 leftAxis.setDrawAxisLine(true);
                 leftAxis.setDrawGridLines(false);
@@ -264,11 +258,9 @@ public class consumptionReportFragment extends Fragment {
         for(int i=1; i<reversed.length; i++)
             result += ","+ reversed[i];
 
-        Log.d(">>>result", result);
-
 
         AnalysisRequest test = new AnalysisRequest(
-                "b",                               //현재 로그인 아이디
+                userID,                               //현재 로그인 아이디
                 result,            //날짜들 list
                 RequestInfo.RequestType.ANALYSIS_WEEK,    //고정
                 getContext());                                 //고정
