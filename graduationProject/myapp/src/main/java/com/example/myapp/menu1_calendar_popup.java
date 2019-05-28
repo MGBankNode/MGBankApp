@@ -49,6 +49,7 @@ public class menu1_calendar_popup extends Activity {
         String[] aBalance = intent.getStringArrayExtra("aBalance");
         String[] cType = intent.getStringArrayExtra("cType");
         String[] cName = intent.getStringArrayExtra("cName");
+        String[] aType = intent.getStringArrayExtra("aType");
 
         String benefit = intent.getStringExtra("benefit");
         String loss = intent.getStringExtra("loss");
@@ -77,7 +78,7 @@ public class menu1_calendar_popup extends Activity {
                     hType[i],    //내역 타입
                     cName[i],    //카테고리 분류
                     Integer.parseInt(aBalance[i]),
-                    "9003-2438-0651-2"
+                    aType[i]
             );
         }
 

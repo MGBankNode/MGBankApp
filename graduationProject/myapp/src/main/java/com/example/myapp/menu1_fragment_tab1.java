@@ -67,6 +67,7 @@ public class menu1_fragment_tab1 extends Fragment {
     String[] aBalance;
     String[] cType;
     String[] cName;
+    String[] aType;
     int arrLength;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +117,7 @@ public class menu1_fragment_tab1 extends Fragment {
             aBalance = new String[arrLength];
             cType = new String[arrLength];
             cName = new String[arrLength];
+            aType = new String[arrLength];
 
             for(int i = 0; i < arrLength; i++){
 
@@ -126,6 +128,7 @@ public class menu1_fragment_tab1 extends Fragment {
                 aBalance[i] = historyInfo[i].getaBalance();  //내역 사용 후 잔액
                 cType[i] = historyInfo[i].getcType();        //카드 이름
                 cName[i] = historyInfo[i].getcName();        //카테고릐 분류
+                aType[i] = historyInfo[i].getaType();        // 계좌 이름
             }
 
 
@@ -347,6 +350,7 @@ public class menu1_fragment_tab1 extends Fragment {
                     intent.putExtra("aBalance", aBalance);
                     intent.putExtra("cType", cType);
                     intent.putExtra("cName", cName);
+                    intent.putExtra("aType", aType);
                     intent.putExtra("startNum", startNum);
                     intent.putExtra("endNum", endNum);
                     intent.putExtra("benefit", benefit);

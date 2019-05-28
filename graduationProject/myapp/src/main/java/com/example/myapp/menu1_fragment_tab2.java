@@ -319,7 +319,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
 
                 rv_adapter = new menu1_RecyclerAdapter(menu1rvDataList, R.layout.menu1_recycler_item);
-                rv_adapter.setOnClickListener(menu1_fragment_tab2.this);    //클릭리스너 연결
+                //rv_adapter.setOnClickListener(menu1_fragment_tab2.this);    //클릭리스너 연결
                 recyclerView.setAdapter(rv_adapter);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
