@@ -232,10 +232,6 @@ public class consumptionEvaluationFragment extends Fragment {
         intent.setAction("GET_USERID");
         getActivity().sendBroadcast(intent);
 
-        //Log.d("KJH", "소비평가 받은 데이터 : " + getArguments().getString("userID"));
-
-//        detailButton = view.findViewById(R.id.detailBtn);
-//        reportListView = view.findViewById(R.id.reportList);
 
         return view;
     }
