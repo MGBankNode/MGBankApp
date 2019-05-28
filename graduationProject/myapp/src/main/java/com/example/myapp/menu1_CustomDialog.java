@@ -119,6 +119,7 @@ public class menu1_CustomDialog {
                 String[] aBalance = new String[arrLength];
                 String[] cType = new String[arrLength];
                 String[] cName = new String[arrLength];
+                String[] aType = new String[arrLength];
 
                 for(int i = 0; i < arrLength; i++){
 
@@ -130,6 +131,7 @@ public class menu1_CustomDialog {
                     aBalance[i] = accountHistoryInfo[i].getaBalance();  //내역 사용 후 잔액
                     cType[i] = accountHistoryInfo[i].getcType();        //카드 이름
                     cName[i] = accountHistoryInfo[i].getcName();        //카테고릐 분류
+                    aType[i] = accountHistoryInfo[i].getaType();        // 계좌 이름
                 }
                 //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
 
@@ -151,12 +153,12 @@ public class menu1_CustomDialog {
 
                 DecimalFormat myFormatter = new DecimalFormat("###,###");
 
-                hId_num=hId[position];
+                //hId_num=hId[position];
                 d_name.setText(hName[position]);
                 if(hType[position].equals("입금")) {
                     d_price.setText("+" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
                     d_output.setText(hName[position]);  //출금처
-                    d_input.setText("내 계좌 "+"9003-2438-0651-2");   //입금처
+                    d_input.setText(aType[position]);   //입금처
                 }else {
                     d_price.setText("-" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
                     d_output.setText(cType[position]);  //출금처

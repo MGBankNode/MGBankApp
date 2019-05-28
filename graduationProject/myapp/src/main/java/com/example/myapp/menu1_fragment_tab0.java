@@ -91,7 +91,7 @@ public class menu1_fragment_tab0 extends Fragment {
     private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(getContext(),"position:"+position+"account_number:"+account_number.get(position),Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(),"position:"+position+"account_number:"+account_number.get(position),Toast.LENGTH_LONG).show();
            Fragment newFragment = new fragment_menu1();
 
             Bundle bundle = new Bundle();
