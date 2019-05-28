@@ -1,8 +1,12 @@
 package com.example.myapp;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -49,6 +53,8 @@ public class consumptionEvaluationFragment extends Fragment {
     public int curMonth;
 
     private FragmentActivity myContext;
+    public String userID;
+    BroadcastReceiver receiver = null;
 
     private String getMonthDay(int year, int month, String startLastCheck){
         Calendar cal = Calendar.getInstance();
@@ -156,67 +162,91 @@ public class consumptionEvaluationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-
+        Log.d("KJH", "consumptionEvaluationFragment()");
         view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
         context = getContext();
+        //userID = getArguments().getString("userID");
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("SEND_USERID");
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                userID = intent.getStringExtra("userID");
+                Log.d("KJH", "Broadcast UserID : " + userID);
+                previousBtn = view.findViewById(R.id.previous_month_);
+                nextBtn = view.findViewById(R.id.next_month_);
+
+                //현재 날짜 받아오기
+                Calendar cal = Calendar.getInstance();
+                String todayDate = getCalToString(cal);
+                curYear = cal.get(Calendar.YEAR);
+                curMonth = cal.get(Calendar.MONTH);
+                final int mainMonth = curMonth;
+
+                transferStr = drawList(curMonth, curYear);
+
+                previousBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        curMonth--;
+                        if(curMonth < 0) {
+                            curMonth = 11;
+                            curYear--;
+                        }
+                        transferStr =  drawList(curMonth, curYear);
+
+                    }
+                });
+
+                nextBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(curMonth == mainMonth)
+                            return;
+
+                        curMonth++;
+
+                        if(curMonth >= 12) {
+                            curMonth = 0;
+                            curYear++;
+                        }
+                        transferStr = drawList(curMonth, curYear);
+
+                    }
+
+                });
+
+                reportListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        changeFr(position, transferStr[position], transferStr[position+1]);
+                    }
+                });
+
+            }
+        };
+        getContext().registerReceiver(receiver, intentFilter);
+        Intent intent = new Intent();
+        intent.setAction("GET_USERID");
+        getActivity().sendBroadcast(intent);
+
+        //Log.d("KJH", "소비평가 받은 데이터 : " + getArguments().getString("userID"));
 
 //        detailButton = view.findViewById(R.id.detailBtn);
 //        reportListView = view.findViewById(R.id.reportList);
-        previousBtn = view.findViewById(R.id.previous_month_);
-        nextBtn = view.findViewById(R.id.next_month_);
-
-        //현재 날짜 받아오기
-        Calendar cal = Calendar.getInstance();
-        String todayDate = getCalToString(cal);
-        curYear = cal.get(Calendar.YEAR);
-        curMonth = cal.get(Calendar.MONTH);
-        final int mainMonth = curMonth;
-
-        transferStr = drawList(curMonth, curYear);
-
-        previousBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                curMonth--;
-                if(curMonth < 0) {
-                    curMonth = 11;
-                    curYear--;
-                }
-                transferStr =  drawList(curMonth, curYear);
-
-            }
-        });
-
-        nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(curMonth == mainMonth)
-                    return;
-
-                curMonth++;
-
-                if(curMonth >= 12) {
-                    curMonth = 0;
-                    curYear++;
-                }
-                transferStr = drawList(curMonth, curYear);
-
-            }
-
-        });
-
-        reportListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                changeFr(position, transferStr[position], transferStr[position+1]);
-            }
-        });
-
 
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+
+        super.onActivityCreated(savedInstanceState);
+    }
+
     public void changeFr(int position, String tStr_1, String tStr_2) {
         Fragment detailFragment = new consumptionReportFragment();
 
@@ -224,6 +254,7 @@ public class consumptionEvaluationFragment extends Fragment {
 
         AnalysisInfo frData = new AnalysisInfo(String.valueOf(position+1), tStr_1, tStr_2);
         Bundle bundle = new Bundle();
+        bundle.putString("userID", userID);
         bundle.putSerializable("dateData", frData);
         bundle.putString("LastDay", tStr_2);
         bundle.putInt("Month", curMonth+1);
@@ -293,7 +324,7 @@ public class consumptionEvaluationFragment extends Fragment {
 
         //요청 정보 입력!!!!!!!test
         AnalysisRequest test = new AnalysisRequest(
-                "b",                               //현재 로그인 아이디
+                userID,                               //현재 로그인 아이디
                 dates,            //날짜들 list
                 RequestInfo.RequestType.ANALYSIS_WEEK,    //고정
                 context);                                 //고정
