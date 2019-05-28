@@ -22,6 +22,8 @@ public class fragment_menu1 extends Fragment {
     String userID;
     TabLayout tabLayout;
     ViewPager pager;
+    int flag = 0;
+    String accountNum;
 
     @Override //nested fragment 구현 ---> 현재 parent fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,7 +37,8 @@ public class fragment_menu1 extends Fragment {
 
         if(getArguments() != null){
             userID = getArguments().getString("ID");
-            //Log.i("nkw","menu1_userID="+userID);
+            accountNum = getArguments().getString("accountNum");
+            Log.i("nkw","menu1_userID="+userID);
         }
 
         return view;
@@ -47,6 +50,10 @@ public class fragment_menu1 extends Fragment {
         int pageNum = getArguments().getInt("apage");
         pager = getView().findViewById(R.id.pager);
 
+        if(pageNum == 3) {
+            pageNum = 0;
+            flag = 1;
+        }
         pager.setAdapter(new pagerAdapter(getFragmentManager()));
         pager.setCurrentItem(pageNum);
 
@@ -85,10 +92,14 @@ public class fragment_menu1 extends Fragment {
             Fragment fr0 = new menu1_fragment_tab0();
             Fragment fr1 = new menu1_fragment_tab1();
             Fragment fr2 = new menu1_fragment_tab2();
-          
-
             Bundle bundle = new Bundle(1);
             bundle.putString("ID", userID);
+            if(flag == 1) {
+                position = 2;
+                bundle.putString("accountNum", accountNum);
+                flag = 0;
+            }
+
             fr0.setArguments(bundle);
             fr1.setArguments(bundle);
             fr2.setArguments(bundle);

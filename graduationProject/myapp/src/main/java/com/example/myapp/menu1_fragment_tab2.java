@@ -54,8 +54,12 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 container, false);
         if(getArguments() != null){
             userID = getArguments().getString("ID");
-            accountNum = getArguments().getString("accountNum");
-            Log.i("nkw","menu1_tab2_userID="+userID + "accountNum="+accountNum);
+            try {
+                accountNum = getArguments().getString("accountNum");
+            } catch(Exception e) {
+                accountNum = null;
+            }
+            Log.i("nkw","menu1_tab2_userID="+userID + "/accountNum="+accountNum);
 
          //   Toast.makeText(getContext(), "accountNum="+accountNum,Toast.LENGTH_LONG).show();
         }
@@ -172,7 +176,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 String[] aBalance = new String[arrLength];
                 String[] cType = new String[arrLength];
                 String[] cName = new String[arrLength];
-                String[] aNum = new String[arrLength];
+                String[] aType = new String[arrLength];
 
                 for (int i = 0; i < arrLength; i++) {
 
@@ -183,6 +187,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                     aBalance[i] = accountHistoryInfo[i].getaBalance();  //내역 사용 후 잔액
                     cType[i] = accountHistoryInfo[i].getcType();        //카드 이름
                     cName[i] = accountHistoryInfo[i].getcName();        //카테고릐 분류
+                    aType[i] = accountHistoryInfo[i].getaType();        // 계좌 이름
                 }
 
                 //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
@@ -200,18 +205,6 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
 
                 }
 
-                //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
- /*               AccountInfo[] accountInfo = new AccountInfo[arrLength];
-                for(int i = 0; i < arrLength; ++i){
-                    accountInfo[i] = accountHistoryInfo[i].getAccountInfo();
-                }
-                //계좌 번호= accountInfo[i].getaNum()
-                //계좌 잔액 = accountInfo[i].getaBalance()
-                //계좌 이름 = accountInfo[i].getaType()
-                for(int i=0; i< arrLength; i++){
-                    aNum[i]= accountInfo[i].getaNum();
-                }
-*/
                 indexData = new menu1_rvData[arrLength];
 
                 for (int i = 0; i < arrLength; i++) {
@@ -226,7 +219,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                             hType[i],    //내역 타입
                             cName[i],    //카테고리 분류
                             Integer.parseInt(aBalance[i]),
-                            "9003-2438-0651-2"//aNum[i]
+                            aType[i]
                     );
                 }
 
@@ -248,19 +241,19 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
             });
             ///////////////////////////////////////////////
         } else {
-            //계좌 별 내역 리스트 요청
-            HistoryRequest test2 = new HistoryRequest(
-                    userID,                                          //현재 로그인 아이디
-                    accountNum,                      //계좌 번호
-//                    year + "-" + month + "-1",                       //요청할 해당 달의 시작 날짜
-//                    request_year + "-" + request_month + "-1",       //요청할 해당 다음달의 시작 날짜
-                    RequestInfo.RequestType.ACCOUNT_BY_HISTORY,     //계좌별 내역 요청 할때 고정으로 쓰시면되여
-                    getContext());                                  //이것두 고정이요
+            Log.i("CHJ", "menu1_request : "+accountNum);
+            HistoryRequest test = new HistoryRequest(
+                    accountNum,                          // 선택한 계좌
+                    year + "-" + month + "-1",                       //요청할 해당 달의 시작 날짜
+                    request_year + "-" + request_month + "-1",       //요청할 해당 다음달의 시작 날짜
+                    RequestInfo.RequestType.ACCOUNT_BY_HISTORY,   //내역 요청 할때 고정으로 쓰시면되여
+                    getContext());                             //이것두 고정이요
 
 
-            //BalanceListRequest 함수 호출해서 정보 historyInfo
-            test2.AccountByRequest((HistoryInfo[] accountHistoryInfo, DailyHistoryInfo[] dailyHistoryInfo) -> {
+            //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
+            test.AccountByRequest((HistoryInfo[] accountHistoryInfo, DailyHistoryInfo[] dailyHistoryInfo) -> {
                 int arrLength = accountHistoryInfo.length;
+
                 String[] hDate = new String[arrLength];
                 String[] hType = new String[arrLength];
                 String[] hValue = new String[arrLength];
@@ -268,7 +261,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 String[] aBalance = new String[arrLength];
                 String[] cType = new String[arrLength];
                 String[] cName = new String[arrLength];
-                String[] aNum = new String[arrLength];
+                String[] aType = new String[arrLength];
 
                 for (int i = 0; i < arrLength; i++) {
 
@@ -279,6 +272,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                     aBalance[i] = accountHistoryInfo[i].getaBalance();  //내역 사용 후 잔액
                     cType[i] = accountHistoryInfo[i].getcType();        //카드 이름
                     cName[i] = accountHistoryInfo[i].getcName();        //카테고릐 분류
+                    aType[i] = accountHistoryInfo[i].getaType();        // 계좌 이름
                 }
 
                 //위에 처럼 각각 AccountHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
@@ -296,24 +290,9 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
 
                 }
 
-                //위에 처럼 각각 DailyHistoryInfo 에는 각각 정보들 get으로 얻어서 사용하시면 되요
+                indexData = new menu1_rvData[arrLength];
 
-/*                AccountInfo[] accountInfo = new AccountInfo[arrLength];
-                for(int i = 0; i < arrLength2; ++i){
-                    accountInfo[i] = accountHistoryInfo[i].getAccountInfo();
-                }
-                //계좌 번호= accountInfo[i].getaNum()
-                //계좌 잔액 = accountInfo[i].getaBalance()
-                //계좌 이름 = accountInfo[i].getaType()
-                for(int i=0; i< arrLength2; i++){
-                    aNum[i]= accountInfo[i].getaNum();
-                }*/
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                indexData = new menu1_rvData[arrLength2];
-                // 리사이클러뷰 한칸에 들어갈 내용? 차례로 담는 것 같음 -> indexData[i] 가 리사이클러뷰 한칸
-                for (int i = 0; i < arrLength2; i++) {
+                for (int i = 0; i < arrLength; i++) {
                     indexData[i] = new menu1_rvData(Integer.parseInt(hDate[i].substring(0, 4)),  //연도
                             Integer.parseInt(hDate[i].substring(5, 7)),  //월
                             Integer.parseInt(hDate[i].substring(8, 10)), //일
@@ -324,8 +303,8 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                             Integer.parseInt(hValue[i]), //금액
                             hType[i],    //내역 타입
                             cName[i],    //카테고리 분류
-                            Integer.parseInt(aBalance[i]),   //잔액
-                            "9003-2438-0651-2"//aNum[i]
+                            Integer.parseInt(aBalance[i]),
+                            aType[i]
                     );
                 }
 
