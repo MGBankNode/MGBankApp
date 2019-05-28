@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity
     public String userID;
     BroadcastReceiver receiver = null;
     BroadcastReceiver receiver2 = null;
+    BroadcastReceiver receiver3 = null;
 
 
     Util util = new Util();
@@ -138,6 +139,7 @@ public class MainActivity extends AppCompatActivity
         intentFilter2.addAction("budget");
         receiver2 = new BroadcastReceiver() {
             Intent intent2 = new Intent();
+
             @Override
             public void onReceive(Context context, Intent intent) {
                 //////////////////////////////////설정된 예산 요청///////////////////////
@@ -157,6 +159,21 @@ public class MainActivity extends AppCompatActivity
         };
         registerReceiver(receiver2, intentFilter2);
 
+        //예산설정 브로드캐스트
+        IntentFilter intentFilter3 = new IntentFilter();
+        intentFilter3.addAction("GET_USERID");
+        receiver3 = new BroadcastReceiver() {
+            Intent intent3 = new Intent();
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("KJH", "send userID : " + userID);
+                intent3.putExtra("userID", userID);
+                intent3.setAction("SEND_USERID");
+                context.sendBroadcast(intent3);
+            }
+        };
+        registerReceiver(receiver3, intentFilter3);
         toolbar = findViewById(R.id.toolbar);
         textTitle = (TextView)findViewById(R.id.text_title);
         textTitle.setText("");
@@ -238,6 +255,7 @@ public class MainActivity extends AppCompatActivity
                   case 1: {
                       textTitle.setText("금융비서");
                       Bundle bundle1 = new Bundle(1);
+
                       switch (childPosition) {
                           case 0:
                               fr = new consumptionEvaluation_viewPager();
@@ -410,20 +428,21 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
                    int id = item.getItemId();
 
-            if (id == R.id.action_settings) {
-
-                if (deviceCheckResult.equals("")) {
-
-                    DeviceCheckHandler();
-
-                } else {
-
-                    StartActivity(SettingDialogActivity.class);
-
-                }
-
-            return true;
-        } else if (id == R.id.refresh_btn){
+//            if (id == R.id.action_settings) {
+//
+//                if (deviceCheckResult.equals("")) {
+//
+//                    DeviceCheckHandler();
+//
+//                } else {
+//
+//                    StartActivity(SettingDialogActivity.class);
+//
+//                }
+//
+//            return true;
+//        } else
+        if (id == R.id.refresh_btn){
 
             AccountRequest accountRequest = new AccountRequest(userID, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
             accountRequest.AccountRefreshHandler(() ->  Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show());
@@ -498,6 +517,7 @@ public class MainActivity extends AppCompatActivity
             bundle = new Bundle(1);
         }
         bundle.putSerializable("DATA", sData);
+        bundle.putString("userID", userID);
 
         fr.setArguments(bundle);
 

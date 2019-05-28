@@ -230,6 +230,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                     );
                 }
 
+                // 리사이클러뷰에 담을 데이터 저장
                 menu1rvDataList = new ArrayList<menu1_rvData>();
                 for (int i = indexData.length - 1; i >= 0; i--) {
                     menu1rvDataList.add(indexData[i]);
@@ -308,8 +309,10 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                     aNum[i]= accountInfo[i].getaNum();
                 }*/
 
-                indexData = new menu1_rvData[arrLength2];
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+                indexData = new menu1_rvData[arrLength2];
+                // 리사이클러뷰 한칸에 들어갈 내용? 차례로 담는 것 같음 -> indexData[i] 가 리사이클러뷰 한칸
                 for (int i = 0; i < arrLength2; i++) {
                     indexData[i] = new menu1_rvData(Integer.parseInt(hDate[i].substring(0, 4)),  //연도
                             Integer.parseInt(hDate[i].substring(5, 7)),  //월
@@ -326,6 +329,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                     );
                 }
 
+                // 리사이클러뷰에 담을 데이터 저장
                 menu1rvDataList = new ArrayList<menu1_rvData>();
                 for (int i = indexData.length - 1; i >= 0; i--) {
                     menu1rvDataList.add(indexData[i]);
@@ -339,7 +343,7 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 rv_adapter.setOnClickListener(menu1_fragment_tab2.this);    //클릭리스너 연결
                 recyclerView.setAdapter(rv_adapter);
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             });
         }
     }
