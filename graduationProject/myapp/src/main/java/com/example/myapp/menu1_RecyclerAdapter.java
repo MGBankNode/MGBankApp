@@ -70,7 +70,7 @@ public class menu1_RecyclerAdapter extends RecyclerView.Adapter<menu1_RecyclerAd
             viewHolder.price.setTextColor(Color.RED);
         } else {    //입금일때
             viewHolder.name.setText(item.getName());    //입금처
-            viewHolder.card.setText("내 계좌 "+item.getAnum());    //출금처
+            viewHolder.card.setText(item.getAnum());    //출금처
             viewHolder.ingredient.setText(item.getCategori());
             viewHolder.ingredient.setBackgroundResource(R.drawable.benefit_label);
             viewHolder.ingredient.setTextColor(Color.rgb(60, 193, 238));
