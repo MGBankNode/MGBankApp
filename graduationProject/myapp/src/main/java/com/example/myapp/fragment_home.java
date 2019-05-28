@@ -84,16 +84,16 @@ public class fragment_home extends Fragment {
                     }
                 });
                 String budgetString = intent.getStringExtra("BUDGET");
+
                 Log.d("KJH", "budgetString : " + budgetString);
                 if(!budgetString.isEmpty()){
                     Log.d("KJH", "예산 텍스트 설정");
-                    budgetBtn.setText("예산 : " + util.comma(Integer.parseInt(budgetString)) + "원");
+                    budgetBtn.setText("예산 : " + budgetString + "원");
                 }
                 setBudget(view, budgetString);
             }
         };
         getContext().registerReceiver(receiver, intentFilter);
-
 
         // Inflate the layout for this fragment
         return view;

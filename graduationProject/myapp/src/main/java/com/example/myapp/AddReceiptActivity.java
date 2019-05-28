@@ -197,11 +197,8 @@ public class AddReceiptActivity extends Activity {
                 String hourStr = dateTimeStr.substring(0, 2);
                 String minStr = dateTimeStr.substring(2);
 
-                Log.d(">>>hour", hourStr);
-                Log.d(">>>min", minStr);
-
                 int stopFlag = 0;
-                if (Integer.parseInt(monthStr) > 12 || Integer.parseInt(dateStr) > 31) {
+                if (Integer.parseInt(monthStr) > 12 || Integer.parseInt(dayStr) > 31) {
                     Toast.makeText(getApplicationContext(), "유효하지 않은 날짜 입니다", Toast.LENGTH_SHORT).show();
                     stopFlag = 1;
                 }
@@ -214,7 +211,7 @@ public class AddReceiptActivity extends Activity {
                 String resultDate = yearStr + "-" + monthStr + "-" + dayStr + " " + hourStr + ":" + minStr;
 
 
-                Log.d(">>>reusltdate", resultDate);
+
                 if (stopFlag == 0) {
                     //상정명 확인 요청
                     ReceiptRequest test = new ReceiptRequest(store.getText().toString(), RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
