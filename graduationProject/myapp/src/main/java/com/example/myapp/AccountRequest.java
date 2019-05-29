@@ -16,11 +16,13 @@ public class AccountRequest {
 
 
     private String userID;
+    private String date;
     private RequestInfo.RequestType rType;
     private Context context;
 
-    AccountRequest(String userID, RequestInfo.RequestType rType, Context context){
+    AccountRequest(String userID, String date, RequestInfo.RequestType rType, Context context){
         this.userID = userID;
+        this.date = date;
         this.rType = rType;
         this.context = context;
     }
@@ -30,7 +32,7 @@ public class AccountRequest {
     */
 
     public interface VolleyCallback{
-        void onSuccess();
+        void onSuccess(String time);
     }
 
     public void AccountRefreshHandler(final VolleyCallback callback){
@@ -62,7 +64,7 @@ public class AccountRequest {
         Map<String, String> params = new HashMap<>();
 
         params.put("id", userID);
-
+        params.put("date", date);
         return params;
     }
 
@@ -80,7 +82,9 @@ public class AccountRequest {
 
             switch (resultString) {
                 case "success":
-                    callback.onSuccess();
+                    String resultTime = (String) json.get("error");
+                    Log.i("CHJ", "마지막 시간 (response) : "+resultTime);
+                    callback.onSuccess(resultTime);
                     break;
 
                 case "fail":

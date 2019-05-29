@@ -52,7 +52,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +79,10 @@ public class MainActivity extends AppCompatActivity
     private static final int MAINFRAGMENT = 1001;
     private static final int BESTCARDFRAGMENT = 1002;
 
+    public String previous_date;
+    public String cardPrevMonth;
+    public String currentMonth;
+    public String nextMonth;
 
     public String mainUserId;
 
@@ -118,18 +124,33 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
+    private static Date addMonth(Date date, int months) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, months);
+        return calendar.getTime();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        cardPrevMonth = dateFormat.format(addMonth(date, -5)) + "-01";
+        currentMonth = dateFormat.format(date) + "-01";
+        nextMonth = dateFormat.format(addMonth(date, +1)) +"-01";
+        Log.i("CHJ", "6달 전 : " + cardPrevMonth);
+        Log.i("CHJ", "현재 달 : " + currentMonth);
+        Log.i("CHJ", "다음 달 : " + nextMonth);
         //홈프래그먼트 브로드캐스트
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("HomeFragment");
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
+                startFlagFragment(currentMonth, nextMonth, MAINFRAGMENT);
             }
         };
         registerReceiver(receiver, intentFilter);
@@ -269,7 +290,8 @@ public class MainActivity extends AppCompatActivity
                               fr = new bestCard_fragment();
                               bundle1.putInt("cpage", 1);
                               st.push("e");
-                              startFlagFragment("2019-01-01", "2019-06-01", BESTCARDFRAGMENT);
+
+                              startFlagFragment(cardPrevMonth, nextMonth, BESTCARDFRAGMENT);
                               break;
                       }
                       changeFragment(fr, bundle1);
@@ -305,7 +327,7 @@ public class MainActivity extends AppCompatActivity
 
      void MainStart(){
 
-        startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
+        startFlagFragment(currentMonth, nextMonth, MAINFRAGMENT);
 
      }
 
@@ -341,18 +363,27 @@ public class MainActivity extends AppCompatActivity
 
         welcomeTextView.setOnClickListener(v -> StartActivity(MypageActivity.class));
 
-        //사용자 마지막 접속시간 변경
-        String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
 
-        userLastAtTxt.setText(changeText);
+        // 디비 업데이트
+        previous_date = myUserInfo.getUserUpateAt();
+        userLastAtTxt.setText(userLastAtTxt.getText().toString()+previous_date);
+        Log.i("CHJ", "마지막 접속 시간 확인 : "+previous_date);
+
 
         userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
         if (userAccountCheck == 1) {
-
-            MainStart();
+            AccountRequest accountRequest = new AccountRequest(userID, previous_date, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
+            accountRequest.AccountRefreshHandler(time -> {
+                String changeText = userLastAtTxt.getText().toString().substring(0,6) + time;
+                userLastAtTxt.setText(changeText);
+                Log.i("CHJ", "새로고침 결과 : "+time);
+                Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show();
+                MainStart();
+            });
 
         } else if (userAccountCheck == 0) {
+
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("");
             builder.setMessage("앱을 사용하려면 계좌등록을 하셔야 합니다. 계좌 등록을 하시겠습니까?");
@@ -391,7 +422,7 @@ public class MainActivity extends AppCompatActivity
                 textTitle = findViewById(R.id.text_title);
                 textTitle.setText("");
 
-                startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
+                startFlagFragment(currentMonth, nextMonth, MAINFRAGMENT);
         });
 
         userMenu = findViewById(R.id.userMenu);
@@ -443,10 +474,16 @@ public class MainActivity extends AppCompatActivity
 //            return true;
 //        } else
         if (id == R.id.refresh_btn){
+            previous_date = userLastAtTxt.getText().toString().substring(7);
+            Log.i("CHJ", "새로고침 버튼 : "+previous_date);
+            //사용자 마지막 접속시간 변경
+            AccountRequest accountRequest = new AccountRequest(userID, previous_date, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
 
-            AccountRequest accountRequest = new AccountRequest(userID, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
-            accountRequest.AccountRefreshHandler(() ->  Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show());
-
+            accountRequest.AccountRefreshHandler((time) -> {
+                String changeText = userLastAtTxt.getText().toString().substring(0,6) + time;
+                userLastAtTxt.setText(changeText);
+                Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show();
+            });
         }
 
         return super.onOptionsItemSelected(item);
