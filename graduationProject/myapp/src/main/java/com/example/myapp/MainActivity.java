@@ -474,15 +474,16 @@ public class MainActivity extends AppCompatActivity
 //            return true;
 //        } else
         if (id == R.id.refresh_btn){
-            previous_date = userLastAtTxt.getText().toString().substring(7);
+            previous_date = userLastAtTxt.getText().toString().substring(6);
             Log.i("CHJ", "새로고침 버튼 : "+previous_date);
             //사용자 마지막 접속시간 변경
             AccountRequest accountRequest = new AccountRequest(userID, previous_date, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
-
             accountRequest.AccountRefreshHandler((time) -> {
                 String changeText = userLastAtTxt.getText().toString().substring(0,6) + time;
                 userLastAtTxt.setText(changeText);
                 Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show();
+                MainStart();
+                textTitle.setText("");
             });
         }
 
