@@ -1,12 +1,14 @@
 package com.example.myapp;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -406,6 +408,10 @@ public class MainActivity extends AppCompatActivity
                 builder.setTitle("");
                 builder.setMessage("정말로 로그아웃 하시겠습니까? ");
                 builder.setPositiveButton("예", (DialogInterface dialog, int which) -> {
+                    SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor autoLogin = auto.edit();
+                    autoLogin.clear();
+                    autoLogin.commit();
                         finish();
                         Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                         startActivity(returnLogin);

@@ -53,32 +53,41 @@
             android:hint="비밀번호"
             android:inputType="textPassword"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/applegothicneo_b"
-            android:text="아이디가 없나요?"
-            android:textSize="15dp"
-            />
-
-        <Button
-            android:id="@+id/moveToSignupBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:text="회원가입"
-            android:textColor="#646464"
-            android:fontFamily="@font/applegothicneo_b"
-            android:textSize="15dp"/>
-
-
-    </LinearLayout>
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            >
+            <CheckBox
+                    android:text="자동 로그인"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/password"
+                    android:id="@+id/autoLoginCheck"
+                    />
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:fontFamily="@font/applegothicneo_b"
+                android:text="아이디가 없나요?"
+                android:textSize="15dp"
+                android:paddingRight="10dp"
+                />
+            <Button
+                android:id="@+id/moveToSignupBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:text="회원가입"
+                android:textColor="#646464"
+                android:fontFamily="@font/applegothicneo_b"
+                android:textSize="15dp"/>
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

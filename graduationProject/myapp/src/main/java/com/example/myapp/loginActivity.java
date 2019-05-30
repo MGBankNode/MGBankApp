@@ -1,6 +1,8 @@
 package com.example.myapp;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.v4.app.ActivityCompat;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -40,6 +43,8 @@ public class loginActivity extends AppCompatActivity {
     Button loginConfirmBtn;
 
     EditText etLogin;
+    String loginID;
+    String loginPW;
 
     private Toast toast;
     private long backKeyPressedTime = 0;
@@ -54,14 +59,44 @@ public class loginActivity extends AppCompatActivity {
         etLogin = findViewById(R.id.etLogin);
         etLogin.requestFocus();
 
+        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+        loginID = auto.getString("inputId", null);
+        loginPW = auto.getString("inputPw", null);
+
+        if(loginID!=null && loginPW!=null) {
+            LoginHandler(new VolleyCallback() {
+                @Override
+                public void onSuccess(UserInfo userInfo) {
+                    //Go to MainActivity
+                    finish();
+                    Intent mIntent = new Intent(loginActivity.this, MainActivity.class);
+                    mIntent.putExtra("UserInfoObject", userInfo);
+                    startActivity(mIntent);
+                }
+            });
+        }
         logInConfirmBtn = findViewById(R.id.logInConfirmBtn);
         logInConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(loginID==null && loginPW ==null) {
+                    loginIDEditText = findViewById(R.id.etLogin);
+                    loginPWEditText = findViewById(R.id.etLoginPassword);
+                    loginID = loginIDEditText.getText().toString();
+                    loginPW = loginPWEditText.getText().toString();
+                }
                 LoginHandler(new VolleyCallback() {
                     @Override
                     public void onSuccess(UserInfo userInfo) {
                         //Go to MainActivity
+                        CheckBox checkBox = (CheckBox)findViewById(R.id.autoLoginCheck);
+                        if(checkBox.isChecked()) {
+                            SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                            SharedPreferences.Editor autoLogin = auto.edit();
+                            autoLogin.putString("inputId", loginID);
+                            autoLogin.putString("inputPw", loginPW);
+                            autoLogin.commit();
+                        }
                         finish();
                         Intent mIntent = new Intent(loginActivity.this, MainActivity.class);
                         mIntent.putExtra("UserInfoObject", userInfo);
@@ -121,13 +156,6 @@ public class loginActivity extends AppCompatActivity {
     }
 
     public void LoginHandler(final VolleyCallback callback){
-
-        loginIDEditText = findViewById(R.id.etLogin);
-        loginPWEditText = findViewById(R.id.etLoginPassword);
-
-        String loginID = loginIDEditText.getText().toString();
-        String loginPW = loginPWEditText.getText().toString();
-
         if(loginID.equals("")){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             AlertDialog dialog = builder.setMessage("아이디를 입력하세요.").setPositiveButton("OK", null).create();
@@ -179,8 +207,7 @@ public class loginActivity extends AppCompatActivity {
     private Map<String, String> LoginRequest(){
         Map<String, String> params = new HashMap<>();
         UserInfo postInfo = new UserInfo(
-                loginIDEditText.getText().toString(),
-                loginPWEditText.getText().toString());
+                loginID, loginPW);
 
         params.put("id", postInfo.getUserID());
         params.put("password", postInfo.getUserPW());
