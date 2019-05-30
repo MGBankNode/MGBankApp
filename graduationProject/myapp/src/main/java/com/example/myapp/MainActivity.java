@@ -238,9 +238,7 @@ public class MainActivity extends AppCompatActivity
         st = new Stack<String>();
         st.push("home");
         listView.setOnChildClickListener((ExpandableListView parent, View v, int groupPosition, int childPosition, long id) -> {
-                // 0 0 계좌조회  0 1 달력   0 2 내역
-                // 1 0 소비평가  1 1 카드추천
-                // 2 0 통합맴버쉽
+
               switch (groupPosition) {
                   case 0: {
                       textTitle.setText("가계부");
@@ -318,17 +316,9 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public Bundle makeBundle(String str, int num) {
-        Bundle bundle = new Bundle(1);
-        bundle.putInt(str, num);
-        return bundle;
-    }
-
 
      void MainStart(){
-
         startFlagFragment(currentMonth, nextMonth, MAINFRAGMENT);
-
      }
 
     @Override
