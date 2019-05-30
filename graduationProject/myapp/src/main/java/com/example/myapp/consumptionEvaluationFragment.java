@@ -162,7 +162,7 @@ public class consumptionEvaluationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-        Log.d("KJH", "consumptionEvaluationFragment()");
+
         view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
         context = getContext();
         //userID = getArguments().getString("userID");

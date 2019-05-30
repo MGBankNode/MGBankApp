@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -30,6 +31,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,7 +72,7 @@ public class consumptionReportFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_consumption_report, container, false);
 
         userID = getArguments().getString("userID");
-        Log.d("KJH", "Report UserID : " + userID);
+
         TextView mainDate = view.findViewById(R.id.reportMainDate);
 
         Bundle bundle = getArguments();
@@ -121,28 +124,13 @@ public class consumptionReportFragment extends Fragment {
 
                 int[] sumArray = new int[8];
 
-                int ci = 1;
-                int cj = 0;
-                while (true) {
-                    if(ci>7)
-                        break;
+                for(int i=0; i<info.length; i++)
+                    sumArray[Integer.parseInt(info[i].getDaily())] = Integer.parseInt(info[i].getDailySum());
 
-                    AnalysisInfo tempInfo = info[cj];
-
-                    if(ci==Integer.parseInt(tempInfo.getDaily())) {
-                        sumArray[ci] = Integer.parseInt(tempInfo.getDailySum());
-                        ci++;
-                        cj++;
-                    }
-                    else {
-                        sumArray[ci] = 0;
-                        ci++;
-                    }
-                }
-
-                for(int i=1; i<=7; i++) {
+                // 그래프에 데이터 삽입
+               for(int i=1; i<=7; i++)
                     entries.add(new BarEntry(i, sumArray[i]));
-                }
+
                 String[] labels = new String[] {"", "월", "화", "수", "목", "금", "토", "일"};
 
                 YAxis leftAxis = dayChart.getAxisLeft();
@@ -161,7 +149,6 @@ public class consumptionReportFragment extends Fragment {
                 leftAxis.setDrawLabels(true);
                 leftAxis.setAxisMinimum(0);
                 leftAxis.setGranularity(7000);
-//                leftAxis.setYOffset(0);
                 leftAxis.setTextColor(Color.rgb(155,155,155));
                 leftAxis.setDrawAxisLine(true);
                 leftAxis.setDrawGridLines(false);
@@ -259,6 +246,8 @@ public class consumptionReportFragment extends Fragment {
             result += ","+ reversed[i];
 
 
+
+
         AnalysisRequest test = new AnalysisRequest(
                 userID,                               //현재 로그인 아이디
                 result,            //날짜들 list
@@ -289,9 +278,8 @@ public class consumptionReportFragment extends Fragment {
                 xAxis.setDrawGridLines(false);
 
                 leftAxis.setDrawLabels(true);
-                leftAxis.setAxisMinimum(90000);
-                leftAxis.setGranularity(30000);
-                leftAxis.setYOffset(-30f);
+                leftAxis.setAxisMinimum(0);
+                leftAxis.setGranularity(40000);
                 leftAxis.setTextColor(Color.rgb(155,155,155));
                 leftAxis.setDrawAxisLine(true);
                 leftAxis.setDrawGridLines(false);
@@ -319,12 +307,10 @@ public class consumptionReportFragment extends Fragment {
                 String temp = sum + "원 입니다!";
 
                 weekSum.append(temp);
+
             }
 
         });
-
-
-
     }
 
     public int[] decisionColor(ArrayList<BarEntry> entries, int size) {
