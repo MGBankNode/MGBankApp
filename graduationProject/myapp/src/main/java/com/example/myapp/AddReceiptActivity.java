@@ -216,7 +216,6 @@ public class AddReceiptActivity extends Activity {
                     //상정명 확인 요청
                     ReceiptRequest test = new ReceiptRequest(store.getText().toString(), RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
                     test.StoreRequest(cId -> {
-                        Toast.makeText(getApplicationContext(), cId, Toast.LENGTH_LONG).show();
                         if (!cId.equals("null")) {
 //                        spinner.setSelection(Integer.parseInt(cId)-1);
                             original = Integer.parseInt(cId);
@@ -237,7 +236,6 @@ public class AddReceiptActivity extends Activity {
                                 //영수증 추가 요청 - 사용자가 카테고리 변경했을 경우
                                 ReceiptRequest test4 = new ReceiptRequest(resultDate, cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition() + 1), RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
                                 test4.AddReceipt(hId -> {
-                                    Toast.makeText(getApplicationContext(), hId, Toast.LENGTH_LONG).show();
 
                                     // /////////////////////카테고리 변경 요청////////////////////////////
                                     ///////////////////////////////////////////////////////////////////
