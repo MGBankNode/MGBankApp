@@ -123,7 +123,6 @@ public class menu1_CustomDialog {
                     String[] aType = new String[arrLength];
 
                     for (int i = 0; i < arrLength; i++) {
-
                         hId[i] = accountHistoryInfo[i].gethId();            //내역 사용 처 아이디
                         hDate[i] = accountHistoryInfo[i].gethDate();        //내역 사용 날짜
                         hType[i] = accountHistoryInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
@@ -202,6 +201,7 @@ public class menu1_CustomDialog {
                 }
             });
         } else {
+            Log.i("CHJ", "-------------accountNum : "+accountNum + "/ position : "+position);
             HistoryRequest test = new HistoryRequest(
                     accountNum,                          // 선택한 계좌
                     year + "-" + month + "-1",                       //요청할 해당 달의 시작 날짜
@@ -210,7 +210,7 @@ public class menu1_CustomDialog {
                     context);                             //이것두 고정이요
 
             //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
-            test.Request(new HistoryRequest.VolleyCallback() {
+            test.AccountByRequest(new HistoryRequest.VolleyCallback() {
                 @Override
                 public void onSuccess(HistoryInfo[] accountHistoryInfo, DailyHistoryInfo[] dailyHistoryInfo) {
                     int arrLength = accountHistoryInfo.length;
@@ -226,7 +226,6 @@ public class menu1_CustomDialog {
                     String[] aType = new String[arrLength];
 
                     for (int i = 0; i < arrLength; i++) {
-
                         hId[i] = accountHistoryInfo[i].gethId();            //내역 사용 처 아이디
                         hDate[i] = accountHistoryInfo[i].gethDate();        //내역 사용 날짜
                         hType[i] = accountHistoryInfo[i].gethType();        //내역 사용 타입 => 입금 / 출금 / 카드
@@ -258,6 +257,7 @@ public class menu1_CustomDialog {
                     DecimalFormat myFormatter = new DecimalFormat("###,###");
 
                     hId_num = hId[position];
+                    Log.i("CHJ", "hID 확인 : "+hId_num);
                     d_name.setText(hName[position]);
                     if (hType[position].equals("입금")) {
                         d_price.setText("+" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
