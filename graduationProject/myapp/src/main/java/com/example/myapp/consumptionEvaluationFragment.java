@@ -265,14 +265,11 @@ public class consumptionEvaluationFragment extends Fragment {
         intent.setAction("GET_USERID");
         getActivity().sendBroadcast(intent);
 
-
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -298,7 +295,27 @@ public class consumptionEvaluationFragment extends Fragment {
     }
 
     public String[] drawList(int month, int year) {
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        AnalysisRequest test1 = new AnalysisRequest(
+                userID,              //현재 로그인 아이디
+                "2019-02-01,2019-03-01,2019-04-01,2019-05-01",              //날짜들 list
+                RequestInfo.RequestType.ANALYSIS_MONTH,    //고정
+                context);                                 //고정
 
+        test1.MonthRequestHandler(info -> {
+                    int arrLength = info.length;
+
+                    for(int i = 0; i < arrLength; i++){
+                        Toast.makeText(context, info[i].getMonth() + " : " + info[i].getMonthSum(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+        );
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
 
         reportListView = view.findViewById(R.id.reportList);
 
