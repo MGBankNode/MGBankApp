@@ -26,6 +26,7 @@ public class AnalysisRequest {
     private Context context;
     private AnalysisInfo[] analysisWeekInfo;
     private AnalysisInfo[] analysisDailyInfo;
+    private AnalysisInfo[] analysisMonthInfo;
 
     AnalysisRequest(String userID, String dates, RequestInfo.RequestType rType, Context context){
         this.userID = userID;
@@ -52,18 +53,8 @@ public class AnalysisRequest {
         String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
 
         StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        WeekResponse(response, callback);
-                    }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error){
-                        error.printStackTrace();
-                    }
-                }
+                response -> WeekResponse(response, callback),
+                error -> { error.getMessage(); error.printStackTrace(); }
         ){
             @Override
             protected Map<String, String> getParams(){
@@ -82,18 +73,8 @@ public class AnalysisRequest {
         String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
 
         StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        DailyResponse(response, callback);
-                    }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error){
-                        error.printStackTrace();
-                    }
-                }
+                response -> DailyResponse(response, callback),
+                error -> { error.getMessage(); error.printStackTrace(); }
         ){
             @Override
             protected Map<String, String> getParams(){
@@ -107,6 +88,87 @@ public class AnalysisRequest {
     }
 
 
+    public void MonthRequestHandler(final VolleyCallback callback){
+        RequestInfo requestInfo = new RequestInfo(rType);
+
+        String url = "http://" + requestInfo.GetRequestIP() + ":" + requestInfo.GetRequestPORT() + requestInfo.GetProcessURL();
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                response -> MonthResponse(response, callback),
+                error -> { error.getMessage(); error.printStackTrace(); }
+        ){
+            @Override
+            protected Map<String, String> getParams(){
+                return MonthRequest();
+            }
+        };
+        request.setShouldCache(false);
+        Volley.newRequestQueue(context).add(request);
+        Log.d("요청 url: ", url);
+
+    }
+
+      /*
+        MonthRequest(): Map<String, String>
+        = 월별 분석 요청 전달 파라미터 설정 함수
+    */
+
+    private Map<String, String> MonthRequest(){
+
+        Map<String, String> params = new HashMap<>();
+
+        params.put("id", userID);
+        params.put("dates", dates);
+        return params;
+
+    }
+
+    /*
+        MonthResponse(String, final VolleyCallback): void
+        = 월별 분석 요청 응답 처리 함수
+    */
+
+    private void MonthResponse(String response, final VolleyCallback callback){
+        try{
+            Log.d("onResponse 호출 ", response);
+
+            JSONObject json = new JSONObject(response);
+            String resultString = (String) json.get("message");
+
+            switch (resultString) {
+                case "success":
+                    JSONArray dataArray = json.getJSONArray("monthPattern");
+
+                    analysisMonthInfo = new AnalysisInfo[dataArray.length()];
+
+                    for(int i = 0; i < dataArray.length(); ++i){
+
+                        JSONObject record = dataArray.getJSONObject(i);
+
+                        String month = record.getString("month");
+                        String monthSum = record.getString("monthSum");
+
+                        analysisMonthInfo[i] = new AnalysisInfo(month, monthSum);
+
+                    }
+
+                    callback.onSuccess(analysisMonthInfo);
+                    break;
+
+                case "error":
+                    analysisMonthInfo = null;
+                    break;
+
+                case "db_fail":
+                    analysisMonthInfo = null;
+                    break;
+
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
       /*
