@@ -84,16 +84,22 @@ public class fragment_home extends Fragment {
                     }
                 });
                 String budgetString = intent.getStringExtra("BUDGET");
+
                 Log.d("KJH", "budgetString : " + budgetString);
                 if(!budgetString.isEmpty()){
                     Log.d("KJH", "예산 텍스트 설정");
+
+                    Log.d("CHJ", util.comma(Integer.parseInt(budgetString)));
+                    if(Integer.parseInt(budgetString)== -1)
+                        budgetBtn.setText("예산을 설정해주세요.");
+                    else
                     budgetBtn.setText("예산 : " + util.comma(Integer.parseInt(budgetString)) + "원");
+
                 }
                 setBudget(view, budgetString);
             }
         };
         getContext().registerReceiver(receiver, intentFilter);
-
 
         // Inflate the layout for this fragment
         return view;
@@ -208,7 +214,14 @@ public class fragment_home extends Fragment {
             tv3.setText("고객님의 일 평균 사용 금액은 " + util.comma(allPriceValue / new Date().getDate()) + "원 입니다.\n" +
                     "이대로만 사용하시면 문제없어요!");
         }else{
-            if(remainbudget <= 0) {
+            if(budget == -1) {
+                tv2.setText("아주 좋아요!");
+                tv.setText("설정된 예산이 없습니다.");
+                tv.setTextColor(Color.parseColor("#2BB0DD"));
+                imageView.setImageResource(R.drawable.smile);
+                tv3.setText("금융비서 알림이 없습니다.\n 예산을 설정하면 알림을 보실 수 있습니다.");
+            }
+            else if(remainbudget <= 0) {
                 tv2.setText("눈물이 흘러요ㅜ_ㅜ");
                 tv.setText(util.comma(remainbudget * -1) + "원 초과");
                 tv.setTextColor(Color.parseColor("#FF2222"));

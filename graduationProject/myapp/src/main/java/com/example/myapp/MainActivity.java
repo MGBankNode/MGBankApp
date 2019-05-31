@@ -1,12 +1,14 @@
 package com.example.myapp;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -52,7 +54,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +81,10 @@ public class MainActivity extends AppCompatActivity
     private static final int MAINFRAGMENT = 1001;
     private static final int BESTCARDFRAGMENT = 1002;
 
+    public String previous_date;
+    public String cardPrevMonth;
+    public String currentMonth;
+    public String nextMonth;
 
     public String mainUserId;
 
@@ -103,6 +111,7 @@ public class MainActivity extends AppCompatActivity
     public String userID;
     BroadcastReceiver receiver = null;
     BroadcastReceiver receiver2 = null;
+    BroadcastReceiver receiver3 = null;
 
 
     Util util = new Util();
@@ -117,18 +126,33 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
+    private static Date addMonth(Date date, int months) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, months);
+        return calendar.getTime();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+        cardPrevMonth = dateFormat.format(addMonth(date, -5)) + "-01";
+        currentMonth = dateFormat.format(date) + "-01";
+        nextMonth = dateFormat.format(addMonth(date, +1)) +"-01";
+        Log.i("CHJ", "6달 전 : " + cardPrevMonth);
+        Log.i("CHJ", "현재 달 : " + currentMonth);
+        Log.i("CHJ", "다음 달 : " + nextMonth);
         //홈프래그먼트 브로드캐스트
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("HomeFragment");
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
+                startFlagFragment(currentMonth, nextMonth, MAINFRAGMENT);
             }
         };
         registerReceiver(receiver, intentFilter);
@@ -138,6 +162,7 @@ public class MainActivity extends AppCompatActivity
         intentFilter2.addAction("budget");
         receiver2 = new BroadcastReceiver() {
             Intent intent2 = new Intent();
+
             @Override
             public void onReceive(Context context, Intent intent) {
                 //////////////////////////////////설정된 예산 요청///////////////////////
@@ -157,6 +182,21 @@ public class MainActivity extends AppCompatActivity
         };
         registerReceiver(receiver2, intentFilter2);
 
+        //예산설정 브로드캐스트
+        IntentFilter intentFilter3 = new IntentFilter();
+        intentFilter3.addAction("GET_USERID");
+        receiver3 = new BroadcastReceiver() {
+            Intent intent3 = new Intent();
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("KJH", "send userID : " + userID);
+                intent3.putExtra("userID", userID);
+                intent3.setAction("SEND_USERID");
+                context.sendBroadcast(intent3);
+            }
+        };
+        registerReceiver(receiver3, intentFilter3);
         toolbar = findViewById(R.id.toolbar);
         textTitle = (TextView)findViewById(R.id.text_title);
         textTitle.setText("");
@@ -200,9 +240,7 @@ public class MainActivity extends AppCompatActivity
         st = new Stack<String>();
         st.push("home");
         listView.setOnChildClickListener((ExpandableListView parent, View v, int groupPosition, int childPosition, long id) -> {
-                // 0 0 계좌조회  0 1 달력   0 2 내역
-                // 1 0 소비평가  1 1 카드추천
-                // 2 0 통합맴버쉽
+
               switch (groupPosition) {
                   case 0: {
                       textTitle.setText("가계부");
@@ -238,6 +276,7 @@ public class MainActivity extends AppCompatActivity
                   case 1: {
                       textTitle.setText("금융비서");
                       Bundle bundle1 = new Bundle(1);
+
                       switch (childPosition) {
                           case 0:
                               fr = new consumptionEvaluation_viewPager();
@@ -251,7 +290,8 @@ public class MainActivity extends AppCompatActivity
                               fr = new bestCard_fragment();
                               bundle1.putInt("cpage", 1);
                               st.push("e");
-                              startFlagFragment("2019-01-01", "2019-06-01", BESTCARDFRAGMENT);
+
+                              startFlagFragment(cardPrevMonth, nextMonth, BESTCARDFRAGMENT);
                               break;
                       }
                       changeFragment(fr, bundle1);
@@ -278,17 +318,9 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public Bundle makeBundle(String str, int num) {
-        Bundle bundle = new Bundle(1);
-        bundle.putInt(str, num);
-        return bundle;
-    }
-
 
      void MainStart(){
-
-        startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
-
+        startFlagFragment(currentMonth, nextMonth, MAINFRAGMENT);
      }
 
     @Override
@@ -323,18 +355,24 @@ public class MainActivity extends AppCompatActivity
 
         welcomeTextView.setOnClickListener(v -> StartActivity(MypageActivity.class));
 
-        //사용자 마지막 접속시간 변경
-        String changeText = userLastAtTxt.getText().toString() + myUserInfo.getUserUpateAt();
 
-        userLastAtTxt.setText(changeText);
+        // 디비 업데이트
+        previous_date = myUserInfo.getUserUpateAt();
+        userLastAtTxt.setText(userLastAtTxt.getText().toString()+previous_date);
+
 
         userAccountCheck = myUserInfo.getUserAccountCheck();
         //사용자 잔액 -> 계좌 등록이 있는 경우에만 메인 화면 변경
         if (userAccountCheck == 1) {
-
-            MainStart();
+            AccountRequest accountRequest = new AccountRequest(userID, previous_date, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
+            accountRequest.AccountRefreshHandler(time -> {
+                String changeText = userLastAtTxt.getText().toString().substring(0,6) + time;
+                userLastAtTxt.setText(changeText);
+                MainStart();
+            });
 
         } else if (userAccountCheck == 0) {
+
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("");
             builder.setMessage("앱을 사용하려면 계좌등록을 하셔야 합니다. 계좌 등록을 하시겠습니까?");
@@ -360,6 +398,10 @@ public class MainActivity extends AppCompatActivity
                 builder.setTitle("");
                 builder.setMessage("정말로 로그아웃 하시겠습니까? ");
                 builder.setPositiveButton("예", (DialogInterface dialog, int which) -> {
+                    SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor autoLogin = auto.edit();
+                    autoLogin.clear();
+                    autoLogin.commit();
                         finish();
                         Intent returnLogin = new Intent(MainActivity.this, loginActivity.class);
                         startActivity(returnLogin);
@@ -373,7 +415,7 @@ public class MainActivity extends AppCompatActivity
                 textTitle = findViewById(R.id.text_title);
                 textTitle.setText("");
 
-                startFlagFragment("2019-04-31", "2019-06-01", MAINFRAGMENT);
+                startFlagFragment(currentMonth, nextMonth, MAINFRAGMENT);
         });
 
         userMenu = findViewById(R.id.userMenu);
@@ -410,24 +452,31 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
                    int id = item.getItemId();
 
-            if (id == R.id.action_settings) {
-
-                if (deviceCheckResult.equals("")) {
-
-                    DeviceCheckHandler();
-
-                } else {
-
-                    StartActivity(SettingDialogActivity.class);
-
-                }
-
-            return true;
-        } else if (id == R.id.refresh_btn){
-
-            AccountRequest accountRequest = new AccountRequest(userID, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
-            accountRequest.AccountRefreshHandler(() ->  Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show());
-
+//            if (id == R.id.action_settings) {
+//
+//                if (deviceCheckResult.equals("")) {
+//
+//                    DeviceCheckHandler();
+//
+//                } else {
+//
+//                    StartActivity(SettingDialogActivity.class);
+//
+//                }
+//
+//            return true;
+//        } else
+        if (id == R.id.refresh_btn){
+            previous_date = userLastAtTxt.getText().toString().substring(6);
+            //사용자 마지막 접속시간 변경
+            AccountRequest accountRequest = new AccountRequest(userID, previous_date, RequestInfo.RequestType.ACCOUNT_REFRESH, getApplicationContext());
+            accountRequest.AccountRefreshHandler((time) -> {
+                String changeText = userLastAtTxt.getText().toString().substring(0,6) + time;
+                userLastAtTxt.setText(changeText);
+                Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show();
+                MainStart();
+                textTitle.setText("");
+            });
         }
 
         return super.onOptionsItemSelected(item);
@@ -498,6 +547,7 @@ public class MainActivity extends AppCompatActivity
             bundle = new Bundle(1);
         }
         bundle.putSerializable("DATA", sData);
+        bundle.putString("userID", userID);
 
         fr.setArguments(bundle);
 

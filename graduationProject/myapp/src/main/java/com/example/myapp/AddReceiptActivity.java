@@ -197,11 +197,8 @@ public class AddReceiptActivity extends Activity {
                 String hourStr = dateTimeStr.substring(0, 2);
                 String minStr = dateTimeStr.substring(2);
 
-                Log.d(">>>hour", hourStr);
-                Log.d(">>>min", minStr);
-
                 int stopFlag = 0;
-                if (Integer.parseInt(monthStr) > 12 || Integer.parseInt(dateStr) > 31) {
+                if (Integer.parseInt(monthStr) > 12 || Integer.parseInt(dayStr) > 31) {
                     Toast.makeText(getApplicationContext(), "유효하지 않은 날짜 입니다", Toast.LENGTH_SHORT).show();
                     stopFlag = 1;
                 }
@@ -214,12 +211,11 @@ public class AddReceiptActivity extends Activity {
                 String resultDate = yearStr + "-" + monthStr + "-" + dayStr + " " + hourStr + ":" + minStr;
 
 
-                Log.d(">>>reusltdate", resultDate);
+
                 if (stopFlag == 0) {
                     //상정명 확인 요청
                     ReceiptRequest test = new ReceiptRequest(store.getText().toString(), RequestInfo.RequestType.STORE_CHECK, getApplicationContext());
                     test.StoreRequest(cId -> {
-                        Toast.makeText(getApplicationContext(), cId, Toast.LENGTH_LONG).show();
                         if (!cId.equals("null")) {
 //                        spinner.setSelection(Integer.parseInt(cId)-1);
                             original = Integer.parseInt(cId);
@@ -240,7 +236,6 @@ public class AddReceiptActivity extends Activity {
                                 //영수증 추가 요청 - 사용자가 카테고리 변경했을 경우
                                 ReceiptRequest test4 = new ReceiptRequest(resultDate, cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition() + 1), RequestInfo.RequestType.ADD_RECEIPT, getApplicationContext());
                                 test4.AddReceipt(hId -> {
-                                    Toast.makeText(getApplicationContext(), hId, Toast.LENGTH_LONG).show();
 
                                     // /////////////////////카테고리 변경 요청////////////////////////////
                                     ///////////////////////////////////////////////////////////////////

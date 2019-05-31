@@ -21,6 +21,7 @@ public class consumptionEvaluation_viewPager extends Fragment {
     private FragmentActivity myContext;
     private FragmentManager fragmanager;
 
+    String userID;
     @Override
     public void onAttach(Activity activity) {
         myContext = (FragmentActivity) activity;
@@ -34,6 +35,7 @@ public class consumptionEvaluation_viewPager extends Fragment {
 
         int pageNum = getArguments().getInt("cpage");
 
+        userID = getArguments().getString("userID");
         // tab part
         tabLayout = view.findViewById(R.id.layout_tab);
         tabLayout.addTab(tabLayout.newTab().setText("소비평가"));
@@ -42,7 +44,7 @@ public class consumptionEvaluation_viewPager extends Fragment {
 
         // connect ViewPager and TabLayout
         viewPager = view.findViewById(R.id.pager_content);
-        contentsPagerAdapter = new ContentsPagerAdapter(fragmanager, tabLayout.getTabCount());
+        contentsPagerAdapter = new ContentsPagerAdapter(fragmanager, tabLayout.getTabCount(),userID);
 
         viewPager.setAdapter(contentsPagerAdapter);
         viewPager.setCurrentItem(pageNum);

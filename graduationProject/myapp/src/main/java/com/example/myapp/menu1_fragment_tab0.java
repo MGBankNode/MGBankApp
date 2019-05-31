@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,17 +91,19 @@ public class menu1_fragment_tab0 extends Fragment {
     private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            Toast.makeText(getContext(),"position:"+position+"account_number:"+account_number.get(position),Toast.LENGTH_LONG).show();
-/*            Fragment newFragment = new menu1_fragment_tab2();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            //Toast.makeText(getContext(),"position:"+position+"account_number:"+account_number.get(position),Toast.LENGTH_LONG).show();
+           Fragment newFragment = new fragment_menu1();
 
             Bundle bundle = new Bundle();
-            bundle.putString("userID", userID);
+            bundle.putInt("apage", 3);
+            bundle.putString("ID", userID);
+            Log.i("CHJ", "menu1_fragment_tab0 : "+userID);
             bundle.putString("accountNum", account_number.get(position));
             newFragment.setArguments(bundle);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.dynamic_mainFragment, newFragment);
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
+            fragmentTransaction.commit();
         }
     };
 

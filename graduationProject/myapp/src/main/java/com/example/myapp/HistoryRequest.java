@@ -181,11 +181,12 @@ public class HistoryRequest {
                         String hValue = record.getString("hValue");
                         String hName = record.getString("hName");
                         String aBalance = record.getString("aBalance");
+                        String aType = record.getString("aType");
                         String cType = record.getString("cType");
                         String cName = record.getString("cName");
 
 
-                        historyInfo[i] = new HistoryInfo(hId, hDate, hType, hValue, hName, aBalance, cType, cName);
+                        historyInfo[i] = new HistoryInfo(hId, hDate, hType, hValue, hName, aBalance, aType, cType, cName);
 
                     }
 
@@ -363,6 +364,8 @@ public class HistoryRequest {
         Map<String, String> params = new HashMap<>();
 
         params.put("aNum", userID);
+        params.put("sDate", sDate);
+        params.put("lDate", lDate);
         return params;
 
     }
@@ -396,14 +399,31 @@ public class HistoryRequest {
                         String hValue = record.getString("hValue");
                         String hName = record.getString("hName");
                         String aBalance = record.getString("aBalance");
+                        String aType = record.getString("aType");
                         String cType = record.getString("cType");
                         String cName = record.getString("cName");
 
-                        historyInfo[i] = new HistoryInfo(hId, hDate, hType, hValue, hName, aBalance, cType, cName);
+                        historyInfo[i] = new HistoryInfo(hId, hDate, hType, hValue, hName, aBalance, aType, cType, cName);
 
                     }
 
-                    callback.onSuccess(historyInfo, null);
+
+                    JSONArray dailyDataArray = json.getJSONArray("daily_history");
+                    dailyHistoryInfo = new DailyHistoryInfo[dailyDataArray.length()];
+
+                    for(int i = 0; i < dailyDataArray.length(); ++i){
+
+                        JSONObject record = dailyDataArray.getJSONObject(i);
+
+                        String day = record.getString("day");
+                        String dailyBenefit = record.getString("benefit");
+                        String dailyLoss = record.getString("loss");
+
+                        dailyHistoryInfo[i] = new DailyHistoryInfo(day, dailyBenefit, dailyLoss);
+
+                    }
+
+                    callback.onSuccess(historyInfo, dailyHistoryInfo);
                     break;
 
                 case "error":

@@ -9,14 +9,15 @@ public class HistoryInfo {
     String hValue;      //내역 사용 금액
     String hName;       //내역 사용처 이름
     String aBalance;    //내역 사용 후 잔액
+    String aType;       //계좌
     String cType;       //카드 이름
     String cName;       //카테고리 분류
 
-    HistoryInfo(String aNum, String aBalance, String aType){
+    HistoryInfo(String aNum, String aBalance, String aType) {
         accountInfo = new AccountInfo(aNum, aBalance, aType);
     }
 
-    HistoryInfo(int hId, String hDate, String hValue, String hName, String cName){
+    HistoryInfo(int hId, String hDate, String hValue, String hName, String cName) {
         this.hId = hId;
         this.hDate = hDate;
         this.hValue = hValue;
@@ -24,7 +25,20 @@ public class HistoryInfo {
         this.cName = cName;
     }
 
-    HistoryInfo(int hId, String hDate, String hType, String hValue, String hName, String aBalance, String cType, String cName){
+    HistoryInfo(int hId, String hDate, String hType, String hValue, String hName, String aBalance, String aType, String cType, String cName) {
+        this.hId = hId;
+        this.hDate = hDate;
+        this.hType = hType;
+        this.hValue = hValue;
+        this.hName = hName;
+        this.aBalance = aBalance;
+        this.aType = aType;
+        this.cType = cType;
+        this.cName = cName;
+    }
+
+
+    HistoryInfo(int hId, String hDate, String hType, String hValue, String hName, String aBalance, String cType, String cName) {
         this.hId = hId;
         this.hDate = hDate;
         this.hType = hType;
@@ -35,7 +49,9 @@ public class HistoryInfo {
         this.cName = cName;
     }
 
-    public AccountInfo getAccountInfo() { return accountInfo; }
+    public AccountInfo getAccountInfo() {
+        return accountInfo;
+    }
 
     public int gethId() {
         return hId;
@@ -81,6 +97,14 @@ public class HistoryInfo {
         this.aBalance = aBalance;
     }
 
+    public String getaType() {
+        return aType;
+    }
+
+    public void setaType(String aType) {
+        this.aType = aType;
+    }
+
     public String getcType() {
         return cType;
     }
@@ -96,8 +120,4 @@ public class HistoryInfo {
     public void setcName(String cName) {
         this.cName = cName;
     }
-
-
-
-
 }
