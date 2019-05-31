@@ -51,6 +51,7 @@ public class consumptionEvaluationFragment extends Fragment {
 
     public int curYear;
     public int curMonth;
+    int mainMonth;
 
     private FragmentActivity myContext;
     public String userID;
@@ -165,14 +166,15 @@ public class consumptionEvaluationFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_consumption_evaluation, container, false);
         context = getContext();
-        //userID = getArguments().getString("userID");
+
+        ArrayList<String> lastThreeMonthDate = new ArrayList<>();
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("SEND_USERID");
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 userID = intent.getStringExtra("userID");
-                Log.d("KJH", "Broadcast UserID : " + userID);
                 previousBtn = view.findViewById(R.id.previous_month_);
                 nextBtn = view.findViewById(R.id.next_month_);
 
@@ -181,7 +183,8 @@ public class consumptionEvaluationFragment extends Fragment {
                 String todayDate = getCalToString(cal);
                 curYear = cal.get(Calendar.YEAR);
                 curMonth = cal.get(Calendar.MONTH);
-                final int mainMonth = curMonth;
+                // 현재 날짜의 달
+                mainMonth = curMonth;
 
                 transferStr = drawList(curMonth, curYear);
 
@@ -218,10 +221,40 @@ public class consumptionEvaluationFragment extends Fragment {
 
                 });
 
+
+
+
                 reportListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        changeFr(position, transferStr[position], transferStr[position+1]);
+                        // position 은 ~월 ~주차를 표기 하기 위해 필요한 변수
+                        // transferStr은 월간리포트 리스트뷰를 그릴 때 사용 했던 날짜들의 배열
+                        // 달력상 현재 월의 처음 월/일 부터 마지막 월/일에 대한 정보를 배열로 담고 있다
+                        if(curMonth == mainMonth) {
+                            changeFr(new consumptionReportFragment(), position, transferStr[position], transferStr[position + 1], lastThreeMonthDate);
+                        }
+                        // 월간 리포트가 존재하는 경우
+                        else if(curMonth != mainMonth){
+
+                            if(position == 0) {
+                                // 월간 리포트 이벤트 삽입 부분
+                                for(int i=0; i<4; i++) {
+                                    int tempCurMonth = curMonth-i;
+                                    int tempCurYear = curYear;
+
+                                    if(tempCurMonth < 0) {
+                                        tempCurMonth += 11;
+                                        tempCurYear--;
+                                    }
+                                    lastThreeMonthDate.add(getDates(tempCurYear, tempCurMonth));
+
+                                }
+
+                                changeFr(new consumptionMonthReportFragment(), position, transferStr[position], transferStr[position + 1], lastThreeMonthDate);
+                            }
+                            else
+                                changeFr(new consumptionReportFragment(), position-1, transferStr[position-1], transferStr[position], lastThreeMonthDate);
+                        }
                     }
                 });
 
@@ -243,10 +276,8 @@ public class consumptionEvaluationFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public void changeFr(int position, String tStr_1, String tStr_2) {
-        Fragment detailFragment = new consumptionReportFragment();
-
-       // Log.d(">>>str2", tStr_2);
+    public void changeFr(Fragment fr, int position, String tStr_1, String tStr_2, ArrayList<String> list) {
+        Fragment detailFragment = fr;
 
         AnalysisInfo frData = new AnalysisInfo(String.valueOf(position+1), tStr_1, tStr_2);
         Bundle bundle = new Bundle();
@@ -255,6 +286,7 @@ public class consumptionEvaluationFragment extends Fragment {
         bundle.putString("LastDay", tStr_2);
         bundle.putInt("Month", curMonth+1);
         bundle.putInt("Week", position+1);
+        bundle.putStringArrayList("dateList", list);
 
         detailFragment.setArguments(bundle);
 
@@ -266,6 +298,7 @@ public class consumptionEvaluationFragment extends Fragment {
     }
 
     public String[] drawList(int month, int year) {
+
 
         reportListView = view.findViewById(R.id.reportList);
 
@@ -303,7 +336,7 @@ public class consumptionEvaluationFragment extends Fragment {
             arrayCnt++;
         }
 
-        String[] tempdateArray = new String[arrayCnt]; // 안하면 안나옴
+        String[] tempdateArray = new String[arrayCnt];
 
         for(int i=0; i<arrayCnt; i++)
             tempdateArray[i] = date[i];
@@ -325,7 +358,7 @@ public class consumptionEvaluationFragment extends Fragment {
                 RequestInfo.RequestType.ANALYSIS_WEEK,    //고정
                 context);                                 //고정
 
-        final String tempMonthStr = String.valueOf(month + 1) + "월";
+        final String tempMonthStr = (month + 1) + "월";
 
         //Request 함수 호출해서 정보 accountHistoryInfo 객체와 dailyHistoryInfo 객체에서 받아와서 사용
         test.WeekRequestHandler(new AnalysisRequest.VolleyCallback() {
@@ -335,14 +368,17 @@ public class consumptionEvaluationFragment extends Fragment {
 
                 ArrayList<reportElement> reportElements = new ArrayList<>();
 
+                if(mainMonth != month)
+                    reportElements.add(new reportElement("[" + tempMonthStr + " " + "월간 리포트]", true));
+
                 for(int i = 0; i < arrLength; i++){
                     analysisWeekInfo[i].setWeekSum(info[i].getWeekSum());       //주별 총합 지출 추가 저장
 
                     reportElements.add(new reportElement("[" + tempMonthStr + " "+ analysisWeekInfo[i].getWeek()  + "주차 주간 리포트]",
-                            Integer.parseInt(analysisWeekInfo[i].getWeekSum())));
+                            Integer.parseInt(analysisWeekInfo[i].getWeekSum()), false));
 
                 }
-                reportListviewAdapter reportListviewAdapter = new reportListviewAdapter(context, R.layout.report_list_item, reportElements);
+                reportListviewAdapter reportListviewAdapter = new reportListviewAdapter(context, reportElements);
                 reportListView.setAdapter(reportListviewAdapter);
             }
         });
