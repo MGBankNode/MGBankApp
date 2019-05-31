@@ -15,6 +15,7 @@ public class RequestInfo {
         ADD_ACCOUNT,
         ANALYSIS_WEEK,
         ANALYSIS_DAILY,
+        ANALYSIS_MONTH,
         BARCODE_POINT,
         UPDATE_CATEGORY,
         ACCOUNT_BY_HISTORY,
@@ -94,6 +95,10 @@ public class RequestInfo {
 
             case ANALYSIS_DAILY:
                 processURL = "/nodeapi/analysis/analysisdaily";
+                break;
+
+            case ANALYSIS_MONTH:
+                processURL = "/nodeapi/analysis/analysismonth";
                 break;
 
             case BARCODE_POINT:

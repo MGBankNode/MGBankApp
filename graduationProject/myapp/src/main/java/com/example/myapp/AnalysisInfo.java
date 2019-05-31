@@ -53,4 +53,12 @@ public class AnalysisInfo implements Serializable {
         this.lDate = lDate;
     }
 
+    public String getMonth() {
+        return one;
+    }
+
+    public String getMonthSum() {
+        return oneSum;
+    }
+
 }
