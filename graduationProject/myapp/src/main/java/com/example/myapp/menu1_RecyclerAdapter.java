@@ -61,7 +61,14 @@ public class menu1_RecyclerAdapter extends RecyclerView.Adapter<menu1_RecyclerAd
 
         viewHolder.hour.setText(item.getHour());
         viewHolder.minute.setText(item.getMinute());
-        if (item.getType().equals("출금")) { //지출일때
+        if (item.getType().equals("영수증")) { //지출일때
+            viewHolder.name.setText(item.getName());    //입금처
+            viewHolder.card.setText("현금");    //출금처
+            viewHolder.ingredient.setText(item.getCategori());
+            viewHolder.ingredient.setBackgroundResource(R.drawable.loss_label);
+            viewHolder.ingredient.setTextColor(Color.RED);
+            viewHolder.price.setTextColor(Color.RED);
+        } else if (item.getType().equals("출금")) { //지출일때
             viewHolder.name.setText(item.getName());    //입금처
             viewHolder.card.setText(item.getAnum());    //출금처
             viewHolder.ingredient.setText(item.getCategori());
