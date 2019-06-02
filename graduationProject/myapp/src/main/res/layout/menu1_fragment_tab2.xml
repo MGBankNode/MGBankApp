@@ -66,6 +66,33 @@
             android:dividerHeight="3dp"
             android:divider="#00000000" />
 
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/noneList"
+            android:layout_marginTop="50dp"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/image_cry"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/crying"/>
+                <TextView
+                    android:layout_below="@+id/image_cry"
+                    android:id="@+id/content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:textColor="#000"
+                    android:textSize="10pt"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/applegothicneo_b"
+                    android:text="이번달 거래 내역이 없습니다."/>
+        </RelativeLayout>
+
          <LinearLayout
             android:id="@+id/receipt_layout"
             android:layout_width="match_parent"

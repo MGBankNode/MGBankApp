@@ -474,8 +474,13 @@ public class MainActivity extends AppCompatActivity
                 String changeText = userLastAtTxt.getText().toString().substring(0,6) + time;
                 userLastAtTxt.setText(changeText);
                 Toast.makeText(getApplicationContext(), "새로고침 성공", Toast.LENGTH_LONG).show();
-                MainStart();
-                textTitle.setText("");
+
+                for(Fragment fragment:getSupportFragmentManager().getFragments()) {
+                    if(fragment.isVisible() && fragment instanceof fragment_home) {
+                        MainStart();
+                        textTitle.setText("");
+                    }
+                }
             });
         }
 
