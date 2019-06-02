@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,8 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
     TextView txt_present;
     TextView txt_year;
 
+    RelativeLayout relativeLayout;
+    TextView txt_content;
     public String userID;
     public String accountNum;
     public menu1_fragment_tab2(){    }
@@ -68,13 +71,14 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        relativeLayout = (RelativeLayout)getView().findViewById(R.id.noneList);
         recyclerView = (RecyclerView)getView().findViewById(R.id.recycler_view);
         btn_previous=(ImageButton)getView().findViewById(R.id.previous_month);
         btn_receipt = (ImageButton)getView().findViewById(R.id.receipt2_btn);
         btn_next=(ImageButton)getView().findViewById(R.id.next_month);
         txt_present=(TextView)getView().findViewById(R.id.present_month);
         txt_year=(TextView)getView().findViewById(R.id.present_year);
-
+        txt_content = (TextView)getView().findViewById(R.id.content_text);
         //오늘 연도, 월
         final Date date = new Date(System.currentTimeMillis());
         final SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
@@ -237,7 +241,11 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 rv_adapter.setOnClickListener(menu1_fragment_tab2.this);    //클릭리스너 연결
                 recyclerView.setAdapter(rv_adapter);
 
-
+                if(indexData.length==0) {
+                    relativeLayout.setVisibility(View.VISIBLE);
+                    txt_content.setText(month + "월 거래내역은 없습니다.");
+                } else
+                    relativeLayout.setVisibility(View.GONE);
             });
             ///////////////////////////////////////////////
         } else {
@@ -323,6 +331,11 @@ public class menu1_fragment_tab2 extends Fragment implements menu1_RecyclerAdapt
                 recyclerView.setAdapter(rv_adapter);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                if(indexData.length==0) {
+                    relativeLayout.setVisibility(View.VISIBLE);
+                    txt_content.setText(month + "월 거래내역은 없습니다.");
+                } else
+                    relativeLayout.setVisibility(View.GONE);
             });
         }
     }
