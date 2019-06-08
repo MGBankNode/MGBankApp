@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CustomProgressDialog"></activity>
+        <!--<activity android:name=".CustomProgressDialog"></activity>-->
 
         <meta-data
             android:name="com.google.android.actions"

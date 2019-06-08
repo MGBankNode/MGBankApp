@@ -2,6 +2,7 @@ package com.example.myapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -48,7 +49,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class AddReceiptActivity extends Activity {
 
@@ -439,10 +443,21 @@ public class AddReceiptActivity extends Activity {
     private static class LableDetectionTask extends AsyncTask<Object, Void, String> {
         private final WeakReference<AddReceiptActivity> mActivityWeakReference;
         private Vision.Images.Annotate mRequest;
-
+        private CustomProgressDialog dialog;
+        private ProgressDialog progressDialog;
+        private AddReceiptActivity activity;
         LableDetectionTask(AddReceiptActivity activity, Vision.Images.Annotate annotate) {
             mActivityWeakReference = new WeakReference<>(activity);
+            this.activity = activity;
             mRequest = annotate;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(activity,"Please Wait", "잠시만 기다려주세요");
+//            dialog = new CustomProgressDialog(activity);
+//            dialog.show();
+            super.onPreExecute();
         }
 
         @Override
@@ -465,39 +480,37 @@ public class AddReceiptActivity extends Activity {
             AddReceiptActivity activity = mActivityWeakReference.get();
             if (activity != null && !activity.isFinishing()) {
                 String str[] = result.split("&");
-                EditText store = (EditText)activity.findViewById(R.id.storeEdit);
-                EditText date = (EditText)activity.findViewById(R.id.dateEdit);
-                EditText time = (EditText)activity.findViewById(R.id.dateTimeEdit);
-                EditText cost = (EditText)activity.findViewById(R.id.moneyEdit);
-                Spinner spinner =(Spinner)activity.findViewById(R.id.categorySpinner);
+                EditText store = (EditText) activity.findViewById(R.id.storeEdit);
+                EditText date = (EditText) activity.findViewById(R.id.dateEdit);
+                EditText time = (EditText) activity.findViewById(R.id.dateTimeEdit);
+                EditText cost = (EditText) activity.findViewById(R.id.moneyEdit);
+                Spinner spinner = (Spinner) activity.findViewById(R.id.categorySpinner);
 
-                //상정명 확인 요청
-                ReceiptRequest test = new ReceiptRequest(str[0], RequestInfo.RequestType.STORE_CHECK, activity.getApplicationContext());
-                test.StoreRequest(cId -> {
-                    Toast.makeText(activity.getApplicationContext(), cId, Toast.LENGTH_LONG).show();
-                    if(!cId.equals("null")) {
+                if (str.length > 0) {
+                    //상정명 확인 요청
+                    ReceiptRequest test = new ReceiptRequest(str[0], RequestInfo.RequestType.STORE_CHECK, activity.getApplicationContext());
+                    test.StoreRequest(cId -> {
+                        if (!cId.equals("null")) {
 
-                        Log.i("cID", cId);
+                            Log.i("cID", cId);
 
-                        spinner.setSelection(Integer.parseInt(cId) - 1);
-                    }
+                            spinner.setSelection(Integer.parseInt(cId) - 1);
+                        }
 
-                        if(str.length>0) {
+                        if (str.length > 0) {
                             store.setText(str[0]);
                         }
-                        if(str.length>1)
+                        if (str.length > 1)
                             date.setText(str[1]);
 
-                        if(str.length>2)
+                        if (str.length > 2)
                             time.setText(str[2]);
-                        if(str.length>3)
+                        if (str.length > 3)
                             cost.setText(str[3]);
-
-                });
-
-
-
-
+                    });
+//                    dialog.dismiss();
+                    progressDialog.dismiss();
+                }
             }
         }
     }
@@ -553,47 +566,51 @@ public class AddReceiptActivity extends Activity {
             int moneyFlag = 0;
             int storeFlag = 0;
             int count = 0;
+            HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
 
             for (String d : data) {
-                Log.d("receipt : ", d + "\n");
-
+                d.replace(" ", "");
+                Log.d("CHJ", "d : "+d);
                 if (count == 0 && !d.contains("영수증"))
-                    storeName = d;
-                if (d.contains("매장명") || d.contains("매장 명") || d.contains("상호") || d.contains("가맹점") || d.contains("상 호")) {
+                    storeName = d.replaceAll("^\\s+", "");;
+                if ((d.contains("매장명") || d.contains("상호") || d.contains("가맹점")) && !d.contains("번호")) {
                     int index = d.indexOf(' ');
                     storeFlag = -1;
-                    storeName = d.substring(index + 1);
+                    storeName = d.substring(index + 1).replaceAll("^\\s+", "");
                     if (storeName.contains("]")) {
                         index = storeName.indexOf(']');
-                        storeName = storeName.substring(index + 1);
+                        storeName = storeName.substring(index + 1).replaceAll("^\\s+", "");
                     } else if (storeName.contains(":")) {
                         index = storeName.indexOf(":");
-                        storeName = storeName.substring(index + 1);
-                        Log.d("여기", storeName);
+                        storeName = storeName.substring(index + 1).replaceAll("^\\s+", "");
                     }
                 }
 
                 if (storeFlag == 1) {
                     if (!d.contains("-"))
-                        storeName = d;
+                        storeName = d.replaceAll("^\\s+", "");;
                     storeFlag = 0;
-                    Log.d("ddd", "여기오니,,?");
                 }
-                if (storeFlag != -1 && d.contains("영수증") && !d.contains("소지") && !d.contains("현금") && !d.contains("카드") && !d.contains("결제")) {
+                if (storeFlag != -1 && d.contains("영수증") &&!d.contains("반드시") && !d.contains("소지") && !d.contains("현금") && !d.contains("카드") && !d.contains("결제") &&!d.contains("습니다")) {
                     storeFlag = 1;
+                    String[] storeN = d.split(" ");
+                    if(storeN.length>1) {
+                        storeName = storeN[1].replaceAll("^\\s+", "");;
+                        storeFlag = -1;
+                    }
                 }
 
-                if (d.contains(",")) {
+                if (d.contains(",") || d.contains(".")) {
                     String confirm[] = d.split(" ");
 
                     int n = 0;
                     for (int h = 0; h < confirm.length; h++) {
                         String c = confirm[h];
                         String ff = c.replace(",", "");
+                        ff = ff.replace(".", "");
                         try {
                             int num = Integer.parseInt(ff);
                             n++;
-                            Log.d("여기", Integer.toString(num));
                             if (num < 1000) {
                                 if (h + 1 < confirm.length)
                                     c = confirm[++h];
@@ -602,6 +619,14 @@ public class AddReceiptActivity extends Activity {
                                 num = Integer.parseInt(ff);
                                 n++;
                             }
+
+                            if(hashMap.containsKey(ff)) {
+                                Integer value = hashMap.get(ff);
+                                hashMap.put(ff, new Integer(value.intValue()+1));
+                            } else {
+                                hashMap.put(ff, new Integer(1));
+                            }
+
                             if (n < 3 && moneyFlag < num) {
                                 moneyFlag = num;
                                 totalCost = ff;
@@ -610,50 +635,92 @@ public class AddReceiptActivity extends Activity {
                         }
                     }
                 }
-                String date[] = d.split("]| |-|:|/|\\.|년|월|일|\\(");
+
+                if(d.contains("]") && d.length()>d.indexOf("]")+1) {
+                    d = d.substring(d.indexOf("]")+1);
+                }
+                String date[] = d.split(" |-|:|/|\\.|년|월|일|\\(");
 
                 int flag = 0;
-
+                int none = 0;
                 for (String a : date) {
+                    Log.d("CHJ", "date : " + a+" / dateFlag : "+Integer.toString(dateFlag) );
                     try {
-                        if (dateFlag == 0 && flag == 0 && (a.equals("2019") || a.equals("19") || (a.length() == 4 && a.startsWith("20")))) {
-                            flag = 1;
-                            dateFlag = 1;
-                            if ((a.length() == 4 && a.startsWith("20")) || a.equals("19"))
-                                a = "2019";
-                        }
+                        int num = Integer.parseInt(a);
 
-                        if (dateFlag == 0 && flag == 0 && d.contains("/") && !a.equals("19") && !a.equals("2019")) {
-                            dateFlag = 1;
-                            flag = 1;
-                            a = "2019";
+                        if (!d.contains("사업자") && dateFlag == 0 && flag == 0) {
+                            if (date.length == 5 && d.contains("/")) {
+                                String[] temp = d.split("/");
+                                if (temp.length == 2) {
+                                    a = Integer.toString(Calendar.getInstance().get(Calendar.YEAR)) + a;
+                                    flag = 2;
+                                    none = 1;
+                                    dateFlag = 1;
+                                }
+                            } else if (a.length() == 2 || (a.length() == 4 && a.startsWith("20"))) {
+                                if (a.length() == 2) {
+                                    a = "20" + a;
+                                    num = Integer.parseInt(a);
+                                }
+
+                                if (num <= Calendar.getInstance().get(Calendar.YEAR)) {
+                                    flag = 1;
+                                    dateFlag = 1;
+                                }
+                            }
                         }
 
                         if (flag > 0) {
-                            if (flag < 6) dateTime += a;
+                            if((none == 1 && a.length() == 6) || (flag >1 &&a.length() == 2) || (flag==1 && a.length()==4)) {
+                                if (flag < 5) dateTime += a;
 
-                            if (flag == 6) {
-                                dateTime += a;
-                                flag = -1;
+                                if (flag == 5) {
+                                    dateTime += a;
+                                    flag = -1;
+                                }
+                                flag++;
+                            } else {
+                                dateFlag = 0;
+                                dateTime = "";
                             }
-                            Log.d("date", dateTime);
-                            flag++;
+                            Log.d("CHJ", "dateTime : " + dateTime);
                         }
 
 
                     } catch (Exception e) {
-                        Log.d("ERROR : ", e.toString());
                     }
                 }
+                if(dateTime.length()<12) {
+                    dateTime = "";
+                    dateFlag = 0;
+                }
+
                 count++;
             }
+            Set<String> set = hashMap.keySet();
+            int max = -1;
+            String final_money = "";
+            for(String tempKey: set) {
+                if(hashMap.get(tempKey).intValue() >max) {
+                    max = hashMap.get(tempKey).intValue();
+                    final_money = tempKey;
+                } else if(hashMap.get(tempKey).intValue() == max) {
+                    int a = Integer.parseInt(final_money);
+                    int b = Integer.parseInt(tempKey);
+                    if(a<b)
+                        final_money = tempKey;
+                }
+            }
+
+            totalCost = final_money;
+            Log.i("CHJ", "integer :"+ hashMap.values());
+
         } else {
             message.append("nothing");
         }
 
-
-        if(dateTime.length()>8) {
-            Log.d("date", dateTime);
+        if(dateTime.length()>=12) {
+            Log.d("date", Integer.toString(dateTime.length()));
             time = dateTime.substring(8,12);
             date1 = dateTime.substring(0, 8);
         }
