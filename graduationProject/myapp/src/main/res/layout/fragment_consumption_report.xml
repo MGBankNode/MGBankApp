@@ -39,11 +39,14 @@
                 android:background="#00ff0000"
                 android:foregroundGravity="left"
                 android:src="@drawable/ic_previous" />
+
             <ImageView
-                android:foregroundGravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:src="@drawable/reportcharacter"/>
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:foregroundGravity="center_horizontal"
+                android:src="@drawable/reportcharacter" />
 
         </RelativeLayout>
         <TextView

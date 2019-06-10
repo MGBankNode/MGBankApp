@@ -55,6 +55,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".UsageByCardDetail"
+            android:screenOrientation="portrait"
+            />
+        <activity
             android:name=".MainActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
