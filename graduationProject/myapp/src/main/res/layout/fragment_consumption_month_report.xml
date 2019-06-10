@@ -30,7 +30,7 @@
             >
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:orientation="horizontal">
                 <ImageButton
                     android:id="@+id/close_fr_btn"
@@ -48,7 +48,7 @@
 
             </RelativeLayout>
             <TextView
-                android:id="@+id/monthReportTv"
+                android:id="@+id/monthReportMainTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/applegothicneo_b"
-                android:textSize="18dp"
+                android:textSize="19dp"
                 android:text="월 별 내역"
                 android:textColor="#000"
                 android:layout_marginTop="10dp"
@@ -83,5 +83,16 @@
             </com.github.mikephil.charting.charts.BarChart>
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/monthChartDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지난 세 달간 평균 지출은 "
+            android:textSize="16dp"
+            android:textColor="#000"
+            android:fontFamily="@font/applegothicneo_b"
+            android:layout_marginTop="10dp"
+            android:padding="18dp"/>
+
     </LinearLayout>
 </ScrollView>

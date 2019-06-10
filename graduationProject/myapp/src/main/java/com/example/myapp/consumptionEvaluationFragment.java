@@ -45,7 +45,6 @@ public class consumptionEvaluationFragment extends Fragment {
 
     ImageButton previousBtn;
     ImageButton nextBtn;
-    Button detailButton;
 
     String[] transferStr;
 
@@ -180,7 +179,7 @@ public class consumptionEvaluationFragment extends Fragment {
 
                 //현재 날짜 받아오기
                 Calendar cal = Calendar.getInstance();
-                String todayDate = getCalToString(cal);
+
                 curYear = cal.get(Calendar.YEAR);
                 curMonth = cal.get(Calendar.MONTH);
                 // 현재 날짜의 달
@@ -221,9 +220,6 @@ public class consumptionEvaluationFragment extends Fragment {
 
                 });
 
-
-
-
                 reportListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -231,29 +227,17 @@ public class consumptionEvaluationFragment extends Fragment {
                         // transferStr은 월간리포트 리스트뷰를 그릴 때 사용 했던 날짜들의 배열
                         // 달력상 현재 월의 처음 월/일 부터 마지막 월/일에 대한 정보를 배열로 담고 있다
                         if(curMonth == mainMonth) {
-                            changeFr(new consumptionReportFragment(), position, transferStr[position], transferStr[position + 1], lastThreeMonthDate);
+                            changeFr(new consumptionReportFragment(), position, transferStr[position], transferStr[position + 1]);
                         }
                         // 월간 리포트가 존재하는 경우
                         else if(curMonth != mainMonth){
 
                             if(position == 0) {
                                 // 월간 리포트 이벤트 삽입 부분
-                                for(int i=0; i<4; i++) {
-                                    int tempCurMonth = curMonth-i;
-                                    int tempCurYear = curYear;
-
-                                    if(tempCurMonth < 0) {
-                                        tempCurMonth += 11;
-                                        tempCurYear--;
-                                    }
-                                    lastThreeMonthDate.add(getDates(tempCurYear, tempCurMonth));
-
-                                }
-
-                                changeFr(new consumptionMonthReportFragment(), position, transferStr[position], transferStr[position + 1], lastThreeMonthDate);
+                                changeFr(new consumptionMonthReportFragment(), position, transferStr[position], transferStr[position + 1]);
                             }
                             else
-                                changeFr(new consumptionReportFragment(), position-1, transferStr[position-1], transferStr[position], lastThreeMonthDate);
+                                changeFr(new consumptionReportFragment(), position-1, transferStr[position-1], transferStr[position]);
                         }
                     }
                 });
@@ -273,7 +257,7 @@ public class consumptionEvaluationFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public void changeFr(Fragment fr, int position, String tStr_1, String tStr_2, ArrayList<String> list) {
+    public void changeFr(Fragment fr, int position, String tStr_1, String tStr_2) {
         Fragment detailFragment = fr;
 
         AnalysisInfo frData = new AnalysisInfo(String.valueOf(position+1), tStr_1, tStr_2);
@@ -281,9 +265,10 @@ public class consumptionEvaluationFragment extends Fragment {
         bundle.putString("userID", userID);
         bundle.putSerializable("dateData", frData);
         bundle.putString("LastDay", tStr_2);
+        bundle.putInt("Year", curYear);
         bundle.putInt("Month", curMonth+1);
         bundle.putInt("Week", position+1);
-        bundle.putStringArrayList("dateList", list);
+
 
         detailFragment.setArguments(bundle);
 
@@ -295,27 +280,7 @@ public class consumptionEvaluationFragment extends Fragment {
     }
 
     public String[] drawList(int month, int year) {
-        ////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////
-        AnalysisRequest test1 = new AnalysisRequest(
-                userID,              //현재 로그인 아이디
-                "2019-02-01,2019-03-01,2019-04-01,2019-05-01",              //날짜들 list
-                RequestInfo.RequestType.ANALYSIS_MONTH,    //고정
-                context);                                 //고정
 
-        test1.MonthRequestHandler(info -> {
-                    int arrLength = info.length;
-
-                    for(int i = 0; i < arrLength; i++){
-                        Toast.makeText(context, info[i].getMonth() + " : " + info[i].getMonthSum(), Toast.LENGTH_LONG).show();
-
-                    }
-                }
-        );
-        ////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////
 
         reportListView = view.findViewById(R.id.reportList);
 
