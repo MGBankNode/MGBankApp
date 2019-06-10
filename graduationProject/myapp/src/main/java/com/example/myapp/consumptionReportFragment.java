@@ -131,7 +131,7 @@ public class consumptionReportFragment extends Fragment {
                for(int i=1; i<=7; i++)
                     entries.add(new BarEntry(i, sumArray[i]));
 
-                String[] labels = new String[] {"", "월", "화", "수", "목", "금", "토", "일"};
+                String[] labels = new String[] {"", "일", "월", "화", "수", "목", "금", "토"};
 
                 YAxis leftAxis = dayChart.getAxisLeft();
                 YAxis rightAxis = dayChart.getAxisRight();
@@ -309,7 +309,6 @@ public class consumptionReportFragment extends Fragment {
                 weekSum.append(temp);
 
             }
-
         });
     }
 

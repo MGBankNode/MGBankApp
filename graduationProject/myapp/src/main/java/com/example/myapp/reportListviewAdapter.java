@@ -18,13 +18,11 @@ public class reportListviewAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ArrayList<reportElement> data;
-    private int layout;
     int rpmoney;
 
-    public reportListviewAdapter(Context context, int layout, ArrayList<reportElement> data){
-        this.inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.layout=layout;
-        this.data=data;
+    public reportListviewAdapter(Context context, ArrayList<reportElement> data) {
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.data = data;
     }
 
     @Override
@@ -44,25 +42,24 @@ public class reportListviewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Context context = parent.getContext();
 
-        if(convertView==null){
-            convertView=inflater.inflate(layout,parent,false);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.report_list_item, parent, false);
         }
-        TextView rpDate = convertView.findViewById(R.id.reportDate);
-        TextView rpExpenditure = convertView.findViewById(R.id.reportExpenditure);
 
-        final SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
-        final SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
-        final SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
+            TextView rpDate = convertView.findViewById(R.id.reportDate);
+            TextView rpExpenditure = convertView.findViewById(R.id.reportExpenditure);
 
-        rpDate.setText(data.get(position).getReportDate());
+            rpDate.setText(data.get(position).getReportDate());
 
-        rpmoney = data.get(position).getReportExpenditure();
-        String tempStr = String.format("%,d", rpmoney);
-        String result = "총 " +tempStr + "원 사용";
-        rpExpenditure.setText(result);
+            rpmoney = data.get(position).getReportExpenditure();
+            String tempStr = String.format("%,d", rpmoney);
+            String result = "총 " + tempStr + "원 사용";
 
-        return convertView;
+            if (rpmoney != 0)
+                rpExpenditure.setText(result);
+
+            return convertView;
+
     }
 }
