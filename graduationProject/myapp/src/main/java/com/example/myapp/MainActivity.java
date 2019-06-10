@@ -799,6 +799,7 @@ public class MainActivity extends AppCompatActivity
         }
         return result;
     }
+
     public void startFlagFragment(String startDate, String endDate, int flag) {
         //내역을 얻어와야함
         //먼저 HistoryRequest 각각 정보 입력하여 객체생성

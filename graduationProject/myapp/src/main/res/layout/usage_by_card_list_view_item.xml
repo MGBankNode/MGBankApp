@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/usageByCardContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="18dp"
+    >
+
+    <TextView
+        android:id="@+id/cardListName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/applegothicneo_m"
+        android:text="testTest"
+        android:textColor="#000"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/cardListUseMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용금액"
+        android:fontFamily="@font/applegothicneo_m"
+        android:textSize="15dp"
+        android:layout_alignParentRight="true"
+        />
+
+    <TextView
+        android:id="@+id/cardListValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardListUseMoney"
+        android:text="testTest"
+        android:textSize="17dp"
+        android:textColor="#000"
+        android:fontFamily="@font/applegothicneo_b"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+
+        />
+
+
+
+
+</RelativeLayout>
+</LinearLayout>
