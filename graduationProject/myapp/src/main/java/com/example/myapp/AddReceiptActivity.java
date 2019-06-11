@@ -578,7 +578,11 @@ public class AddReceiptActivity extends Activity {
                 d.replace(" ", "");
                 Log.d("CHJ", "d : "+d);
                 if (count == 0 && !d.contains("영수증"))
-                    storeName = d.replaceAll("^\\s+", "");;
+                    storeName = d.replaceAll("^\\s+", "");
+                else if(storeFlag!= 1 && storeName.contains("[") && !d.contains("]")) {
+                    storeName = d.replaceAll("^\\s+", "");
+                    storeFlag = 1;
+                }
                 if ((d.contains("매장명") || d.contains("상호") || d.contains("가맹점")) && !d.contains("번호")) {
                     int index = d.indexOf(' ');
                     storeFlag = -1;
@@ -597,7 +601,7 @@ public class AddReceiptActivity extends Activity {
                         storeName = d.replaceAll("^\\s+", "");;
                     storeFlag = 0;
                 }
-                if (storeFlag != -1 && d.contains("영수증") &&!d.contains("반드시") && !d.contains("소지") && !d.contains("현금") && !d.contains("카드") && !d.contains("결제") &&!d.contains("습니다")) {
+                if (storeFlag != -1 && d.contains("영수증") &&!d.contains("주십시오") &&!d.contains("반드시") && !d.contains("소지") && !d.contains("현금") && !d.contains("카드") && !d.contains("결제") &&!d.contains("습니다")) {
                     storeFlag = 1;
                     String[] storeN = d.split(" ");
                     if(storeN.length>1) {
@@ -652,10 +656,11 @@ public class AddReceiptActivity extends Activity {
                 for (String a : date) {
                     Log.d("CHJ", "date : " + a+" / dateFlag : "+Integer.toString(dateFlag) );
                     try {
+                        a.replaceAll(" ", "");
                         int num = Integer.parseInt(a);
 
                         if (!d.contains("사업자") && dateFlag == 0 && flag == 0) {
-                            if (date.length == 5 && d.contains("/")) {
+                            if (date.length == 5 && d.contains("/") && !d.startsWith("20")) {
                                 String[] temp = d.split("/");
                                 if (temp.length == 2) {
                                     a = Integer.toString(Calendar.getInstance().get(Calendar.YEAR)) + a;
@@ -668,7 +673,7 @@ public class AddReceiptActivity extends Activity {
                                     a = "20" + a;
                                     num = Integer.parseInt(a);
                                 }
-
+                                Log.i("CHJ", "YEAR : "+Integer.toString(num));
                                 if (num <= Calendar.getInstance().get(Calendar.YEAR)) {
                                     flag = 1;
                                     dateFlag = 1;
