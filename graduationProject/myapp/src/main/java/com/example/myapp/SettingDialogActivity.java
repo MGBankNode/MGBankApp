@@ -483,7 +483,7 @@ public class SettingDialogActivity extends Activity {
                     break;
 
                 case "id_check_fail":
-                    ShowToast("아이디 미 존재");
+                    ShowToast("고객님의 계좌 정보가 없습니다.");
                     accountSwitch.setChecked(true);
                     break;
 
