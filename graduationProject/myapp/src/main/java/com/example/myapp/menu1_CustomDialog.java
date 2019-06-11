@@ -88,8 +88,8 @@ public class menu1_CustomDialog {
         final EditText d_input = (EditText) dlg.findViewById(R.id.detail_input);
         final EditText d_time = (EditText) dlg.findViewById(R.id.detail_time);
         final Spinner spinner =(Spinner) dlg.findViewById(R.id.categorySpinner);
-
-
+        final TextView d_gubun = (TextView)dlg.findViewById(R.id.gubun);
+        final TextView d_content = (TextView)dlg.findViewById(R.id.listcontent);
         /////////////////////////////////
         //요청 정보 입력!!!!!!!test
         int request_year=year, request_month=month+1;
@@ -157,11 +157,24 @@ public class menu1_CustomDialog {
                     d_name.setText(hName[position]);
                     if (hType[position].equals("입금")) {
                         d_price.setText("+" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
-                        d_output.setText(hName[position]);  //출금처
-                        d_input.setText(aType[position]);   //입금처
+                        d_gubun.setText("계좌이름");
+                        d_content.setText("입금처");
+                        d_output.setText(aType[position]);  //출금처
+                        d_input.setText(hName[position]);   //입금처
+                    } else if(hType[position].equals("출금")) {
+                        d_price.setText("+" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
+                        d_gubun.setText("계좌이름");
+                        d_content.setText("출금처");
+                        d_output.setText(aType[position]);  //출금처
+                        d_input.setText(hName[position]);   //입금처
+                    } else if(hType[position].equals("카드")) {
+                        d_price.setText("+" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
+                        d_gubun.setText("카드이름");
+                        d_output.setText(cType[position]);  //출금처
+                        d_input.setText(hName[position]);   //입금처
                     } else {
                         d_price.setText("-" + myFormatter.format(Integer.parseInt(hValue[position])) + " 원");
-                        d_output.setText(cType[position]);  //출금처
+                        d_output.setText("현금");  //출금처
                         d_input.setText(hName[position]);   //입금처
                     }
                     d_categori.setText(cName[position]);

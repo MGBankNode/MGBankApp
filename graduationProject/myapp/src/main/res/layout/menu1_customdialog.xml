@@ -84,9 +84,10 @@
         android:orientation="horizontal"
         android:layout_margin="10dp">
         <TextView
+            android:id="@+id/gubun"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="출금처"
+            android:text="거래구분"
             android:fontFamily="@font/applegothicneo_b"
             android:textSize="15dp"/>
         <EditText
@@ -108,7 +109,8 @@
         <TextView
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="입금처"
+            android:id="@+id/listcontent"
+            android:text="거래내용"
             android:fontFamily="@font/applegothicneo_b"
             android:textSize="15dp"/>
         <EditText
@@ -131,7 +133,7 @@
         <TextView
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="이체일시"
+            android:text="거래일시"
             android:fontFamily="@font/applegothicneo_b"
             android:textSize="15dp"/>
         <EditText

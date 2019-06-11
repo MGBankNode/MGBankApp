@@ -231,6 +231,8 @@ public class AddReceiptActivity extends Activity {
                                 test2.AddReceipt(hId -> {
                                     myhId = hId;
                                     Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent();
+                                    setResult(1, intent);
                                     finish();
                                 });
                             } else {
@@ -255,6 +257,8 @@ public class AddReceiptActivity extends Activity {
                                         @Override
                                         public void onSuccess() {
                                             Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent();
+                                            setResult(1, intent);
                                             finish();
                                         }
 
@@ -278,6 +282,8 @@ public class AddReceiptActivity extends Activity {
                             ReceiptRequest test3 = new ReceiptRequest(resultDate, cost.getText().toString(), store.getText().toString(), userID, Integer.toString(spinner.getSelectedItemPosition() + 1), RequestInfo.RequestType.ADD_NEW_RECEIPT, getApplicationContext());
                             test3.AddNewReceipt(hId -> {
                                 Toast.makeText(getApplicationContext(), "영수증 추가 성공", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent();
+                                setResult(1, intent);
                                 finish();
                             });
                         }

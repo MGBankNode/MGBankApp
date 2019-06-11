@@ -434,6 +434,15 @@ public class menu1_fragment_tab1 extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==1){
+            if(resultCode==1){
+                Log.i("CHJ","영수증 추가 완료");
+                request_test();
+            }
+        }
+    }
     // 팝업창 다이얼로그
     public void alertDialog(int position) {
 
