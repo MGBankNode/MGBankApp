@@ -479,8 +479,16 @@ public class MainActivity extends AppCompatActivity
                     if(fragment.isVisible() && fragment instanceof fragment_home) {
                         MainStart();
                         textTitle.setText("");
+                    }else if(fragment.isVisible() && fragment instanceof fragment_membership) {
+                        Bundle bundle1 = new Bundle(1);
+                        fr = new fragment_menu3();
+                        bundle1.putString("ID", userID);
+                        bundle1.putInt("apage", 0);
+                        st.push("f");
+                        changeFragment(fr, bundle1);
                     }
                 }
+
             });
         }
 
