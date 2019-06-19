@@ -567,6 +567,7 @@ public class AddReceiptActivity extends Activity {
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
         if (labels != null) {
             String str = labels.get(0).getDescription();
+            Log.i("영수증 추출 데이터", "11\n"+str);
             String data[] = str.split("\n");
             int dateFlag = 0;
             int moneyFlag = 0;
@@ -601,7 +602,7 @@ public class AddReceiptActivity extends Activity {
                         storeName = d.replaceAll("^\\s+", "");;
                     storeFlag = 0;
                 }
-                if (storeFlag != -1 && d.contains("영수증") &&!d.contains("주십시오") &&!d.contains("반드시") && !d.contains("소지") && !d.contains("현금") && !d.contains("카드") && !d.contains("결제") &&!d.contains("습니다")) {
+                if (storeFlag != -1 && d.contains("영수증") &&!d.contains("주십시오") &&!d.contains("반드시") && !d.contains("소지") && !d.contains("현금") && !d.contains("카드") && !d.contains("결제") &&!d.contains("습니다") &&!d.contains("합니다")&&!d.contains("당일") &&!d.contains("손해배상")) {
                     storeFlag = 1;
                     String[] storeN = d.split(" ");
                     if(storeN.length>1) {
